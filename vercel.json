@@ -5,6 +5,19 @@
   "redirects": [
     { "source": "/projects/page/:n", "destination": "/projects", "statusCode": 302 }
   ],
+  "rewrites": [
+    { "source": "/_next/image", "destination": "/api/img" },
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text\\/html.*" }],
+      "destination": "/api/page?path=/"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text\\/html.*" }],
+      "destination": "/api/page?path=/:path*"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
