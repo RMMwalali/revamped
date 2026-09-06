@@ -1,0 +1,1 @@
+.CardLight_card__Bd5eo{--tilt-x:0.5;--tilt-y:0.5;--size:50%}@media(min-width:1200px){.CardLight_card__Bd5eo{transform:rotateX(calc((var(--tilt-y) - .5) * 15deg)) rotateY(calc((var(--tilt-x) - .5) * -15deg)) translateX(calc((var(--tilt-x) - .5) * 1.5rem)) translateY(calc((var(--tilt-y) - .5) * 1.5rem));will-change:transform}}

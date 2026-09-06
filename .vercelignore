@@ -1,0 +1,6 @@
+.pgdata/
+scraped/
+partner logos/
+*.log
+.env
+.env.new
