@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "scrape": "node scripts/scrape.mjs",
-    "build": "node scripts/rebuild.mjs && node scripts/mirror.mjs",
+    "build": "node scripts/rebuild.mjs && node scripts/mirror.mjs && node scripts/tag.mjs",
     "serve": "node scripts/serve.mjs 3000",
     "dev": "node scripts/serve.mjs 3000",
     "start": "node scripts/serve.mjs",
