@@ -4,7 +4,7 @@
 (function () {
   'use strict';
   var PAGE = window.__SC_PAGE__ || '/';
-  var ACCENT = '#e0ff98';
+  var ACCENT = '#C9A24B';
   var dirty = {};      // key -> { kind, value, orig, idx }
   var overrides = [];  // [{ el_id, kind, value, orig_html, idx }]
   var active = null;
@@ -132,7 +132,7 @@
       '#sc-bar #sc-save:disabled{opacity:.45;cursor:default;}' +
       '#sc-bar-on .sc-cand:hover{outline:1px dashed ' + ACCENT + ';cursor:text;}' +
       '#sc-bar-on img.sc-cand:hover{outline:2px dashed ' + ACCENT + ';cursor:pointer;}' +
-      '.sc-editing{outline:2px solid ' + ACCENT + ' !important;background:rgba(224,255,152,.08);}' +
+      '.sc-editing{outline:2px solid ' + ACCENT + ' !important;background:rgba(201,162,75,.12);}' +
       '#sc-brand-panel{position:fixed;left:12px;bottom:12px;width:300px;z-index:2147483647;' +
       'background:#1c1c1a;border:1px solid #3a3a38;border-radius:14px;padding:20px;' +
       'font:400 13px Arial,sans-serif;color:#f3efeb;display:none;}' +
@@ -323,8 +323,8 @@
     api('/api/brand').then(function (b) {
       $('#sc-b-name').value = b.site_name || '';
       $('#sc-b-tag').value = b.tagline || '';
-      $('#sc-b-pri').value = /^#[0-9a-f]{6}$/i.test(b.primary_color || '') ? b.primary_color : '#1e1e1e';
-      $('#sc-b-acc').value = /^#[0-9a-f]{6}$/i.test(b.accent_color || '') ? b.accent_color : '#e0ff98';
+      $('#sc-b-pri').value = /^#[0-9a-f]{6}$/i.test(b.primary_color || '') ? b.primary_color : '#1B2A4A';
+      $('#sc-b-acc').value = /^#[0-9a-f]{6}$/i.test(b.accent_color || '') ? b.accent_color : '#C9A24B';
     }).catch(function () {});
     $('#sc-b-save').addEventListener('click', function () {
       var done = function (logoSrc) {

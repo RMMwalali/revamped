@@ -13,7 +13,7 @@ import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie 
 import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.mjs';import {
   getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty,
   parseUpload, sniffImage, applyGlobalSwaps, applyFooterAddresses,
-  applyContentFlight, applyImgDims, applySplash,
+  applyContentFlight, applyImgDims, applySplash, applyStyleBlocks,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
 } from './transform.mjs';
 const ROOT = path.resolve('dist');
@@ -288,6 +288,7 @@ const server = http.createServer(async (req, res) => {
       html = applyGlobalSwaps(html, key);
       html = applyFooterAddresses(html);
       html = applyContentFlight(html, key);
+      html = applyStyleBlocks(html, await getBrand());
       html = await applyImgDims(html);
       html = applySplash(html, key);
       const sess = await verifySession(cookies.sc_admin).catch(() => null);

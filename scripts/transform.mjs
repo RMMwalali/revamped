@@ -144,6 +144,12 @@ const GLOBAL_SWAPS = [
   ['+44 (0)7563 453 763', '+254 755 959 236'],
   ['Av. Diagonal 433, 4-2', 'Piedmont, 671 Ngong Road'],
   ['StillCraft Events International Events', 'StillCraft Events Co.'],
+  ['Copyright © Iventions', 'Copyright © StillCraft Events Co.'],
+  // CMS accent fields (unique tokens; prose never contains raw hex codes)
+  ['#546162', '#1B2A4A'],
+  ['#ddd9ff', '#C9A24B'],
+  ['#608ff3', '#C9A24B'],
+  ['"#f7ffdc"', '"#F5F1EC"'],
 ];
 // Footer office details: static markup uses footer-only div classes, flight
 // uses addressLine/city keys, so neither form collides with project locations.
@@ -188,9 +194,11 @@ function applyGlobalSwaps(html, page) {
   const frozen = page === '/cookie-policy' || page === '/privacy-policy' || page === '/legal-notice-terms-of-use';
   if (frozen) return html;
   for (const [from, to] of GLOBAL_SWAPS) {
-    if (!html.includes(from)) continue;
-    html = html.split(from).join(to);
-    html = html.split(from.split('/').join('\\/')).join(to.split('/').join('\\/'));
+    if (html.includes(from)) html = html.split(from).join(to);
+    const slash = [from.split('/').join('\\/'), to.split('/').join('\\/')];
+    if (slash[0] !== from && html.includes(slash[0])) html = html.split(slash[0]).join(slash[1]);
+    const esc = [from.split('"').join('\\"'), to.split('"').join('\\"')];
+    if (esc[0] !== from && html.includes(esc[0])) html = html.split(esc[0]).join(esc[1]);
   }
   return html;
 }
@@ -271,19 +279,54 @@ function applyNav(html, page) {
   return html;
 }
 
-const DEFAULT_ACCENT = '#e0ff98';
-const DEFAULT_PRIMARY = '#1e1e1e';
+const DEFAULT_ACCENT = '#e0ff98'; // legacy default (see LEGACY_ACCENT)
+const DEFAULT_PRIMARY = '#1e1e1e'; // legacy default (see LEGACY_PRIMARY)
+
+const NAVY = '#1B2A4A';
+const GOLD = '#C9A24B';
+const CREAM = '#F5F1EC';
+// StillCraft client palette: old site hex -> new (case-insensitive).
+const THEME_MAP = [
+  ['#1e1e1e', NAVY], ['#141415', NAVY],
+  ['#9c93e8', NAVY], ['#8072ff', NAVY], ['#bfb8ff', NAVY],
+  ['#e0ff98', GOLD],
+  ['#f3efeb', '#FFFFFF'], ['#f3efe9', '#FFFFFF'],
+  ['#eae3dc', CREAM], ['#efebe8', CREAM],
+  ['#d1f3f5', CREAM], ['#ffddc4', CREAM], ['#f7ffdc', CREAM],
+];
+const LEGACY_ACCENT = '#e0ff98';
+const LEGACY_PRIMARY = '#1e1e1e';
 
 function applyTheme(css, brand) {
+  let out = css;
+  for (const [from, to] of THEME_MAP) {
+    out = out.replace(new RegExp(from.replace('#', '\\#'), 'gi'), to);
+  }
+  // Admin custom colors (anything beyond legacy defaults + client theme) win.
   const accent = (brand.accent_color || '').trim();
+  if (accent && ![LEGACY_ACCENT, GOLD].includes(accent.toLowerCase())) {
+    out = out.replace(new RegExp(GOLD.replace('#', '\\#'), 'gi'), accent);
+  }
   const primary = (brand.primary_color || '').trim();
-  if (accent && accent.toLowerCase() !== DEFAULT_ACCENT) {
-    css = css.replace(/#e0ff98/gi, accent);
+  if (primary && ![LEGACY_PRIMARY, NAVY].includes(primary.toLowerCase())) {
+    out = out.replace(new RegExp(NAVY.replace('#', '\\#'), 'gi'), primary);
   }
-  if (primary && primary.toLowerCase() !== DEFAULT_PRIMARY) {
-    css = css.replace(/#1e1e1e/gi, primary);
+  return out;
+}
+
+// Same palette for <style> blocks embedded in served HTML (scripts untouched).
+export function applyStyleBlocks(html, brand) {
+  if (!html.includes('<style')) return html;
+  const chunks = html.split(/(<script[\s\S]*?<\/script>)/gi);
+  for (let c = 0; c < chunks.length; c += 2) {
+    const parts = chunks[c].split(/(<style[\s\S]*?<\/style>)/gi);
+    let out = '';
+    for (let i = 0; i < parts.length; i++) {
+      out += (i % 2 === 1) ? applyTheme(parts[i], brand) : parts[i];
+    }
+    chunks[c] = out;
   }
-  return css;
+  return chunks.join('');
 }
 
 function stripThirdParty(html) {

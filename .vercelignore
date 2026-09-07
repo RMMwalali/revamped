@@ -1,6 +1,7 @@
 .pgdata/
-scraped/
 partner logos/
 *.log
 .env
 .env.new
+# NOTE: scraped/ must DEPLOY — npm run build regenerates dist/ from it.
+# partner logos/ stays excluded (dist/assets/custom/ already holds copies).

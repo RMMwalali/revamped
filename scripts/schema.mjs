@@ -31,13 +31,13 @@ CREATE TABLE IF NOT EXISTS brand_settings (
 `);
 console.log('schema OK');
 
-// Seed default brand (StillCraft Events). Only fills keys that are absent.
+// Seed default brand (StillCraft Events client theme). Only fills keys that are absent.
 const defaults = {
   site_name: 'StillCraft Events',
   tagline: 'Step into the Spotlight',
   logo_src: '',
-  primary_color: '#1e1e1e',
-  accent_color: '#e0ff98',
+  primary_color: '#1B2A4A',
+  accent_color: '#C9A24B',
 };
 for (const [k, v] of Object.entries(defaults)) {
   await pool.query(
