@@ -6,7 +6,7 @@ import { getOverrides, applyOverrides } from '../scripts/overrides.mjs';
 import {
   getBrand, applyBrand, applyNav, applyGlobalSwaps, applyFooterAddresses,
   applyContentFlight, stripThirdParty, applyImgDims, applySplash,
-  applyStyleBlocks, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
+  applyStyleBlocks, applyFooterFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
 } from '../scripts/transform.mjs';
 
 const ROOT = path.join(process.cwd(), 'dist');
@@ -60,6 +60,7 @@ async function serveHtml(pathname, cookies) {
     html = applyStyleBlocks(html, await getBrand());
     html = await applyImgDims(html);
     html = applySplash(html, key);
+    html = applyFooterFix(html, key);
     const sess = await verifySession(cookies.sc_admin).catch(() => null);
     if (sess) {
       html = html.replace(/(<\/body>)/i,

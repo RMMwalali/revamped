@@ -14,7 +14,7 @@ import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.
   getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty,
   parseUpload, sniffImage, applyGlobalSwaps, applyFooterAddresses,
   applyContentFlight, applyImgDims, applySplash, applyStyleBlocks,
-  FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
+  applyFooterFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
 } from './transform.mjs';
 const ROOT = path.resolve('dist');
 const PORT = Number(process.argv[2] || process.env.PORT || 3000);
@@ -291,6 +291,7 @@ const server = http.createServer(async (req, res) => {
       html = applyStyleBlocks(html, await getBrand());
       html = await applyImgDims(html);
       html = applySplash(html, key);
+      html = applyFooterFix(html, key);
       const sess = await verifySession(cookies.sc_admin).catch(() => null);
       if (sess) {
         // Boot via inline script: React hydration can wipe deferred tags before

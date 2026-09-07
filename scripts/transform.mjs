@@ -144,7 +144,7 @@ const GLOBAL_SWAPS = [
   ['+44 (0)7563 453 763', '+254 755 959 236'],
   ['Av. Diagonal 433, 4-2', 'Piedmont, 671 Ngong Road'],
   ['StillCraft Events International Events', 'StillCraft Events Co.'],
-  ['Copyright © Iventions', 'Copyright © StillCraft Events Co.'],
+  [/Copyright [©\uFFFD\xa9] Iventions/g, 'Copyright © StillCraft Events Co.'],
   // CMS accent fields (unique tokens; prose never contains raw hex codes)
   ['#546162', '#1B2A4A'],
   ['#ddd9ff', '#C9A24B'],
@@ -153,13 +153,14 @@ const GLOBAL_SWAPS = [
 ];
 // Footer office details: static markup uses footer-only div classes, flight
 // uses addressLine/city keys, so neither form collides with project locations.
-const FOOTER_DIV = 'div class="Paragraph_paragraph__SId_Y css-cgpd9q"';
+const FOOTER_DIV = 'div[^<>]*class="Paragraph_paragraph__SId_Y css-cgpd9q"[^<>]*';
 const FOOTER_STATIC = [
-  [`<${FOOTER_DIV}>Barcelona, Spain</div>`, `<${FOOTER_DIV}>Nairobi, Kenya</div>`],
-  [`<${FOOTER_DIV}>19 Eastbourne Terrace,</div>`, `<${FOOTER_DIV}>info@stillcraftevents.co.ke</div>`],
-  [`<${FOOTER_DIV}>London W2 6LG.</div>`, `<${FOOTER_DIV}>+254 755 959 236</div>`],
-  [`<${FOOTER_DIV}>United Kingdom</div>`, `<${FOOTER_DIV}>Kenya</div>`],
+  ['Barcelona, Spain', 'Nairobi, Kenya'],
+  ['19 Eastbourne Terrace,', 'info@stillcraftevents.co.ke'],
+  ['London W2 6LG.', '+254 755 959 236'],
+  ['United Kingdom', 'Kenya'],
 ];
+const FOOTER_SVG_CLASS = 'Footer_footer_text__01STx';
 const FOOTER_FLIGHT = [
   [`"city":"Barcelona"`, `"city":"Nairobi"`],
   [`"city":"London"`, `"city":"Contact"`],
@@ -168,10 +169,30 @@ const FOOTER_FLIGHT = [
   [`"addressLine2":"London W2 6LG."`, `"addressLine2":"+254 755 959 236"`],
   [`"addressLine3":"United Kingdom"`, `"addressLine3":"Kenya"`],
   [`|Barcelona, Spain|`, `|Nairobi, Kenya|`],
+  [`19 Eastbourne Terrace,|London W2 6LG.|United Kingdom|+44 (0)7563 453 763`, `info@stillcraftevents.co.ke|+254 755 959 236|Kenya|+254 755 959 236`],
+  [`"children":"Barcelona, Spain"`, `"children":"Nairobi, Kenya"`],
+  [`"children":"19 Eastbourne Terrace,"`, `"children":"info@stillcraftevents.co.ke"`],
+  [`"children":"London W2 6LG."`, `"children":"+254 755 959 236"`],
+  [`"children":"United Kingdom"`, `"children":"Kenya"`],
 ];
 function applyFooterAddresses(html) {
-  for (const [from, to] of FOOTER_STATIC) {
-    if (html.includes(from)) html = html.split(from).join(to);
+  for (const [text, to] of FOOTER_STATIC) {
+    const esc = text.replace(/[.*+?${}()|[\]\\]/g, '\\$&');
+    html = html.replace(
+      new RegExp('(<' + FOOTER_DIV + '>)' + esc + '(</div>)', 'g'),
+      (m, open, close) => open + to + close
+    );
+  }
+  const svgStart = html.indexOf(FOOTER_SVG_CLASS);
+  if (svgStart >= 0) {
+    const tagOpen = html.lastIndexOf('<svg', svgStart);
+    const tagClose = html.indexOf('</svg>', svgStart);
+    if (tagOpen >= 0 && tagClose > tagOpen) {
+      const end = tagClose + '</svg>'.length;
+      html = html.slice(0, tagOpen) +
+        html.slice(tagOpen, end).split('fill="#1E1E1E"').join('fill="#F5F1EC"') +
+        html.slice(end);
+    }
   }
   const parts = html.split('self.__next_f.push(');
   if (parts.length > 1) {
@@ -194,6 +215,10 @@ function applyGlobalSwaps(html, page) {
   const frozen = page === '/cookie-policy' || page === '/privacy-policy' || page === '/legal-notice-terms-of-use';
   if (frozen) return html;
   for (const [from, to] of GLOBAL_SWAPS) {
+    if (typeof from !== 'string') {
+      html = html.replace(from, to);
+      continue;
+    }
     if (html.includes(from)) html = html.split(from).join(to);
     const slash = [from.split('/').join('\\/'), to.split('/').join('\\/')];
     if (slash[0] !== from && html.includes(slash[0])) html = html.split(slash[0]).join(slash[1]);
@@ -516,8 +541,16 @@ export async function applyImgDims(html) {
 }
 
 // ---------- splash overlay (never show an unsettled first paint) ----------
-export function applySplash(html, page) {
+// Footer bottom strings render client-side from CMS data outside the flight
+// patches above; align them in the DOM after hydration (static HTML already
+// carries the new copy for SEO/no-JS). Exact-match only, crash-proof.
+export function applyFooterFix(html, page) {
   if (page === '/insider') return html;
+  if (!/<\/body>/i.test(html)) return html;
+  const js = `<script>(function(){var fix=function(){try{var els=document.querySelectorAll('[class*="bottom_copyright"]');for(var i=0;i<els.length;i++){var w=document.createTreeWalker(els[i],NodeFilter.SHOW_TEXT);var n;while((n=w.nextNode())){var v=n.nodeValue;if(!v)continue;var nv=v.replace(/IVENTIONS/g,'STILLCRAFT EVENTS CO.').replace(/Iventions/g,'StillCraft Events Co.');if(nv!==v)n.nodeValue=nv;}}var f=document.querySelector('footer');if(f){var ps=f.querySelectorAll('[fill="#1E1E1E"]');for(var j=0;j<ps.length;j++){ps[j].setAttribute('fill','#F5F1EC');}}}catch(e){}};window.addEventListener('load',function(){setTimeout(fix,800);});setTimeout(fix,4000);if(document.readyState!=='loading'){setTimeout(fix,1500);}})();</script>`;
+  return html.replace(/<\/body>/i, js + '\n$&');
+}
+export function applySplash(html, page) {  if (page === '/insider') return html;
   if (!/<body[^>]*>/i.test(html)) return html;
   const css = `<style>#sc-splash{position:fixed;inset:0;background:#111110;z-index:2147483640;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease}#sc-splash span{color:#e0ff98;font:600 13px Arial,sans-serif;letter-spacing:4px;animation:sc-pulse 1.2s ease-in-out infinite}@keyframes sc-pulse{50%{opacity:.35}}</style>`;
   const div = `<div id="sc-splash"><span>STILLCRAFT EVENTS</span></div>`;
