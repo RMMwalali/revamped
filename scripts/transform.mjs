@@ -1,6 +1,8 @@
 // StillCraft page transforms shared by the dev server and Vercel functions.
 // Pure string ops over served HTML (+ brand data via pool). No http, no fs writes.
 import { pool } from './db.mjs';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { FLIGHT as FILE_FLIGHT } from './stillcraft-content.mjs';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
 export { LOGO_ROWS };
@@ -363,3 +365,121 @@ export {
   applyGlobalSwaps, applyFooterAddresses, parseUpload, sniffImage, FILE_FLIGHT,
   TITLE_MAP, NAV_LABELS, NAV_DROP_HREFS, MENU_ORDER, DEFAULT_TAGLINE,
 };
+
+// ---------- image dimensions (kills layout shift for imgs missing width/height) ----------
+const DIM_ROOT = path.resolve('dist');
+const dimCache = new Map(); // src -> "WxH" | ""
+
+function parseDims(buf, ext) {
+  try {
+    if (ext === 'png') {
+      if (buf.length < 24 || buf.readUInt32BE(0) !== 0x89504e47) return '';
+      return buf.readUInt32BE(16) + 'x' + buf.readUInt32BE(20);
+    }
+    if (ext === 'jpg' || ext === 'jpeg') {
+      if (buf[0] !== 0xff || buf[1] !== 0xd8) return '';
+      let i = 2;
+      while (i + 9 < buf.length) {
+        if (buf[i] !== 0xff) break;
+        const m = buf[i + 1];
+        const len = buf.readUInt16BE(i + 2);
+        if (m >= 0xc0 && m <= 0xc3) return buf.readUInt16BE(i + 7) + 'x' + buf.readUInt16BE(i + 5);
+        i += 2 + len;
+      }
+      return '';
+    }
+    if (ext === 'gif') {
+      if (buf.length < 10) return '';
+      return buf.readUInt16LE(6) + 'x' + buf.readUInt16LE(8);
+    }
+    if (ext === 'webp') {
+      if (buf.slice(0, 4).toString() !== 'RIFF' || buf.slice(8, 12).toString() !== 'WEBP') return '';
+      const tag = buf.slice(12, 16).toString();
+      if (tag === 'VP8 ' && buf.length > 30) {
+        const w = buf.readUInt16LE(26) & 0x3fff, h = buf.readUInt16LE(28) & 0x3fff;
+        return w && h ? w + 'x' + h : '';
+      }
+      if (tag === 'VP8L' && buf.length > 25) {
+        if (buf[20] !== 0x2f) return '';
+        const b = buf.readUInt32LE(21);
+        return ((b & 0x3fff) + 1) + 'x' + (((b >> 14) & 0x3fff) + 1);
+      }
+      if (tag === 'VP8X' && buf.length > 30) {
+        const w = buf.readUIntBE(24, 3) + 1, h = buf.readUIntBE(27, 3) + 1;
+        return w && h ? w + 'x' + h : '';
+      }
+      return '';
+    }
+  } catch { return ''; }
+  return '';
+}
+
+async function dimsFor(src) {
+  if (dimCache.has(src)) return dimCache.get(src);
+  let out = '';
+  try {
+    let p = (src || '').split('?')[0];
+    try { p = decodeURIComponent(p); } catch {}
+    if (p === '/_next/image' && src.includes('url=')) {
+      // optimizer URL: unwrap to the underlying file (/... or https://cms.....)
+      let inner = (/[?&]url=([^&]+)/.exec(src) || [])[1] || '';
+      try { inner = decodeURIComponent(inner); } catch {}
+      if (inner.startsWith('https://cms.iventions.com/')) p = '/assets/cms/' + inner.replace('https://cms.iventions.com/', '');
+      else if (inner) p = inner.startsWith('/') ? inner : '/' + inner;
+    }
+    if (p && p.startsWith('/') && !p.includes('://')) {
+      const m = /\.(png|jpe?g|gif|webp|svg)$/i.exec(p);
+      if (m) {
+        const ext = m[1].toLowerCase();
+        const file = path.normalize(path.join(DIM_ROOT, p));
+        if (file.startsWith(DIM_ROOT)) {
+          if (ext === 'svg') {
+            const t = await readFile(file, 'utf8').catch(() => '');
+            const w = /width="([\d.]+)"/.exec(t), h = /height="([\d.]+)"/.exec(t);
+            if (w && h) out = `${Math.round(+w[1])}x${Math.round(+h[1])}`;
+            else {
+              const vb = /viewBox="[\d.\s-]+ ([\d.]+) ([\d.]+)"/.exec(t.replace(/viewBox="([\d.\s-]+)"/, (_, v) => `viewBox="${v}"`));
+              if (vb) out = `${Math.round(+vb[1])}x${Math.round(+vb[2])}`;
+            }
+          } else {
+            const fh = await readFile(file).catch(() => null);
+            if (fh) out = parseDims(fh.slice(0, 65536), ext === 'jpeg' ? 'jpg' : ext);
+          }
+        }
+      }
+    }
+  } catch {}
+  dimCache.set(src, out);
+  return out;
+}
+
+export async function applyImgDims(html) {
+  const tags = [...html.matchAll(/<img\b[^<>]*>/gi)];
+  if (!tags.length) return html;
+  let out = '';
+  let last = 0;
+  for (const m of tags) {
+    const tag = m[0];
+    if (/\swidth\s*=/i.test(tag)) continue;
+    const src = (/src="([^"]+)"/.exec(tag) || [])[1] || '';
+    if (!src || src.startsWith('data:')) continue;
+    const dims = await dimsFor(src);
+    if (!dims) continue;
+    const [w, h] = dims.split('x');
+    out += html.slice(last, m.index) + tag.replace(/<img/i, `<img width="${w}" height="${h}"`);
+    last = m.index + tag.length;
+  }
+  return last ? out + html.slice(last) : html;
+}
+
+// ---------- splash overlay (never show an unsettled first paint) ----------
+export function applySplash(html, page) {
+  if (page === '/insider') return html;
+  if (!/<body[^>]*>/i.test(html)) return html;
+  const css = `<style>#sc-splash{position:fixed;inset:0;background:#111110;z-index:2147483640;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease}#sc-splash span{color:#e0ff98;font:600 13px Arial,sans-serif;letter-spacing:4px;animation:sc-pulse 1.2s ease-in-out infinite}@keyframes sc-pulse{50%{opacity:.35}}</style>`;
+  const div = `<div id="sc-splash"><span>STILLCRAFT EVENTS</span></div>`;
+  const js = `<script>(function(){var kill=function(){var s=document.getElementById('sc-splash');if(!s||s.dataset.done)return;s.dataset.done='1';s.style.opacity='0';setTimeout(function(){s.remove();},500);};window.addEventListener('load',function(){setTimeout(kill,350);});setTimeout(kill,4000);})();</script><noscript><style>#sc-splash{display:none}</style></noscript>`;
+  html = html.replace(/<\/head>/i, css + '\n$&');
+  html = html.replace(/<body[^>]*>/i, (m) => m + '\n' + div + '\n' + js);
+  return html;
+}

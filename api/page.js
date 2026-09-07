@@ -5,8 +5,8 @@ import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getOverrides, applyOverrides } from '../scripts/overrides.mjs';
 import {
   getBrand, applyBrand, applyNav, applyGlobalSwaps, applyFooterAddresses,
-  applyContentFlight, stripThirdParty, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
-  DEFAULT_TAGLINE,
+  applyContentFlight, stripThirdParty, applyImgDims, applySplash,
+  FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
 } from '../scripts/transform.mjs';
 
 const ROOT = path.join(process.cwd(), 'dist');
@@ -57,6 +57,8 @@ async function serveHtml(pathname, cookies) {
     html = applyGlobalSwaps(html, key);
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
+    html = await applyImgDims(html);
+    html = applySplash(html, key);
     const sess = await verifySession(cookies.sc_admin).catch(() => null);
     if (sess) {
       html = html.replace(/(<\/body>)/i,

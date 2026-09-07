@@ -13,7 +13,8 @@ import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie 
 import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.mjs';import {
   getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty,
   parseUpload, sniffImage, applyGlobalSwaps, applyFooterAddresses,
-  applyContentFlight, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
+  applyContentFlight, applyImgDims, applySplash,
+  FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
 } from './transform.mjs';
 const ROOT = path.resolve('dist');
 const PORT = Number(process.argv[2] || process.env.PORT || 3000);
@@ -221,7 +222,7 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    // ----- Next.js image optimizer shim -----
+    // ----- Next.js image optimizer shim (serve bytes directly: no redirect roundtrip) -----
     if (pathname === '/_next/image') {
       const src = u.searchParams.get('url');
       if (!src) {
@@ -229,7 +230,16 @@ const server = http.createServer(async (req, res) => {
         res.end();
         return;
       }
-      const target = src.startsWith('/') ? src : '/' + src;
+      let target = src;
+      try { target = decodeURIComponent(src); } catch {}
+      if (target.startsWith('https://cms.iventions.com/')) {
+        target = '/assets/cms/' + target.replace('https://cms.iventions.com/', '');
+      } else if (!target.startsWith('/')) {
+        target = '/' + target;
+      }
+      for (const f of resolveFile(target)) {
+        if (await sendFile(res, f)) return;
+      }
       res.writeHead(302, { Location: target, 'Access-Control-Allow-Origin': '*' });
       res.end();
       return;
@@ -278,6 +288,8 @@ const server = http.createServer(async (req, res) => {
       html = applyGlobalSwaps(html, key);
       html = applyFooterAddresses(html);
       html = applyContentFlight(html, key);
+      html = await applyImgDims(html);
+      html = applySplash(html, key);
       const sess = await verifySession(cookies.sc_admin).catch(() => null);
       if (sess) {
         // Boot via inline script: React hydration can wipe deferred tags before
@@ -306,4 +318,11 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => console.log(`StillCraft serving dist/ at http://localhost:${PORT}`));
+server.listen(PORT, () => {
+  console.log(`StillCraft serving dist/ at http://localhost:${PORT}`);
+  // Warm caches so the first real visitor skips DB roundtrips.
+  getBrand().catch(() => {});
+  for (const p of ['/', '/home', '/about', '/service/events', '/service/exhibits', '/insights', '/projects', '/contact']) {
+    getOverrides(p).catch(() => {});
+  }
+});
