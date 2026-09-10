@@ -6,7 +6,21 @@
     { "source": "/projects/page/:n", "destination": "/projects", "statusCode": 302 }
   ],
   "rewrites": [
-    { "source": "/_next/image", "destination": "/api/img" }
+    { "source": "/_next/image", "destination": "/api/img" },
+    { "source": "/", "destination": "/api/page?path=/" },
+    { "source": "/home", "destination": "/api/page?path=/home" },
+    { "source": "/about", "destination": "/api/page?path=/about" },
+    { "source": "/contact", "destination": "/api/page?path=/contact" },
+    { "source": "/insider", "destination": "/api/page?path=/insider" },
+    { "source": "/insights", "destination": "/api/page?path=/insights" },
+    { "source": "/projects/filter", "destination": "/api/page?path=/projects/filter" },
+    { "source": "/projects", "destination": "/api/page?path=/projects" },
+    { "source": "/cookie-policy", "destination": "/api/page?path=/cookie-policy" },
+    { "source": "/privacy-policy", "destination": "/api/page?path=/privacy-policy" },
+    { "source": "/legal-notice-terms-of-use", "destination": "/api/page?path=/legal-notice-terms-of-use" },
+    { "source": "/service/:path*", "destination": "/api/page?path=/service/:path*" },
+    { "source": "/insight/:path*", "destination": "/api/page?path=/insight/:path*" },
+    { "source": "/project/:path*", "destination": "/api/page?path=/project/:path*" }
   ],
   "functions": {
     "api/page.js": { "includeFiles": "dist/**" }
