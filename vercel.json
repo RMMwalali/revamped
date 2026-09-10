@@ -6,11 +6,7 @@
     { "source": "/projects/page/:n", "destination": "/projects", "statusCode": 302 }
   ],
   "rewrites": [
-    { "source": "/_next/image", "destination": "/api/img" },
-    {
-      "source": "^/(?!api(?:/|$)|_next/(?:image|static)|assets/|upload/|icons/|[^/]*\\.[A-Za-z0-9]+$)(.*)$",
-      "destination": "/api/page?path=/$1"
-    }
+    { "source": "/_next/image", "destination": "/api/img" }
   ],
   "functions": {
     "api/page.js": { "includeFiles": "dist/**" }
