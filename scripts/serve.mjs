@@ -14,7 +14,7 @@ import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.
   getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty,
   parseUpload, sniffImage, applyGlobalSwaps, applyFooterAddresses,
   applyContentFlight, applyImgDims, applySplash, applyStyleBlocks,
-  applyFooterFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
+  applyFooterFix, applyTeamRoster, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
 } from './transform.mjs';
 const ROOT = path.resolve('dist');
 const PORT = Number(process.argv[2] || process.env.PORT || 3000);
@@ -288,6 +288,7 @@ const server = http.createServer(async (req, res) => {
       html = applyGlobalSwaps(html, key);
       html = applyFooterAddresses(html);
       html = applyContentFlight(html, key);
+      html = applyTeamRoster(html);
       html = applyStyleBlocks(html, await getBrand());
       html = await applyImgDims(html);
       html = applySplash(html, key);

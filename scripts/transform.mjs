@@ -550,6 +550,116 @@ export function applyFooterFix(html, page) {
   const js = `<script>(function(){var fix=function(){try{var els=document.querySelectorAll('[class*="bottom_copyright"]');for(var i=0;i<els.length;i++){var w=document.createTreeWalker(els[i],NodeFilter.SHOW_TEXT);var n;while((n=w.nextNode())){var v=n.nodeValue;if(!v)continue;var nv=v.replace(/IVENTIONS/g,'STILLCRAFT EVENTS CO.').replace(/Iventions/g,'StillCraft Events Co.');if(nv!==v)n.nodeValue=nv;}}var f=document.querySelector('footer');if(f){var ps=f.querySelectorAll('[fill="#1E1E1E"]');for(var j=0;j<ps.length;j++){ps[j].setAttribute('fill','#F5F1EC');}}}catch(e){}};window.addEventListener('load',function(){setTimeout(fix,800);});setTimeout(fix,4000);if(document.readyState!=='loading'){setTimeout(fix,1500);}})();</script>`;
   return html.replace(/<\/body>/i, js + '\n$&');
 }
+// StillCraft team roster: swaps the CMS members array (flight) for 6 people.
+// Guarded by an original-member marker so it only fires on the people array.
+const TEAM = [
+  { name: 'John Mesh', role: 'OPERATIONS MANAGER - 5 Years OF EXPERIENCE', img: 'team-john-mesh.svg',
+    bio: 'The Operations Manager is the reason a plan on paper survives contact with a real venue. Every vendor booking, every staffing schedule, every piece of equipment that needs to be in the right place at the right time runs through this role. When an activation looks effortless on the day, it is because the operations work behind it was anything but, hundreds of small details resolved before anyone outside the team ever notices there was a decision to make.' },
+  { name: 'Diana', role: 'MARKETING MANAGER - 3 Years OF EXPERIENCE', img: 'team-diana.svg',
+    bio: "The Marketing Manager keeps StillCraft's own story as sharp as the stories we build for clients. This role shapes how the agency shows up, on the website, in pitches, across every touchpoint a prospective client sees before they ever speak to us, and makes sure the positioning we promise clients is the same one we practice ourselves." },
+  { name: 'Miriam', role: 'HUMAN RESOURCE - 7 Years OF EXPERIENCE', img: 'team-miriam.svg',
+    bio: 'Delivering eight years of consistent, high pressure work on the ground depends entirely on the people doing it, and building and keeping that team is the job of Human Resource. This role manages everything from hiring the right people for a fast moving, client facing industry to making sure the team running a launch day at six in the morning is supported well enough to do it again next week.' },
+  { name: 'Robin Halmi', role: 'CHIEF DIGITAL MEDIA - 2 Years OF EXPERIENCE', img: 'team-robin-halmi.svg',
+    bio: "The Chief Digital Media role owns how StillCraft and its clients show up everywhere a screen is involved, social content, digital campaigns, and the growing hybrid and virtual layer of corporate and brand events. As more of a brand's audience is met online before they are ever met in person, this role makes sure the digital experience carries the same energy and consistency as the physical one." },
+  { name: 'Chris', role: 'CREATIVE DIRECTOR - 6 Years OF EXPERIENCE', img: 'team-chris.svg',
+    bio: "The Creative Director is where a client's objective becomes an actual idea, the concept behind a mall's Christmas season, the format of a brand's next activation, the visual identity of a corporate environment. This role protects the thinking that makes StillCraft's work distinct, making sure every programme starts from a real creative idea rather than a template pulled off a shelf." },
+  { name: 'John Njogu', role: 'FINANCE OFFICER - 4 Years OF EXPERIENCE', img: 'team-john-njogu.svg',
+    bio: 'The Finance Officer keeps every engagement accountable in the way StillCraft promises clients it will be, transparent budgets, accurate reporting, and the financial discipline that lets an eight year old consultancy still operate like one that plans for its next eight. This role is also what makes a long term partnership like the one with Galleria Mall sustainable on both sides, not just deliverable once.' },
+];
+// Encode a value the way the CMS flight payload does (single-backslash plane).
+function flightEnc(s) {
+  return s.split('\\').join('\\\\').split('"').join('\\"')
+    .split('<').join('\\u003c').split('>').join('\\u003e').split('&').join('\\u0026')
+    .split('\r').join('\\r').split('\n').join('\\n');
+}
+function teamMember(p) {
+  const src = '/assets/custom/' + p.img;
+  const raw = JSON.stringify({
+    title: p.name,
+    content: '<p>' + p.bio + '</p>\n',
+    featuredImage: { node: { sourceUrl: src } },
+    memberTemplate: { role: p.role, funImage: { node: { sourceUrl: src } } },
+  });
+  return raw
+    .split('<').join('\\u003c').split('>').join('\\u003e').split('&').join('\\u0026')
+    .split('"').join('\\"');
+}
+function replaceMembersArray(html) {
+  const key = '\\"members\\":[';
+  let idx = html.indexOf(key);
+  let guard = 0;
+  while (idx >= 0 && guard++ < 8) {
+    let depth = 1, k = idx + key.length;
+    while (k < html.length && depth > 0) {
+      const c = html[k];
+      if (c === '\\') { k += 2; continue; }
+      if (c === '[') depth++;
+      else if (c === ']') { depth--; if (depth === 0) break; }
+      k++;
+    }
+    if (depth !== 0) break;
+    const innerText = html.slice(idx + key.length, k);
+    if (!innerText.includes('Alise Grota')) { idx = html.indexOf(key, k); continue; }
+    if (process.env.SC_KEEPARR) {
+      return replaceTeamGrid(html);
+    }
+    let fresh = TEAM.map(teamMember).join(',');
+    // Length-framed flight rows: keep exact byte length so the stream parser
+    // stays aligned. Pad with trailing spaces inside the last bio (invisible).
+    const oldLen = Buffer.byteLength(innerText, 'utf8');
+    const newLen = Buffer.byteLength(fresh, 'utf8');
+    if (process.env.SC_TEAMDBG) console.log('[team] oldLen=' + oldLen + ' newLen=' + newLen);
+    if (fresh && newLen < oldLen) {
+      const at = fresh.lastIndexOf('\\u003c/p\\u003e');
+      if (at >= 0) fresh = fresh.slice(0, at) + ' '.repeat(oldLen - newLen) + fresh.slice(at);
+    }
+    if (fresh && Buffer.byteLength(fresh, 'utf8') !== oldLen) return html; // never ship a misframed stream
+    html = html.slice(0, idx + key.length) + fresh + html.slice(k);
+    idx = html.indexOf(key, idx + key.length + fresh.length);
+  }
+  return html;
+}
+export function applyTeamRoster(html) {
+  if (process.env.SC_NOTEAM) return html;
+  if (!html.includes('Alise Grota')) return html;
+  html = replaceMembersArray(html);
+  if (!process.env.SC_NOGRID) html = replaceTeamGrid(html);
+  return html;
+}
+
+const TEAM_CSS = '<style>.sc-team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4rem;padding:2rem 0}.sc-team-card{background:#F5F1EC;border-radius:1.6rem;overflow:hidden}.sc-team-card img{width:100%;height:auto;display:block;aspect-ratio:63/81;object-fit:cover}.sc-team-body{padding:2rem}.sc-team-body h3{font-size:2.4rem;color:#1B2A4A;margin:0 0 .6rem}.sc-team-role{color:#C9A24B;font-size:1.2rem;letter-spacing:.12em;margin:0 0 1.2rem}.sc-team-bio{font-size:1.5rem;line-height:1.6;color:#1B2A4A;margin:0}@media(max-width:800px){.sc-team-grid{grid-template-columns:1fr}}</style>';
+function teamCard(p, n) {
+  const t = (k) => 't-team' + (n * 3 + k);
+  return `<div class="sc-team-card"><img data-sc-id="i-team${n + 1}" src="/assets/custom/${p.img}" alt="${p.name}" width="630" height="810" loading="lazy"><div class="sc-team-body"><h3 data-sc-id="${t(1)}">${p.name}</h3><p data-sc-id="${t(2)}" class="sc-team-role">${p.role}</p><p data-sc-id="${t(3)}" class="sc-team-bio">${p.bio}</p></div></div>`;
+}
+function replaceTeamGrid(html) {
+  const anchor = 'js-talent-main';
+  const gi = html.indexOf(anchor);
+  if (gi < 0) return html;
+  const openStart = html.lastIndexOf('<div', gi);
+  const openEnd = html.indexOf('>', gi);
+  if (openStart < 0 || openEnd < 0) return html;
+  let depth = 1;
+  const re = /<(\/?)div(?=[\s>])/gi;
+  re.lastIndex = openEnd + 1;
+  let m, end = -1;
+  while ((m = re.exec(html))) {
+    if (m[1] === '/') {
+      depth--;
+      if (depth === 0) { end = m.index; break; }
+    } else {
+      const gt = html.indexOf('>', m.index);
+      if (gt > 0 && html[gt - 1] !== '/') depth++;
+    }
+    if (re.lastIndex > openEnd + 500000) break;
+  }
+  if (end < 0) return html;
+  // sanity: the grid we replace must contain the old roster
+  const inner = html.slice(openEnd + 1, end);
+  if (!inner.includes('Alise Grota')) return html;
+  const cards = TEAM.map((p, n) => teamCard(p, n)).join('');
+  return html.slice(0, openEnd + 1) + TEAM_CSS + '<div class="sc-team-grid">' + cards + '</div>' + html.slice(end);
+}
 export function applySplash(html, page) {  if (page === '/insider') return html;
   if (!/<body[^>]*>/i.test(html)) return html;
   const css = `<style>#sc-splash{position:fixed;inset:0;background:#111110;z-index:2147483640;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease}#sc-splash span{color:#e0ff98;font:600 13px Arial,sans-serif;letter-spacing:4px;animation:sc-pulse 1.2s ease-in-out infinite}@keyframes sc-pulse{50%{opacity:.35}}</style>`;

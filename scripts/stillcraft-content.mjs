@@ -30,6 +30,10 @@ export const FLIGHT = {
 };
 
 export const CONTENT = {
+  '/about': [
+    T('t-77', `The People Behind`, `Our secret?`),
+    T('t-78', `Eight Years Of Delivery`, `The people`),
+  ],
   '/service/exhibits': [
     T('t-21', `Malls Programming and Retail`, `Exhibits`),
     T('t-24', `One calendar, run for you.`, `We make exhibits`),

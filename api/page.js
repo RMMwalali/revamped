@@ -6,7 +6,8 @@ import { getOverrides, applyOverrides } from '../scripts/overrides.mjs';
 import {
   getBrand, applyBrand, applyNav, applyGlobalSwaps, applyFooterAddresses,
   applyContentFlight, stripThirdParty, applyImgDims, applySplash,
-  applyStyleBlocks, applyFooterFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
+  applyStyleBlocks, applyFooterFix, applyTeamRoster,
+  FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
 } from '../scripts/transform.mjs';
 
 const ROOT = path.join(process.cwd(), 'dist');
@@ -57,6 +58,7 @@ async function serveHtml(pathname, cookies) {
     html = applyGlobalSwaps(html, key);
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
+    html = applyTeamRoster(html);
     html = applyStyleBlocks(html, await getBrand());
     html = await applyImgDims(html);
     html = applySplash(html, key);
