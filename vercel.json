@@ -8,16 +8,13 @@
   "rewrites": [
     { "source": "/_next/image", "destination": "/api/img" },
     {
-      "source": "/",
-      "has": [{ "type": "header", "key": "accept", "value": ".*text\\/html.*" }],
-      "destination": "/api/page?path=/"
-    },
-    {
-      "source": "/:path*",
-      "has": [{ "type": "header", "key": "accept", "value": ".*text\\/html.*" }],
-      "destination": "/api/page?path=/:path*"
+      "source": "^/(?!api(?:/|$)|_next/(?:image|static)|assets/|upload/|icons/|[^/]*\\.[A-Za-z0-9]+$)(.*)$",
+      "destination": "/api/page?path=/$1"
     }
   ],
+  "functions": {
+    "api/page.js": { "includeFiles": "dist/**" }
+  },
   "headers": [
     {
       "source": "/assets/(.*)",

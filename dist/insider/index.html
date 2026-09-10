@@ -46,7 +46,7 @@
       var form = document.getElementById('loginForm');
       var err = document.getElementById('err');
       var btn = document.getElementById('btn');
-      fetch('/api/me').then(function (r) { return r.json(); }).then(function (d) {
+      fetch('/api/me').then(function (r) { if (!r.ok) throw new Error('logged-out'); return r.json(); }).then(function (d) {
         if (d && d.email) window.location.href = '/';
       }).catch(function () {});
       form.addEventListener('submit', function (e) {
