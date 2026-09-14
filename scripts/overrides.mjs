@@ -87,6 +87,36 @@ export function replaceImgSrc(html, id, src) {
   });
 }
 
+// Swap video/source/poster src across static HTML. id may be "" (anchor rows
+// match by URL text below) or a data-sc-id.
+export function replaceMediaSrc(html, id, src) {
+  const attrVal = (attr) => new RegExp(`(${attr}\\s*=\\s*")([^"]*)(")`, 'i');
+  const swapOnce = (out, attr, idAttr) => {
+    const re = idAttr
+      ? new RegExp(`<(video|source|img)[^<>]*data-sc-id="${idAttr}"[^<>]*>`, 'i')
+      : null;
+    if (re) {
+      return out.replace(re, (tag) => {
+        if (new RegExp(`\\s${attr}\\s*=`).test(tag)) {
+          tag = tag.replace(attrVal(attr), `$1${src}$3`);
+        }
+        return tag;
+      });
+    }
+    return out;
+  };
+  // ID rows: swap in src and poster if present.
+  if (id) {
+    let out = html;
+    out = swapOnce(out, 'src', id);
+    out = swapOnce(out, 'poster', id);
+    return out;
+  }
+  // Anchor (ID-free) rows: replace the exact URL text at src/poster positions.
+  const esc = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return html.replace(new RegExp(`((?:src|poster)\\s*=\\s*")${esc(src)}(")`, 'gi'), `$1${src}$2`);
+}
+
 const jesc = (s) => JSON.stringify(s).slice(1, -1);
 
 // Patch flight-data occurrence when the original string is unique there,
@@ -126,7 +156,7 @@ export function applyOverrides(html, items, opts) {
   for (const it of items) {
     if (it.el_id && it.el_id.charAt(0) === 'a' && it.orig_html) {
       html = applyAnchor(html, it);
-      if (it.kind === 'text' && !noFP) html = patchFlight(html, it.orig_html, it.value);
+      if ((it.kind === 'text' || it.kind === 'media') && !noFP) html = patchFlight(html, it.orig_html, it.value);
       continue;
     }
     if (it.kind === 'text') {
@@ -134,6 +164,9 @@ export function applyOverrides(html, items, opts) {
       if (!noFP) html = patchFlight(html, it.orig_html, it.value);
     } else if (it.kind === 'image') {
       html = replaceImgSrc(html, it.el_id, it.value);
+    } else if (it.kind === 'media') {
+      html = replaceMediaSrc(html, it.el_id, it.value);
+      if (!noFP) html = patchFlight(html, it.orig_html, it.value);
     }
   }
   return html;
@@ -152,21 +185,39 @@ function replaceNth(html, needle, n, replacement) {
 }
 
 function applyAnchor(html, it) {
-  if (it.kind === 'image') {
-    const re = new RegExp(`<img\\b[^<>]*src="${escapeRegExp(it.orig_html)}"`, 'gi');
-    let m;
-    const hits = [];
-    while ((m = re.exec(html)) && hits.length <= (it.idx || 0)) hits.push(m);
-    const hit = hits[it.idx || 0];
-    if (!hit) return html;
-    const tagStart = hit.index;
-    const tagEnd = html.indexOf('>', tagStart);
-    if (tagEnd < 0) return html;
-    const tag = (html.slice(tagStart, tagEnd + 1))
-      .replace(/\ssrc\s*=\s*"[^"]*"/i, ` src="${it.value}"`)
-      .replace(/\ssrcset\s*=\s*"[^"]*"/i, '')
-      .replace(/\ssizes\s*=\s*"[^"]*"/i, '');
-    return html.slice(0, tagStart) + tag + html.slice(tagEnd + 1);
+  if (it.kind === 'image' || it.kind === 'media') {
+    if (it.kind === 'image') {
+      const re = new RegExp(`<img\\b[^<>]*src="${escapeRegExp(it.orig_html)}"`, 'gi');
+      let m;
+      const hits = [];
+      while ((m = re.exec(html)) && hits.length <= (it.idx || 0)) hits.push(m);
+      const hit = hits[it.idx || 0];
+      if (!hit) return html;
+      const tagStart = hit.index;
+      const tagEnd = html.indexOf('>', tagStart);
+      if (tagEnd < 0) return html;
+      const tag = (html.slice(tagStart, tagEnd + 1))
+        .replace(/\ssrc\s*=\s*"[^"]*"/i, ` src="${it.value}"`)
+        .replace(/\ssrcset\s*=\s*"[^"]*"/i, '')
+        .replace(/\ssizes\s*=\s*"[^"]*"/i, '');
+      return html.slice(0, tagStart) + tag + html.slice(tagEnd + 1);
+    }
+    // media: swap video/source/poster URLs at the nth exact match of the URL text.
+    const esc = escapeRegExp(it.orig_html);
+    const re = new RegExp(`((?:src|poster)\\s*=\\s*")${esc}(")`, 'gi');
+    let m, hits = 0;
+    let out = '';
+    let last = 0;
+    while ((m = re.exec(html))) {
+      if (hits === (it.idx || 0)) {
+        out += html.slice(last, m.index + m[1].length) + it.value + m[2];
+        last = m.index + m[0].length;
+        break;
+      }
+      hits++;
+    }
+    let patched = last === 0 ? html : out + html.slice(last);
+    return patchReelPairs(patched, it.orig_html, it.value);
   }
   // text: match the full element so substring occurrences (titles, metas) can't collide
   const tag = /^(P|H1|H2|H3|H4|H5|H6|LI|A|SPAN|BUTTON|BLOCKQUOTE|FIGCAPTION|DT|DD|TD|TH|LABEL)$/i.test(it.tag || '')
@@ -182,3 +233,40 @@ function applyAnchor(html, it) {
 }
 
 function escapeRegExp(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+// Client-rendered hero videos keep their source in Next.js flight payloads as
+// "reelUrl"/"reelMobileUrl"/"reelPosterUrl" (with JSON-escaped quotes), not as
+// <video src=/poster=…>. When an admin swaps one of those, patch every quoted
+// form of the URL so the change survives hydration for all visitors, and point
+// the mobile rendition at the same new file so desktop + mobile always match.
+function patchReelPairs(html, orig, value) {
+  if (!orig || orig === value) return html;
+  const pairs = [
+    ['\\"reelUrl\\":\\"', '\\"'],
+    ['\\"reelMobileUrl\\":\\"', '\\"'],
+    ['\\"reelPosterUrl\\":\\"', '\\"'],
+    ['"reelUrl":"', '"'],
+    ['"reelMobileUrl":"', '"'],
+    ['"reelPosterUrl":"', '"'],
+  ];
+  const isReelSwap = ['\\"reelUrl\\":\\"' + orig + '\\"', '"reelUrl":"' + orig + '"']
+    .some((nd) => html.includes(nd));
+  let prev = html;
+  for (const [lead, trail] of pairs) {
+    html = html.split(lead + orig + trail).join(lead + value + trail);
+  }
+  if (html !== prev && isReelSwap) {
+    // Keep the mobile rendition in sync: point it at the new file too so
+    // desktop (reelUrl) and mobile (reelMobileUrl) never show split footage.
+    const marker = '\\"reelMobileUrl\\":\\"';
+    const n = html.indexOf(marker);
+    if (n >= 0) {
+      const end = html.indexOf('\\"', n + marker.length);
+      if (end > n + marker.length) {
+        const cur = html.slice(n + marker.length, end);
+        if (cur !== value) html = html.slice(0, n + marker.length) + value + html.slice(end);
+      }
+    }
+  }
+  return html;
+}

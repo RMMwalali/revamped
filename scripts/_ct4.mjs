@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const g = fs.readFileSync('scripts/_aftercount.html', 'utf8');
+const marker = 'self.__next_f.push([1,"13:';
+const i = g.indexOf(marker);
+console.log('13: push @', i, 'len', g.length);
+console.log('before:', JSON.stringify(g.slice(i - 700, i + 40)));
+console.log('--- first pushes near start of flight? ---');
+const first = g.indexOf('self.__next_f.push(');
+console.log('first push @', first, JSON.stringify(g.slice(first, first + 60)));
+console.log('staticEnd-ish: contains DOCTYPE?', g.slice(0, first).includes('<!DOCTYPE html>'), 'prev 200:', JSON.stringify(g.slice(first - 200, first)));

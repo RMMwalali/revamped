@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   const page = String(body.page || '/');
   const items = Array.isArray(body.items) ? body.items.slice(0, 500) : [];
   for (const it of items) {
-    if (!it || typeof it.el_id !== 'string' || !['text', 'image'].includes(it.kind)) continue;
+    if (!it || typeof it.el_id !== 'string' || !['text', 'image', 'media'].includes(it.kind)) continue;
     const value = String(it.value || '').slice(0, 50000);
     const orig = typeof it.orig === 'string' ? it.orig.slice(0, 50000) : null;
     const idx = Math.max(0, Math.min(99, parseInt(it.idx, 10) || 0));

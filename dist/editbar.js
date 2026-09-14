@@ -29,16 +29,34 @@
     });
   }
 
-  // ---------- candidates (any text element or image, excluding our own UI) ----------
+  // ---------- candidates (text, images, video — excluding our own UI) ----------
   function isCandidate(el) {
     if (!el || el.closest('#sc-bar,#sc-brand-panel')) return null;
     if (el.tagName === 'IMG' && el.getAttribute('src')) return 'image';
+    if (el.tagName === 'VIDEO' && (el.getAttribute('src') || $(el, 'source[src]'))) return 'video';
+    if (el.tagName === 'SOURCE' && el.parentElement && el.parentElement.tagName === 'VIDEO') return 'video';
     if (TEXT_TAGS.test(el.tagName) && el.innerHTML.trim()) return 'text';
     return null;
   }
 
   // nth occurrence of the same content among same-tag peers (for duplicates)
   function peerIndex(el, kind) {
+    if (kind === 'video') {
+      var key = el.tagName === 'VIDEO'
+        ? (el.getAttribute('src') || ($(el, 'source[src]') ? $(el, 'source[src]').getAttribute('src') : '') || '')
+        : el.getAttribute('src') || '';
+      var list = document.getElementsByTagName('VIDEO');
+      var n = 0;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].closest('#sc-bar,#sc-brand-panel')) continue;
+        var k = list[i].getAttribute('src') || ($(list[i], 'source[src]') ? $(list[i], 'source[src]').getAttribute('src') : '') || '';
+        if (k === key) {
+          if (list[i] === el || (el.tagName === 'SOURCE' && list[i] === el.parentElement)) return n;
+          n++;
+        }
+      }
+      return 0;
+    }
     var key = kind === 'image' ? el.getAttribute('src') : el.innerHTML;
     var list = document.getElementsByTagName(el.tagName);
     var n = 0;
@@ -78,6 +96,22 @@
     return out;
   }
 
+  function mediaPeers(orig) {
+    var out = [];
+    var vids = document.getElementsByTagName('VIDEO');
+    for (var i = 0; i < vids.length; i++) {
+      if (vids[i].closest('#sc-bar,#sc-brand-panel')) continue;
+      var src = vids[i].getAttribute('src');
+      if (src && src === orig) out.push({ el: vids[i], attr: 'src' });
+      else if (vids[i].poster && vids[i].poster === orig) out.push({ el: vids[i], attr: 'poster' });
+      var srcs = vids[i].getElementsByTagName('source');
+      for (var j = 0; j < srcs.length; j++) {
+        if (srcs[j].getAttribute('src') === orig) out.push({ el: srcs[j], attr: 'src' });
+      }
+    }
+    return out;
+  }
+
   function applyAll() {
     overrides.forEach(function (o) {
       if (dirty[o.el_id]) return;
@@ -89,6 +123,16 @@
           img.setAttribute('src', o.value);
           img.removeAttribute('srcset');
           img.removeAttribute('sizes');
+        }
+        return;
+      }
+      if (o.kind === 'media') {
+        var peers = mediaPeers(o.orig_html);
+        var peer = peers[idx] || peers[0];
+        if (peer && peer.el) {
+          if (peer.el.tagName === 'SOURCE' || peer.attr === 'src') peer.el.setAttribute('src', o.value);
+          else peer.el.setAttribute(peer.attr, o.value);
+          peer.el.load && peer.el.load();
         }
         return;
       }
@@ -132,6 +176,7 @@
       '#sc-bar #sc-save:disabled{opacity:.45;cursor:default;}' +
       '#sc-bar-on .sc-cand:hover{outline:1px dashed ' + ACCENT + ';cursor:text;}' +
       '#sc-bar-on img.sc-cand:hover{outline:2px dashed ' + ACCENT + ';cursor:pointer;}' +
+      '#sc-bar-on video.sc-cand:hover{outline:2px dashed ' + ACCENT + ';cursor:pointer;}' +
       '.sc-editing{outline:2px solid ' + ACCENT + ' !important;background:rgba(201,162,75,.12);}' +
       '#sc-brand-panel{position:fixed;left:12px;bottom:12px;width:300px;z-index:2147483647;' +
       'background:#1c1c1a;border:1px solid #3a3a38;border-radius:14px;padding:20px;' +
@@ -147,7 +192,7 @@
       'padding:9px;font:700 12px Arial,sans-serif;cursor:pointer;}' +
       '</style>' +
       '<span class="dot"></span><b>STILLCRAFT</b><span class="pg"></span>' +
-      '<span class="hint">Click any text to edit · click images to swap</span>' +
+      '<span class="hint">Click any text to edit · click images/videos to swap</span>' +
       '<span class="row"><button id="sc-brand">Brand</button>' +
       '<button id="sc-save" disabled>Save (0)</button></span>' +
       '<span class="row"><button id="sc-discard">Discard</button>' +
@@ -216,11 +261,12 @@
   function onClick(e) {
     var bar = e.target.closest && e.target.closest('#sc-bar,#sc-brand-panel');
     if (bar) return;
-    var t = e.target.closest ? e.target.closest('img,p,h1,h2,h3,h4,h5,h6,li,a,span,button') : null;
+    var t = e.target.closest ? e.target.closest('img,p,h1,h2,h3,h4,h5,h6,li,a,span,button,video,source') : null;
     if (!t || !isCandidate(t)) { if (active) active.blur(); return; }
     var kind = isCandidate(t);
     e.preventDefault(); e.stopPropagation();
     if (kind === 'image') pickImage(t);
+    else if (kind === 'video') pickMedia(t);
     else startTextEdit(t);
   }
 
@@ -245,16 +291,21 @@
   }
 
   var fileInput = null;
-  function pickImage(img) {
+  function ensureInput() {
     if (!fileInput) {
       fileInput = document.createElement('input');
       fileInput.type = 'file';
-      fileInput.accept = 'image/png,image/jpeg,image/webp,image/gif,image/svg+xml';
+      fileInput.accept = 'image/png,image/jpeg,image/webp,image/gif,image/svg+xml,video/mp4,video/webm,video/quicktime,audio/mpeg,audio/wav,audio/ogg';
       document.documentElement.appendChild(fileInput);
     }
-    fileInput.onchange = function () {
-      var f = fileInput.files[0];
-      fileInput.value = '';
+    return fileInput;
+  }
+
+  function pickImage(img) {
+    var input = ensureInput();
+    input.onchange = function () {
+      var f = input.files[0];
+      input.value = '';
       if (!f) return;
       var orig = img.getAttribute('src') || '';
       var idx = peerIndex(img, 'image');
@@ -271,9 +322,53 @@
         img.removeAttribute('sizes');
         markDirty(key('image', tag, idx), 'image', d.src, orig, idx, tag);
         toast('Image swapped — press Save');
-      }).catch(function () { toast('Upload failed (max 8MB, png/jpg/webp/gif/svg)', true); });
+      }).catch(function () { toast('Upload failed (must be an image)', true); });
     };
-    fileInput.click();
+    input.click();
+  }
+
+  function pickMedia(video) {
+    var input = ensureInput();
+    input.onchange = function () {
+      var f = input.files[0];
+      input.value = '';
+      if (!f) return;
+      // Which attr to overwrite: prefer poster when user picks an image,
+      // otherwise the video src (or the first <source> inside).
+      var isImg = /^image\//.test(f.type || '');
+      var orig, idx, target;
+      if (isImg) {
+        orig = video.poster || (video.getAttribute('src') || '');
+        target = { el: video, attr: 'poster', kind: 'media' };
+        if (!orig && video.querySelector) {
+          var psrc = video.querySelector('source[src]');
+          if (psrc) orig = psrc.getAttribute('src') || '';
+        }
+      } else {
+        var srcEl = video.hasAttribute('src') ? video : (video.querySelector && video.querySelector('source[src]'));
+        orig = srcEl ? srcEl.getAttribute('src') : (video.poster || '');
+        if (!srcEl) srcEl = video;
+        target = { el: srcEl, attr: 'src', kind: 'media' };
+      }
+      idx = peerIndex(video, 'video');
+      var fd = new FormData();
+      fd.append('image', f);
+      toast('Uploading…');
+      fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) {
+        if (!r.ok) throw new Error();
+        return r.json();
+      }).then(function (d) {
+        if (target.attr === 'poster') {
+          video.setAttribute('poster', d.src);
+        } else {
+          target.el.setAttribute('src', d.src);
+        }
+        video.load && video.load();
+        markDirty(key('media', video.tagName, idx), 'media', d.src, orig, idx, video.tagName);
+        toast('Media swapped — press Save');
+      }).catch(function () { toast('Upload failed (max 250MB, image/video/audio)', true); });
+    };
+    input.click();
   }
 
   function save() {

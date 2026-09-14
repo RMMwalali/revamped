@@ -208,6 +208,25 @@ function applyFooterAddresses(html) {
   }
   return html;
 }
+// Home-page hero reel: point the flight's Vimeo URLs at a local asset so the
+// WebGL video texture loads the StillCraft hero clip (works pre + post hydration).
+const HERO_VIDEO = '/assets/custom/stillcraft-hero.mp4';
+function applyHeroVideo(html) {
+  for (const key of ['reelUrl', 'reelMobileUrl']) {
+    const needle = key + '\\":\\"'; // raw flight: key":"...
+    let cursor = 0;
+    while (true) {
+      const from = html.indexOf(needle, cursor);
+      if (from < 0) break;
+      const start = from + needle.length;
+      const end = html.indexOf('\\"', start);
+      if (end <= start) break;
+      html = html.slice(0, start) + HERO_VIDEO + html.slice(end);
+      cursor = start + HERO_VIDEO.length;
+    }
+  }
+  return html;
+}
 function applyGlobalSwaps(html, page) {
   if (process.env.SC_NOSWAPS) return html;
   // Legal pages have no below-root error boundary and carry length-framed
@@ -393,7 +412,25 @@ function applyBrand(html, brand) {
   }
   const logo = (brand.logo_src || '').trim();
   if (logo) {
-    html = html.split('upload/icon-logo.svg').join(logo.replace(/^\//, ''));
+    const target = logo.replace(/^\//, '');
+    // Existing copies: bare "upload/icon-logo.svg" (root + assets/root).
+    html = html.split('upload/icon-logo.svg').join(target);
+    // Header figure + preload refs use the CMS-upload path; swap it too.
+    html = html.split('/assets/cms/wp-content/uploads/2025/06/icon-logo.svg').join('/' + target);
+    // Escaped variant inside flight payloads (backslash-forward-slash).
+    html = html.split('\\u002Fassets\\u002Fcms\\u002Fwp-content\\u002Fuploads\\u002F2025\\u002F06\\u002Ficon-logo\\u002Esvg').join('\\u002F' + target.split('/').join('\\u002F'));
+    html = html.split('\\/assets\\/cms\\/wp-content\\/uploads\\/2025\\/06\\/icon-logo\\.svg').join('\\/' + target.split('/').join('\\/'));
+    // Browser-tab icon: point rel=icon + apple-touch-icon links at the brand
+    // favicon PNG (regenerated from the logo on disk) instead of the old ICO.
+    html = html.split('/assets/root/favicon.ico').join('/assets/root/favicon.png');
+    // Fix the logo rendering: the Next.js header was designed for a narrow wordmark
+    // SVG. Override blend mode and let the PNG retain its natural 2.19:1 aspect ratio.
+    const logoStyle = `<style id="sc-logo-style">` +
+      `.styles_logo__7LWm4{mix-blend-mode:normal !important;}` +
+      `.styles_logo__7LWm4>div{width:fit-content !important;height:100% !important;aspect-ratio:auto !important;}` +
+      `.styles_logo__7LWm4 img{position:static !important;height:100% !important;width:auto !important;max-width:min(80vw,44rem) !important;object-fit:contain !important;}` +
+      `</style>`;
+    html = html.replace(/<\/head>/i, logoStyle + '</head>');
   }
   return html;
 }
@@ -416,6 +453,35 @@ function parseUpload(buf, contentType) {
   return { filename: fn ? fn[1] : 'upload.bin', type: ct ? ct[1].trim() : '', data: buf.slice(dataStart, dataEnd) };
 }
 
+// Admin media uploads: images + video + audio + web fonts + vector (svg).
+// Magic-byte guard so a renamed .mp4/.png isn't stored under a fake extension.
+function sniffMedia(data, filename) {
+  const ext = (/\.(png|jpe?g|webp|gif|svg|avif|mp4|m4v|mov|webm|mp3|wav|ogg|m4a|wof2?|woff2|ttf|otf|pdf)$/i.exec(filename) || [])[1]?.toLowerCase();
+  if (!ext) return null;
+  const h = data.slice(0, 12).toString('latin1');
+  const ftyp = (t) => h.length > 7 && h.slice(4, 8) === 'ftyp' && h.slice(8, 13).toLowerCase().includes(t);
+  if (ext === 'png' && !h.startsWith('\x89PNG')) return null;
+  if ((ext === 'jpg' || ext === 'jpeg') && !(data[0] === 0xff && data[1] === 0xd8)) return null;
+  if (ext === 'gif' && !h.startsWith('GIF8')) return null;
+  if (ext === 'webp' && !(h.startsWith('RIFF') && data.slice(8, 12).toString() === 'WEBP')) return null;
+  if (ext === 'avif' && !(ftyp('avif') || ftyp('avis'))) return null;
+  if (ext === 'svg' && !/<svg|<\?xml/i.test(data.slice(0, 800).toString('utf8'))) return null;
+  if (ext === 'mp4') return h.slice(4, 8) === 'ftyp' ? 'mp4' : null;
+  if (ext === 'm4v') return ftyp('mp4') || ftyp('m4v') ? 'm4v' : null;
+  if (ext === 'mov') return ftyp('qt') || ftyp('mov') ? 'mov' : null;
+  if (ext === 'webm') return h.startsWith('\x1a\x45\xdf\xa3') ? 'webm' : null;
+  if (ext === 'mp3' && !h.startsWith('ID3') && !(data[0] === 0xff && (data[1] & 0xe0) === 0xe0)) return null;
+  if (ext === 'wav' && !(h.startsWith('RIFF') && data.slice(8, 12).toString() === 'WAVE')) return null;
+  if (ext === 'ogg' && !h.startsWith('OggS')) return null;
+  if (ext === 'm4a' && !(ftyp('M4A') || ftyp('mp4'))) return null;
+  if (ext === 'ttf' && h.slice(0, 4).toString() !== '\x00\x01\x00\x00') return null;
+  if (ext === 'woff' && h.slice(0, 4).toString() !== 'wOFF') return null;
+  if (ext === 'woff2' && h.slice(0, 4).toString() !== 'wOF2') return null;
+  if (ext === 'otf' && h.slice(0, 4).toString() !== 'OTTO') return null;
+  if (ext === 'pdf' && h.slice(0, 5) !== '%PDF-') return null;
+  return ext === 'jpeg' ? 'jpg' : ext;
+}
+
 function sniffImage(data, filename) {
   const ext = (/\.(png|jpe?g|webp|gif|svg)$/i.exec(filename) || [])[1]?.toLowerCase();
   if (!ext) return null;
@@ -430,7 +496,7 @@ function sniffImage(data, filename) {
 export {
   getBrand, bustBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,
   stripThirdParty, flightReplace, applyFlightIA, applyContentFlight,
-  applyGlobalSwaps, applyFooterAddresses, parseUpload, sniffImage, FILE_FLIGHT,
+  applyGlobalSwaps, applyFooterAddresses, applyHeroVideo, parseUpload, sniffImage, sniffMedia, FILE_FLIGHT,
   TITLE_MAP, NAV_LABELS, NAV_DROP_HREFS, MENU_ORDER, DEFAULT_TAGLINE,
 };
 
@@ -576,7 +642,7 @@ function teamMember(p) {
   const src = '/assets/custom/' + p.img;
   const raw = JSON.stringify({
     title: p.name,
-    content: '<p>' + p.bio + '</p>\n',
+    content: '<p>' + p.bio + '</p>\\n',
     featuredImage: { node: { sourceUrl: src } },
     memberTemplate: { role: p.role, funImage: { node: { sourceUrl: src } } },
   });

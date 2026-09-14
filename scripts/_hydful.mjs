@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const base = process.argv[2];
+const page = process.argv[3];
+const browser = await chromium.launch();
+const page2 = await browser.newPage();
+const logs = [];
+page2.on('console', (m) => { const t = m.text(); if (!t.includes('cookie banner') && !t.includes('sw.js')) logs.push('[' + m.type() + '] ' + t.slice(0, 600)); });
+page2.on('pageerror', (e) => logs.push('PAGEERR ' + (e.message || '').slice(0, 600)));
+page2.on('dialog', (d) => logs.push('DIALOG ' + d.message()));
+await page2.goto(base + page, { waitUntil: 'load', timeout: 30000 });
+await page2.waitForTimeout(4000);
+for (const l of logs) console.log(l);
+await browser.close();

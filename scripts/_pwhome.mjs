@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch();
+const page = await browser.newPage();
+page.on('pageerror', (e) => console.log('PAGEERROR:\n' + (e.stack || e.message)));
+const failed = [];
+page.on('response', (r) => { if (r.status() === 404) failed.push(r.url()); });
+page.on('console', (m) => { if (m.type() === 'error') console.log('CONSOLE:', m.text()); });
+await page.goto('http://127.0.0.1:3000/', { waitUntil: 'load', timeout: 30000 });
+await page.waitForTimeout(4000);
+console.log('404s:', [...new Set(failed)].slice(0, 25));
+await browser.close();

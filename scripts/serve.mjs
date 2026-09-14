@@ -12,7 +12,7 @@ import { pool } from './db.mjs';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
 import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.mjs';import {
   getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty,
-  parseUpload, sniffImage, applyGlobalSwaps, applyFooterAddresses,
+  parseUpload, sniffMedia, applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyImgDims, applySplash, applyStyleBlocks,
   applyFooterFix, applyTeamRoster, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
 } from './transform.mjs';
@@ -116,7 +116,7 @@ function rateFail(ip) {
 const server = http.createServer(async (req, res) => {
   try {
     const u = new URL(req.url, 'http://local');
-    const pathname = u.pathname;
+    let pathname = u.pathname;
     const method = req.method;
     const cookies = parseCookies(req);
 
@@ -154,7 +154,7 @@ const server = http.createServer(async (req, res) => {
       const page = String(body.page || '/');
       const items = Array.isArray(body.items) ? body.items.slice(0, 500) : [];
       for (const it of items) {
-        if (!it || typeof it.el_id !== 'string' || !['text', 'image'].includes(it.kind)) continue;
+        if (!it || typeof it.el_id !== 'string' || !['text', 'image', 'media'].includes(it.kind)) continue;
         const value = String(it.value || '').slice(0, 50000);
         const orig = typeof it.orig === 'string' ? it.orig.slice(0, 50000) : null;
         const idx = Math.max(0, Math.min(99, parseInt(it.idx, 10) || 0));
@@ -196,17 +196,18 @@ const server = http.createServer(async (req, res) => {
       const s = await verifySession(cookies.sc_admin).catch(() => null);
       if (!s) return json(res, 401, { error: 'unauthorized' });
       let buf;
-      try { buf = await readBody(req, 9 << 20); }
-      catch { return json(res, 413, { error: 'file too large (max 8MB)' }); }
+      try { buf = await readBody(req, 250 << 20); }
+      catch { return json(res, 413, { error: 'file too large (max 250MB)' }); }
       const part = parseUpload(buf, req.headers['content-type']);
-      if (!part || part.data.length > (8 << 20)) return json(res, 400, { error: 'bad upload' });
-      const ext = sniffImage(part.data, part.filename);
-      if (!ext) return json(res, 400, { error: 'only png/jpg/webp/gif/svg images' });
+      if (!part || !part.data.length) return json(res, 400, { error: 'bad upload' });
+      const ext = sniffMedia(part.data, part.filename);
+      if (!ext) return json(res, 400, { error: 'unsupported media type (images, svg, video, audio, fonts)' });
+      const isBig = /^(mp4|m4v|mov|webm|mp3|wav|ogg|m4a)$/.test(ext);
       const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
         crypto.randomBytes(4).toString('hex') + '.' + ext;
       await mkdir(path.join(ROOT, 'assets', 'custom'), { recursive: true });
       await writeFile(path.join(ROOT, 'assets', 'custom', name), part.data);
-      return json(res, 200, { src: '/assets/custom/' + name });
+      return json(res, 200, { src: '/assets/custom/' + name, kind: isBig ? 'media' : 'image' });
     }
 
     if (pathname.startsWith('/cdn-cgi/')) {
@@ -220,6 +221,10 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
       res.end();
       return;
+    }
+    // category pages have no static equivalent: serve /projects
+    if (pathname === '/projects/mall-activations' || pathname.startsWith('/projects/mall-activations/')) {
+      pathname = '/projects';
     }
 
     // ----- Next.js image optimizer shim (serve bytes directly: no redirect roundtrip) -----
@@ -286,6 +291,7 @@ const server = http.createServer(async (req, res) => {
         ...((LOGO_NAMES[key] || []).map(n => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
       if (fileItems.length) html = applyOverrides(html, fileItems, { noFlightPatch: noFP });
       html = applyGlobalSwaps(html, key);
+      html = applyHeroVideo(html);
       html = applyFooterAddresses(html);
       html = applyContentFlight(html, key);
       html = applyTeamRoster(html);
