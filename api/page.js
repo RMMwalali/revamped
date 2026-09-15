@@ -5,9 +5,10 @@ import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getOverrides, applyOverrides, bustOverrides } from '../scripts/overrides.mjs';
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
-  applyContentFlight, stripThirdParty, applyImgDims, applySplash,
+  applyContentFlight, stripThirdParty, applyImgDims, encodeAssetSpaces, applySplash,
   applyStyleBlocks, applyFooterFix, applyTeamRoster,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks,
 } from '../scripts/transform.mjs';
 import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
 
@@ -33,7 +34,7 @@ function candidates(urlPath) {
   return out.map((c) => path.normalize(path.join(ROOT, c))).filter((p) => p.startsWith(ROOT));
 }
 
-async function serveHtml(pathname, cookies) {
+async function serveHtml(pathname, cookies, host) {
   // On Vercel, lambda instances are reused across visitors: drop module-level
   // caches so every page view reads fresh DB state. An edit saved by one
   // admin is then visible to everyone (and every region/instance) on the
@@ -65,13 +66,17 @@ async function serveHtml(pathname, cookies) {
     const __brand = await getBrand();
     const __cms = await getCMS().catch(() => null);
     const __heroUrl = (__cms && __cms.hero && __cms.hero.video_url) || __brand.hero_video_src || HERO_VIDEO_URL;
-    html = applyHeroVideo(html, __heroUrl);
-    if (__cms) html = applyStructuredCMS(html, __cms, key);
+    const __heroMob = (__cms && __cms.hero && __cms.hero.video_mobile_url) || mobileFor(__heroUrl) || HERO_VIDEO_MOBILE_URL;
+    const __heroPos = posterFor(__heroUrl) || HERO_POSTER_URL;
+    html = applyHeroVideo(html, __heroUrl, __heroMob, __heroPos);
+    if (__cms) html = await applyStructuredCMS(html, __cms, key);
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
+    html = applyLinks(html, host, key);
     html = applyTeamRoster(html);
     html = applyStyleBlocks(html, await getBrand());
     html = await applyImgDims(html);
+    html = encodeAssetSpaces(html);
     html = applySplash(html, key);
     html = applyFooterFix(html, key);
     const sess = await verifySession(cookies.sc_admin).catch(() => null);
@@ -111,7 +116,7 @@ export default async function handler(req, res) {
       return;
     }
     const cookies = parseCookies(req);
-    const found = await serveHtml(pathname, cookies);
+    const found = await serveHtml(pathname, cookies, req.headers.host);
     if (!found) { res.status(404).send('not found'); return; }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'no-cache');

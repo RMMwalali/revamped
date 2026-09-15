@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch();
+const page = await browser.newPage();
+await page.goto('http://127.0.0.1:3459/_bisect-ins-home', { waitUntil: 'load', timeout: 60000 }).catch(() => {});
+await page.waitForTimeout(5000);
+const txt = await page.evaluate(() => document.body.innerText);
+console.log('has OLD cphi title:', txt.includes('what experienced exhibitors understand'));
+console.log('has NEW cphi title:', txt.includes('CPHI Trade Show 2026 TEST TITLE'));
+console.log('has OLD hub title:', txt.includes('Iventions London hub'));
+console.log('has NEW hub title:', txt.includes('StillCraft London Hub TEST'));
+console.log('has london slug link:', await page.evaluate(() => !!document.querySelector('a[href="/insight/iventions-london-hub"]')));
+console.log('has cphi slug link:', await page.evaluate(() => !!document.querySelector('a[href="/insight/cphi-trade-show"]')));
+await browser.close();

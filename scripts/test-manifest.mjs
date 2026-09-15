@@ -1,0 +1,12 @@
+import { readFile } from 'node:fs/promises';
+import { getInsightManifest, extractInsightEdges, applyInsights } from './cms.mjs';
+import { verifyFlight } from './flight.mjs';
+const man = await import('./cms.mjs').then((m) => m.getInsightManifest());
+console.log('manifest:', man.length);
+console.log('first:', JSON.stringify(man[0]).slice(0, 300));
+console.log('has london-hub:', man.some((m) => m.slug === 'iventions-london-hub'));
+console.log('has cphi:', man.some((m) => m.slug === 'cphi-trade-show'));
+const h = await readFile('dist/index.html', 'utf8');
+const { extractInsightEdges: ex } = await import('./cms.mjs');
+console.log('home edges:', ex(h).map((e) => e.slug).join(','));
+process.exit(0);

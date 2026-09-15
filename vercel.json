@@ -75,10 +75,6 @@
       "destination": "/api/page?path=/project/world-cup-watch-party-at-galleria-mall"
     },
     {
-      "source": "/project/mothers-day-brunch-at-southfield-mall",
-      "destination": "/api/page?path=/project/mothers-day-brunch-at-southfield-mall"
-    },
-    {
       "source": "/insight/10-tactics-to-treat-vip-guests-right",
       "destination": "/api/page?path=/insight/10-tactics-to-treat-vip-guests-right"
     },
@@ -284,7 +280,10 @@
       "includeFiles": "dist/**"
     },
     "api/cms.js": {
-      "includeFiles": "dist/index.html"
+      "includeFiles": [
+        "dist/index.html",
+        "dist/insights/index.html"
+      ]
     }
   },
   "headers": [

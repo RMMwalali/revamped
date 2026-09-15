@@ -3,6 +3,7 @@
 // Anchor rows (el_id starting with 'a') match by exact content + occurrence
 // index, so they keep working after React hydration re-renders the tree.
 import { pool } from './db.mjs';
+import { safeReplacePushes, safeReplacePairs } from './flight.mjs';
 
 const cache = new Map(); // page -> { at, items }
 const TTL = 15000;
@@ -145,8 +146,10 @@ function patchFlight(html, orig, value) {
       while (k >= 0) { count++; k = seg.indexOf(eo, k + 1); }
     }
     if (count !== 1) continue;
-    for (let i = 1; i < parts.length; i++) parts[i] = parts[i].replace(eo, ev);
-    return parts.join('self.__next_f.push(');
+    // Length-synced single swap: safe inside length-prefixed rows, and
+    // static HTML is untouched (the idx-th static occurrence is handled by
+    // applyAnchor/replaceElInner, which must keep the other copies intact).
+    return safeReplacePushes(html, eo, ev);
   }
   return html;
 }
@@ -251,11 +254,9 @@ function patchReelPairs(html, orig, value) {
   ];
   const isReelSwap = ['\\"reelUrl\\":\\"' + orig + '\\"', '"reelUrl":"' + orig + '"']
     .some((nd) => html.includes(nd));
-  let prev = html;
-  for (const [lead, trail] of pairs) {
-    html = html.split(lead + orig + trail).join(lead + value + trail);
-  }
-  if (html !== prev && isReelSwap) {
+  const P = pairs.map(([lead, trail]) => [lead + orig + trail, lead + value + trail]);
+  html = safeReplacePairs(html, P);
+  if (isReelSwap) {
     // Keep the mobile rendition in sync: point it at the new file too so
     // desktop (reelUrl) and mobile (reelMobileUrl) never show split footage.
     const marker = '\\"reelMobileUrl\\":\\"';

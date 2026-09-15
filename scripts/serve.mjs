@@ -13,8 +13,9 @@ import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie 
 import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.mjs';import {
   getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty,
   parseUpload, sniffMedia, applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
-  applyContentFlight, applyImgDims, applySplash, applyStyleBlocks,
+  applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, applySplash, applyStyleBlocks,
   applyFooterFix, applyTeamRoster, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
 const ROOT = path.resolve('dist');
@@ -177,7 +178,7 @@ const server = http.createServer(async (req, res) => {
       if (u.searchParams.get('live') === '1') {
         try {
           const liveHtml = await readFile(path.join(ROOT, 'index.html'), 'utf8');
-          return json(res, 200, { live: liveSnapshot(liveHtml) });
+          return json(res, 200, { live: await liveSnapshot(liveHtml) });
         } catch { return json(res, 200, { live: {} }); }
       }
       const cms = await getCMS();
@@ -325,13 +326,17 @@ const server = http.createServer(async (req, res) => {
       const __brand = await getBrand();
       const __cms = await getCMS().catch(() => null);
       const __heroUrl = (__cms && __cms.hero && __cms.hero.video_url) || __brand.hero_video_src || HERO_VIDEO_URL;
-      html = applyHeroVideo(html, __heroUrl);
-      if (__cms) html = applyStructuredCMS(html, __cms, key);
+      const __heroMob = (__cms && __cms.hero && __cms.hero.video_mobile_url) || mobileFor(__heroUrl) || HERO_VIDEO_MOBILE_URL;
+      const __heroPos = posterFor(__heroUrl) || HERO_POSTER_URL;
+      html = applyHeroVideo(html, __heroUrl, __heroMob, __heroPos);
+      if (__cms) html = await applyStructuredCMS(html, __cms, key);
       html = applyFooterAddresses(html);
       html = applyContentFlight(html, key);
+      html = applyLinks(html, req.headers.host, key);
       html = applyTeamRoster(html);
       html = applyStyleBlocks(html, await getBrand());
       html = await applyImgDims(html);
+      html = encodeAssetSpaces(html);
       html = applySplash(html, key);
       html = applyFooterFix(html, key);
       const sess = await verifySession(cookies.sc_admin).catch(() => null);

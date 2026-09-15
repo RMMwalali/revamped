@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       try {
         const file = path.join(process.cwd(), 'dist', 'index.html');
         const html = await readFile(file, 'utf8');
-        res.status(200).json({ live: liveSnapshot(html) });
+        res.status(200).json({ live: await liveSnapshot(html) });
       } catch {
         res.status(200).json({ live: {} });
       }

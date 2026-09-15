@@ -100,19 +100,24 @@
       <button data-tab="logos">Client logos</button>
       <button data-tab="stats">Stats</button>
       <button data-tab="testimonials">Testimonials</button>
+      <button data-tab="team">Team</button>
+      <button data-tab="projects">Case Studies</button>
       <button data-tab="cities">Cities &amp; addresses</button>
-      <button data-tab="articles">Long-form articles</button>
+      <button data-tab="insights">Insights</button>
       <button data-tab="brand">Brand</button>
       <button data-tab="help">Help</button>
     </nav>
 
     <section class="pane on" data-pane="hero">
-      <div class="paneHead"><h2>Hero video</h2><p>The full-screen film on the home page. Served as a direct link (currently Cloudinary) so it loads fast without touching site bandwidth. Changes go live on save.</p></div>
+      <div class="paneHead"><h2>Hero video</h2><p>The full-screen film on the home page. Served as a direct link (currently Cloudinary) so it loads fast without touching site bandwidth. Phones automatically get a lightweight version + instant poster — only fill the mobile field to override that. Changes go live on save.</p></div>
       <div class="item">
         <div class="grid">
-          <div class="fld full"><label>VIDEO URL (mp4 link)</label>
+          <div class="fld full"><label>VIDEO URL — DESKTOP (mp4 link)</label>
             <div class="rowline"><input type="text" id="heroUrl" data-k="video_url" placeholder="https://…mp4"></div>
             <video class="prev" id="heroPrev" controls muted loop playsinline></video>
+          </div>
+          <div class="fld full"><label>VIDEO URL — MOBILE (empty = auto lightweight version)</label>
+            <div class="rowline"><input type="text" id="heroUrlM" data-k="video_mobile_url" placeholder="auto"></div>
           </div>
           <div class="fld full"><label>OR UPLOAD A NEW CLIP (mp4/webm, max 250MB)</label>
             <input type="file" data-up="heroUrl" accept="video/mp4,video/webm,video/quicktime">
@@ -151,6 +156,23 @@
       <div class="savebar"><button class="primary" data-save="testimonials">Save testimonials</button><span class="st" data-st="testimonials"></span></div>
     </section>
 
+    <section class="pane" data-pane="team">
+      <div class="paneHead"><h2>Team — Option A (Editorial Monograms)</h2><p>Text-only monogram cards (no photos). Edit name / role / bio — initials update automatically. This is the live About page team.</p></div>
+      <div id="teamList"></div>
+      <div class="savebar"><button class="primary" data-save="team">Save team</button><span class="st" data-st="team"></span></div>
+    </section>
+
+    <section class="pane" data-pane="projects">
+      <div class="paneHead"><h2>Case Studies</h2><p>11 mall case studies — each is a <code>/project/&lt;slug&gt;</code> page. Edit title / hero / Situation / What We Did / Result / quote. Images stay at <code>/assets/stillcraft/mall-case/&lt;slug&gt;/…svg</code> and are swappable via the file picker here. Overview stat (33% / 21%) is the programme-wide banner at top of <code>/projects</code> — edit it once here.</p></div>
+      <div class="item"><h3>OVERVIEW BANNER (top of projects page — programme-wide)</h3><div class="grid">
+        <div class="fld"><label>FOOTFALL (e.g. 33%)</label><input type="text" id="ovFoot"></div>
+        <div class="fld"><label>DWELL (e.g. 21%)</label><input type="text" id="ovDwell"></div>
+        <div class="fld full"><label>NOTE</label><input type="text" id="ovNote"></div>
+      </div></div>
+      <div id="projList"></div>
+      <div class="savebar"><button class="primary" data-save="projects">Save case studies</button><span class="st" data-st="projects"></span></div>
+    </section>
+
     <section class="pane" data-pane="cities">
       <div class="paneHead"><h2>Cities &amp; addresses</h2><p>The “most iconic cities” marquee (add/remove cities freely) plus the two footer office addresses shown on every page.</p></div>
       <div class="item"><div class="grid">
@@ -163,11 +185,14 @@
       <div class="savebar"><button class="primary" data-save="cities">Save cities &amp; addresses</button><span class="st" data-st="cities"></span></div>
     </section>
 
-    <section class="pane" data-pane="articles">
-      <div class="paneHead"><h2>Long-form articles</h2><p>Full text for blog posts and case-study pages (the home-page cards update too). Leave a field empty to keep the current text. Slugs must match the page address exactly.</p></div>
-      <div id="artList"></div>
-      <div class="savebar"><button data-add-article>+ Add article by slug</button>
-        <button class="primary" data-save="articles">Save articles</button><span class="st" data-st="articles"></span></div>
+    <section class="pane" data-pane="insights">
+      <div class="paneHead"><h2>Insights</h2><p>Blog posts on the home page and the Insights listing. Edit text and cover images, curate the 3 home cards, hide posts from listings — every card links its slug, which always opens the real post page.</p></div>
+      <div class="item"><h3>HOME CARDS (in order — only these show on the home page)</h3>
+        <div class="grid" id="insHome"></div>
+        <div class="savebar"><span class="st">Live now: <span id="insHomeLive"></span></span></div>
+      </div>
+      <div id="insList"></div>
+      <div class="savebar"><button class="primary" data-save="insights">Save insights</button><span class="st" data-st="insights"></span></div>
     </section>
 
     <section class="pane" data-pane="brand">
@@ -191,11 +216,11 @@
         <b>/insider</b> login as the on-page editor. Two tools, one account:
         <ul>
           <li><b>On-page editor</b> — after login, browse the site and click any highlighted text, image or video to edit it inline, then press Save. Best for single headlines, paragraphs and photos.</li>
-          <li><b>This dashboard</b> — for everything <i>structured</i>: the <b>hero video link</b>, <b>Highlight project cards</b>, the <b>client logo wall</b>, the <b>stats numbers</b>, <b>testimonials</b>, the <b>city list / footer addresses</b> and <b>long-form article text</b>. Those sections render as lists, so they need list-aware forms — exactly what these tabs provide.</li>
+          <li><b>This dashboard</b> — for everything <i>structured</i>: the <b>hero video link</b>, <b>Highlight project cards</b>, the <b>client logo wall</b>, the <b>stats numbers</b>, <b>testimonials</b>, the <b>city list / footer addresses</b>, the <b>Insights</b> blog (cards, order, hiding, cover images, full text) and <b>long-form article text</b>. Those sections render as lists, so they need list-aware forms — exactly what these tabs provide.</li>
         </ul>
         <b>Publishing:</b> every Save goes live immediately on the next page load (no rebuild, no deploy).
         <b>Images/video:</b> use the file pickers next to any image field, or paste a link (https://… works, e.g. Cloudinary).
-        <b>Home vs whole site:</b> Hero, Highlights, Logos, Stats, Testimonials and the city marquee appear on the home page; footer addresses and articles apply everywhere, including the article pages themselves.
+        <b>Home vs whole site:</b> Hero, Highlights, Logos, Stats, Testimonials, the city marquee and the 3 home Insights cards appear on the home page; footer addresses, Insights listing edits and article text apply everywhere, including the article pages themselves. Every card links its slug, and slugs always open the real post page.</p>
       </div>
     </section>
   </div>
@@ -261,11 +286,12 @@
   /* ---------- renderers ---------- */
   function renderAll() {
     renderHero(); renderHighlights(); renderLogos(); renderStats();
-    renderTestimonials(); renderCities(); renderArticles(); renderBrand();
+    renderTestimonials(); renderTeam(); renderProjects(); renderCities(); renderInsights(); renderBrand();
   }
   function renderHero() {
     var sv = S.saved.hero || {}, lv = S.live.hero || {};
     $('#heroUrl').value = pick(sv.video_url, S.brand.hero_video_src || CLOUD);
+    $('#heroUrlM').value = pick(sv.video_mobile_url, '');
     $('#heroLabel').value = pick(sv.label, lv.label);
     $('#heroDesc').value = pick(sv.description, lv.description);
     updHeroPrev();
@@ -366,23 +392,95 @@
         '</div></div>';
     }).join('');
   }
-  function renderArticles() {
-    var sv = (S.saved.articles && S.saved.articles.items) || [];
-    var lv = S.live.insights || [];
-    var bySlug = {};
-    sv.forEach(function (a) { if (a && a.slug) bySlug[a.slug] = a; });
-    lv.forEach(function (a) { if (a && a.slug && !bySlug[a.slug]) bySlug[a.slug] = {}; });
-    var slugs = Object.keys(bySlug);
-    $('#artList').innerHTML = slugs.map(function (slug) {
-      var s = bySlug[slug] || {}, l = {};
-      lv.forEach(function (x) { if (x.slug === slug) l = x; });
-      return '<div class="item" data-art="' + esc(slug) + '"><h3>' + esc(slug) + '</h3><div class="grid">' +
-        '<div class="fld"><label>TITLE</label><input type="text" data-k="title" value="' + esc(pick(s.title, l.title)) + '"></div>' +
-        '<div class="fld"><label>COVER IMAGE</label>' + imgRow('art-img-' + esc(slug).replace(/[^a-z0-9]+/gi, '-'), pick(s.image, '')) + '</div>' +
-        '<div class="fld full"><label>FULL TEXT (HTML allowed — empty keeps current)</label><textarea data-k="content" rows="6" placeholder="Leave empty to keep the current article text.">' + esc(s.content || '') + '</textarea></div>' +
+  function insWork() {
+    // merged working set per slug: manifest <- legacy articles <- insights items
+    var man = S.live.insightManifest || [];
+    var leg = {};
+    ((S.saved.articles && S.saved.articles.items) || []).forEach(function (a) { if (a && a.slug) leg[a.slug] = a; });
+    var sv = (S.saved.insights && S.saved.insights.items) || {};
+    var map = {};
+    man.forEach(function (m) { map[m.slug] = { man: m }; });
+    Object.keys(leg).forEach(function (s) { map[s] = map[s] || {}; map[s].leg = leg[s]; });
+    Object.keys(sv).forEach(function (s) { map[s] = map[s] || {}; map[s].sv = sv[s]; });
+    return { map: map, man: man };
+  }
+  function renderTeam() {
+    var sv = (S.saved.team && S.saved.team.items) || (S.saved.team && S.saved.team.members) || [];
+    var lv = S.live.team || [];
+    var n = Math.max(lv.length, sv.length, 6);
+    var h = '';
+    for (var i = 0; i < n; i++) {
+      var s = sv[i] || {}, l = lv[i] || {};
+      h += '<div class="item" data-team="' + i + '"><h3>' + esc(pick(s.name, l.name) || ('member ' + (i + 1))) + '</h3><div class="grid">' +
+        '<div class="fld"><label>NAME</label><input type="text" data-k="name" value="' + esc(pick(s.name, l.name)) + '"></div>' +
+        '<div class="fld"><label>ROLE (e.g. Operations Manager — 5 Years)</label><input type="text" data-k="role" value="' + esc(pick(s.role, l.role)) + '"></div>' +
+        '<div class="fld full"><label>BIO</label><textarea data-k="bio" rows="4">' + esc(pick(s.bio, l.bio)) + '</textarea></div>' +
+        '</div></div>';
+    }
+    $('#teamList').innerHTML = h;
+  }
+  function renderProjects() {
+    var sv = S.saved.projects || {};
+    var ov = sv.overview || {};
+    $('#ovFoot').value = ov.footfall || '33%';
+    $('#ovDwell').value = ov.dwell || '21%';
+    $('#ovNote').value = ov.note || "Measured across StillCraft's recent seasonal mall programming";
+    var liveTeam = S.live.team || [];
+    // project slugs from manifest fallback or live team? use insightManifest length? just use 11 known
+    var slugs = ['easter-at-galleria-mall','mothers-day-at-galleria-mall','world-cup-watch-party-at-galleria-mall','christmas-at-westgate-mall','valentines-at-sarit-centre','easter-at-sarit-centre','valentines-at-southfield-mall','easter-at-southfield-mall','mothers-day-at-southfield-mall','fathers-day-at-southfield-mall','christmas-at-southfield-mall'];
+    var items = sv.items || sv;
+    var h = '';
+    for (var i = 0; i < slugs.length; i++) {
+      var slug = slugs[i], s = (items && items[slug]) || {}, l = {};
+      // live fallback not needed — title is slug-derived; keep s as source of truth when empty
+      h += '<div class="item" data-proj="' + esc(slug) + '"><h3>' + esc(slug) + '</h3><div class="grid">' +
+        '<div class="fld"><label>TITLE</label><input type="text" data-k="title" value="' + esc(s.title || '') + '"></div>' +
+        '<div class="fld"><label>HERO (one-liner)</label><input type="text" data-k="hero" value="' + esc(s.hero || '') + '"></div>' +
+        '<div class="fld full"><label>SITUATION</label><textarea data-k="challenge" rows="3">' + esc(s.challenge || '') + '</textarea></div>' +
+        '<div class="fld full"><label>WHAT WE DID</label><textarea data-k="whatWeDid" rows="3">' + esc(s.whatWeDid || '') + '</textarea></div>' +
+        '<div class="fld full"><label>RESULT</label><textarea data-k="result" rows="3">' + esc(s.result || '') + '</textarea></div>' +
+        '<div class="fld full"><label>QUOTE</label><textarea data-k="quote" rows="2">' + esc(s.quote || '') + '</textarea></div>' +
+        '</div></div>';
+    }
+    $('#projList').innerHTML = h;
+  }
+  function renderInsights() {
+    var w = insWork();
+    var svHome = ((S.saved.insights || {}).home) || [];
+    var liveHome = (S.live.insights || []).map(function (x) { return x.slug; });
+    var opts = function (sel) {
+      return w.man.map(function (m) {
+        return '<option value="' + esc(m.slug) + '"' + (m.slug === sel ? ' selected' : '') + '>' + esc(m.slug) + '</option>';
+      }).join('');
+    };
+    var home = [svHome[0] || liveHome[0] || '', svHome[1] || liveHome[1] || '', svHome[2] || liveHome[2] || ''];
+    $('#insHome').innerHTML = home.map(function (s, i) {
+      return '<div class="fld"><label>HOME CARD #' + (i + 1) + '</label><select data-home-slot="' + i + '">' + opts(s) + '</select></div>';
+    }).join('');
+    $('#insHomeLive').textContent = liveHome.join(', ') || '—';
+    var hidden = {};
+    (((S.saved.insights || {}).hidden) || []).forEach(function (s) { hidden[s] = 1; });
+    var slugs = Object.keys(w.map).sort();
+    $('#insList').innerHTML = slugs.map(function (slug) {
+      var e = w.map[slug], m = e.man || {}, l = e.leg || {}, s = e.sv || {};
+      var exists = !!e.man;
+      var listed = !hidden[slug];
+      var imgId = 'ins-img-' + slug.replace(/[^a-z0-9]+/gi, '-');
+      return '<div class="item" data-post="' + esc(slug) + '"><h3>' + esc(pick(s.title, pick(l.title, m.title)) || slug) +
+        (exists ? '' : ' <span style="color:#ff9d9d">⚠ no page for this slug — card links would 404</span>') + '</h3>' +
+        '<div class="grid">' +
+        '<div class="fld"><label>SLUG (fixed — matches the post address)</label><input type="text" value="' + esc(slug) + '" disabled> ' +
+        (exists ? '<a href="/insight/' + esc(slug) + '" target="_blank">view post</a>' : '') + '</div>' +
+        '<div class="fld"><label>LISTED <input type="checkbox" data-k="listed" ' + (listed ? 'checked' : '') + ' style="width:auto"></label></div>' +
+        '<div class="fld full"><label>TITLE</label><input type="text" data-k="title" value="' + esc(pick(s.title, pick(l.title, m.title))) + '"></div>' +
+        '<div class="fld"><label>COVER IMAGE (media)</label>' + imgRow(imgId, pick(s.image, pick(l.image, m.image))) + '</div>' +
+        '<div class="fld"><label>DATE</label><input type="date" data-k="date" value="' + esc((pick(s.date, pick(l.date, m.date)) || '').slice(0, 10)) + '"></div>' +
+        '<div class="fld"><label>CATEGORY</label><input type="text" data-k="category" value="' + esc(pick(s.category, pick(l.category, m.category))) + '"></div>' +
+        '<div class="fld full"><label>BLURB (home card + search/social)</label><input type="text" data-k="excerpt" value="' + esc(pick(s.excerpt, pick(l.excerpt, m.excerpt))) + '"></div>' +
+        '<div class="fld full"><label>FULL TEXT (HTML allowed — empty keeps current)</label><textarea data-k="content" rows="5" placeholder="Leave empty to keep the current article text.">' + esc(s.content || l.content || '') + '</textarea></div>' +
         '<input type="hidden" data-k="slug" value="' + esc(slug) + '">' +
         '</div></div>';
-    }).join('') || '<div class="help">No articles found.</div>';
+    }).join('') || '<div class="help">No posts found.</div>';
   }
   function renderBrand() {
     var b = S.brand || {};
@@ -405,19 +503,29 @@
         else if (el.id.indexOf('logo-img-') === 0) o.src = v;
         else if (el.id.indexOf('tm-photo-') === 0) o.photo = v;
         else if (el.id.indexOf('tm-logo-') === 0) o.logo = v;
-        else if (el.id.indexOf('art-img-') === 0) o.image = v;
+        else if (el.id.indexOf('ins-img-') === 0) o.image = v;
       });
       return o;
     });
   }
   function collect(sec) {
     if (sec === 'hero') {
-      return { video_url: $('#heroUrl').value.trim(), label: $('#heroLabel').value, description: $('#heroDesc').value };
+      return { video_url: $('#heroUrl').value.trim(), video_mobile_url: $('#heroUrlM').value.trim(), label: $('#heroLabel').value, description: $('#heroDesc').value };
     }
     if (sec === 'highlights') return { items: grab(null, 'data-hl') };
     if (sec === 'logos') return { label: $('#logoLabel').value, items: grab(null, 'data-logo').map(function (o) { return { name: o.name || '', src: o.src || '' }; }) };
     if (sec === 'stats') return { label: $('#statLabel').value, items: grab(null, 'data-stat') };
     if (sec === 'testimonials') return { items: grab(null, 'data-tm') };
+    if (sec === 'team') return { items: grab(null, 'data-team') };
+    if (sec === 'projects') {
+      var proj = {};
+      $all('#projList [data-proj]').forEach(function (box) {
+        var slug = box.getAttribute('data-proj');
+        var o = {}; $all('[data-k]', box).forEach(function (el) { o[el.getAttribute('data-k')] = el.value; });
+        proj[slug] = o;
+      });
+      return { overview: { footfall: $('#ovFoot').value.trim(), dwell: $('#ovDwell').value.trim(), note: $('#ovNote').value.trim() }, items: proj };
+    }
     if (sec === 'cities') {
       return {
         label: $('#cityLabel').value, description: $('#cityDesc').value,
@@ -427,13 +535,23 @@
         })
       };
     }
-    if (sec === 'articles') {
-      return { items: $all('#artList [data-art]').map(function (box) {
-        var o = {}; $all('[data-k]', box).forEach(function (el) { o[el.getAttribute('data-k')] = el.value; });
-        var img = box.querySelector('input[type=text][id^="art-img-"]');
+    if (sec === 'insights') {
+      var home = $all('#insHome [data-home-slot]').map(function (el) { return el.value; }).filter(Boolean);
+      var items = {}, hidden = [];
+      $all('#insList [data-post]').forEach(function (box) {
+        var slug = box.getAttribute('data-post');
+        var o = {};
+        $all('[data-k]', box).forEach(function (el) {
+          var k = el.getAttribute('data-k');
+          o[k] = (el.type === 'checkbox') ? el.checked : el.value;
+        });
+        var img = box.querySelector('input[type=text][id^="ins-img-"]');
         if (img) o.image = img.value;
-        return o;
-      }) };
+        if (!o.listed) hidden.push(slug);
+        delete o.listed;
+        items[slug] = o;
+      });
+      return { home: home, hidden: hidden, items: items };
     }
     return {};
   }
@@ -444,9 +562,19 @@
     if (sv) {
       var sec = sv.getAttribute('data-save');
       st(sec, 'Saving…'); sv.disabled = true;
+      var payload = collect(sec);
       api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ section: sec, data: collect(sec) }) })
-        .then(function () { st(sec, 'Saved — live now.'); toast('Saved — live now'); S.saved[sec] = collect(sec); })
+        body: JSON.stringify({ section: sec, data: payload }) })
+        .then(function () {
+          // insights tab absorbs the legacy articles tab: clear it so the two
+          // can never fight over the same post.
+          if (sec === 'insights' && S.saved.articles && S.saved.articles.items && S.saved.articles.items.length) {
+            return api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ section: 'articles', data: { items: [] } }) })
+              .then(function () { S.saved.articles = { items: [] }; });
+          }
+        })
+        .then(function () { st(sec, 'Saved — live now.'); toast('Saved — live now'); S.saved[sec] = payload; })
         .catch(function () { st(sec, 'Save failed.'); toast('Save failed'); })
         .then(function () { sv.disabled = false; });
       return;
@@ -478,15 +606,6 @@
       $('#cityList').appendChild(d); return;
     }
     if (e.target.closest('[data-del-city]')) { e.target.closest('.cityrow').remove(); return; }
-    if (e.target.closest('[data-add-article]')) {
-      var slug = prompt('Article slug (must match the page address, e.g. my-new-post):');
-      if (!slug) return;
-      slug = slug.trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-');
-      var cur = S.saved.articles && S.saved.articles.items ? S.saved.articles.items.slice() : [];
-      cur.push({ slug: slug, title: '', image: '', content: '' });
-      S.saved.articles = { items: cur };
-      renderArticles(); return;
-    }
   });
   document.addEventListener('change', function (e) {
     var f = e.target.closest('input[type=file][data-up]');
@@ -515,7 +634,7 @@
     if (t && t.id) {
       var pv = document.querySelector('[data-prev-for="' + t.id + '"]');
       if (pv && (t.id.indexOf('hl-img-') === 0 || t.id.indexOf('logo-img-') === 0 || t.id.indexOf('stat-img-') === 0 ||
-                 t.id.indexOf('tm-photo-') === 0 || t.id.indexOf('tm-logo-') === 0 || t.id.indexOf('art-img-') === 0)) {
+                 t.id.indexOf('tm-photo-') === 0 || t.id.indexOf('tm-logo-') === 0 || t.id.indexOf('ins-img-') === 0)) {
         if (t.value) { pv.src = t.value; pv.style.display = 'block'; } else pv.style.display = 'none';
       }
     }

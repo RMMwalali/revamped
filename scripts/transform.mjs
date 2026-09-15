@@ -9,6 +9,7 @@ export { LOGO_ROWS };
 export { CONTENT as FILE_CONTENT } from './stillcraft-content.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
 export { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
+import { safeReplace, safeReplacePairs } from './flight.mjs';
 
 // Page-scoped whole-value flight swaps (short labels patchFlight can't gate).
 // Testimonial slider logos stay per-case for the edit bar (quotes name old clients).
@@ -16,35 +17,35 @@ const LOGO_FLIGHT = [...new Map(Object.values(LOGO_ROWS).flat()
   .filter(r => !/Testimonial/i.test(r.orig_html)).map(r => [r.orig_html, r.value])).entries()];
 function applyContentFlight(html, page) {
   const pairs = FILE_FLIGHT[page];
-  const parts = html.split('self.__next_f.push(');
-  if (parts.length < 2) return html;
-  for (let i = 1; i < parts.length; i++) {
-    if (pairs) for (const [from, to] of pairs) {
-      const forms = [from, from.split('&').join('&amp;'), from.split('&').join('\\u0026')];
-      const tos = [to, to.split('&').join('&amp;'), to.split('&').join('\\u0026')];
-      for (let k = 0; k < forms.length; k++) {
-        parts[i] = parts[i].split(`"${forms[k]}"`).join(`"${tos[k]}"`);
-        parts[i] = parts[i].split(`\\"${forms[k]}\\"`).join(`\\"${tos[k]}\\"`);
-      }
-    }
-    // wall name labels, scoped by title+logo so duplicate names stay distinct.
-    // Must run before the URL swap below (it keys on the old logo path).
-    if (LOGO_NAMES[page]) for (const n of LOGO_NAMES[page]) {
-      const needle = `\\"title\\":\\"${n.old}\\",\\"featuredImage\\":{\\"node\\":{\\"sourceUrl\\":\\"${n.src}`;
-      const repl = `\\"title\\":\\"${n.name}\\",\\"featuredImage\\":{\\"node\\":{\\"sourceUrl\\":\\"${n.src}`;
-      parts[i] = parts[i].split(needle).join(repl);
-    }
-    // client logo URLs on wall pages only (testimonial sliders stay per-case for the edit bar)
-    if (LOGO_ROWS[page]) for (const [oldSrc, newSrc] of LOGO_FLIGHT) {
-      parts[i] = parts[i].split(oldSrc).join(newSrc);
-      parts[i] = parts[i].split(oldSrc.split('/').join('\\/')).join(newSrc.split('/').join('\\/'));
+  const P = [];
+  if (pairs) for (const [from, to] of pairs) {
+    const forms = [from, from.split('&').join('&amp;'), from.split('&').join('\\u0026')];
+    const tos = [to, to.split('&').join('&amp;'), to.split('&').join('\\u0026')];
+    for (let k = 0; k < forms.length; k++) {
+      P.push([`"${forms[k]}"`, `"${tos[k]}"`]);
+      P.push([`\\"${forms[k]}\\"`, `\\"${tos[k]}\\"`]);
     }
   }
-  return parts.join('self.__next_f.push(');
+  // wall name labels, scoped by title+logo so duplicate names stay distinct.
+  // Must run before the URL swap below (it keys on the old logo path).
+  if (LOGO_NAMES[page]) for (const n of LOGO_NAMES[page]) {
+    P.push([
+      `\\"title\\":\\"${n.old}\\",\\"featuredImage\\":{\\"node\\":{\\"sourceUrl\\":\\"${n.src}`,
+      `\\"title\\":\\"${n.name}\\",\\"featuredImage\\":{\\"node\\":{\\"sourceUrl\\":\\"${n.src}`,
+    ]);
+  }
+  // client logo URLs on wall pages only (testimonial sliders stay per-case for the edit bar)
+  if (LOGO_ROWS[page]) for (const [oldSrc, newSrc] of LOGO_FLIGHT) {
+    P.push([oldSrc, newSrc]);
+    P.push([oldSrc.split('/').join('\\/'), newSrc.split('/').join('\\/')]);
+  }
+  return P.length ? safeReplacePairs(html, P) : html;
 }
 
 // ---------- brand cache (StillCraft defaults win when DB is down/empty) ----------
 export const HERO_VIDEO_URL = 'https://res.cloudinary.com/dtnbwgpca/video/upload/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4';
+export const HERO_VIDEO_MOBILE_URL = 'https://res.cloudinary.com/dtnbwgpca/video/upload/q_auto,w_640/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4';
+export const HERO_POSTER_URL = 'https://res.cloudinary.com/dtnbwgpca/video/upload/so_0,w_1280,q_auto/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.jpg';
 const BRAND_DEFAULTS = {
   site_name: 'StillCraft Events',
   tagline: 'Step into the Spotlight',
@@ -124,13 +125,9 @@ function applyMenuOrder(html) {
 }
 
 function flightReplace(html, fromJson, toJson) {
-  // Replace whole-string JSON values inside flight pushes only (app code untouched).
-  const parts = html.split('self.__next_f.push(');
-  if (parts.length < 2) return html;
-  for (let i = 1; i < parts.length; i++) {
-    parts[i] = parts[i].split(`"${fromJson}"`).join(`"${toJson}"`);
-  }
-  return parts.join('self.__next_f.push(');
+  // Replace whole-string JSON values. Length-synced inside flight pushes so
+  // length-prefixed rows stay valid; plain replace everywhere else.
+  return safeReplace(html, `"${fromJson}"`, `"${toJson}"`);
 }
 
 // StillCraft IA inside flight vdom (CMS menu data React actually renders).
@@ -196,24 +193,23 @@ function applyFooterAddresses(html) {
         html.slice(end);
     }
   }
-  const parts = html.split('self.__next_f.push(');
-  if (parts.length > 1) {
-    for (let i = 1; i < parts.length; i++) {
-      for (const [from, to] of FOOTER_FLIGHT) {
-        if (parts[i].includes(from)) parts[i] = parts[i].split(from).join(to);
-        const fe = from.split('"').join('\\"');
-        const te = to.split('"').join('\\"');
-        if (fe !== from && parts[i].includes(fe)) parts[i] = parts[i].split(fe).join(te);
-      }
-    }
-    html = parts.join('self.__next_f.push(');
+  const P = [];
+  for (const [from, to] of FOOTER_FLIGHT) {
+    P.push([from, to]);
+    const fe = from.split('"').join('\\"');
+    const te = to.split('"').join('\\"');
+    if (fe !== from) P.push([fe, te]);
   }
-  return html;
+  return P.length ? safeReplacePairs(html, P) : html;
 }
 // Home-page hero reel: point the flight's Vimeo URLs at the StillCraft hero
 // clip. Default is the Cloudinary link (fast CDN, no local bandwidth); an
 // admin can override it per deploy via brand hero_video_src or the Insider
 // CMS hero section (DB wins over this constant). Works pre + post hydration.
+//
+// Mobile gets its own lightweight rendition (2.1MB vs 13.5MB): on phones the
+// full clip stalls the hero loader behind a blank section, so reelMobileUrl
+// points at a q_auto,w_640 transcode + reelPosterUrl at an instant jpg poster.
 const HERO_VIDEO = HERO_VIDEO_URL;
 function resolveHeroUrl(override) {
   const u = String(override || '').trim();
@@ -221,9 +217,35 @@ function resolveHeroUrl(override) {
   if (u && u.startsWith('/')) return u;
   return HERO_VIDEO;
 }
-function applyHeroVideo(html, override) {
-  const url = resolveHeroUrl(override);
-  for (const key of ['reelUrl', 'reelMobileUrl']) {
+// Derive the lightweight mobile rendition for a Cloudinary video URL.
+// Non-Cloudinary URLs (or already-transformed ones) are returned unchanged.
+function mobileFor(url) {
+  const u = String(url || '').trim();
+  const i = u.indexOf('/video/upload/');
+  if (!u || i < 0) return u || HERO_VIDEO_MOBILE_URL;
+  const tail = u.slice(i + '/video/upload/'.length);
+  if (/^[a-z]+_[^/]*\//i.test(tail) || /^[^/]*,[^/]*\//.test(tail)) return u; // already transformed
+  return u.slice(0, i + '/video/upload/'.length) + 'q_auto,w_640/' + tail;
+}
+// Instant first-frame poster for a Cloudinary video URL ('' = leave as-is).
+function posterFor(url) {
+  const u = String(url || '').trim();
+  const i = u.indexOf('/video/upload/');
+  if (!u || i < 0) return '';
+  const head = u.slice(0, i + '/video/upload/'.length);
+  let tail = u.slice(i + '/video/upload/'.length);
+  tail = tail.replace(/^([a-z]+_[^/]*\/|[^/,]*,[^/]*\/)/i, ''); // strip existing transform
+  tail = tail.replace(/\.[a-z0-9]+$/i, '.jpg');
+  if (!/\//.test(tail)) return '';
+  return head + 'so_0,w_1280,q_auto/' + tail;
+}
+function applyHeroVideo(html, desktop, mobile, poster) {
+  const dUrl = resolveHeroUrl(desktop);
+  const mUrl = resolveHeroUrl(mobile || mobileFor(dUrl));
+  const pUrl = String(poster || posterFor(dUrl)).trim();
+  const jobs = [['reelUrl', dUrl], ['reelMobileUrl', mUrl]];
+  if (pUrl) jobs.push(['reelPosterUrl', pUrl]);
+  for (const [key, url] of jobs) {
     const needle = key + '\\":\\"'; // raw flight: key":"...
     let cursor = 0;
     while (true) {
@@ -244,66 +266,79 @@ function applyGlobalSwaps(html, page) {
   // text blobs: any blob byte change fatals them, so their blobs stay frozen.
   const frozen = page === '/cookie-policy' || page === '/privacy-policy' || page === '/legal-notice-terms-of-use';
   if (frozen) return html;
+  const P = [];
+  // (regex form expanded to literals so flight rows stay length-synced)
+  P.push(['Copyright © Iventions', 'Copyright © StillCraft Events Co.']);
+  P.push(['Copyright � Iventions', 'Copyright © StillCraft Events Co.']);
+  P.push(['Copyright \\u00a9 Iventions', 'Copyright © StillCraft Events Co.']);
+  P.push(['Copyright \\ufffd Iventions', 'Copyright © StillCraft Events Co.']);
   for (const [from, to] of GLOBAL_SWAPS) {
-    if (typeof from !== 'string') {
-      html = html.replace(from, to);
-      continue;
-    }
-    if (html.includes(from)) html = html.split(from).join(to);
+    if (typeof from !== 'string') continue;
+    P.push([from, to]);
     const slash = [from.split('/').join('\\/'), to.split('/').join('\\/')];
-    if (slash[0] !== from && html.includes(slash[0])) html = html.split(slash[0]).join(slash[1]);
+    if (slash[0] !== from) P.push(slash);
     const esc = [from.split('"').join('\\"'), to.split('"').join('\\"')];
-    if (esc[0] !== from && html.includes(esc[0])) html = html.split(esc[0]).join(esc[1]);
+    if (esc[0] !== from) P.push(esc);
   }
-  return html;
+  return P.length ? safeReplacePairs(html, P) : html;
 }
 const linkObj = (title, url) =>
   `{${EQ}link${EQ}:{${EQ}target${EQ}:${EQ}${EQ},${EQ}title${EQ}:${EQ}${title}${EQ},${EQ}url${EQ}:${EQ}${url}${EQ}}}`;
 const ORIGIN = 'https://iventions.com';
+// Absolute site URLs (meta og:url, share links) must point at the host that
+// actually serves the site. Rewritten per request; length-synced for flight.
+function applyLinks(html, host, page) {
+  const fullHost = String(host || '').split(',')[0].trim();
+  if (!fullHost) return html;
+  const encHost = encodeURIComponent(fullHost);
+  const P = [];
+  // og:url carries the bare origin: expand to the full current page URL first
+  // (must run before the generic host swap below).
+  P.push([`content="https://iventions.com"`, `content="https://${fullHost}${page === '/' ? '/' : page}"`]);
+  P.push([`content=\\"https://iventions.com\\"`, `content=\\"https://${fullHost}${page === '/' ? '/' : page}\\"`]);
+  P.push(['https://iventions.com', `https://${fullHost}`]);
+  P.push(['https%3A%2F%2Fiventions.com', `https%3A%2F%2F${encHost}`]);
+  P.push(['http%3A%2F%2Fiventions.com', `https%3A%2F%2F${encHost}`]);
+  return safeReplacePairs(html, P);
+}
 const MENU_DROP_URLS = ['/about/', '/service/congresses/', '/service/sports/'];
 const MENU_TITLES = { About: 'Home', Events: 'Brand Activations', Exhibits: 'Malls & Retail', Work: 'Projects', Insights: 'Blog' };
 function applyFlightIA(html) {
-  const parts = html.split('self.__next_f.push(');
-  if (parts.length < 2) return html;
+  // All replacements run through the length-synced replacer: menu JSON rows
+  // are plain edits, while anything landing inside a length-prefixed flight
+  // row (e.g. article HTML) gets its hex length recomputed instead of
+  // corrupting the stream ("Application error ... Connection closed").
   const homeObj = linkObj('Home', ORIGIN + '/home/');
-  for (let i = 1; i < parts.length; i++) {
-    let s = parts[i];
-    // 0) service entity titles drive the page headlines (menu keeps short labels).
-    // Must run before the menu rename below (same original values).
-    s = s.split(`"slug":"events","title":"Events"`).join(`"slug":"events","title":"Brands and Corporates"`);
-    s = s.split(`\\"slug\\":\\"events\\",\\"title\\":\\"Events\\"`).join(`\\"slug\\":\\"events\\",\\"title\\":\\"Brands and Corporates\\"`);
-    s = s.split(`"slug":"exhibits","title":"Exhibits"`).join(`"slug":"exhibits","title":"Malls Programming and Retail"`);
-    s = s.split(`\\"slug\\":\\"exhibits\\",\\"title\\":\\"Exhibits\\"`).join(`\\"slug\\":\\"exhibits\\",\\"title\\":\\"Malls Programming and Retail\\"`);
-    // 0) service entity titles drive the page headlines (menu keeps short labels).
-    // Must run before the menu rename below (same original values).
-    s = s.split(`"slug":"events","title":"Events"`).join(`"slug":"events","title":"Brands and Corporates"`);
-    s = s.split(`\\"slug\\":\\"events\\",\\"title\\":\\"Events\\"`).join(`\\"slug\\":\\"events\\",\\"title\\":\\"Brands and Corporates\\"`);
-    s = s.split(`"slug":"exhibits","title":"Exhibits"`).join(`"slug":"exhibits","title":"Malls Programming and Retail"`);
-    s = s.split(`\\"slug\\":\\"exhibits\\",\\"title\\":\\"Exhibits\\"`).join(`\\"slug\\":\\"exhibits\\",\\"title\\":\\"Malls Programming and Retail\\"`);
-    // 1) drop About / Congresses / Sports link objects (object + trailing comma)
-    for (const u of MENU_DROP_URLS) {
-      const title = { '/about/': 'About', '/service/congresses/': 'Congresses', '/service/sports/': 'Sports' }[u];
-      s = s.split(linkObj(title, ORIGIN + u) + ',').join('');
-    }
-    // 2) rename remaining titles (skip About: dropped above; Home stays)
-    for (const [from, to] of Object.entries(MENU_TITLES)) {
-      if (from === 'About') continue;
-      s = s.split(`${EQ}title${EQ}:${EQ}${from}${EQ}`).join(`${EQ}title${EQ}:${EQ}${to}${EQ}`);
-    }
-    // 3) prepend Home to header menus (footer already starts with Home)
-    const brandObj = linkObj('Brand Activations', ORIGIN + '/service/events/');
-    s = s.split(`${EQ}menus${EQ}:[${brandObj}`).join(`${EQ}menus${EQ}:[${homeObj},${brandObj}`);
-    // 4) order Malls & Retail before Brand Activations
-    const mallsObj = linkObj('Malls & Retail', ORIGIN + '/service/exhibits/');
-    s = s.split(brandObj + ',' + mallsObj).join(mallsObj + ',' + brandObj);
-    // 5) localize CMS link targets (LinkedIn/Instagram untouched)
-    s = s.split(ORIGIN + '/').join('/');
-    // 6) trailing brand mentions in values ("... | Iventions")
-    s = s.split(` Iventions${EQ}`).join(` StillCraft Events${EQ}`);
-    s = s.split(` IVENTIONS${EQ}`).join(` STILLCRAFT EVENTS${EQ}`);
-    parts[i] = s;
+  const brandObj = linkObj('Brand Activations', ORIGIN + '/service/events/');
+  const mallsObj = linkObj('Malls & Retail', ORIGIN + '/service/exhibits/');
+  const P = [
+    // 0) service entity titles drive the page headlines (menu keeps short
+    // labels). Must run before the menu rename below (same original values).
+    [`"slug":"events","title":"Events"`, `"slug":"events","title":"Brands and Corporates"`],
+    [`\\"slug\\":\\"events\\",\\"title\\":\\"Events\\"`, `\\"slug\\":\\"events\\",\\"title\\":\\"Brands and Corporates\\"`],
+    [`"slug":"exhibits","title":"Exhibits"`, `"slug":"exhibits","title":"Malls Programming and Retail"`],
+    [`\\"slug\\":\\"exhibits\\",\\"title\\":\\"Exhibits\\"`, `\\"slug\\":\\"exhibits\\",\\"title\\":\\"Malls Programming and Retail\\"`],
+  ];
+  // 1) drop About / Congresses / Sports link objects (object + trailing comma)
+  for (const u of MENU_DROP_URLS) {
+    const title = { '/about/': 'About', '/service/congresses/': 'Congresses', '/service/sports/': 'Sports' }[u];
+    P.push([linkObj(title, ORIGIN + u) + ',', '']);
   }
-  return parts.join('self.__next_f.push(');
+  // 2) rename remaining titles (skip About: dropped above; Home stays)
+  for (const [from, to] of Object.entries(MENU_TITLES)) {
+    if (from === 'About') continue;
+    P.push([`${EQ}title${EQ}:${EQ}${from}${EQ}`, `${EQ}title${EQ}:${EQ}${to}${EQ}`]);
+  }
+  // 3) prepend Home to header menus (footer already starts with Home)
+  P.push([`${EQ}menus${EQ}:[${brandObj}`, `${EQ}menus${EQ}:[${homeObj},${brandObj}`]);
+  // 4) order Malls & Retail before Brand Activations
+  P.push([brandObj + ',' + mallsObj, mallsObj + ',' + brandObj]);
+  // 5) localize CMS link targets (LinkedIn/Instagram untouched)
+  P.push([ORIGIN + '/', '/']);
+  // 6) trailing brand mentions in values ("... | Iventions")
+  P.push([` Iventions${EQ}`, ` StillCraft Events${EQ}`]);
+  P.push([` IVENTIONS${EQ}`, ` STILLCRAFT EVENTS${EQ}`]);
+  return safeReplacePairs(html, P);
 }
 
 function applyNav(html, page) {
@@ -389,6 +424,63 @@ function stripThirdParty(html) {
   html = html.replace(/<link[^>]*href="https:\/\/consent\.cookiebot\.com[^"]*"[^>]*>\s*/gi, '');
   html = html.replace(/<script[^>]*src="https:\/\/consent\.cookiebot\.com[^"]*"[^>]*>\s*<\/script>\s*/gi, '');
   html = html.replace(/<script[^>]*src="https:\/\/static\.cloudflareinsights\.com[^"]*"[^>]*>\s*<\/script>\s*/gi, '');
+  // reCAPTCHA: loader tags (gstatic + provider api.js, any host variant),
+  // related preloads, and the baked badge DOM (container + anchor iframe +
+  // response textarea). All verified static-only (never inside flight
+  // pushes), so plain removal cannot desync the stream.
+  html = html.replace(/<script\b[^<>]*src="[^"]*(?:gstatic\.com\/recaptcha|google\.com\/recaptcha|recaptcha\.net|recaptcha\/enterprise\.js)[^"]*"[^<>]*>\s*<\/script>\s*/gi, '');
+  html = html.replace(/<script\b[^<>]*id="google-recaptcha-v3"[^<>]*>\s*<\/script>\s*/gi, '');
+  html = html.replace(/<link\b[^<>]*rel="preload"[^<>]*(?:gstatic\.com\/recaptcha|google\.com\/recaptcha)[^<>]*>\s*/gi, '');
+  html = removeRecaptchaContainer(html);
+  html = html.replace(/<iframe\b[^<>]*title="reCAPTCHA"[^<>]*>\s*<\/iframe>/gi, '');
+  html = html.replace(/<textarea\b[^<>]*id="g-recaptcha-response"[^<>]*>\s*<\/textarea>/gi, '');
+  return html;
+}
+// Excise the baked `<div id="recaptcha-container">…</div>` badge block
+// (nested badge div, anchor iframe carrying the sitekey, error div,
+// response textarea). Quote-aware div depth counting; static-only region.
+function removeRecaptchaContainer(html) {
+  const needle = 'id="recaptcha-container"';
+  let idx = html.indexOf(needle);
+  let guard = 0;
+  while (idx >= 0 && guard++ < 4) {
+    const openStart = html.lastIndexOf('<div', idx);
+    if (openStart < 0) break;
+    const openEnd = html.indexOf('>', idx);
+    if (openEnd < 0 || openEnd - openStart > 2000) break;
+    let depth = 1, i = openEnd + 1;
+    let q = null, end = -1;
+    while (i < html.length) {
+      if (html.startsWith('<!--', i)) {
+        const e = html.indexOf('-->', i + 4);
+        i = e < 0 ? html.length : e + 3;
+        continue;
+      }
+      const c = html[i];
+      if (q) { if (c === q) q = null; i++; continue; }
+      if (c === '"' || c === "'") { q = c; i++; continue; }
+      if (c === '<') {
+        const m = /^<\/?([a-zA-Z][a-zA-Z0-9]*)/.exec(html.slice(i, i + 12));
+        if (!m) { i++; continue; }
+        if (m[1].toLowerCase() === 'div') {
+          if (html[i + 1] === '/') {
+            depth--;
+            if (depth === 0) { end = i; break; }
+          } else {
+            depth++;
+          }
+        }
+        i += m[0].length;
+        continue;
+      }
+      i++;
+    }
+    if (end < 0) break;
+    const closeEnd = html.indexOf('>', end);
+    if (closeEnd < 0) break;
+    html = html.slice(0, openStart) + html.slice(closeEnd + 1);
+    idx = html.indexOf(needle);
+  }
   return html;
 }
 
@@ -396,15 +488,13 @@ function applyBrand(html, brand) {
   const name = (brand.site_name || '').trim();
   if (name && name !== 'Iventions') {
     const upper = name.toUpperCase();
-    // 1) flight payloads: brand word at value starts/ends (code/URLs/slugs untouched)
-    const segs = html.split('self.__next_f.push(');
-    if (segs.length > 1) {
-      for (let i = 1; i < segs.length; i++) {
-        segs[i] = segs[i].split('"Iventions').join('"' + name).split('"IVENTIONS').join('"' + upper);
-        segs[i] = segs[i].split(` Iventions${EQ}`).join(` ${name}${EQ}`);
-      }
-      html = segs.join('self.__next_f.push(');
-    }
+    // 1) flight payloads: brand word at value starts/ends (code/URLs/slugs untouched).
+    // Length-synced so matches inside length-prefixed rows stay valid.
+    html = safeReplacePairs(html, [
+      [`"Iventions`, `"` + name],
+      [`"IVENTIONS`, `"` + upper],
+      [` Iventions${EQ}`, ` ${name}${EQ}`],
+    ]);
     // 2) static markup outside <script> (attributes/URLs/emails untouched)
     const parts = html.split(/(<script[\s\S]*?<\/script>)/gi);
     for (let i = 0; i < parts.length; i += 2) {
@@ -419,21 +509,21 @@ function applyBrand(html, brand) {
   }
   const tag = (brand.tagline || '').trim();
   if (tag && tag !== DEFAULT_TAGLINE) {
-    html = html.split(DEFAULT_TAGLINE).join(tag);
+    html = safeReplace(html, DEFAULT_TAGLINE, tag);
   }
   const logo = (brand.logo_src || '').trim();
   if (logo) {
     const target = logo.replace(/^\//, '');
     // Existing copies: bare "upload/icon-logo.svg" (root + assets/root).
-    html = html.split('upload/icon-logo.svg').join(target);
+    html = safeReplace(html, 'upload/icon-logo.svg', target);
     // Header figure + preload refs use the CMS-upload path; swap it too.
-    html = html.split('/assets/cms/wp-content/uploads/2025/06/icon-logo.svg').join('/' + target);
+    html = safeReplace(html, '/assets/cms/wp-content/uploads/2025/06/icon-logo.svg', '/' + target);
     // Escaped variant inside flight payloads (backslash-forward-slash).
-    html = html.split('\\u002Fassets\\u002Fcms\\u002Fwp-content\\u002Fuploads\\u002F2025\\u002F06\\u002Ficon-logo\\u002Esvg').join('\\u002F' + target.split('/').join('\\u002F'));
-    html = html.split('\\/assets\\/cms\\/wp-content\\/uploads\\/2025\\/06\\/icon-logo\\.svg').join('\\/' + target.split('/').join('\\/'));
+    html = safeReplace(html, '\\u002Fassets\\u002Fcms\\u002Fwp-content\\u002Fuploads\\u002F2025\\u002F06\\u002Ficon-logo\\u002Esvg', '\\u002F' + target.split('/').join('\\u002F'));
+    html = safeReplace(html, '\\/assets\\/cms\\/wp-content\\/uploads\\/2025\\/06\\/icon-logo\\.svg', '\\/' + target.split('/').join('\\/'));
     // Browser-tab icon: point rel=icon + apple-touch-icon links at the brand
     // favicon PNG (regenerated from the logo on disk) instead of the old ICO.
-    html = html.split('/assets/root/favicon.ico').join('/assets/root/favicon.png');
+    html = safeReplace(html, '/assets/root/favicon.ico', '/assets/root/favicon.png');
     // Fix the logo rendering: the Next.js header was designed for a narrow wordmark
     // SVG. Override blend mode and let the PNG retain its natural 2.19:1 aspect ratio.
     const logoStyle = `<style id="sc-logo-style">` +
@@ -506,8 +596,8 @@ function sniffImage(data, filename) {
 }
 export {
   getBrand, bustBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,
-  stripThirdParty, flightReplace, applyFlightIA, applyContentFlight,
-  applyGlobalSwaps, applyFooterAddresses, applyHeroVideo, parseUpload, sniffImage, sniffMedia, FILE_FLIGHT,
+  stripThirdParty, flightReplace, applyFlightIA, applyContentFlight, applyLinks,
+  applyGlobalSwaps, applyFooterAddresses, applyHeroVideo, mobileFor, posterFor, parseUpload, sniffImage, sniffMedia, FILE_FLIGHT,
   TITLE_MAP, NAV_LABELS, NAV_DROP_HREFS, MENU_ORDER, DEFAULT_TAGLINE,
 };
 
@@ -598,6 +688,67 @@ async function dimsFor(src) {
   return out;
 }
 
+// Split one srcset/imagesrcset candidate into [url, descriptor]: everything
+// but the trailing density/width token belongs to the URL (filenames may
+// contain spaces). Never touches the descriptor-separating space itself.
+function splitSrcsetCandidate(t) {
+  const toks = String(t).trim().split(/\s+/);
+  if (!toks.length || toks[0].indexOf('/') < 0 || /^(data:|blob:|#)/i.test(toks[0])) return null;
+  const desc = toks[toks.length - 1];
+  if (toks.length > 1 && /^(\d+w|\d+(\.\d+)?x)$/i.test(desc)) {
+    return [toks.slice(0, -1).join(' '), desc];
+  }
+  return [t, ''];
+}
+// Percent-encode raw spaces inside local asset URLs (some CMS filenames
+// contain spaces). Raw spaces split srcset candidates ("unknown descriptor",
+// "Dropped srcset candidate") and trip preload href validation; %20 serves
+// the same file (resolveFile decodes) with none of that. Length-synced via
+// safeReplace so flight rows stay valid. Descriptor separators are never
+// encoded (only spaces *inside* the URL head are).
+export function encodeAssetSpaces(html) {
+  if (!html || html.indexOf('/assets/') < 0) return html;
+  let out = html;
+  // 1) imagesrcset preloads without href trip "invalid href value": point
+  // href at the first candidate URL (standard fallback pattern).
+  out = out.replace(/<link\b[^<>]*rel="preload"[^<>]*>/gi, (tag) => {
+    if (/href\s*=/i.test(tag)) return tag;
+    const m = /imagesrcset\s*=\s*"([^"]+)"/i.exec(tag);
+    if (!m) return tag;
+    const first = String(m[1]).split(',')[0] || '';
+    const head = splitSrcsetCandidate(first);
+    if (!head || head[0].indexOf('/assets/') < 0) return tag;
+    const href = head[0].split(' ').join('%20');
+    if (/\/>$/.test(tag)) return tag.slice(0, -2) + ' href="' + href + '">';
+    return tag.slice(0, -1) + ' href="' + href + '">';
+  });
+  // 2) collect raw-space URL heads from url-ish attributes.
+  const found = new Set();
+  const attrRe = /\b(?:src|href|content|poster|imagesrcset|srcset)\s*=\s*"([^"]* [^"]*)"/gi;
+  let m;
+  while ((m = attrRe.exec(out))) {
+    const raw = m[1];
+    if (/^(data:|blob:|#)/i.test(raw)) continue;
+    if (/imagesrcset|srcset/i.test(m[0].slice(0, m[0].indexOf('=')))) {
+      for (const part of raw.split(',')) {
+        const head = splitSrcsetCandidate(part);
+        if (head && head[0].indexOf(' ') >= 0) found.add(head[0]);
+      }
+    } else if (raw.indexOf('/assets/') >= 0 || raw.indexOf('/_next/') >= 0) {
+      found.add(raw);
+    }
+  }
+  // flight sourceUrl values with raw slashes + spaces (markup covered above).
+  const fRe = /sourceUrl\\":\\"([^"]* [^"]*)"/g;
+  while ((m = fRe.exec(out))) {
+    if (m[1].indexOf('/assets/') >= 0 && m[1].indexOf('%20') < 0) found.add(m[1]);
+  }
+  for (const raw of found) {
+    out = safeReplace(out, raw, raw.split(' ').join('%20'));
+  }
+  return out;
+}
+
 export async function applyImgDims(html) {
   const tags = [...html.matchAll(/<img\b[^<>]*>/gi)];
   if (!tags.length) return html;
@@ -627,20 +778,20 @@ export function applyFooterFix(html, page) {
   const js = `<script>(function(){var fix=function(){try{var els=document.querySelectorAll('[class*="bottom_copyright"]');for(var i=0;i<els.length;i++){var w=document.createTreeWalker(els[i],NodeFilter.SHOW_TEXT);var n;while((n=w.nextNode())){var v=n.nodeValue;if(!v)continue;var nv=v.replace(/IVENTIONS/g,'STILLCRAFT EVENTS CO.').replace(/Iventions/g,'StillCraft Events Co.');if(nv!==v)n.nodeValue=nv;}}var f=document.querySelector('footer');if(f){var ps=f.querySelectorAll('[fill="#1E1E1E"]');for(var j=0;j<ps.length;j++){ps[j].setAttribute('fill','#F5F1EC');}}}catch(e){}};window.addEventListener('load',function(){setTimeout(fix,800);});setTimeout(fix,4000);if(document.readyState!=='loading'){setTimeout(fix,1500);}})();</script>`;
   return html.replace(/<\/body>/i, js + '\n$&');
 }
-// StillCraft team roster: swaps the CMS members array (flight) for 6 people.
-// Guarded by an original-member marker so it only fires on the people array.
+// StillCraft team roster: text-only monogram cards (Option A). No photos required;
+// bios are the exact client-provided copy below. Editable via /insider → Team.
 const TEAM = [
-  { name: 'John Mesh', role: 'OPERATIONS MANAGER - 5 Years OF EXPERIENCE', img: 'team-john-mesh.svg',
+  { name: 'John Mesh', role: 'OPERATIONS MANAGER   ·   5 Years OF EXPERIENCE', img: 'team-john-mesh.svg',
     bio: 'The Operations Manager is the reason a plan on paper survives contact with a real venue. Every vendor booking, every staffing schedule, every piece of equipment that needs to be in the right place at the right time runs through this role. When an activation looks effortless on the day, it is because the operations work behind it was anything but, hundreds of small details resolved before anyone outside the team ever notices there was a decision to make.' },
-  { name: 'Diana', role: 'MARKETING MANAGER - 3 Years OF EXPERIENCE', img: 'team-diana.svg',
+  { name: 'Diana', role: 'MARKETING MANAGER   ·   3 Years OF EXPERIENCE', img: 'team-diana.svg',
     bio: "The Marketing Manager keeps StillCraft's own story as sharp as the stories we build for clients. This role shapes how the agency shows up, on the website, in pitches, across every touchpoint a prospective client sees before they ever speak to us, and makes sure the positioning we promise clients is the same one we practice ourselves." },
-  { name: 'Miriam', role: 'HUMAN RESOURCE - 7 Years OF EXPERIENCE', img: 'team-miriam.svg',
+  { name: 'Miriam', role: 'HUMAN RESOURCE   ·   7 Years OF EXPERIENCE', img: 'team-miriam.svg',
     bio: 'Delivering eight years of consistent, high pressure work on the ground depends entirely on the people doing it, and building and keeping that team is the job of Human Resource. This role manages everything from hiring the right people for a fast moving, client facing industry to making sure the team running a launch day at six in the morning is supported well enough to do it again next week.' },
-  { name: 'Robin Halmi', role: 'CHIEF DIGITAL MEDIA - 2 Years OF EXPERIENCE', img: 'team-robin-halmi.svg',
-    bio: "The Chief Digital Media role owns how StillCraft and its clients show up everywhere a screen is involved, social content, digital campaigns, and the growing hybrid and virtual layer of corporate and brand events. As more of a brand's audience is met online before they are ever met in person, this role makes sure the digital experience carries the same energy and consistency as the physical one." },
-  { name: 'Chris', role: 'CREATIVE DIRECTOR - 6 Years OF EXPERIENCE', img: 'team-chris.svg',
+  { name: 'Robin Halmi', role: 'CHIEF DIGITAL MEDIA   ·   2 Years OF EXPERIENCE', img: 'team-robin-halmi.svg',
+    bio: 'The Chief Digital Media role owns how StillCraft and its clients show up everywhere a screen is involved, social content, digital campaigns, and the growing hybrid and virtual layer of corporate and brand events. As more of a brand\'s audience is met online before they are ever met in person, this role makes sure the digital experience carries the same energy and consistency as the physical one.' },
+  { name: 'Chris', role: 'CREATIVE DIRECTOR   ·   6 Years OF EXPERIENCE', img: 'team-chris.svg',
     bio: "The Creative Director is where a client's objective becomes an actual idea, the concept behind a mall's Christmas season, the format of a brand's next activation, the visual identity of a corporate environment. This role protects the thinking that makes StillCraft's work distinct, making sure every programme starts from a real creative idea rather than a template pulled off a shelf." },
-  { name: 'John Njogu', role: 'FINANCE OFFICER - 4 Years OF EXPERIENCE', img: 'team-john-njogu.svg',
+  { name: 'John Njogu', role: 'FINANCE OFFICER   ·   4 Years OF EXPERIENCE', img: 'team-john-njogu.svg',
     bio: 'The Finance Officer keeps every engagement accountable in the way StillCraft promises clients it will be, transparent budgets, accurate reporting, and the financial discipline that lets an eight year old consultancy still operate like one that plans for its next eight. This role is also what makes a long term partnership like the one with Galleria Mall sustainable on both sides, not just deliverable once.' },
 ];
 // Encode a value the way the CMS flight payload does (single-backslash plane).
@@ -704,10 +855,11 @@ export function applyTeamRoster(html) {
   return html;
 }
 
-const TEAM_CSS = '<style>.sc-team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4rem;padding:2rem 0}.sc-team-card{background:#F5F1EC;border-radius:1.6rem;overflow:hidden}.sc-team-card img{width:100%;height:auto;display:block;aspect-ratio:63/81;object-fit:cover}.sc-team-body{padding:2rem}.sc-team-body h3{font-size:2.4rem;color:#1B2A4A;margin:0 0 .6rem}.sc-team-role{color:#C9A24B;font-size:1.2rem;letter-spacing:.12em;margin:0 0 1.2rem}.sc-team-bio{font-size:1.5rem;line-height:1.6;color:#1B2A4A;margin:0}@media(max-width:800px){.sc-team-grid{grid-template-columns:1fr}}</style>';
+const TEAM_CSS = '<style>.sc-team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;padding:2rem 0}.sc-team-card{background:#F5F1EC;border-radius:14px;padding:20px;border-top:4px solid #C9A24B}.sc-team-mono{width:42px;height:42px;border-radius:50%;background:#1B2A4A;color:#fff;display:grid;place-items:center;font:700 13px Inter,Arial,sans-serif;letter-spacing:.04em;margin-bottom:12px}.sc-team-card h3{font-size:16px;color:#1B2A4A;margin:0 0 4px;font-family:Georgia,serif}.sc-team-role{color:#C9A24B;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 10px}.sc-team-bio{font-size:13px;line-height:1.6;color:#000000;margin:0}@media(max-width:900px){.sc-team-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.sc-team-grid{grid-template-columns:1fr}}</style>';
+function monoOf(name) { return String(name || '').trim().split(/\s+/).slice(0, 2).map((w) => w[0] || '').join('').toUpperCase() || 'SC'; }
 function teamCard(p, n) {
   const t = (k) => 't-team' + (n * 3 + k);
-  return `<div class="sc-team-card"><img data-sc-id="i-team${n + 1}" src="/assets/custom/${p.img}" alt="${p.name}" width="630" height="810" loading="lazy"><div class="sc-team-body"><h3 data-sc-id="${t(1)}">${p.name}</h3><p data-sc-id="${t(2)}" class="sc-team-role">${p.role}</p><p data-sc-id="${t(3)}" class="sc-team-bio">${p.bio}</p></div></div>`;
+  return `<div class="sc-team-card"><div class="sc-team-mono">${monoOf(p.name)}</div><h3 data-sc-id="${t(1)}">${p.name}</h3><p data-sc-id="${t(2)}" class="sc-team-role">${p.role}</p><p data-sc-id="${t(3)}" class="sc-team-bio">${p.bio}</p></div>`;
 }
 function replaceTeamGrid(html) {
   const anchor = 'js-talent-main';
@@ -739,7 +891,7 @@ function replaceTeamGrid(html) {
 }
 export function applySplash(html, page) {  if (page === '/insider') return html;
   if (!/<body[^>]*>/i.test(html)) return html;
-  const css = `<style>#sc-splash{position:fixed;inset:0;background:#111110;z-index:2147483640;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease}#sc-splash span{color:#e0ff98;font:600 13px Arial,sans-serif;letter-spacing:4px;animation:sc-pulse 1.2s ease-in-out infinite}@keyframes sc-pulse{50%{opacity:.35}}</style>`;
+  const css = `<style>#sc-splash{position:fixed;inset:0;background:#1B2A4A;z-index:2147483640;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease}#sc-splash span{color:#C9A24B;font:600 13px Arial,sans-serif;letter-spacing:4px;animation:sc-pulse 1.2s ease-in-out infinite}@keyframes sc-pulse{50%{opacity:.35}}</style>`;
   const div = `<div id="sc-splash"><span>STILLCRAFT EVENTS</span></div>`;
   const js = `<script>(function(){var kill=function(){var s=document.getElementById('sc-splash');if(!s||s.dataset.done)return;s.dataset.done='1';s.style.opacity='0';setTimeout(function(){s.remove();},500);};window.addEventListener('load',function(){setTimeout(kill,350);});setTimeout(kill,4000);})();</script><noscript><style>#sc-splash{display:none}</style></noscript>`;
   html = html.replace(/<\/head>/i, css + '\n$&');

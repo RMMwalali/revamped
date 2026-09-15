@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch();
+const page = await browser.newPage();
+const errs = [];
+page.on('console', (m) => { if (m.type() === 'error') errs.push('[console] ' + m.text().slice(0, 2000)); });
+page.on('pageerror', (e) => errs.push('[pageerror] ' + (e && e.stack || e).slice(0, 3000)));
+await page.goto('http://127.0.0.1:3459/_bisect-g06B-onlycontent', { waitUntil: 'load', timeout: 60000 }).catch(() => {});
+await page.waitForTimeout(5000);
+errs.forEach((e) => console.log(e + '\n====='));
+await browser.close();

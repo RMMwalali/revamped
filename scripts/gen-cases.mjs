@@ -163,6 +163,11 @@ function buildCasePage(c) {
   html = st(/(<div class="Paragraph_paragraph__SId_Y styles_wrapper_content_item_label__T2qY6 css-n0us86">)Live Event(<\/div>)/, c.eventType);
   html = st(/(<div class="Paragraph_paragraph__SId_Y styles_wrapper_content_item_label__T2qY6 css-n0us86">)Barcelona(<\/div>)/, c.location);
 
+  // narrative section headings (YPO template uses "The challenge / What we did / The result ")
+  // StillCraft copy uses "The Situation / What We Did / The Result" — normalize (trimmed).
+  html = html.replace(/>The challenge\s*<\/h6>/gi, '>The Situation</h6>');
+  html = html.replace(/>What we did\s*<\/h6>/gi, '>What We Did</h6>');
+  html = html.replace(/>The result\s*<\/h6>/gi, '>The Result</h6>');
   // narrative sections: swap the exact template prose (static + any leftover flight copy)
   for (const [oldTxt, newTxt] of [
     [TPL_SECTIONS.challenge, c.challenge],
@@ -170,6 +175,12 @@ function buildCasePage(c) {
     [TPL_SECTIONS.result, c.result],
   ]) {
     if (oldTxt) html = html.split(oldTxt).join(newTxt);
+  }
+  // quote placeholder is an italic blockquote under "In Their Words" — keep the
+  // YPO quote shape but replace its text with the per-case placeholder.
+  if (c.quote) {
+    html = html.replace(/(<blockquote[^>]*>)[\s\S]*?(<\/blockquote>)/, `$1${c.quote.replace(/&/g, '&amp;')}$2`);
+    html = html.split('YPO Global Event brought').join(c.quote.slice(0, 24));
   }
 
   // animated location marquee spans
