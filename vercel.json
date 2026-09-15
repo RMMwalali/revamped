@@ -3,22 +3,317 @@
   "cleanUrls": false,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/projects/page/:n", "destination": "/projects", "statusCode": 302 }
+    {
+      "source": "/projects/page/:n",
+      "destination": "/projects",
+      "statusCode": 302
+    }
   ],
   "rewrites": [
-    { "source": "/_next/image", "destination": "/api/img" }
+    {
+      "source": "/_next/image",
+      "destination": "/api/img"
+    },
+    {
+      "source": "/insight/destination-management-companies-explained-from-local-expertise-to-global-impact",
+      "destination": "/api/page?path=/insight/destination-management-companies-explained-from-local-expertise-to-global-impact"
+    },
+    {
+      "source": "/insight/the-exciting-lives-of-americans-a-journey-through-their-adventures-5-ne1",
+      "destination": "/api/page?path=/insight/the-exciting-lives-of-americans-a-journey-through-their-adventures-5-ne1"
+    },
+    {
+      "source": "/insight/exhibition-builders-turn-static-spaces-into-smart-experiences",
+      "destination": "/api/page?path=/insight/exhibition-builders-turn-static-spaces-into-smart-experiences"
+    },
+    {
+      "source": "/insight/the-role-of-event-production-in-high-impact-corporate-events",
+      "destination": "/api/page?path=/insight/the-role-of-event-production-in-high-impact-corporate-events"
+    },
+    {
+      "source": "/insight/how-do-you-repeat-world-class-sports-events-across-cities",
+      "destination": "/api/page?path=/insight/how-do-you-repeat-world-class-sports-events-across-cities"
+    },
+    {
+      "source": "/insight/starting-every-big-project-with-a-whole-team-brainstorm",
+      "destination": "/api/page?path=/insight/starting-every-big-project-with-a-whole-team-brainstorm"
+    },
+    {
+      "source": "/insight/using-event-photography-to-amplify-post-event-marketing",
+      "destination": "/api/page?path=/insight/using-event-photography-to-amplify-post-event-marketing"
+    },
+    {
+      "source": "/insight/the-future-of-virtual-events-in-corporate-environments",
+      "destination": "/api/page?path=/insight/the-future-of-virtual-events-in-corporate-environments"
+    },
+    {
+      "source": "/insight/full-service-experiential-agency-vs-creative-boutique",
+      "destination": "/api/page?path=/insight/full-service-experiential-agency-vs-creative-boutique"
+    },
+    {
+      "source": "/insight/the-science-behind-a-brand-activation-agency-playbook",
+      "destination": "/api/page?path=/insight/the-science-behind-a-brand-activation-agency-playbook"
+    },
+    {
+      "source": "/insight/an-event-management-companys-guide-to-going-green",
+      "destination": "/api/page?path=/insight/an-event-management-companys-guide-to-going-green"
+    },
+    {
+      "source": "/insight/iventions-recognised-as-a-great-place-to-work",
+      "destination": "/api/page?path=/insight/iventions-recognised-as-a-great-place-to-work"
+    },
+    {
+      "source": "/insight/iventions-awarded-with-website-of-the-month",
+      "destination": "/api/page?path=/insight/iventions-awarded-with-website-of-the-month"
+    },
+    {
+      "source": "/insight/do-you-need-an-international-event-agency",
+      "destination": "/api/page?path=/insight/do-you-need-an-international-event-agency"
+    },
+    {
+      "source": "/project/world-cup-watch-party-at-galleria-mall",
+      "destination": "/api/page?path=/project/world-cup-watch-party-at-galleria-mall"
+    },
+    {
+      "source": "/project/mothers-day-brunch-at-southfield-mall",
+      "destination": "/api/page?path=/project/mothers-day-brunch-at-southfield-mall"
+    },
+    {
+      "source": "/insight/10-tactics-to-treat-vip-guests-right",
+      "destination": "/api/page?path=/insight/10-tactics-to-treat-vip-guests-right"
+    },
+    {
+      "source": "/insight/choosing-an-event-management-company",
+      "destination": "/api/page?path=/insight/choosing-an-event-management-company"
+    },
+    {
+      "source": "/insight/international-event-agency-secrets",
+      "destination": "/api/page?path=/insight/international-event-agency-secrets"
+    },
+    {
+      "source": "/project/uefa-champions-league-final-2026",
+      "destination": "/api/page?path=/project/uefa-champions-league-final-2026"
+    },
+    {
+      "source": "/project/fathers-day-at-southfield-mall",
+      "destination": "/api/page?path=/project/fathers-day-at-southfield-mall"
+    },
+    {
+      "source": "/project/mothers-day-at-southfield-mall",
+      "destination": "/api/page?path=/project/mothers-day-at-southfield-mall"
+    },
+    {
+      "source": "/insight/exhibition-stand-construction",
+      "destination": "/api/page?path=/insight/exhibition-stand-construction"
+    },
+    {
+      "source": "/project/valentines-at-southfield-mall",
+      "destination": "/api/page?path=/project/valentines-at-southfield-mall"
+    },
+    {
+      "source": "/insight/choosing-exhibition-builders",
+      "destination": "/api/page?path=/insight/choosing-exhibition-builders"
+    },
+    {
+      "source": "/project/christmas-at-southfield-mall",
+      "destination": "/api/page?path=/project/christmas-at-southfield-mall"
+    },
+    {
+      "source": "/project/mothers-day-at-galleria-mall",
+      "destination": "/api/page?path=/project/mothers-day-at-galleria-mall"
+    },
+    {
+      "source": "/project/christmas-at-westgate-mall",
+      "destination": "/api/page?path=/project/christmas-at-westgate-mall"
+    },
+    {
+      "source": "/project/valentines-at-sarit-centre",
+      "destination": "/api/page?path=/project/valentines-at-sarit-centre"
+    },
+    {
+      "source": "/insight/hottest-event-tech-trends",
+      "destination": "/api/page?path=/insight/hottest-event-tech-trends"
+    },
+    {
+      "source": "/project/easter-at-southfield-mall",
+      "destination": "/api/page?path=/project/easter-at-southfield-mall"
+    },
+    {
+      "source": "/project/easter-at-galleria-mall",
+      "destination": "/api/page?path=/project/easter-at-galleria-mall"
+    },
+    {
+      "source": "/project/easter-at-sarit-centre",
+      "destination": "/api/page?path=/project/easter-at-sarit-centre"
+    },
+    {
+      "source": "/insight/mwc-2026-how-to-guide",
+      "destination": "/api/page?path=/insight/mwc-2026-how-to-guide"
+    },
+    {
+      "source": "/insight/iventions-but-bolder",
+      "destination": "/api/page?path=/insight/iventions-but-bolder"
+    },
+    {
+      "source": "/insight/iventions-london-hub",
+      "destination": "/api/page?path=/insight/iventions-london-hub"
+    },
+    {
+      "source": "/insight/marketing-and-events",
+      "destination": "/api/page?path=/insight/marketing-and-events"
+    },
+    {
+      "source": "/project/adidas-display-wall",
+      "destination": "/api/page?path=/project/adidas-display-wall"
+    },
+    {
+      "source": "/projects/congresses/page/1",
+      "destination": "/api/page?path=/projects/congresses/page/1"
+    },
+    {
+      "source": "/legal-notice-terms-of-use",
+      "destination": "/api/page?path=/legal-notice-terms-of-use"
+    },
+    {
+      "source": "/project/ypo-global-event",
+      "destination": "/api/page?path=/project/ypo-global-event"
+    },
+    {
+      "source": "/projects/exhibits/page/1",
+      "destination": "/api/page?path=/projects/exhibits/page/1"
+    },
+    {
+      "source": "/projects/exhibits/page/2",
+      "destination": "/api/page?path=/projects/exhibits/page/2"
+    },
+    {
+      "source": "/insight/cphi-trade-show",
+      "destination": "/api/page?path=/insight/cphi-trade-show"
+    },
+    {
+      "source": "/insight/ibc-trade-show",
+      "destination": "/api/page?path=/insight/ibc-trade-show"
+    },
+    {
+      "source": "/insight/ifa-trade-show",
+      "destination": "/api/page?path=/insight/ifa-trade-show"
+    },
+    {
+      "source": "/projects/events/page/1",
+      "destination": "/api/page?path=/projects/events/page/1"
+    },
+    {
+      "source": "/projects/sports/page/1",
+      "destination": "/api/page?path=/projects/sports/page/1"
+    },
+    {
+      "source": "/projects/congresses",
+      "destination": "/api/page?path=/projects/congresses"
+    },
+    {
+      "source": "/service/congresses",
+      "destination": "/api/page?path=/service/congresses"
+    },
+    {
+      "source": "/projects/exhibits",
+      "destination": "/api/page?path=/projects/exhibits"
+    },
+    {
+      "source": "/service/exhibits",
+      "destination": "/api/page?path=/service/exhibits"
+    },
+    {
+      "source": "/projects/events",
+      "destination": "/api/page?path=/projects/events"
+    },
+    {
+      "source": "/projects/filter",
+      "destination": "/api/page?path=/projects/filter"
+    },
+    {
+      "source": "/projects/sports",
+      "destination": "/api/page?path=/projects/sports"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/api/page?path=/privacy-policy"
+    },
+    {
+      "source": "/service/events",
+      "destination": "/api/page?path=/service/events"
+    },
+    {
+      "source": "/service/sports",
+      "destination": "/api/page?path=/service/sports"
+    },
+    {
+      "source": "/cookie-policy",
+      "destination": "/api/page?path=/cookie-policy"
+    },
+    {
+      "source": "/projects/all",
+      "destination": "/api/page?path=/projects/all"
+    },
+    {
+      "source": "/insights",
+      "destination": "/api/page?path=/insights"
+    },
+    {
+      "source": "/projects",
+      "destination": "/api/page?path=/projects"
+    },
+    {
+      "source": "/contact",
+      "destination": "/api/page?path=/contact"
+    },
+    {
+      "source": "/about",
+      "destination": "/api/page?path=/about"
+    },
+    {
+      "source": "/home",
+      "destination": "/api/page?path=/home"
+    },
+    {
+      "source": "/",
+      "destination": "/api/page?path=/"
+    }
   ],
   "functions": {
-    "api/page.js": { "includeFiles": "dist/**" }
+    "api/page.js": {
+      "includeFiles": "dist/**"
+    },
+    "api/cms.js": {
+      "includeFiles": "dist/index.html"
+    }
   },
   "headers": [
     {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/_next/static/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }

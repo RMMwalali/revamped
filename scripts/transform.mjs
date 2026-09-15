@@ -44,12 +44,14 @@ function applyContentFlight(html, page) {
 }
 
 // ---------- brand cache (StillCraft defaults win when DB is down/empty) ----------
+export const HERO_VIDEO_URL = 'https://res.cloudinary.com/dtnbwgpca/video/upload/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4';
 const BRAND_DEFAULTS = {
   site_name: 'StillCraft Events',
   tagline: 'Step into the Spotlight',
   logo_src: '',
   primary_color: '#1e1e1e',
   accent_color: '#e0ff98',
+  hero_video_src: HERO_VIDEO_URL,
 };
 let brandCache = null;
 let brandAt = 0;
@@ -208,10 +210,19 @@ function applyFooterAddresses(html) {
   }
   return html;
 }
-// Home-page hero reel: point the flight's Vimeo URLs at a local asset so the
-// WebGL video texture loads the StillCraft hero clip (works pre + post hydration).
-const HERO_VIDEO = '/assets/custom/stillcraft-hero.mp4';
-function applyHeroVideo(html) {
+// Home-page hero reel: point the flight's Vimeo URLs at the StillCraft hero
+// clip. Default is the Cloudinary link (fast CDN, no local bandwidth); an
+// admin can override it per deploy via brand hero_video_src or the Insider
+// CMS hero section (DB wins over this constant). Works pre + post hydration.
+const HERO_VIDEO = HERO_VIDEO_URL;
+function resolveHeroUrl(override) {
+  const u = String(override || '').trim();
+  if (u && /^https?:\/\//.test(u)) return u;
+  if (u && u.startsWith('/')) return u;
+  return HERO_VIDEO;
+}
+function applyHeroVideo(html, override) {
+  const url = resolveHeroUrl(override);
   for (const key of ['reelUrl', 'reelMobileUrl']) {
     const needle = key + '\\":\\"'; // raw flight: key":"...
     let cursor = 0;
@@ -221,8 +232,8 @@ function applyHeroVideo(html) {
       const start = from + needle.length;
       const end = html.indexOf('\\"', start);
       if (end <= start) break;
-      html = html.slice(0, start) + HERO_VIDEO + html.slice(end);
-      cursor = start + HERO_VIDEO.length;
+      html = html.slice(0, start) + url + html.slice(end);
+      cursor = start + url.length;
     }
   }
   return html;

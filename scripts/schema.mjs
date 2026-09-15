@@ -18,10 +18,18 @@ CREATE TABLE IF NOT EXISTS content_overrides (
   id SERIAL PRIMARY KEY,
   page TEXT NOT NULL,
   el_id TEXT NOT NULL,
-  kind TEXT NOT NULL CHECK (kind IN ('text','image')),
+  kind TEXT NOT NULL CHECK (kind IN ('text','image','media')),
   value TEXT NOT NULL,
+  orig_html TEXT,
+  idx INTEGER NOT NULL DEFAULT 0,
+  tag TEXT NOT NULL DEFAULT '',
   updated_at TIMESTAMPTZ DEFAULT now(),
   UNIQUE (page, el_id)
+);
+CREATE TABLE IF NOT EXISTS cms_sections (
+  section TEXT PRIMARY KEY,
+  data JSONB NOT NULL,
+  updated_at TIMESTAMPTZ DEFAULT now()
 );
 CREATE TABLE IF NOT EXISTS brand_settings (
   key TEXT PRIMARY KEY,
@@ -38,6 +46,7 @@ const defaults = {
   logo_src: '',
   primary_color: '#1B2A4A',
   accent_color: '#C9A24B',
+  hero_video_src: 'https://res.cloudinary.com/dtnbwgpca/video/upload/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4',
 };
 for (const [k, v] of Object.entries(defaults)) {
   await pool.query(

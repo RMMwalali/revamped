@@ -194,6 +194,7 @@
       '<span class="dot"></span><b>STILLCRAFT</b><span class="pg"></span>' +
       '<span class="hint">Click any text to edit · click images/videos to swap</span>' +
       '<span class="row"><button id="sc-brand">Brand</button>' +
+      '<button id="sc-cms">CMS</button>' +
       '<button id="sc-save" disabled>Save (0)</button></span>' +
       '<span class="row"><button id="sc-discard">Discard</button>' +
       '<button id="sc-hide">Hide</button>' +
@@ -216,6 +217,8 @@
       fetch('/api/logout', { method: 'POST' }).then(function () { window.location.href = '/'; });
     });
     $('#sc-brand').addEventListener('click', toggleBrandPanel);
+    var cmsBtn = $('#sc-cms');
+    if (cmsBtn) cmsBtn.addEventListener('click', function () { window.open('/insider', '_blank'); });
 
     document.addEventListener('click', onClick, true);
     document.addEventListener('keydown', function (e) {

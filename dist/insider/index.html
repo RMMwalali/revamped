@@ -3,72 +3,524 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insider Login — StillCraft Events</title>
+<title>Insider — StillCraft Events CMS</title>
 <style>
-  :root { --bg: #111110; --card: #1c1c1a; --lime: #e0ff98; --txt: #f3efeb; --mut: #9a978f; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--txt); font-family: Georgia, 'Times New Roman', serif;
-         min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
-  .card { background: var(--card); border: 1px solid #2c2c2a; border-radius: 18px;
-          padding: 44px 40px; width: 100%; max-width: 400px; }
-  .brand { font-size: 13px; letter-spacing: 3px; color: var(--lime); margin-bottom: 8px; }
-  h1 { font-size: 34px; font-weight: 400; margin-bottom: 6px; }
-  p.sub { color: var(--mut); font-size: 14px; margin-bottom: 28px; font-family: Arial, sans-serif; }
-  label { display: block; font-family: Arial, sans-serif; font-size: 12px; letter-spacing: 1px;
-          color: var(--mut); margin: 16px 0 6px; }
-  input { width: 100%; background: #111110; border: 1px solid #3a3a38; color: var(--txt);
-          border-radius: 10px; padding: 12px 14px; font-size: 15px; outline: none; }
-  input:focus { border-color: var(--lime); }
-  button { width: 100%; margin-top: 26px; background: var(--lime); color: #111110; border: 0;
-           border-radius: 999px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer;
-           font-family: Arial, sans-serif; }
-  button:disabled { opacity: .5; cursor: wait; }
-  .err { display: none; margin-top: 14px; color: #ff9d9d; font-family: Arial, sans-serif; font-size: 13px; }
-  .back { display: block; margin-top: 22px; text-align: center; color: var(--mut);
-          font-family: Arial, sans-serif; font-size: 13px; text-decoration: none; }
+  :root { --bg:#111110; --card:#1c1c1a; --line:#2c2c2a; --lime:#e0ff98; --gold:#C9A24B;
+          --txt:#f3efeb; --mut:#9a978f; --input:#111110; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--txt); font-family:Arial,Helvetica,sans-serif; min-height:100vh; }
+  a { color:var(--gold); }
+  /* login */
+  #loginWrap { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:44px 40px; width:100%; max-width:400px; }
+  .brand { font-size:13px; letter-spacing:3px; color:var(--lime); margin-bottom:8px; }
+  .card h1 { font-family:Georgia,serif; font-size:34px; font-weight:400; margin-bottom:6px; }
+  p.sub { color:var(--mut); font-size:14px; margin-bottom:28px; }
+  label.lbl { display:block; font-size:12px; letter-spacing:1px; color:var(--mut); margin:16px 0 6px; }
+  input[type=text],input[type=email],input[type=password],input[type=color],textarea,select {
+    width:100%; background:var(--input); border:1px solid #3a3a38; color:var(--txt);
+    border-radius:10px; padding:10px 12px; font-size:14px; outline:none; font-family:Arial,sans-serif; }
+  input:focus,textarea:focus { border-color:var(--lime); }
+  textarea { min-height:74px; resize:vertical; line-height:1.5; }
+  button { background:#2a2a28; color:var(--txt); border:1px solid #3a3a38; border-radius:999px;
+    padding:9px 18px; font:600 13px Arial,sans-serif; cursor:pointer; }
+  button:hover { border-color:var(--gold); }
+  button.primary { background:var(--lime); color:#111; border:0; }
+  button.gold { background:var(--gold); color:#111; border:0; }
+  button:disabled { opacity:.5; cursor:wait; }
+  .err { display:none; margin-top:14px; color:#ff9d9d; font-size:13px; }
+  /* dashboard */
+  #cmsWrap { display:none; max-width:1060px; margin:0 auto; padding:20px 18px 120px; }
+  header.top { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:6px; }
+  header.top .brand { margin:0; }
+  header.top h1 { font-family:Georgia,serif; font-weight:400; font-size:26px; }
+  header.top .sp { flex:1; }
+  nav.tabs { display:flex; gap:8px; flex-wrap:wrap; margin:18px 0; position:sticky; top:0; z-index:5;
+    background:var(--bg); padding:10px 0; border-bottom:1px solid var(--line); }
+  nav.tabs button.on { background:var(--gold); color:#111; border-color:var(--gold); }
+  .pane { display:none; }
+  .pane.on { display:block; }
+  .paneHead { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin:6px 0 14px; }
+  .paneHead h2 { font-family:Georgia,serif; font-weight:400; font-size:22px; }
+  .paneHead p { color:var(--mut); font-size:13px; max-width:640px; }
+  .item { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:14px; }
+  .item h3 { font-size:14px; letter-spacing:1px; color:var(--gold); margin-bottom:10px; word-break:break-all; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 14px; }
+  .grid .full { grid-column:1 / -1; }
+  .fld label { display:block; font-size:11px; letter-spacing:1px; color:var(--mut); margin:0 0 5px; }
+  .rowline { display:flex; gap:8px; align-items:center; }
+  .rowline input[type=text] { flex:1; }
+  .rowline input[type=file] { max-width:220px; font-size:12px; }
+  img.prev { display:block; max-height:64px; max-width:220px; margin-top:8px; border-radius:8px; border:1px solid var(--line); background:#000; }
+  video.prev { display:block; max-width:100%; max-height:220px; margin-top:8px; border-radius:8px; background:#000; }
+  .savebar { display:flex; gap:10px; align-items:center; margin-top:6px; }
+  .savebar .st { color:var(--mut); font-size:13px; }
+  .cityrow { display:flex; gap:8px; margin-bottom:8px; align-items:center; }
+  .cityrow input { flex:1; }
+  .help { background:var(--card); border:1px dashed #3a3a38; border-radius:14px; padding:18px; font-size:13px; line-height:1.7; color:var(--txt); }
+  .help li { margin:6px 0 6px 18px; color:var(--mut); }
+  .help li b { color:var(--txt); }
+  #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--gold); color:#111;
+    font:600 14px Arial,sans-serif; padding:10px 22px; border-radius:999px; z-index:99; display:none;
+    box-shadow:0 4px 20px rgba(0,0,0,.4); max-width:90vw; }
+  @media (max-width:700px){ .grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
-  <form class="card" id="loginForm" autocomplete="off">
-    <div class="brand">STILLCRAFT EVENTS</div>
-    <h1>Insider login</h1>
-    <p class="sub">Restricted area. Admins only.</p>
-    <label for="email">EMAIL</label>
-    <input id="email" type="email" required placeholder="admin@stillcraft.events">
-    <label for="password">PASSWORD</label>
-    <input id="password" type="password" required placeholder="••••••••••">
-    <div class="err" id="err">Invalid email or password.</div>
-    <button type="submit" id="btn">Log in</button>
-    <a class="back" href="/">← Back to site</a>
-  </form>
-  <script>
-    (function () {
-      var form = document.getElementById('loginForm');
-      var err = document.getElementById('err');
-      var btn = document.getElementById('btn');
-      fetch('/api/me').then(function (r) { if (!r.ok) throw new Error('logged-out'); return r.json(); }).then(function (d) {
-        if (d && d.email) window.location.href = '/';
-      }).catch(function () {});
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        err.style.display = 'none';
-        btn.disabled = true;
-        fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
-          })
-        }).then(function (r) {
-          if (!r.ok) throw new Error('auth');
-          window.location.href = '/';
-        }).catch(function () {
-          err.style.display = 'block';
-          btn.disabled = false;
-        });
+  <!-- LOGIN -->
+  <div id="loginWrap">
+    <form class="card" id="loginForm" autocomplete="off">
+      <div class="brand">STILLCRAFT EVENTS</div>
+      <h1>Insider login</h1>
+      <p class="sub">Restricted area. Admins only.</p>
+      <label class="lbl" for="email">EMAIL</label>
+      <input id="email" type="email" required placeholder="admin@stillcraft.events">
+      <label class="lbl" for="password">PASSWORD</label>
+      <input id="password" type="password" required placeholder="••••••••••">
+      <div class="err" id="err">Invalid email or password.</div>
+      <button type="submit" id="btn" class="primary" style="width:100%;margin-top:26px;padding:14px;font-size:15px;">Log in</button>
+      <a class="sub" style="display:block;margin-top:22px;text-align:center;color:var(--mut);font-size:13px;text-decoration:none;" href="/">← Back to site</a>
+    </form>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="cmsWrap">
+    <header class="top">
+      <div>
+        <div class="brand">STILLCRAFT EVENTS</div>
+        <h1>Insider CMS</h1>
+      </div>
+      <span class="sp"></span>
+      <button id="viewSite">View site</button>
+      <button id="logout">Logout</button>
+    </header>
+    <nav class="tabs" id="tabs">
+      <button data-tab="hero" class="on">Hero video</button>
+      <button data-tab="highlights">Highlight projects</button>
+      <button data-tab="logos">Client logos</button>
+      <button data-tab="stats">Stats</button>
+      <button data-tab="testimonials">Testimonials</button>
+      <button data-tab="cities">Cities &amp; addresses</button>
+      <button data-tab="articles">Long-form articles</button>
+      <button data-tab="brand">Brand</button>
+      <button data-tab="help">Help</button>
+    </nav>
+
+    <section class="pane on" data-pane="hero">
+      <div class="paneHead"><h2>Hero video</h2><p>The full-screen film on the home page. Served as a direct link (currently Cloudinary) so it loads fast without touching site bandwidth. Changes go live on save.</p></div>
+      <div class="item">
+        <div class="grid">
+          <div class="fld full"><label>VIDEO URL (mp4 link)</label>
+            <div class="rowline"><input type="text" id="heroUrl" data-k="video_url" placeholder="https://…mp4"></div>
+            <video class="prev" id="heroPrev" controls muted loop playsinline></video>
+          </div>
+          <div class="fld full"><label>OR UPLOAD A NEW CLIP (mp4/webm, max 250MB)</label>
+            <input type="file" data-up="heroUrl" accept="video/mp4,video/webm,video/quicktime">
+          </div>
+          <div class="fld full"><label>HEADLINE</label><textarea data-k="label" id="heroLabel" rows="2"></textarea></div>
+          <div class="fld full"><label>SUBTEXT</label><textarea data-k="description" id="heroDesc" rows="3"></textarea></div>
+        </div>
+        <div class="savebar"><button class="gold" data-reset-video>Reset to Cloudinary link</button>
+          <button class="primary" data-save="hero">Save hero</button><span class="st" data-st="hero"></span></div>
+      </div>
+    </section>
+
+    <section class="pane" data-pane="highlights">
+      <div class="paneHead"><h2>Highlight projects</h2><p>The project cards under “Highlight projects” on the home page. Edit text and swap cover images — the page links (slugs) stay fixed.</p></div>
+      <div id="hlList"></div>
+      <div class="savebar"><button class="primary" data-save="highlights">Save highlight projects</button><span class="st" data-st="highlights"></span></div>
+    </section>
+
+    <section class="pane" data-pane="logos">
+      <div class="paneHead"><h2>Client logo wall</h2><p>The “We are proud to have worked with” logo marquee. Rename a client or upload a replacement logo file.</p></div>
+      <div class="item"><div class="fld"><label>WALL HEADING</label><input type="text" id="logoLabel"></div></div>
+      <div id="logoList"></div>
+      <div class="savebar"><button class="primary" data-save="logos">Save logo wall</button><span class="st" data-st="logos"></span></div>
+    </section>
+
+    <section class="pane" data-pane="stats">
+      <div class="paneHead"><h2>Stats numbers</h2><p>The “Where passion meets precision” counters (270+, 90%, 21, 31, 1.2K). Numbers, suffixes, titles and blurbs are all editable.</p></div>
+      <div class="item"><div class="fld"><label>SECTION HEADING</label><input type="text" id="statLabel"></div></div>
+      <div id="statList"></div>
+      <div class="savebar"><button class="primary" data-save="stats">Save stats</button><span class="st" data-st="stats"></span></div>
+    </section>
+
+    <section class="pane" data-pane="testimonials">
+      <div class="paneHead"><h2>Testimonials</h2><p>Client quotes in the home-page slider. Edit names, roles, organisations, quotes, locations and swap photos/logos.</p></div>
+      <div id="tmList"></div>
+      <div class="savebar"><button class="primary" data-save="testimonials">Save testimonials</button><span class="st" data-st="testimonials"></span></div>
+    </section>
+
+    <section class="pane" data-pane="cities">
+      <div class="paneHead"><h2>Cities &amp; addresses</h2><p>The “most iconic cities” marquee (add/remove cities freely) plus the two footer office addresses shown on every page.</p></div>
+      <div class="item"><div class="grid">
+        <div class="fld full"><label>SECTION HEADING (first line)</label><input type="text" id="cityLabel"></div>
+        <div class="fld full"><label>SECTION SUBTEXT (first line)</label><input type="text" id="cityDesc"></div>
+      </div></div>
+      <div class="item"><h3>CITY MARQUEE</h3><div id="cityList"></div>
+        <div class="savebar"><button data-add-city>+ Add city</button></div></div>
+      <div class="item"><h3>FOOTER ADDRESSES</h3><div id="addrList"></div></div>
+      <div class="savebar"><button class="primary" data-save="cities">Save cities &amp; addresses</button><span class="st" data-st="cities"></span></div>
+    </section>
+
+    <section class="pane" data-pane="articles">
+      <div class="paneHead"><h2>Long-form articles</h2><p>Full text for blog posts and case-study pages (the home-page cards update too). Leave a field empty to keep the current text. Slugs must match the page address exactly.</p></div>
+      <div id="artList"></div>
+      <div class="savebar"><button data-add-article>+ Add article by slug</button>
+        <button class="primary" data-save="articles">Save articles</button><span class="st" data-st="articles"></span></div>
+    </section>
+
+    <section class="pane" data-pane="brand">
+      <div class="paneHead"><h2>Brand</h2><p>Site name, tagline, logo and colours. The hero video fallback link lives here too (the Hero tab value wins when set).</p></div>
+      <div class="item"><div class="grid">
+        <div class="fld"><label>SITE NAME</label><input type="text" id="bName"></div>
+        <div class="fld"><label>TAGLINE</label><input type="text" id="bTag"></div>
+        <div class="fld full"><label>LOGO (upload replaces header/footer mark)</label><input type="file" id="bLogoFile" accept="image/*">
+          <input type="text" id="bLogo" placeholder="/assets/custom/…"></div>
+        <div class="fld"><label>PRIMARY COLOUR</label><input type="color" id="bPri"></div>
+        <div class="fld"><label>ACCENT COLOUR</label><input type="color" id="bAcc"></div>
+        <div class="fld full"><label>HERO VIDEO FALLBACK URL</label><input type="text" id="bHero"></div>
+      </div>
+      <div class="savebar"><button class="primary" data-save-brand>Save brand</button><span class="st" data-st="brand"></span></div></div>
+    </section>
+
+    <section class="pane" data-pane="help">
+      <div class="paneHead"><h2>Help</h2></div>
+      <div class="help">
+        <b>Is there a separate backend or CMS login?</b> No — this page <i>is</i> the CMS, on the same
+        <b>/insider</b> login as the on-page editor. Two tools, one account:
+        <ul>
+          <li><b>On-page editor</b> — after login, browse the site and click any highlighted text, image or video to edit it inline, then press Save. Best for single headlines, paragraphs and photos.</li>
+          <li><b>This dashboard</b> — for everything <i>structured</i>: the <b>hero video link</b>, <b>Highlight project cards</b>, the <b>client logo wall</b>, the <b>stats numbers</b>, <b>testimonials</b>, the <b>city list / footer addresses</b> and <b>long-form article text</b>. Those sections render as lists, so they need list-aware forms — exactly what these tabs provide.</li>
+        </ul>
+        <b>Publishing:</b> every Save goes live immediately on the next page load (no rebuild, no deploy).
+        <b>Images/video:</b> use the file pickers next to any image field, or paste a link (https://… works, e.g. Cloudinary).
+        <b>Home vs whole site:</b> Hero, Highlights, Logos, Stats, Testimonials and the city marquee appear on the home page; footer addresses and articles apply everywhere, including the article pages themselves.
+      </div>
+    </section>
+  </div>
+  <div id="toast"></div>
+
+<script>
+(function () {
+  'use strict';
+  var CLOUD = 'https://res.cloudinary.com/dtnbwgpca/video/upload/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4';
+  var S = { saved: {}, live: {}, brand: {} };
+  function $(s, el) { return (el || document).querySelector(s); }
+  function $all(s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function pick(a, b) { return (a !== undefined && a !== null && String(a) !== '') ? a : (b == null ? '' : b); }
+  function toast(m) { var t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(t._h); t._h = setTimeout(function(){ t.style.display='none'; }, 2600); }
+  function api(p, o) {
+    o = o || {};
+    // Never serve editors a cached copy: saved values must be visible instantly.
+    o.cache = 'no-store';
+    return fetch(p, o).then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); });
+  }
+  function st(sec, m) { var e = document.querySelector('[data-st="' + sec + '"]'); if (e) e.textContent = m || ''; }
+
+  /* ---------- boot ---------- */
+  api('/api/me').then(function (d) {
+    if (d && d.email) { $('#loginWrap').style.display = 'none'; $('#cmsWrap').style.display = 'block'; loadAll(); }
+  }).catch(function () {});
+  $('#loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('#err').style.display = 'none'; $('#btn').disabled = true;
+    api('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: $('#email').value, password: $('#password').value }) })
+      .then(function () { window.location.reload(); })
+      .catch(function () { $('#err').style.display = 'block'; $('#btn').disabled = false; });
+  });
+  $('#logout').addEventListener('click', function () { fetch('/api/logout', { method: 'POST' }).then(function(){ window.location.reload(); }); });
+  $('#viewSite').addEventListener('click', function () { window.open('/', '_blank'); });
+  $('#tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-tab]'); if (!b) return;
+    $all('#tabs button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    $all('.pane').forEach(function (p) { p.classList.toggle('on', p.getAttribute('data-pane') === b.getAttribute('data-tab')); });
+    window.scrollTo(0, 0);
+  });
+
+  /* ---------- load + merge ---------- */
+  function loadAll() {
+    Promise.all([
+      api('/api/cms').catch(function () { return { sections: {} }; }),
+      api('/api/cms?live=1').catch(function () { return { live: {} }; }),
+      api('/api/brand').catch(function () { return {}; })
+    ]).then(function (r) {
+      S.saved = r[0].sections || {}; S.live = r[1].live || {}; S.brand = r[2] || {};
+      renderAll();
+    }).catch(function () { toast('Could not load CMS data'); });
+  }
+
+  function imgRow(id, val) {
+    return '<div class="rowline"><input type="text" id="' + id + '" value="' + esc(val) + '" placeholder="https://… or /assets/…">' +
+      '<input type="file" data-up="' + id + '" accept="image/*,video/mp4,video/webm"></div>' +
+      (val ? '<img class="prev" data-prev-for="' + id + '" src="' + esc(val) + '" onerror="this.style.display=\'none\'">' : '<img class="prev" data-prev-for="' + id + '" style="display:none">');
+  }
+
+  /* ---------- renderers ---------- */
+  function renderAll() {
+    renderHero(); renderHighlights(); renderLogos(); renderStats();
+    renderTestimonials(); renderCities(); renderArticles(); renderBrand();
+  }
+  function renderHero() {
+    var sv = S.saved.hero || {}, lv = S.live.hero || {};
+    $('#heroUrl').value = pick(sv.video_url, S.brand.hero_video_src || CLOUD);
+    $('#heroLabel').value = pick(sv.label, lv.label);
+    $('#heroDesc').value = pick(sv.description, lv.description);
+    updHeroPrev();
+  }
+  function updHeroPrev() {
+    var v = $('#heroPrev'), u = $('#heroUrl').value;
+    if (u) { v.src = u; v.style.display = 'block'; } else v.style.display = 'none';
+  }
+  function renderHighlights() {
+    var sv = (S.saved.highlights && S.saved.highlights.items) || [];
+    var lv = S.live.highlights || [];
+    var n = Math.max(lv.length, sv.length, 5);
+    var h = '';
+    for (var i = 0; i < n; i++) {
+      var s = sv[i] || {}, l = lv[i] || {};
+      h += '<div class="item" data-hl="' + i + '"><h3>' + esc(pick(s.slug, l.slug) || ('card ' + (i + 1))) + '</h3><div class="grid">' +
+        '<div class="fld"><label>TITLE</label><input type="text" data-k="title" value="' + esc(pick(s.title, l.title)) + '"></div>' +
+        '<div class="fld"><label>LOCATION</label><input type="text" data-k="location" value="' + esc(pick(s.location, l.location)) + '"></div>' +
+        '<div class="fld full"><label>EXCERPT</label><textarea data-k="excerpt" rows="2">' + esc(pick(s.excerpt, l.excerpt)) + '</textarea></div>' +
+        '<div class="fld"><label>CATEGORY</label><input type="text" data-k="category" value="' + esc(pick(s.category, l.category)) + '"></div>' +
+        '<div class="fld"><label>VISITORS (number)</label><input type="text" data-k="participants" value="' + esc(pick(s.participants, l.participants)) + '"></div>' +
+        '<div class="fld full"><label>COVER IMAGE</label>' + imgRow('hl-img-' + i, pick(s.image, l.image)) + '</div>' +
+        '<input type="hidden" data-k="slug" value="' + esc(pick(s.slug, l.slug)) + '">' +
+        '</div></div>';
+    }
+    $('#hlList').innerHTML = h;
+  }
+  function renderLogos() {
+    $('#logoLabel').value = pick((S.saved.logos || {}).label, (S.live.logos || {}).label);
+    var sv = (S.saved.logos && S.saved.logos.items) || [];
+    var lv = ((S.live.logos || {}).items) || [];
+    var n = Math.max(lv.length, sv.length);
+    var h = '';
+    for (var i = 0; i < n; i++) {
+      var s = sv[i] || {}, l = lv[i] || {};
+      h += '<div class="item" data-logo="' + i + '"><h3>#' + (i + 1) + ' ' + esc(pick(s.name, l.name)) + '</h3><div class="grid">' +
+        '<div class="fld"><label>CLIENT NAME</label><input type="text" data-k="name" value="' + esc(pick(s.name, l.name)) + '"></div>' +
+        '<div class="fld"><label>LOGO IMAGE</label>' + imgRow('logo-img-' + i, pick(s.src, l.src)) + '</div>' +
+        '</div></div>';
+    }
+    $('#logoList').innerHTML = h;
+  }
+  function renderStats() {
+    $('#statLabel').value = pick((S.saved.stats || {}).label, (S.live.stats || {}).label);
+    var sv = (S.saved.stats && S.saved.stats.items) || [];
+    var lv = ((S.live.stats || {}).items) || [];
+    var n = Math.max(lv.length, sv.length, 5);
+    var h = '';
+    for (var i = 0; i < n; i++) {
+      var s = sv[i] || {}, l = lv[i] || {};
+      h += '<div class="item" data-stat="' + i + '"><h3>STAT #' + (i + 1) + '</h3><div class="grid">' +
+        '<div class="fld"><label>TITLE</label><input type="text" data-k="title" value="' + esc(pick(s.title, l.title)) + '"></div>' +
+        '<div class="fld"><label>BLURB</label><input type="text" data-k="text" value="' + esc(pick(s.text, l.text)) + '"></div>' +
+        '<div class="fld"><label>NUMBER</label><input type="text" data-k="amount" value="' + esc(pick(s.amount, l.amount)) + '"></div>' +
+        '<div class="fld"><label>SUFFIX (e.g. + % K — empty for none)</label><input type="text" data-k="unit" value="' + esc(pick(s.unit, l.unit)) + '"></div>' +
+        '<div class="fld full"><label>IMAGE</label>' + imgRow('stat-img-' + i, pick(s.image, l.image)) + '</div>' +
+        '</div></div>';
+    }
+    $('#statList').innerHTML = h;
+  }
+  function renderTestimonials() {
+    var sv = S.saved.testimonials || [];
+    if (!Array.isArray(sv)) sv = sv.items || [];
+    var lv = S.live.testimonials || [];
+    var n = Math.max(lv.length, sv.length);
+    var h = '';
+    for (var i = 0; i < n; i++) {
+      var s = sv[i] || {}, l = lv[i] || {};
+      h += '<div class="item" data-tm="' + i + '"><h3>' + esc(pick(s.name, l.name) || ('testimonial ' + (i + 1))) + '</h3><div class="grid">' +
+        '<div class="fld"><label>NAME</label><input type="text" data-k="name" value="' + esc(pick(s.name, l.name)) + '"></div>' +
+        '<div class="fld"><label>ROLE</label><input type="text" data-k="role" value="' + esc(pick(s.role, l.role)) + '"></div>' +
+        '<div class="fld"><label>ORGANISATION</label><input type="text" data-k="org" value="' + esc(pick(s.org, l.org)) + '"></div>' +
+        '<div class="fld"><label>LOCATION</label><input type="text" data-k="location" value="' + esc(pick(s.location, l.location)) + '"></div>' +
+        '<div class="fld"><label>INDUSTRY</label><input type="text" data-k="industry" value="' + esc(pick(s.industry, l.industry)) + '"></div>' +
+        '<div class="fld"><label>PHOTO</label>' + imgRow('tm-photo-' + i, pick(s.photo, l.photo)) + '</div>' +
+        '<div class="fld full"><label>QUOTE</label><textarea data-k="quote" rows="3">' + esc(pick(s.quote, l.quote)) + '</textarea></div>' +
+        '<div class="fld full"><label>COMPANY LOGO</label>' + imgRow('tm-logo-' + i, pick(s.logo, l.logo)) + '</div>' +
+        '</div></div>';
+    }
+    $('#tmList').innerHTML = h;
+  }
+  function renderCities() {
+    var sv = S.saved.cities || {}, lv = S.live.cities || {};
+    $('#cityLabel').value = pick(sv.label, '');
+    $('#cityDesc').value = pick(sv.description, '');
+    var items = (Array.isArray(sv.items) && sv.items.length ? sv.items : (lv.items || []));
+    $('#cityList').innerHTML = items.map(function (c) {
+      return '<div class="cityrow"><input type="text" data-city value="' + esc(c) + '"><button data-del-city>Remove</button></div>';
+    }).join('');
+    var sa = (Array.isArray(sv.addresses) && sv.addresses.length ? sv.addresses : (lv.addresses || []));
+    $('#addrList').innerHTML = sa.map(function (a, i) {
+      return '<div class="item" data-addr="' + i + '"><h3>ADDRESS #' + (i + 1) + '</h3><div class="grid">' +
+        '<div class="fld"><label>CITY</label><input type="text" data-k="city" value="' + esc(a.city || '') + '"></div>' +
+        '<div class="fld"><label>PHONE</label><input type="text" data-k="phone" value="' + esc(a.phone || '') + '"></div>' +
+        '<div class="fld"><label>LINE 1</label><input type="text" data-k="line1" value="' + esc(a.line1 || '') + '"></div>' +
+        '<div class="fld"><label>LINE 2</label><input type="text" data-k="line2" value="' + esc(a.line2 || '') + '"></div>' +
+        '<div class="fld full"><label>LINE 3</label><input type="text" data-k="line3" value="' + esc(a.line3 || '') + '"></div>' +
+        '</div></div>';
+    }).join('');
+  }
+  function renderArticles() {
+    var sv = (S.saved.articles && S.saved.articles.items) || [];
+    var lv = S.live.insights || [];
+    var bySlug = {};
+    sv.forEach(function (a) { if (a && a.slug) bySlug[a.slug] = a; });
+    lv.forEach(function (a) { if (a && a.slug && !bySlug[a.slug]) bySlug[a.slug] = {}; });
+    var slugs = Object.keys(bySlug);
+    $('#artList').innerHTML = slugs.map(function (slug) {
+      var s = bySlug[slug] || {}, l = {};
+      lv.forEach(function (x) { if (x.slug === slug) l = x; });
+      return '<div class="item" data-art="' + esc(slug) + '"><h3>' + esc(slug) + '</h3><div class="grid">' +
+        '<div class="fld"><label>TITLE</label><input type="text" data-k="title" value="' + esc(pick(s.title, l.title)) + '"></div>' +
+        '<div class="fld"><label>COVER IMAGE</label>' + imgRow('art-img-' + esc(slug).replace(/[^a-z0-9]+/gi, '-'), pick(s.image, '')) + '</div>' +
+        '<div class="fld full"><label>FULL TEXT (HTML allowed — empty keeps current)</label><textarea data-k="content" rows="6" placeholder="Leave empty to keep the current article text.">' + esc(s.content || '') + '</textarea></div>' +
+        '<input type="hidden" data-k="slug" value="' + esc(slug) + '">' +
+        '</div></div>';
+    }).join('') || '<div class="help">No articles found.</div>';
+  }
+  function renderBrand() {
+    var b = S.brand || {};
+    $('#bName').value = b.site_name || ''; $('#bTag').value = b.tagline || '';
+    $('#bLogo').value = b.logo_src || '';
+    $('#bPri').value = /^#[0-9a-f]{6}$/i.test(b.primary_color || '') ? b.primary_color : '#1B2A4A';
+    $('#bAcc').value = /^#[0-9a-f]{6}$/i.test(b.accent_color || '') ? b.accent_color : '#C9A24B';
+    $('#bHero').value = b.hero_video_src || CLOUD;
+  }
+
+  /* ---------- collectors ---------- */
+  function grab(scope, idxAttr) {
+    return $all('[' + idxAttr + ']').map(function (box) {
+      var o = {};
+      $all('[data-k]', box).forEach(function (el) { o[el.getAttribute('data-k')] = el.value; });
+      // image/file fields carry generated ids (no data-k) — map each by prefix:
+      $all('input[type=text][id]', box).forEach(function (el) {
+        var v = el.value || '';
+        if (el.id.indexOf('hl-img-') === 0 || el.id.indexOf('stat-img-') === 0) o.image = v;
+        else if (el.id.indexOf('logo-img-') === 0) o.src = v;
+        else if (el.id.indexOf('tm-photo-') === 0) o.photo = v;
+        else if (el.id.indexOf('tm-logo-') === 0) o.logo = v;
+        else if (el.id.indexOf('art-img-') === 0) o.image = v;
       });
-    })();
-  </script>
+      return o;
+    });
+  }
+  function collect(sec) {
+    if (sec === 'hero') {
+      return { video_url: $('#heroUrl').value.trim(), label: $('#heroLabel').value, description: $('#heroDesc').value };
+    }
+    if (sec === 'highlights') return { items: grab(null, 'data-hl') };
+    if (sec === 'logos') return { label: $('#logoLabel').value, items: grab(null, 'data-logo').map(function (o) { return { name: o.name || '', src: o.src || '' }; }) };
+    if (sec === 'stats') return { label: $('#statLabel').value, items: grab(null, 'data-stat') };
+    if (sec === 'testimonials') return { items: grab(null, 'data-tm') };
+    if (sec === 'cities') {
+      return {
+        label: $('#cityLabel').value, description: $('#cityDesc').value,
+        items: $all('#cityList [data-city]').map(function (el) { return el.value.trim(); }).filter(Boolean),
+        addresses: $all('#addrList [data-addr]').map(function (box) {
+          var o = {}; $all('[data-k]', box).forEach(function (el) { o[el.getAttribute('data-k')] = el.value; }); return o;
+        })
+      };
+    }
+    if (sec === 'articles') {
+      return { items: $all('#artList [data-art]').map(function (box) {
+        var o = {}; $all('[data-k]', box).forEach(function (el) { o[el.getAttribute('data-k')] = el.value; });
+        var img = box.querySelector('input[type=text][id^="art-img-"]');
+        if (img) o.image = img.value;
+        return o;
+      }) };
+    }
+    return {};
+  }
+
+  /* ---------- save / upload / misc events ---------- */
+  document.addEventListener('click', function (e) {
+    var sv = e.target.closest('[data-save]');
+    if (sv) {
+      var sec = sv.getAttribute('data-save');
+      st(sec, 'Saving…'); sv.disabled = true;
+      api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ section: sec, data: collect(sec) }) })
+        .then(function () { st(sec, 'Saved — live now.'); toast('Saved — live now'); S.saved[sec] = collect(sec); })
+        .catch(function () { st(sec, 'Save failed.'); toast('Save failed'); })
+        .then(function () { sv.disabled = false; });
+      return;
+    }
+    if (e.target.closest('[data-save-brand]')) {
+      var b = e.target.closest('[data-save-brand]'); st('brand', 'Saving…'); b.disabled = true;
+      var lf = $('#bLogoFile').files[0];
+      var done = function (logoSrc) {
+        var payload = { site_name: $('#bName').value, tagline: $('#bTag').value,
+          primary_color: $('#bPri').value, accent_color: $('#bAcc').value, hero_video_src: $('#bHero').value };
+        if (logoSrc) payload.logo_src = logoSrc;
+        api('/api/brand', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+          .then(function (r) { S.brand = r || payload; st('brand', 'Saved — live now.'); toast('Brand saved'); })
+          .catch(function () { st('brand', 'Save failed.'); })
+          .then(function () { b.disabled = false; });
+      };
+      if (lf) {
+        var fd = new FormData(); fd.append('image', lf);
+        fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+          .then(function (d) { $('#bLogo').value = d.src; done(d.src); })
+          .catch(function () { toast('Logo upload failed'); b.disabled = false; });
+      } else done($('#bLogo').value || null);
+      return;
+    }
+    if (e.target.closest('[data-reset-video]')) { $('#heroUrl').value = CLOUD; updHeroPrev(); return; }
+    if (e.target.closest('[data-add-city]')) {
+      var d = document.createElement('div'); d.className = 'cityrow';
+      d.innerHTML = '<input type="text" data-city value=""><button data-del-city>Remove</button>';
+      $('#cityList').appendChild(d); return;
+    }
+    if (e.target.closest('[data-del-city]')) { e.target.closest('.cityrow').remove(); return; }
+    if (e.target.closest('[data-add-article]')) {
+      var slug = prompt('Article slug (must match the page address, e.g. my-new-post):');
+      if (!slug) return;
+      slug = slug.trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-');
+      var cur = S.saved.articles && S.saved.articles.items ? S.saved.articles.items.slice() : [];
+      cur.push({ slug: slug, title: '', image: '', content: '' });
+      S.saved.articles = { items: cur };
+      renderArticles(); return;
+    }
+  });
+  document.addEventListener('change', function (e) {
+    var f = e.target.closest('input[type=file][data-up]');
+    if (f && f.files[0]) {
+      var target = document.getElementById(f.getAttribute('data-up'));
+      toast('Uploading…');
+      var fd = new FormData(); fd.append('image', f.files[0]);
+      fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (d) {
+          if (target) {
+            target.value = d.src;
+            target.dispatchEvent(new Event('input', { bubbles: true }));
+            var pv = document.querySelector('[data-prev-for="' + f.getAttribute('data-up') + '"]');
+            if (pv) { pv.src = d.src; pv.style.display = 'block'; }
+            if (target.id === 'heroUrl') updHeroPrev();
+          }
+          toast('Uploaded — press Save');
+        })
+        .catch(function () { toast('Upload failed'); });
+      f.value = '';
+    }
+  });
+  document.addEventListener('input', function (e) {
+    if (e.target && e.target.id === 'heroUrl') updHeroPrev();
+    var t = e.target;
+    if (t && t.id) {
+      var pv = document.querySelector('[data-prev-for="' + t.id + '"]');
+      if (pv && (t.id.indexOf('hl-img-') === 0 || t.id.indexOf('logo-img-') === 0 || t.id.indexOf('stat-img-') === 0 ||
+                 t.id.indexOf('tm-photo-') === 0 || t.id.indexOf('tm-logo-') === 0 || t.id.indexOf('art-img-') === 0)) {
+        if (t.value) { pv.src = t.value; pv.style.display = 'block'; } else pv.style.display = 'none';
+      }
+    }
+  });
+})();
+</script>
 </body>
 </html>

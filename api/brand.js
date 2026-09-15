@@ -3,9 +3,12 @@ import { pool } from '../scripts/db.mjs';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getBrand, bustBrand } from '../scripts/transform.mjs';
 import { bustOverrides } from '../scripts/overrides.mjs';
+import { bustCMS } from '../scripts/cms.mjs';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
+    if (process.env.VERCEL) bustBrand();
+    res.setHeader('Cache-Control', 'no-store');
     res.status(200).json(await getBrand());
     return;
   }
@@ -13,7 +16,7 @@ export default async function handler(req, res) {
   const s = await verifySession(parseCookies(req).sc_admin).catch(() => null);
   if (!s) { res.status(401).json({ error: 'unauthorized' }); return; }
   const body = req.body && typeof req.body === 'object' ? req.body : {};
-  const allowed = ['site_name', 'tagline', 'logo_src', 'primary_color', 'accent_color'];
+  const allowed = ['site_name', 'tagline', 'logo_src', 'primary_color', 'accent_color', 'hero_video_src'];
   for (const k of allowed) {
     if (typeof body[k] === 'string') {
       await pool.query(
@@ -24,5 +27,6 @@ export default async function handler(req, res) {
   }
   bustBrand();
   bustOverrides();
+  bustCMS();
   res.status(200).json(await getBrand());
 }

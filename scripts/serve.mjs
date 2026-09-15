@@ -14,8 +14,9 @@ import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.
   getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty,
   parseUpload, sniffMedia, applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyImgDims, applySplash, applyStyleBlocks,
-  applyFooterFix, applyTeamRoster, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
+  applyFooterFix, applyTeamRoster, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
 } from './transform.mjs';
+import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
 const ROOT = path.resolve('dist');
 const PORT = Number(process.argv[2] || process.env.PORT || 3000);
 
@@ -168,7 +169,36 @@ const server = http.createServer(async (req, res) => {
       }
       bustBrand();
       bustOverrides();
+      bustCMS();
       return json(res, 200, { ok: true, saved: items.length });
+    }
+    if (pathname === '/api/cms' && method === 'GET') {
+      const only = String(u.searchParams.get('section') || '');
+      if (u.searchParams.get('live') === '1') {
+        try {
+          const liveHtml = await readFile(path.join(ROOT, 'index.html'), 'utf8');
+          return json(res, 200, { live: liveSnapshot(liveHtml) });
+        } catch { return json(res, 200, { live: {} }); }
+      }
+      const cms = await getCMS();
+      if (only) {
+        if (!CMS_SECTIONS.includes(only)) return json(res, 400, { error: 'unknown section' });
+        return json(res, 200, { section: only, data: cms[only] || {} });
+      }
+      return json(res, 200, { sections: cms });
+    }
+    if (pathname === '/api/cms' && method === 'PUT') {
+      const s = await verifySession(cookies.sc_admin).catch(() => null);
+      if (!s) return json(res, 401, { error: 'unauthorized' });
+      let body;
+      try { body = JSON.parse((await readBody(req, 5 << 20)).toString('utf8')); }
+      catch { return json(res, 400, { error: 'bad request' }); }
+      try { await saveCMSSection(String(body.section || ''), body.data); }
+      catch (e) { return json(res, 400, { error: String((e && e.message) || e).slice(0, 120) }); }
+      bustBrand();
+      bustOverrides();
+      bustCMS();
+      return json(res, 200, { ok: true, section: String(body.section || '') });
     }
     if (pathname === '/api/brand' && method === 'GET') {
       return json(res, 200, await getBrand());
@@ -179,7 +209,7 @@ const server = http.createServer(async (req, res) => {
       let body;
       try { body = JSON.parse((await readBody(req)).toString('utf8')); }
       catch { return json(res, 400, { error: 'bad request' }); }
-      const allowed = ['site_name', 'tagline', 'logo_src', 'primary_color', 'accent_color'];
+      const allowed = ['site_name', 'tagline', 'logo_src', 'primary_color', 'accent_color', 'hero_video_src'];
       for (const k of allowed) {
         if (typeof body[k] === 'string') {
           await pool.query(
@@ -190,6 +220,7 @@ const server = http.createServer(async (req, res) => {
       }
       bustBrand();
       bustOverrides();
+      bustCMS();
       return json(res, 200, await getBrand());
     }
     if (pathname === '/api/upload' && method === 'POST') {
@@ -291,7 +322,11 @@ const server = http.createServer(async (req, res) => {
         ...((LOGO_NAMES[key] || []).map(n => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
       if (fileItems.length) html = applyOverrides(html, fileItems, { noFlightPatch: noFP });
       html = applyGlobalSwaps(html, key);
-      html = applyHeroVideo(html);
+      const __brand = await getBrand();
+      const __cms = await getCMS().catch(() => null);
+      const __heroUrl = (__cms && __cms.hero && __cms.hero.video_url) || __brand.hero_video_src || HERO_VIDEO_URL;
+      html = applyHeroVideo(html, __heroUrl);
+      if (__cms) html = applyStructuredCMS(html, __cms, key);
       html = applyFooterAddresses(html);
       html = applyContentFlight(html, key);
       html = applyTeamRoster(html);
@@ -300,7 +335,9 @@ const server = http.createServer(async (req, res) => {
       html = applySplash(html, key);
       html = applyFooterFix(html, key);
       const sess = await verifySession(cookies.sc_admin).catch(() => null);
-      if (sess) {
+      // /insider hosts the standalone mini-CMS dashboard (own auth UI):
+      // never inject the floating inline edit bar there.
+      if (sess && key !== '/insider') {
         // Boot via inline script: React hydration can wipe deferred tags before
         // they run, but an inline script executes during parse, so its loader survives.
         html = html.replace(/(<\/body>)/i,

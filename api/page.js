@@ -2,13 +2,14 @@
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
-import { getOverrides, applyOverrides } from '../scripts/overrides.mjs';
+import { getOverrides, applyOverrides, bustOverrides } from '../scripts/overrides.mjs';
 import {
-  getBrand, applyBrand, applyNav, applyGlobalSwaps, applyFooterAddresses,
+  getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, applyImgDims, applySplash,
   applyStyleBlocks, applyFooterFix, applyTeamRoster,
-  FILE_CONTENT, LOGO_ROWS, LOGO_NAMES,
+  FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
 } from '../scripts/transform.mjs';
+import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
 
 const ROOT = path.join(process.cwd(), 'dist');
 const NO_FP = new Set(['/cookie-policy', '/privacy-policy', '/legal-notice-terms-of-use']);
@@ -33,6 +34,11 @@ function candidates(urlPath) {
 }
 
 async function serveHtml(pathname, cookies) {
+  // On Vercel, lambda instances are reused across visitors: drop module-level
+  // caches so every page view reads fresh DB state. An edit saved by one
+  // admin is then visible to everyone (and every region/instance) on the
+  // very next refresh — no stale windows, no per-user divergence.
+  if (process.env.VERCEL) { bustBrand(); bustOverrides(); bustCMS(); }
   let lookup = pathname;
   if (lookup.endsWith('/')) lookup += 'index.html';
   const tries = [];
@@ -56,6 +62,11 @@ async function serveHtml(pathname, cookies) {
       ...((LOGO_NAMES[key] || []).map((n) => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
     if (fileItems.length) html = applyOverrides(html, fileItems, { noFlightPatch: noFP });
     html = applyGlobalSwaps(html, key);
+    const __brand = await getBrand();
+    const __cms = await getCMS().catch(() => null);
+    const __heroUrl = (__cms && __cms.hero && __cms.hero.video_url) || __brand.hero_video_src || HERO_VIDEO_URL;
+    html = applyHeroVideo(html, __heroUrl);
+    if (__cms) html = applyStructuredCMS(html, __cms, key);
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
     html = applyTeamRoster(html);
@@ -64,7 +75,9 @@ async function serveHtml(pathname, cookies) {
     html = applySplash(html, key);
     html = applyFooterFix(html, key);
     const sess = await verifySession(cookies.sc_admin).catch(() => null);
-    if (sess) {
+    // /insider hosts the standalone mini-CMS dashboard (own auth UI):
+    // never inject the floating inline edit bar there.
+    if (sess && key !== '/insider') {
       html = html.replace(/(<\/body>)/i,
         `<script>window.__SC_PAGE__=${JSON.stringify(key)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js';s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
     }

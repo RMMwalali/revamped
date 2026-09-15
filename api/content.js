@@ -3,9 +3,11 @@ import { pool } from '../scripts/db.mjs';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { bustOverrides } from '../scripts/overrides.mjs';
 import { bustBrand } from '../scripts/transform.mjs';
+import { bustCMS } from '../scripts/cms.mjs';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
+    res.setHeader('Cache-Control', 'no-store');
     const u = new URL(req.url, 'http://local');
     const page = String(u.searchParams.get('page') || '/');
     const r = await pool.query(
@@ -36,5 +38,6 @@ export default async function handler(req, res) {
   }
   bustBrand();
   bustOverrides();
+  bustCMS();
   res.status(200).json({ ok: true, saved: items.length });
 }
