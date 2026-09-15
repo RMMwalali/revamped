@@ -280,10 +280,7 @@
       "includeFiles": "dist/**"
     },
     "api/cms.js": {
-      "includeFiles": [
-        "dist/index.html",
-        "dist/insights/index.html"
-      ]
+      "includeFiles": "dist/**/*.html"
     }
   },
   "headers": [
