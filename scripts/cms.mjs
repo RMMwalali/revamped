@@ -404,19 +404,35 @@ function applyLogos(html, cfg) {
   if (cfg.label) html = swapText(html, 'We are proud to have worked with', cfg.label);
   if (!items.length) return html;
   const live = liveLogos();
+  // Match DB items to wall slots by logo NAME (exact, then case-insensitive),
+  // falling back to positional index only when the counts line up exactly.
+  // Index-only matching corrupted the wall when the DB held a stale 14-item
+  // list against the 19-slot wall (every item after index 0 hit the wrong slot).
+  const slotFor = (it, i) => {
+    if (it && typeof it === 'object' && it.name) {
+      const exact = live.findIndex((l) => l.name === it.name);
+      if (exact >= 0) return live[exact];
+      const ci = live.findIndex((l) => String(l.name).toLowerCase() === String(it.name).toLowerCase());
+      if (ci >= 0) return live[ci];
+    }
+    if (items.length === live.length && live[i]) return live[i];
+    return null;
+  };
   // Names first (flight keys on the old logo path), then image URLs.
   items.forEach((it, i) => {
-    if (!it || typeof it !== 'object' || !live[i]) return;
-    if (it.name && it.name !== live[i].name) {
-      const needle = FQ + 'title' + FQ + ':' + FQ + flightEnc(live[i].name) + FQ + ',' + FQ + 'featuredImage' + FQ + ':{' + FQ + 'node' + FQ + ':{' + FQ + 'sourceUrl' + FQ + ':' + FQ + live[i].old;
-      const repl = FQ + 'title' + FQ + ':' + FQ + flightEnc(it.name) + FQ + ',' + FQ + 'featuredImage' + FQ + ':{' + FQ + 'node' + FQ + ':{' + FQ + 'sourceUrl' + FQ + ':' + FQ + live[i].old;
+    const slot = slotFor(it, i);
+    if (!slot) return;
+    if (it.name && it.name !== slot.name) {
+      const needle = FQ + 'title' + FQ + ':' + FQ + flightEnc(slot.name) + FQ + ',' + FQ + 'featuredImage' + FQ + ':{' + FQ + 'node' + FQ + ':{' + FQ + 'sourceUrl' + FQ + ':' + FQ + slot.old;
+      const repl = FQ + 'title' + FQ + ':' + FQ + flightEnc(it.name) + FQ + ',' + FQ + 'featuredImage' + FQ + ':{' + FQ + 'node' + FQ + ':{' + FQ + 'sourceUrl' + FQ + ':' + FQ + slot.old;
       html = html.split(needle).join(repl);
-      html = html.split('>' + live[i].name + '<').join('>' + it.name + '<');
+      html = html.split('>' + slot.name + '<').join('>' + it.name + '<');
     }
   });
   items.forEach((it, i) => {
-    if (!it || typeof it !== 'object' || !live[i]) return;
-    const froms = new Set([live[i].old, live[i].src]);
+    const slot = slotFor(it, i);
+    if (!slot) return;
+    const froms = new Set([slot.old, slot.src]);
     for (const f of froms) {
       if (f && it.src && f !== it.src) html = swapUrl(html, f, it.src);
     }

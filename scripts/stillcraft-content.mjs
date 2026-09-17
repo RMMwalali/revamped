@@ -30,9 +30,16 @@ export const FLIGHT = {
 };
 
 export const CONTENT = {
+  '/': [
+    T('t-1', `StillCraft Events is a Nairobi-based agency running mall programming, brand activations, and corporate experiences — eight years of planning and delivering in one team.`, `Looking for an international event agency? One partner for events, exhibitions,`),
+    T('t-2', `StillCraft started with a simple observation: malls needed more than events, they needed programming that gave people a reason to come, stay, and return. Brands needed more than activations that looked good in a recap deck, they needed experiences people could actually feel and remember. And corporate teams needed environments that reflected the kind of culture, connection, and impression they wanted to create. Rather than choose one lane, we built StillCraft to work across all three.`, `We build experiences that audiences feel, not just attend.`),
+  ],
   '/about': [
     T('t-77', `The People Behind`, `Our secret?`),
     T('t-78', `Eight Years Of Delivery`, `The people`),
+    T('t-21', `Eight years of turning footfall and attention into results.`, `About Iventions`),
+    T('t-24', `Most agencies choose a lane and stay in it. A media house that buys airtime. An events company that builds stages. A consultancy that writes strategy decks and hands them off to someone else to build. StillCraft chose not to. For eight years we have worked across shopping malls, brands, and corporate teams, planning the thinking and doing the building, without splitting the two apart.`, `Meet StillCraft Events, the global event agency behind powerful brand moments an`),
+    T('t-25', `That choice shapes everything about how we operate. When a mall needs a year of programming that keeps a calendar full and a tenant mix happy, we are the ones planning it and the ones on site running it.`, `Discover who we are and how we bring brands to life.`),
   ],
   '/service/exhibits': [
     T('t-21', `Malls Programming and Retail`, `Exhibits`),
@@ -127,5 +134,9 @@ export const CONTENT = {
   '/privacy-policy': [
     T('t-41', `While using our Website, we may request your personal information, such as your email address, phone number and name. Upon your express acceptance we may use this data to send you newsletters or share marketing materials that may be of interest to you. You can opt out of receiving such communications from us at any time by emailing us at&nbsp;<a data-sc-id="t-42" href="mailto:info@stillcraftevents.co.ke">info@stillcraftevents.co.ke</a>.`, `While using our Website, we may request your personal information, such as your email address, phone number and name. Upon your express acceptance we may use this data to send you newsletters or share marketing materials that may be of interest to you. You can opt out of receiving such communications from us at any time by emailing us at&nbsp;<a data-sc-id="t-42" href="mailto:info@iventions.com">info@iventions.com</a>.`),
     T('t-46', `The entity responsible for processing personal data collected on this website is StillCraft Events Co., with office at Piedmont, 671 Ngong Road, Nairobi, Kenya. You can contact us at +254 792 234 337 or by emailing info@stillcraftevents.co.ke`, `The entity responsible for processing personal data collected on this website is Iventions International Events, S.L.U., identified by tax identification number B65280398 , with address in Av. Diagonal 433, 4-2, Barcelona, Spain. You can contact us at the number +34 933 028 640 or emailing us to info@iventions.com`),
+  ],
+  '/cookie-policy': [
+    T('t-33', `WHY DOES STILLCRAFT EVENTS USE THESE COOKIES?`, `WHY DOES IVENTIONS USE THESE COOKIES?`),
+    T('t-34', `The use of Cookies allows us to:`, `The use of Cookies allows us to:`),
   ],
 };

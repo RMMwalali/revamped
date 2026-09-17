@@ -11,9 +11,10 @@ import path from 'node:path';
 import { pool } from './db.mjs';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
 import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.mjs';import {
-  getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty,
-  parseUpload, sniffMedia, applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
-  applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, applySplash, applyStyleBlocks,
+  getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty, removeBadges,
+  parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
+  applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
+  applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash, applyStyleBlocks,
   applyFooterFix, applyTeamRoster, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor,
 } from './transform.mjs';
@@ -234,6 +235,11 @@ const server = http.createServer(async (req, res) => {
       if (!part || !part.data.length) return json(res, 400, { error: 'bad upload' });
       const ext = sniffMedia(part.data, part.filename);
       if (!ext) return json(res, 400, { error: 'unsupported media type (images, svg, video, audio, fonts)' });
+      const isImage = /^(png|jpg|jpeg|webp|gif|svg|avif|bmp|ico)$/.test(ext);
+      if (isImage) {
+        if (part.data.length > IMAGE_MAX) return json(res, 413, { error: 'image too large (max 8MB)' });
+        if (!sniffImage(part.data, ext)) return json(res, 400, { error: 'invalid image format' });
+      }
       const isBig = /^(mp4|m4v|mov|webm|mp3|wav|ogg|m4a)$/.test(ext);
       const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
         crypto.randomBytes(4).toString('hex') + '.' + ext;
@@ -251,6 +257,18 @@ const server = http.createServer(async (req, res) => {
     // ----- paginated project lists have no static equivalent: redirect to index -----
     if (/^\/projects\/page\/\d+\/?$/.test(pathname)) {
       res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
+      res.end();
+      return;
+    }
+    // removed case-study slug (no backing page since the 11-case rewrite)
+    if (pathname === '/project/mothers-day-brunch-at-southfield-mall' || pathname.startsWith('/project/mothers-day-brunch-at-southfield-mall/')) {
+      res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
+      res.end();
+      return;
+    }
+    // blog removed - redirect to contact
+    if (pathname === '/insights' || pathname.startsWith('/insights/') || pathname === '/insight' || pathname.startsWith('/insight/')) {
+      res.writeHead(302, { Location: '/contact', 'Access-Control-Allow-Origin': '*' });
       res.end();
       return;
     }
@@ -311,6 +329,7 @@ const server = http.createServer(async (req, res) => {
       const key = pageKey(pathname);
       let html = await readFile(file, 'utf8');
       if (!process.env.SC_NOSTRIP) html = stripThirdParty(html);
+      html = removeBadges(html);
       html = applyBrand(html, await getBrand());
       if (!process.env.SC_NONAV) html = applyNav(html, key);
       // Legal pages have no below-root error boundary: a flight patch that the
@@ -337,6 +356,7 @@ const server = http.createServer(async (req, res) => {
       html = applyStyleBlocks(html, await getBrand());
       html = await applyImgDims(html);
       html = encodeAssetSpaces(html);
+      html = removeStaleProjectCards(html);
       html = applySplash(html, key);
       html = applyFooterFix(html, key);
       const sess = await verifySession(cookies.sc_admin).catch(() => null);
@@ -373,7 +393,7 @@ server.listen(PORT, () => {
   console.log(`StillCraft serving dist/ at http://localhost:${PORT}`);
   // Warm caches so the first real visitor skips DB roundtrips.
   getBrand().catch(() => {});
-  for (const p of ['/', '/home', '/about', '/service/events', '/service/exhibits', '/insights', '/projects', '/contact']) {
+  for (const p of ['/', '/home', '/about', '/service/events', '/service/exhibits', '/projects', '/contact']) {
     getOverrides(p).catch(() => {});
   }
 });

@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 import { writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
-import { parseUpload, sniffMedia } from '../scripts/transform.mjs';
+import { parseUpload, sniffMedia, sniffImage, IMAGE_MAX } from '../scripts/transform.mjs';
 
 export const config = { api: { bodyParser: false } };
 
@@ -36,6 +36,12 @@ export default async function handler(req, res) {
   if (!part || !part.data.length) { res.status(400).json({ error: 'bad upload' }); return; }
   const ext = sniffMedia(part.data, part.filename);
   if (!ext) { res.status(400).json({ error: 'unsupported media type (images, svg, video, audio, fonts)' }); return; }
+  // Images must be a common web format and ≤ 8MB.
+  const isImage = /^(png|jpg|jpeg|webp|gif|svg|avif|bmp|ico)$/.test(ext);
+  if (isImage) {
+    if (part.data.length > IMAGE_MAX) { res.status(413).json({ error: 'image too large (max 8MB)' }); return; }
+    if (!sniffImage(part.data, ext)) { res.status(400).json({ error: 'invalid image format' }); return; }
+  }
   const isBig = /^(mp4|m4v|mov|webm|mp3|wav|ogg|m4a)$/.test(ext);
   const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
     crypto.randomBytes(4).toString('hex') + '.' + ext;

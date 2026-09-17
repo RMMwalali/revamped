@@ -9,7 +9,7 @@ export { LOGO_ROWS };
 export { CONTENT as FILE_CONTENT } from './stillcraft-content.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
 export { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
-import { safeReplace, safeReplacePairs } from './flight.mjs';
+import { safeReplace, safeReplacePairs, verifyFlight, findEdgesArrays, splitTopObjects } from './flight.mjs';
 
 // Page-scoped whole-value flight swaps (short labels patchFlight can't gate).
 // Testimonial slider logos stay per-case for the edit bar (quotes name old clients).
@@ -71,10 +71,9 @@ const DEFAULT_TAGLINE = 'Step into the Spotlight';
 
 // ---------- site IA: StillCraft navigation (existing pages, new titles) ----------
 const NAV_LABELS = [
-  ['Events', 'Brand Activations'],
-  ['Exhibits', 'Malls &amp; Retail'],
+['Events', 'Brand Activations'],
+  ['Exhibits', 'Malls & Retail'],
   ['Work', 'Projects'],
-  ['Insights', 'Blog'],
 ];
 const NAV_DROP_HREFS = ['/about', '/service/congresses', '/service/sports'];
 const TITLE_MAP = {
@@ -83,20 +82,16 @@ const TITLE_MAP = {
   '/about': 'International Event Agency | Brand Activations, Malls &amp; Retail | StillCraft Events',
   '/service/events': 'Brand Activations | Brands and Corporates | StillCraft Events',
   '/service/exhibits': 'Malls &amp; Retail | Malls Programming and Retail | StillCraft Events',
-  '/insights': 'Blog | Event Insights &amp; Trends | StillCraft Events',
-  '/projects/filter': 'Projects | Case Studies | StillCraft Events',
   '/projects': 'Projects | Case Studies | StillCraft Events',
   '/contact': 'Contact | Start Your Project | StillCraft Events',
 };
 
-// StillCraft menu order: Home, Malls & Retail, Brand Activations, Projects, Blog, Contact.
-// Rebuilds the header menu <ul> in that order (Home reuses the emptied About slot).
+// StillCraft menu order: Home, Malls & Retail, Brand Activations, Projects, Contact.
 const MENU_ORDER = [
   ['/', 'Home'],
   ['/service/exhibits', 'Malls &amp; Retail'],
   ['/service/events', 'Brand Activations'],
-  ['/projects/filter', 'Projects'],
-  ['/insights', 'Blog'],
+  ['/projects', 'Projects'],
 ];
 const CONTACT_HREF = '/contact?form=quote';
 function applyMenuOrder(html) {
@@ -135,6 +130,7 @@ function flightReplace(html, fromJson, toJson) {
 const EQ = '\\"'; // an escaped quote as it appears raw in flight HTML
 // Global contact/social swaps: unique tokens, safe in static HTML and flight data.
 const GLOBAL_SWAPS = [
+  ['/projects/filter', '/projects'],
   ['info@iventions.com', 'info@stillcraftevents.co.ke'],
   ['https://www.linkedin.com/company/iventions', 'https://www.facebook.com/people/StillCraft-Events-Co/100079965229476'],
   ['https://www.instagram.com/iventions_events', 'https://www.instagram.com/stillcraftevents'],
@@ -144,6 +140,18 @@ const GLOBAL_SWAPS = [
   ['Av. Diagonal 433, 4-2', 'Piedmont, 671 Ngong Road'],
   ['StillCraft Events International Events', 'StillCraft Events Co.'],
   [/Copyright [©\uFFFD\xa9] Iventions/g, 'Copyright © StillCraft Events Co.'],
+  // Meta/SEO: Barcelona → Nairobi
+  ['Barcelona-based event agency delivering large-scale events, professional congresses, seamless destination management, and unique exhibitions', 'Nairobi-based event agency delivering mall activations, brand experiences, corporate events and exhibitions across Kenya'],
+  ['Looking for an international event agency? One partner for events, exhibitions,', 'Looking for a Nairobi-based event agency? One partner for mall activations, brand experiences,'],
+  ['Looking for an event marketing agency? We create exhibitions, brand activations', 'Looking for a brand activation agency? We create mall programmes, brand activations'],
+  ['Looking for a trade show marketing agency? We design and build exhibition stands', 'Looking for a malls & retail agency? We design and deliver mall programmes'],
+  ['Meet StillCraft Events, the global event agency behind powerful brand moments an', 'Meet StillCraft Events, the Nairobi-based agency behind powerful brand moments an'],
+  ['Barcelona', 'Nairobi'],
+  ['WHY DOES IVENTIONS', 'WHY DOES STILLCRAFT'],
+  ['WHY DOES Iventions', 'WHY DOES STILLCRAFT'],
+  ['Iventions', 'StillCraft Events Co.'],
+  ['IVENTIONS', 'STILLCRAFT'],
+  ['iventions', 'stillcraft'],
   // CMS accent fields (unique tokens; prose never contains raw hex codes)
   ['#546162', '#1B2A4A'],
   ['#ddd9ff', '#C9A24B'],
@@ -302,7 +310,7 @@ function applyLinks(html, host, page) {
   return safeReplacePairs(html, P);
 }
 const MENU_DROP_URLS = ['/about/', '/service/congresses/', '/service/sports/'];
-const MENU_TITLES = { About: 'Home', Events: 'Brand Activations', Exhibits: 'Malls & Retail', Work: 'Projects', Insights: 'Blog' };
+const MENU_TITLES = { About: 'Home', Events: 'Brand Activations', Exhibits: 'Malls & Retail', Work: 'Projects' };
 function applyFlightIA(html) {
   // All replacements run through the length-synced replacer: menu JSON rows
   // are plain edits, while anything landing inside a length-prefixed flight
@@ -341,6 +349,98 @@ function applyFlightIA(html) {
   return safeReplacePairs(html, P);
 }
 
+// Insights/blog section removed (client killed the blog): cut the whole
+// "Inside StillCraft Events" block (heading + article cards) from static
+// HTML and from the RSC flight tuple. Presence-guarded; any structural
+// surprise bails with html untouched, and a flight-oracle regression reverts.
+function cutBalancedDiv(html, start) {
+  let depth = 0;
+  let i = start;
+  while (i < html.length) {
+    if (html.startsWith('</div', i) && /[\s>]/.test(html[i + 5] || '')) {
+      const gt = html.indexOf('>', i);
+      if (gt < 0) return -1;
+      depth--;
+      i = gt + 1;
+      if (depth === 0) return i;
+    } else if (html.startsWith('<div', i) && /[\s>]/.test(html[i + 4] || '')) {
+      const gt = html.indexOf('>', i);
+      if (gt < 0) return -1;
+      if (html[gt - 1] !== '/') depth++;
+      i = gt + 1;
+    } else {
+      i++;
+    }
+  }
+  return -1;
+}
+function cutFlightTuple(html, open) {
+  // open at '[' of ["$",type,key,props]; string-aware bracket balance.
+  let depth = 0;
+  let inStr = false;
+  let esc = false;
+  for (let i = open; i < html.length; i++) {
+    const c = html[i];
+    if (inStr) {
+      if (esc) esc = false;
+      else if (c === '\\') esc = true;
+      else if (c === '"') inStr = false;
+    } else if (c === '"') {
+      inStr = true;
+    } else if (c === '[') {
+      depth++;
+    } else if (c === ']') {
+      depth--;
+      if (depth === 0) return i + 1;
+    }
+  }
+  return -1;
+}
+function removeInsightSection(html) {
+  if (html.indexOf('styles_invention__bakTB') < 0) return html;
+  const pairs = [];
+  // 1) static HTML block
+  const sOpen = html.indexOf('<div class="styles_invention__bakTB');
+  if (sOpen < 0) { console.error('DBG bail no-sopen'); return html; }
+  const sEnd = cutBalancedDiv(html, sOpen);
+  if (sEnd < 0) { console.error('DBG bail s unbalanced'); return html; }
+  const staticSpan = html.slice(sOpen, sEnd);
+  if (staticSpan.indexOf('<script') >= 0) { console.error('DBG bail static-script'); return html; }
+  if (sEnd < 0) { console.error('DBG bail static-unbalanced'); return html; }
+  if (html.split(staticSpan).length - 1 !== 1) { console.error('DBG bail static-count'); return html; }
+  pairs.push([staticSpan, '']);
+  // 2) RSC flight tuple (backslash-escaped JSON inside push strings)
+  const BSQ = String.fromCharCode(92) + String.fromCharCode(34);
+  const fMark = BSQ + 'className' + BSQ + ':' + BSQ + 'styles_invention__bakTB' + BSQ;
+  const fIdx = html.indexOf(fMark);
+  if (fIdx < 0) { console.error('DBG bail no-fmark'); return html; }
+  const fOpenNeedle = '[' + BSQ + '$' + BSQ + ',';
+  const fOpen = html.lastIndexOf(fOpenNeedle, fIdx);
+  if (fOpen < 0) { console.error('DBG bail no-fopen'); return html; }
+  let hp = fOpen + fOpenNeedle.length;
+  const typeEnd = html.indexOf(BSQ, hp);
+  const headTail = ',null,{' + BSQ + 'className' + BSQ + ':' + BSQ + 'styles_invention__bakTB' + BSQ + ',';
+  if (typeEnd < 0 || typeEnd === hp || html.slice(typeEnd, typeEnd + headTail.length) !== headTail) { console.error('DBG bail fhead'); return html; }
+  const fEnd = cutFlightTuple(html, fOpen);
+  if (fEnd < 0) { console.error('DBG bail f unbalanced'); return html; }
+  let fs = fOpen;
+  let fe = fEnd;
+  let fTo = '';
+  if (html[fe] === ',') {
+    fe++;
+  } else if (html[fs - 1] === ',') {
+    fs--;
+  } else {
+    fTo = 'null'; // sole child: keep the parent valid
+  }
+  const flightSpan = html.slice(fs, fe);
+  if (html.split(flightSpan).length - 1 !== 1) { console.error('DBG bail f-count'); return html; }
+  pairs.push([flightSpan, fTo]);
+  const badBefore = verifyFlight(html).bad;
+  const out = safeReplacePairs(html, pairs);
+  if (verifyFlight(out).bad > badBefore) { console.error('DBG bail oracle'); return html; }
+  return out;
+}
 function applyNav(html, page) {
   for (const [from, to] of NAV_LABELS) {
     html = html.replace(new RegExp(`>(\\s*)${from}(\\s*)<`, 'g'), `>$1${to}$2<`);
@@ -353,6 +453,11 @@ function applyNav(html, page) {
     // footer Explore: single-span anchors
     html = html.replace(new RegExp(`<a\\b[^<>]*href="${esc}"[^<>]*>\\s*<span\\b[^<>]*>\\s*(?:About|Congresses|Sports)\\s*<\\/span>\\s*<\\/a>`, 'g'), '');
   }
+  // blog removed - strip from header and footer
+  html = html.replace(/<a\b[^>]*href="\/insights"[^>]*>[\s\S]*?<\/a>/gi, '');
+  html = html.replace(/<a\b[^>]*href="\/insights"[^>]*>\s*<span[^>]*>\s*Blog\s*<\/span>\s*<\/a>/gi, '');
+  // insights section removed (client killed the blog): cut the whole block
+  html = removeInsightSection(html);
   if (TITLE_MAP[page]) {
     const orig = /<title>([^<]*)<\/title>/.exec(html);
     html = html.replace(/<title>[^<]*<\/title>/, `<title>${TITLE_MAP[page]}</title>`);
@@ -434,6 +539,63 @@ function stripThirdParty(html) {
   html = removeRecaptchaContainer(html);
   html = html.replace(/<iframe\b[^<>]*title="reCAPTCHA"[^<>]*>\s*<\/iframe>/gi, '');
   html = html.replace(/<textarea\b[^<>]*id="g-recaptcha-response"[^<>]*>\s*<\/textarea>/gi, '');
+  return html;
+}
+
+export function removeBadges(html) {
+  if (!html || (html.indexOf('footer-cert') < 0 && html.indexOf('cssda') < 0 && html.indexOf('cssdesignawards') < 0)) return html;
+  const LOGO = '/assets/root/Stillcraft_logo.png';
+  const LOGO_ENC = '%2Fassets%2Froot%2FStillcraft_logo.png';
+  // 1) static DOM elements outside <script> – do BEFORE flight replacement so wrappers still contain original URLs
+  const parts = html.split(/(<script[\s\S]*?<\/script>)/gi);
+  for (let i = 0; i < parts.length; i += 2) {
+    let chunk = parts[i];
+    // preloads (static head, never in flight) – cert preloads will be replaced by logo preload via flight, but strip old ones
+    chunk = chunk.replace(/<link\b[^>]*footer-cert-new[^>]*>\s*/gi, '');
+    chunk = chunk.replace(/<link\b[^>]*cssda-wotm[^>]*>\s*/gi, '');
+    chunk = chunk.replace(/<link\b[^>]*href="[^"]*cssda-wotm[^"]*"[^>]*>\s*/gi, '');
+    // footer cert wrapper (holds 2 imgs) – replace with StillCraft logo
+    const logoDiv = '<div class="image-placeholder ImagePlaceholder_imagePlaceholder__UW5XD styles_top_logo__Em5dj css-pf0bo6" style="display:flex;align-items:center"><img alt="StillCraft Events" loading="eager" decoding="async" style="color:transparent;object-fit:contain;width:180px;height:auto" src="' + LOGO + '" class="styles_top_logo_image__epCW5"></div>';
+    chunk = chunk.replace(/<div[^>]*class="[^"]*styles_top_logo__Em5dj[^"]*"[^>]*>[\s\S]*?footer-cert-new[\s\S]*?<\/div>\s*/gi, logoDiv);
+    // also handle empty wrapper left after previous runs
+    chunk = chunk.replace(/<div[^>]*class="[^"]*styles_top_logo__Em5dj[^"]*"[^>]*>\s*<\/div>\s*/gi, logoDiv);
+    // fallback: any remaining footer-cert img -> logo
+    chunk = chunk.replace(/<img[^>]*footer-cert[^>]*>\s*/gi, '<img alt="StillCraft Events" loading="eager" decoding="async" style="object-fit:contain;width:180px;height:auto" src="' + LOGO + '" class="styles_top_logo_image__epCW5">');
+    // CSSDA anchor (wraps the svg) – still contains original href at this point -> remove entirely
+    chunk = chunk.replace(/<a[^>]*href="[^"]*cssdesignawards[^"]*"[^>]*>[\s\S]*?<\/a>\s*/gi, '');
+    // fallback cssda img
+    chunk = chunk.replace(/<img[^>]*cssda[^>]*>\s*/gi, '');
+    parts[i] = chunk;
+  }
+  html = parts.join('');
+  // 2) flight-aware replacement (covers src/srcset/href inside flight JSON and any static attrs that slipped through)
+  // cert -> logo, cssda -> blank
+  const map = [
+    ['/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png', LOGO],
+    ['https://cms.iventions.com/wp-content/uploads/2025/07/footer-cert-new.png', LOGO],
+    ['%2Fassets%2Fcms%2Fwp-content%2Fuploads%2F2025%2F07%2Ffooter-cert-new.png', LOGO_ENC],
+    ['https%3A%2F%2Fcms.iventions.com%2Fwp-content%2Fuploads%2F2025%2F07%2Ffooter-cert-new.png', LOGO_ENC],
+    ['/assets/root/cssda-wotm-white.svg', ''],
+    ['/cssda-wotm-white.svg', ''],
+    ['%2Fassets%2Froot%2Fcssda-wotm-white.svg', ''],
+    ['%2Fcssda-wotm-white.svg', ''],
+    ['https://www.cssdesignawards.com/wotm/iventions/48253/', ''],
+    ['https://www.cssdesignawards.com/wotm/iventions/48253', ''],
+    ['www.cssdesignawards.com/wotm/iventions/48253', ''],
+  ];
+  const P = [];
+  for (const [from, to] of map) {
+    if (!from) continue;
+    P.push([from, to]);
+    const esc = from.split('/').join('\\/');
+    if (esc !== from) P.push([esc, to.split('/').join('\\/')]);
+  }
+  if (P.length) html = safeReplacePairs(html, P);
+  // 3) hide any leftover empty badges (flight blanked href/src → "") – cert now shows logo so don't hide its wrapper
+  if (html.indexOf('</head>') >= 0 && html.indexOf('sc-badge-hide') < 0) {
+    const hideCss = '<style id="sc-badge-hide">a[href=""]{display:none !important}a[href*=\"cssdesignawards\"]{display:none !important}img[src=""]{display:none !important}img[alt=\"CSSDA WOTM\"]{display:none !important}</style>';
+    html = html.replace(/<\/head>/i, hideCss + '\n$&');
+  }
   return html;
 }
 // Excise the baked `<div id="recaptcha-container">…</div>` badge block
@@ -554,48 +716,60 @@ function parseUpload(buf, contentType) {
   return { filename: fn ? fn[1] : 'upload.bin', type: ct ? ct[1].trim() : '', data: buf.slice(dataStart, dataEnd) };
 }
 
+// Common web-image formats accepted for image editing.
+// Non-image media (video/audio/font/PDF) are handled separately.
+const IMAGE_EXTS = /\.(png|jpe?g|webp|gif|svg|avif|bmp|ico)$/i;
+const IMAGE_EXT_LIST = new Set(['png','jpg','jpeg','webp','gif','svg','avif','bmp','ico']);
+const IMAGE_MAX = 8 << 20; // 8MB image limit (images are soft-editable; video/audio stay at 250MB)
+
+// Magic-byte guard: true when buffer looks like a given ftyp brand.
+const ftyp = (data, t) => { const h = data.slice(0, 13).toString('latin1'); return h.length > 7 && h.slice(4, 8) === 'ftyp' && h.slice(8, 13).toLowerCase().includes(t); };
+
 // Admin media uploads: images + video + audio + web fonts + vector (svg).
 // Magic-byte guard so a renamed .mp4/.png isn't stored under a fake extension.
+// IMAGE_EXTS/IMAGE_EXT_LIST constrain the *image* path; video/audio/fonts
+// fall through to the legacy checks below.
 function sniffMedia(data, filename) {
-  const ext = (/\.(png|jpe?g|webp|gif|svg|avif|mp4|m4v|mov|webm|mp3|wav|ogg|m4a|wof2?|woff2|ttf|otf|pdf)$/i.exec(filename) || [])[1]?.toLowerCase();
+  const ext = (/\.(png|jpe?g|webp|gif|svg|avif|mp4|m4v|mov|webm|mp3|wav|ogg|m4a|wof2?|woff2|ttf|otf|pdf|bmp|ico)$/i.exec(filename) || [])[1]?.toLowerCase();
   if (!ext) return null;
+  // Image formats: strict whitelist + magic bytes.
+  if (IMAGE_EXT_LIST.has(ext)) {
+    return sniffImage(data, ext);
+  }
   const h = data.slice(0, 12).toString('latin1');
-  const ftyp = (t) => h.length > 7 && h.slice(4, 8) === 'ftyp' && h.slice(8, 13).toLowerCase().includes(t);
-  if (ext === 'png' && !h.startsWith('\x89PNG')) return null;
-  if ((ext === 'jpg' || ext === 'jpeg') && !(data[0] === 0xff && data[1] === 0xd8)) return null;
-  if (ext === 'gif' && !h.startsWith('GIF8')) return null;
-  if (ext === 'webp' && !(h.startsWith('RIFF') && data.slice(8, 12).toString() === 'WEBP')) return null;
-  if (ext === 'avif' && !(ftyp('avif') || ftyp('avis'))) return null;
-  if (ext === 'svg' && !/<svg|<\?xml/i.test(data.slice(0, 800).toString('utf8'))) return null;
   if (ext === 'mp4') return h.slice(4, 8) === 'ftyp' ? 'mp4' : null;
-  if (ext === 'm4v') return ftyp('mp4') || ftyp('m4v') ? 'm4v' : null;
-  if (ext === 'mov') return ftyp('qt') || ftyp('mov') ? 'mov' : null;
+  if (ext === 'm4v') return ftyp(data, 'mp4') || ftyp(data, 'm4v') ? 'm4v' : null;
+  if (ext === 'mov') return ftyp(data, 'qt') || ftyp(data, 'mov') ? 'mov' : null;
   if (ext === 'webm') return h.startsWith('\x1a\x45\xdf\xa3') ? 'webm' : null;
   if (ext === 'mp3' && !h.startsWith('ID3') && !(data[0] === 0xff && (data[1] & 0xe0) === 0xe0)) return null;
   if (ext === 'wav' && !(h.startsWith('RIFF') && data.slice(8, 12).toString() === 'WAVE')) return null;
   if (ext === 'ogg' && !h.startsWith('OggS')) return null;
-  if (ext === 'm4a' && !(ftyp('M4A') || ftyp('mp4'))) return null;
+  if (ext === 'm4a' && !(ftyp(data, 'M4A') || ftyp(data, 'mp4'))) return null;
   if (ext === 'ttf' && h.slice(0, 4).toString() !== '\x00\x01\x00\x00') return null;
   if (ext === 'woff' && h.slice(0, 4).toString() !== 'wOFF') return null;
   if (ext === 'woff2' && h.slice(0, 4).toString() !== 'wOF2') return null;
   if (ext === 'otf' && h.slice(0, 4).toString() !== 'OTTO') return null;
   if (ext === 'pdf' && h.slice(0, 5) !== '%PDF-') return null;
-  return ext === 'jpeg' ? 'jpg' : ext;
+  if (ext === 'bmp' && !(h.startsWith('BM'))) return null;
+  if (ext === 'ico' && !(h.startsWith('\x00\x00\x01\x00') || h.startsWith('\x00\x00\x02\x00'))) return null;
+  return ext;
 }
 
-function sniffImage(data, filename) {
-  const ext = (/\.(png|jpe?g|webp|gif|svg)$/i.exec(filename) || [])[1]?.toLowerCase();
-  if (!ext) return null;
+// Strict image-only validation (common web formats + magic bytes).
+function sniffImage(data, ext) {
   const h = data.slice(0, 12).toString('latin1');
   if (ext === 'png' && !h.startsWith('\x89PNG')) return null;
   if ((ext === 'jpg' || ext === 'jpeg') && !(data[0] === 0xff && data[1] === 0xd8)) return null;
   if (ext === 'gif' && !h.startsWith('GIF8')) return null;
   if (ext === 'webp' && !(h.startsWith('RIFF') && data.slice(8, 12).toString() === 'WEBP')) return null;
-  if (ext === 'svg' && !/<svg|<\?xml/i.test(data.slice(0, 500).toString('utf8'))) return null;
+  if (ext === 'avif' && !(ftyp(data, 'avif') || ftyp(data, 'avis'))) return null;
+  if (ext === 'svg' && !/<svg|<\?xml/i.test(data.slice(0, 800).toString('utf8'))) return null;
+  if (ext === 'bmp' && !(h.startsWith('BM'))) return null;
+  if (ext === 'ico' && !(h.startsWith('\x00\x00\x01\x00') || h.startsWith('\x00\x00\x02\x00'))) return null;
   return ext === 'jpeg' ? 'jpg' : ext;
 }
 export {
-  getBrand, bustBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,
+  IMAGE_EXTS, IMAGE_EXT_LIST, IMAGE_MAX, getBrand, bustBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,
   stripThirdParty, flightReplace, applyFlightIA, applyContentFlight, applyLinks,
   applyGlobalSwaps, applyFooterAddresses, applyHeroVideo, mobileFor, posterFor, parseUpload, sniffImage, sniffMedia, FILE_FLIGHT,
   TITLE_MAP, NAV_LABELS, NAV_DROP_HREFS, MENU_ORDER, DEFAULT_TAGLINE,
@@ -745,6 +919,60 @@ export function encodeAssetSpaces(html) {
   }
   for (const raw of found) {
     out = safeReplace(out, raw, raw.split(' ').join('%20'));
+  }
+  return out;
+}
+
+// Stale listing cards: slugs that render in an index but have no backing
+// page (their dist pages were removed). Dropping the card beats a 404 on
+// every click. Static card + flight edge node go together — removing only
+// the static markup would let hydration re-create the card from flight data.
+const STALE_PROJECT_SLUGS = ['mothers-day-brunch-at-southfield-mall'];
+function removeFlightSlugNode(html, slug) {
+  const keys = ['"slug":"' + slug + '"', '\\"slug\\":\\"' + slug + '\\"'];
+  if (!keys.some((k) => html.includes(k))) return html;
+  let before;
+  try { before = verifyFlight(html); } catch { return html; }
+  let out = html;
+  for (const a of findEdgesArrays(out)) {
+    const inner = out.slice(a.start + 1, a.end - 1);
+    const nodes = splitTopObjects(inner);
+    if (nodes.length < 2) continue;
+    const kept = [];
+    let dropped = false;
+    for (const nd of nodes) {
+      const ns = inner.slice(nd.start, nd.end);
+      if (keys.some((k) => ns.includes(k))) { dropped = true; continue; }
+      kept.push(ns);
+    }
+    if (dropped) out = out.slice(0, a.start + 1) + kept.join(',') + out.slice(a.end - 1);
+  }
+  if (out === html) return html;
+  try {
+    const after = verifyFlight(out);
+    if (after.bad !== 0 || (before.rows > 0 && after.rows !== before.rows)) return html;
+  } catch { return html; }
+  return out;
+}
+export function removeStaleProjectCards(html) {
+  if (!html || html.indexOf('mothers-day-brunch') < 0) return html;
+  let out = html;
+  for (const slug of STALE_PROJECT_SLUGS) {
+    // static cards: <a .../project/<slug>...>...</a> (anchors never nest)
+    const needle = '/project/' + slug;
+    let idx = out.indexOf(needle);
+    let guard = 0;
+    while (idx >= 0 && guard++ < 8) {
+      const openStart = out.lastIndexOf('<a', idx);
+      if (openStart < 0) break;
+      const openEnd = out.indexOf('>', idx);
+      if (openEnd < 0 || openEnd - openStart > 4000) break;
+      const close = out.indexOf('</a>', openEnd);
+      if (close < 0) break;
+      out = out.slice(0, openStart) + out.slice(close + 4);
+      idx = out.indexOf(needle);
+    }
+    out = removeFlightSlugNode(out, slug);
   }
   return out;
 }

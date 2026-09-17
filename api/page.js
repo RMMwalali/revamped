@@ -5,7 +5,7 @@ import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getOverrides, applyOverrides, bustOverrides } from '../scripts/overrides.mjs';
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
-  applyContentFlight, stripThirdParty, applyImgDims, encodeAssetSpaces, applySplash,
+  applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash,
   applyStyleBlocks, applyFooterFix, applyTeamRoster,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks,
@@ -54,6 +54,7 @@ async function serveHtml(pathname, cookies, host) {
     const key = pageKey(pathname);
     let html = await readFile(file, 'utf8');
     if (!process.env.SC_NOSTRIP) html = stripThirdParty(html);
+    html = removeBadges(html);
     html = applyBrand(html, await getBrand());
     if (!process.env.SC_NONAV) html = applyNav(html, key);
     const noFP = NO_FP.has(key);
@@ -77,6 +78,7 @@ async function serveHtml(pathname, cookies, host) {
     html = applyStyleBlocks(html, await getBrand());
     html = await applyImgDims(html);
     html = encodeAssetSpaces(html);
+    html = removeStaleProjectCards(html);
     html = applySplash(html, key);
     html = applyFooterFix(html, key);
     const sess = await verifySession(cookies.sc_admin).catch(() => null);
@@ -112,6 +114,11 @@ export default async function handler(req, res) {
     }
     if (/^\/projects\/page\/\d+\/?$/.test(pathname)) {
       res.writeHead(302, { Location: '/projects' });
+      res.end();
+      return;
+    }
+    if (pathname === '/insights' || pathname.startsWith('/insights/') || pathname === '/insight' || pathname.startsWith('/insight/')) {
+      res.writeHead(302, { Location: '/contact' });
       res.end();
       return;
     }

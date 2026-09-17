@@ -1,0 +1,10 @@
+import { readFile } from 'node:fs/promises';
+import { applyNav } from './scripts/transform.mjs';
+const html = await readFile('./dist/index.html', 'utf8');
+const BS = String.fromCharCode(92);
+const hasStatic = (h) => h.indexOf('<div class="styles_invention__bakTB') >= 0;
+const hasFlight = (h) => h.indexOf(BS + '"className' + BS + '":' + BS + '"styles_invention__bakTB' + BS + '"') >= 0;
+console.log('before: static=', hasStatic(html), 'flight=', hasFlight(html));
+const out = applyNav(html, '/');
+console.log('after: static=', hasStatic(out), 'flight=', hasFlight(out));
+console.log('len:', html.length, '->', out.length);

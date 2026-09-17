@@ -233,61 +233,61 @@ export const LOGO_ROWS = {
    "el_id": "i-103",
    "kind": "image",
    "value": "/assets/custom/CARREFOUR.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonial_ stillcraft.svg"
   },
   {
    "el_id": "i-104",
    "kind": "image",
    "value": "/assets/custom/CARREFOUR.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonial_ stillcraft.svg"
   },
   {
    "el_id": "i-107",
    "kind": "image",
-   "value": "/assets/custom/EABL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg"
+   "value": "/assets/custom/CARREFOUR.png",
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Kenya Flower Festival.svg"
   },
   {
    "el_id": "i-108",
    "kind": "image",
-   "value": "/assets/custom/EABL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg"
+   "value": "/assets/custom/CARREFOUR.png",
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Kenya Flower Festival.svg"
   },
   {
    "el_id": "i-111",
    "kind": "image",
    "value": "/assets/custom/GALLERIA%20SHOPPING%20MALL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Carrefour.svg"
   },
   {
    "el_id": "i-112",
    "kind": "image",
    "value": "/assets/custom/GALLERIA%20SHOPPING%20MALL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Carrefour.svg"
   },
   {
    "el_id": "i-113",
    "kind": "image",
    "value": "/assets/custom/GIOVANE%20GENTILE.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Galleria Shopping Mall.svg"
   },
   {
    "el_id": "i-114",
    "kind": "image",
    "value": "/assets/custom/GIOVANE%20GENTILE.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Galleria Shopping Mall.svg"
   },
   {
    "el_id": "i-115",
    "kind": "image",
-   "value": "/assets/custom/EABL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg"
+   "value": "/assets/custom/CARREFOUR.png",
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Kenya Flower Festival.svg"
   },
   {
    "el_id": "i-116",
    "kind": "image",
-   "value": "/assets/custom/EABL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg"
+   "value": "/assets/custom/CARREFOUR.png",
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Kenya Flower Festival.svg"
   }
  ],
  "/": [
@@ -523,61 +523,61 @@ export const LOGO_ROWS = {
    "el_id": "i-103",
    "kind": "image",
    "value": "/assets/custom/CARREFOUR.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonial_ stillcraft.svg"
   },
   {
    "el_id": "i-104",
    "kind": "image",
    "value": "/assets/custom/CARREFOUR.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonial_ stillcraft.svg"
   },
   {
    "el_id": "i-107",
    "kind": "image",
-   "value": "/assets/custom/EABL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg"
+   "value": "/assets/custom/CARREFOUR.png",
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Kenya Flower Festival.svg"
   },
   {
    "el_id": "i-108",
    "kind": "image",
-   "value": "/assets/custom/EABL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg"
+   "value": "/assets/custom/CARREFOUR.png",
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Kenya Flower Festival.svg"
   },
   {
    "el_id": "i-111",
    "kind": "image",
    "value": "/assets/custom/GALLERIA%20SHOPPING%20MALL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Carrefour.svg"
   },
   {
    "el_id": "i-112",
    "kind": "image",
    "value": "/assets/custom/GALLERIA%20SHOPPING%20MALL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Carrefour.svg"
   },
   {
    "el_id": "i-113",
    "kind": "image",
    "value": "/assets/custom/GIOVANE%20GENTILE.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Galleria Shopping Mall.svg"
   },
   {
    "el_id": "i-114",
    "kind": "image",
    "value": "/assets/custom/GIOVANE%20GENTILE.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg"
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Galleria Shopping Mall.svg"
   },
   {
    "el_id": "i-115",
    "kind": "image",
-   "value": "/assets/custom/EABL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg"
+   "value": "/assets/custom/CARREFOUR.png",
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Kenya Flower Festival.svg"
   },
   {
    "el_id": "i-116",
    "kind": "image",
-   "value": "/assets/custom/EABL.png",
-   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg"
+   "value": "/assets/custom/CARREFOUR.png",
+   "orig_html": "/assets/cms/wp-content/uploads/2025/09/Testimonials_Kenya Flower Festival.svg"
   }
  ]
 };
