@@ -14,6 +14,26 @@
       "statusCode": 302
     },
     {
+      "source": "/project/adidas-display-wall",
+      "destination": "/projects",
+      "statusCode": 302
+    },
+    {
+      "source": "/project/uefa-champions-league-final-2026",
+      "destination": "/projects",
+      "statusCode": 302
+    },
+    {
+      "source": "/project/ypo-global-event",
+      "destination": "/projects",
+      "statusCode": 302
+    },
+    {
+      "source": "/service/sports",
+      "destination": "/projects",
+      "statusCode": 302
+    },
+    {
       "source": "/insights/:path*",
       "destination": "/contact",
       "statusCode": 302

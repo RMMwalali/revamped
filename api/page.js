@@ -4,9 +4,9 @@ import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getOverrides, applyOverrides, bustOverrides } from '../scripts/overrides.mjs';
 import {
-  getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
+  getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash,
-  applyStyleBlocks, applyFooterFix, applyTeamRoster,
+  applyStyleBlocks, applyFooterFix, applyTeamRoster, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks,
 } from '../scripts/transform.mjs';
@@ -64,6 +64,7 @@ async function serveHtml(pathname, cookies, host) {
       ...((LOGO_NAMES[key] || []).map((n) => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
     if (fileItems.length) html = applyOverrides(html, fileItems, { noFlightPatch: noFP });
     html = applyGlobalSwaps(html, key);
+    if (NO_FP.has(key)) html = applyLegalFix(html);
     const __brand = await getBrand();
     const __cms = await getCMS().catch(() => null);
     const __heroUrl = (__cms && __cms.hero && __cms.hero.video_url) || __brand.hero_video_src || HERO_VIDEO_URL;
@@ -71,6 +72,21 @@ async function serveHtml(pathname, cookies, host) {
     const __heroPos = posterFor(__heroUrl) || HERO_POSTER_URL;
     html = applyHeroVideo(html, __heroUrl, __heroMob, __heroPos);
     if (__cms) html = await applyStructuredCMS(html, __cms, key);
+    html = applyStatsFix(html);
+    html = applyCitiesFix(html);
+    html = applyLogosFix(html);
+    html = applyFooterSingleOffice(html);
+    html = applyHighlightsFix(html, key);
+    html = applySliderFix(html, key);
+    html = applyShareImage(html);
+    html = applyMetaFix(html, key);
+    html = applyValuesFix(html, key);
+    html = applyServiceCardsFix(html, key);
+    html = applyListingStaticFix(html);
+    html = applyPortfolioFix(html);
+    html = applySplitTextFix(html);
+    html = applyCardTitlesFix(html);
+    html = applyCaseMetaFix(html, key);
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
     html = applyLinks(html, host, key);
@@ -117,8 +133,21 @@ export default async function handler(req, res) {
       res.end();
       return;
     }
+    if (pathname === '/project/mothers-day-brunch-at-southfield-mall' || pathname.startsWith('/project/mothers-day-brunch-at-southfield-mall/')
+      || pathname === '/project/adidas-display-wall' || pathname.startsWith('/project/adidas-display-wall/')
+      || pathname === '/project/uefa-champions-league-final-2026' || pathname.startsWith('/project/uefa-champions-league-final-2026/')
+      || pathname === '/project/ypo-global-event' || pathname.startsWith('/project/ypo-global-event/')) {
+      res.writeHead(302, { Location: '/projects' });
+      res.end();
+      return;
+    }
     if (pathname === '/insights' || pathname.startsWith('/insights/') || pathname === '/insight' || pathname.startsWith('/insight/')) {
       res.writeHead(302, { Location: '/contact' });
+      res.end();
+      return;
+    }
+    if (pathname === '/service/sports' || pathname.startsWith('/service/sports/')) {
+      res.writeHead(302, { Location: '/projects' });
       res.end();
       return;
     }

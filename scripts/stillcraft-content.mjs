@@ -27,19 +27,39 @@ export const FLIGHT = {
     [`Complex Logistics`, `Reach And Proximity`],
     [`Guest Experience & Activations`, `One Team Accountable`],
   ],
+  '/service/congresses': [
+    [`Congresses`, `Space Activation`],
+    [`Concept & Design`, `Assessment & Curation`],
+    [`Branding`, `Vendor Sourcing`],
+    [`Hybrid & Digital Content`, `Activation & Fit-Out`],
+    [`Construction`, `Live Management`],
+    [`Technical Production`, `Handoff or Renewal`],
+    [`Complex Logistics`, `Hybrid Revenue Model`],
+    [`Guest Experience & Activations`, `Reported Outcomes`],
+    [`Where minds meet, decision move.`, `When an anchor tenant exits, StillCraft steps in to run the space.`],
+    [`create your moment`, `The Problem.`],
+    [`congress moment`, `your empty unit could earn.`],
+    [`Plan your next congress`, `Talk to us about vacant unit`],
+  ],
 };
 
 export const CONTENT = {
   '/': [
-    T('t-1', `StillCraft Events is a Nairobi-based agency running mall programming, brand activations, and corporate experiences — eight years of planning and delivering in one team.`, `Looking for an international event agency? One partner for events, exhibitions,`),
-    T('t-2', `StillCraft started with a simple observation: malls needed more than events, they needed programming that gave people a reason to come, stay, and return. Brands needed more than activations that looked good in a recap deck, they needed experiences people could actually feel and remember. And corporate teams needed environments that reflected the kind of culture, connection, and impression they wanted to create. Rather than choose one lane, we built StillCraft to work across all three.`, `We build experiences that audiences feel, not just attend.`),
+    // Hero description (anchor row: the template hero subline has no stable
+    // id). The old t-1/t-2 ID rows targeted the header ContactMenu button
+    // after a re-tag drifted ids — removed so the button label restores.
+    { el_id: 'ahome-hero', kind: 'text', tag: 'DIV', idx: 0,
+      value: `StillCraft started with a simple observation: malls needed more than events, they needed programming that gave people a reason to come, stay, and return. Brands needed more than activations that looked good in a recap deck, they needed experiences people could actually feel and remember. And corporate teams needed environments that reflected the kind of culture, connection, and impression they wanted to create. Rather than choose one lane, we built StillCraft to work across all three.`,
+      orig_html: `Designed to be remembered.<br class="css-0">We build experiences that audiences feel, not just attend.` },
   ],
   '/about': [
     T('t-77', `The People Behind`, `Our secret?`),
     T('t-78', `Eight Years Of Delivery`, `The people`),
     T('t-21', `Eight years of turning footfall and attention into results.`, `About Iventions`),
     T('t-24', `Most agencies choose a lane and stay in it. A media house that buys airtime. An events company that builds stages. A consultancy that writes strategy decks and hands them off to someone else to build. StillCraft chose not to. For eight years we have worked across shopping malls, brands, and corporate teams, planning the thinking and doing the building, without splitting the two apart.`, `Meet StillCraft Events, the global event agency behind powerful brand moments an`),
-    T('t-25', `That choice shapes everything about how we operate. When a mall needs a year of programming that keeps a calendar full and a tenant mix happy, we are the ones planning it and the ones on site running it.`, `Discover who we are and how we bring brands to life.`),
+    // NOTE: no t-25 row — ids drifted onto the Showreel video label; the old
+    // row stuffed body copy into the video control. Body paras 2-3 have no
+    // template element; the story is carried by header/values/team/stats.
   ],
   '/service/exhibits': [
     T('t-21', `Malls Programming and Retail`, `Exhibits`),
@@ -130,13 +150,52 @@ export const CONTENT = {
     T('t-53', `reaching out we're here, ready to listen. Email info@stillcraftevents.co.ke`, `reaching out we’re here, ready to listen`),
     T('t-54', `Call +254 792 234 337 or +254 755 959 236. Visit Piedmont, 671 Ngong Road, Nairobi, Kenya. Let's connect.`, `and respond with purpose. Let’s connect.`),
   ],
+  '/service/congresses': [
+    T('t-21', `Space Activation`, `Congresses`),
+    T('t-22', `The Problem.`, `create your moment`),
+    T('t-23', `The Problem.`, `create your moment`),
+    T('t-24', `When an anchor tenant exits, StillCraft steps in to run the space.`, `Where minds meet, decision move.`),
+    T('t-26', `Assessment & Curation`, `We define the vision`),
+    T('t-28', `Vendor Sourcing`, `We shape the experience`),
+    T('t-30', `Live Management`, `We deliver with precision`),
+    T('t-31', `Kenya's mall sector has been repeatedly hit by anchor tenant collapses, leaving large vacant units behind. A dark anchor drags the whole property down with it. Nobody is running the vacant unit itself, day to day, as a working, earning space while a permanent tenant is found. StillCraft steps in to run it as a managed occupation of your space — not an event.`, `We design congress spaces that command attention`),
+    T('t-32', `Assessment & Curation`, `Concept & Design`),
+    T('t-33', `Vendor Sourcing`, `Branding`),
+    T('t-34', `Activation & Fit-Out`, `Hybrid & Digital Content`),
+    T('t-35', `Live Management`, `Construction`),
+    T('t-36', `Handoff or Renewal`, `Technical Production`),
+    T('t-37', `Hybrid Revenue Model`, `Complex Logistics`),
+    T('t-38', `Reported Outcomes`, `Guest Experience & Activations`),
+    T('t-39', `Assessment & Curation`, `Concept & Design`),
+    T('t-40', `Vendor Sourcing`, `Branding`),
+    T('t-41', `Activation & Fit-Out`, `Hybrid & Digital Content`),
+    T('t-42', `Live Management`, `Construction`),
+    T('t-43', `Handoff or Renewal`, `Technical Production`),
+    T('t-44', `Hybrid Revenue Model`, `Complex Logistics`),
+    T('t-45', `Reported Outcomes`, `Guest Experience & Activations`),
+    T('t-82', `What happens to a mall when an anchor tenant leaves?`, `What do corporate conference planning services include for a professional congress?`),
+    T('t-83', `A dark anchor drags the whole property down with it. Foot traffic near it drops, and some smaller tenants can invoke lease clauses to reduce or exit their own rent once anchor occupancy falls below a set threshold. (Occupancy figures for Nairobi malls vary and should be treated as estimates until sourced.)`, `Corporate conference planning services cover the full design and delivery of professional conferences, from strategic thinking to flawless execution. At StillCraft Events Co., this includes creative concept development, guest journey design, venue scouting, technical planning, project management and on-site delivery, ensuring conferences feel seamless, engaging and purpose-driven.`),
+    T('t-84', `Who runs the vacant unit while it waits for a permanent tenant?`, `Are corporate conferences managed end to end, from strategy to on-site execution?`),
+    T('t-85', `Real estate and leasing firms handle landing a new permanent anchor. Event companies handle short, one-off activations. StillCraft steps in to run the space itself, day to day, as a working, earning programme — curated, managed and reported on — until it is properly relet.`, `Yes. StillCraft Events Co. manages conferences end to end. From defining objectives and shaping the creative direction to coordinating suppliers, schedules and on-site setup, everything is handled through one integrated process with a single point of contact.`),
+    T('t-86', `What does running the space involve?`, `Is full technical production included in corporate conference planning services?`),
+    T('t-87', `Assessment and curation of the space against the tenant mix, vendor sourcing on short-term commercial terms, lightweight reversible fit-out, then ongoing live management typically one to six months, closing with handoff or renewal on the strength of the track record.`, `Absolutely. The technical side of the congress is fully managed, including content scripting, room layouts, stage design, audiovisual production and technical coordination. Every technical decision is made to support clarity, flow and the overall attendee experience.`),
+    T('t-88', `How does StillCraft charge for this?`, `Can a congress be delivered anywhere in Europe?`),
+    T('t-89', `Hybrid — a smaller retainer plus a performance bonus tied to footfall or revenue targets.`, `Yes. While based in Nairobi and London, StillCraft Events Co. delivers congresses across Europe and beyond. With international experience, trusted local partners and a multilingual team, conferences are executed smoothly across different countries, venues and cultural contexts.`),
+    T('t-90', `Why is StillCraft the team for this?`, `Why choose StillCraft Events Co. for corporate conference planning services?`),
+    T('t-91', `StillCraft already curates and runs physical activations and reports outcomes back to mall clients. This is a natural extension of that work, not a new business — internationally proven by programmes like Primaris REIT and the pop-up curation agencies abroad.`, `StillCraft Events Co. combines strategic clarity, creative thinking and meticulous execution. With international experience, in-house expertise and a partnership mindset, the team delivers conferences that feel effortless to organise and meaningful to attend, placing ideas, speakers and audiences exactly where they belong: in the spotlight.`),
+    T('t-92', `Let's find out what `, `Let's create your `),
+    T('t-93', `your empty unit could earn.`, `congress moment`),
+    T('t-94', `Start with one space. We'll assess it, propose a concept, and show you what it could generate before anything is signed.`, `From strategic planning and destination expertise to flawless on-site delivery, we design congresses that leave nothing to chance. Your audience won't just attend. They'll remember.`),
+    T('t-95', `Talk to us about vacant unit`, `Plan your next congress`),
+    T('t-96', `Talk to us about vacant unit`, `Plan your next congress`),
+  ],
   
   '/privacy-policy': [
     T('t-41', `While using our Website, we may request your personal information, such as your email address, phone number and name. Upon your express acceptance we may use this data to send you newsletters or share marketing materials that may be of interest to you. You can opt out of receiving such communications from us at any time by emailing us at&nbsp;<a data-sc-id="t-42" href="mailto:info@stillcraftevents.co.ke">info@stillcraftevents.co.ke</a>.`, `While using our Website, we may request your personal information, such as your email address, phone number and name. Upon your express acceptance we may use this data to send you newsletters or share marketing materials that may be of interest to you. You can opt out of receiving such communications from us at any time by emailing us at&nbsp;<a data-sc-id="t-42" href="mailto:info@iventions.com">info@iventions.com</a>.`),
     T('t-46', `The entity responsible for processing personal data collected on this website is StillCraft Events Co., with office at Piedmont, 671 Ngong Road, Nairobi, Kenya. You can contact us at +254 792 234 337 or by emailing info@stillcraftevents.co.ke`, `The entity responsible for processing personal data collected on this website is Iventions International Events, S.L.U., identified by tax identification number B65280398 , with address in Av. Diagonal 433, 4-2, Barcelona, Spain. You can contact us at the number +34 933 028 640 or emailing us to info@iventions.com`),
   ],
   '/cookie-policy': [
-    T('t-33', `WHY DOES STILLCRAFT EVENTS USE THESE COOKIES?`, `WHY DOES IVENTIONS USE THESE COOKIES?`),
+    T('t-33', `WHY DOES STILLCRAFT USE THESE COOKIES?`, `WHY DOES IVENTIONS USE THESE COOKIES?`),
     T('t-34', `The use of Cookies allows us to:`, `The use of Cookies allows us to:`),
   ],
 };

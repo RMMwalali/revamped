@@ -13,9 +13,9 @@ import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie 
 import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.mjs';import {
   getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty, removeBadges,
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
-  applyGlobalSwaps, applyFooterAddresses, applyHeroVideo,
+  applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash, applyStyleBlocks,
-  applyFooterFix, applyTeamRoster, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  applyFooterFix, applyTeamRoster, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
@@ -260,8 +260,11 @@ const server = http.createServer(async (req, res) => {
       res.end();
       return;
     }
-    // removed case-study slug (no backing page since the 11-case rewrite)
-    if (pathname === '/project/mothers-day-brunch-at-southfield-mall' || pathname.startsWith('/project/mothers-day-brunch-at-southfield-mall/')) {
+    // removed case-study slugs (template projects, not StillCraft cases)
+    if (pathname === '/project/mothers-day-brunch-at-southfield-mall' || pathname.startsWith('/project/mothers-day-brunch-at-southfield-mall/')
+      || pathname === '/project/adidas-display-wall' || pathname.startsWith('/project/adidas-display-wall/')
+      || pathname === '/project/uefa-champions-league-final-2026' || pathname.startsWith('/project/uefa-champions-league-final-2026/')
+      || pathname === '/project/ypo-global-event' || pathname.startsWith('/project/ypo-global-event/')) {
       res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
       res.end();
       return;
@@ -269,6 +272,12 @@ const server = http.createServer(async (req, res) => {
     // blog removed - redirect to contact
     if (pathname === '/insights' || pathname.startsWith('/insights/') || pathname === '/insight' || pathname.startsWith('/insight/')) {
       res.writeHead(302, { Location: '/contact', 'Access-Control-Allow-Origin': '*' });
+      res.end();
+      return;
+    }
+    // sports service retired (no StillCraft lane) - redirect to projects
+    if (pathname === '/service/sports' || pathname.startsWith('/service/sports/')) {
+      res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
       res.end();
       return;
     }
@@ -342,6 +351,7 @@ const server = http.createServer(async (req, res) => {
         ...((LOGO_NAMES[key] || []).map(n => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
       if (fileItems.length) html = applyOverrides(html, fileItems, { noFlightPatch: noFP });
       html = applyGlobalSwaps(html, key);
+      if (key === '/cookie-policy' || key === '/privacy-policy' || key === '/legal-notice-terms-of-use') html = applyLegalFix(html);
       const __brand = await getBrand();
       const __cms = await getCMS().catch(() => null);
       const __heroUrl = (__cms && __cms.hero && __cms.hero.video_url) || __brand.hero_video_src || HERO_VIDEO_URL;
@@ -349,6 +359,21 @@ const server = http.createServer(async (req, res) => {
       const __heroPos = posterFor(__heroUrl) || HERO_POSTER_URL;
       html = applyHeroVideo(html, __heroUrl, __heroMob, __heroPos);
       if (__cms) html = await applyStructuredCMS(html, __cms, key);
+      html = applyStatsFix(html);
+      html = applyCitiesFix(html);
+      html = applyLogosFix(html);
+      html = applyFooterSingleOffice(html);
+      html = applyHighlightsFix(html, key);
+      html = applySliderFix(html, key);
+      html = applyShareImage(html);
+      html = applyMetaFix(html, key);
+      html = applyValuesFix(html, key);
+      html = applyServiceCardsFix(html, key);
+      html = applyListingStaticFix(html);
+      html = applyPortfolioFix(html);
+      html = applySplitTextFix(html);
+      html = applyCardTitlesFix(html);
+      html = applyCaseMetaFix(html, key);
       html = applyFooterAddresses(html);
       html = applyContentFlight(html, key);
       html = applyLinks(html, req.headers.host, key);

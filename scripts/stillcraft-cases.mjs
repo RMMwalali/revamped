@@ -31,11 +31,14 @@ export const OVERVIEW_STATS = [
 // Per-case facts are intentionally minimal/dashed — real metrics are added
 // per campaign only when confirmed. This keeps the 4-up facts grid rendering
 // without publishing per-case estimates as if they were measured.
+// Per-case facts stay qualitative until campaign-specific numbers are
+// confirmed (brief §4): no per-campaign figures, no internal notes. The only
+// numbers shown are the clearly-labelled programme-wide averages.
 const PH_FACTS = [
-  ['—', 'result described qualitatively — awaiting confirmed campaign figure'],
-  ['—', 'client quote placeholder — to be added when available'],
-  ['33% / 21%', 'programme-wide averages where tracked (see overview)'],
-  ['—', 'real figure will replace estimate when confirmed'],
+  ['On site', 'planned, staffed and run by one StillCraft team'],
+  ['For the season', 'timed to the retail moment it serves'],
+  ['33% / 21%', 'programme-wide footfall and dwell averages'],
+  ['Reported back', 'every season closes with a report'],
 ];
 
 const CASE = [
@@ -57,7 +60,7 @@ const CASE = [
       'StillCraft planned and delivered a family focused Easter activation at Galleria Mall, built around the holiday period to give visiting families a reason to stay longer than a shopping trip usually takes.',
     result:
       'The activation brought consistent family foot traffic through the Easter weekend, with strong engagement from children and parents alike, reinforcing Galleria as a place families choose to spend a holiday, not just pass through.',
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -78,7 +81,7 @@ const CASE = [
       "StillCraft delivered a Mother's Day activation at Galleria Mall, a gifting focused programme timed to the weekend's peak footfall, giving the day a moment worth showing up for rather than just a shopping errand.",
     result:
       "The programme gave Galleria a visible, on brand presence during one of the year's highest value retail weekends, adding an experience layer to a day shoppers were already planning to spend at the mall.",
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -99,7 +102,7 @@ const CASE = [
       'StillCraft planned and ran a World Cup watch party at Galleria Mall, turning a global sporting moment into a live, communal event on site rather than something shoppers watched at home instead of visiting the mall.',
     result:
       "The watch party drew a strong crowd for the duration of the match, giving Galleria a genuine social and entertainment moment that went beyond its usual retail programming, and demonstrated the mall's range beyond seasonal retail calendar events.",
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -120,7 +123,7 @@ const CASE = [
       "StillCraft planned and delivered Westgate Mall's Christmas campaign, a full seasonal programme built to give the mall a genuine festive identity through the holiday period rather than standard seasonal decor alone.",
     result:
       'The campaign gave Westgate a distinct festive presence through its highest traffic season of the year, positioning the mall as a destination for the holiday period rather than one retail option among several.',
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -141,7 +144,7 @@ const CASE = [
       "StillCraft delivered a Valentine's Day activation at Sarit Centre, a romance led programme timed to the day's concentrated shopping window, giving visitors a reason to associate the day with the mall itself, not just the stores inside it.",
     result:
       "The activation gave Sarit Centre a distinct presence during one of the year's shortest, most competitive retail windows, adding an experience layer to a day that otherwise passes quickly.",
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -162,7 +165,7 @@ const CASE = [
       'StillCraft planned and delivered a family focused Easter activation at Sarit Centre, built around the holiday window to give visiting families a genuine reason to spend their day at the mall.',
     result:
       'The activation drew strong family engagement through the Easter period, reinforcing Sarit Centre as a holiday destination for families rather than a retail stop alone.',
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -183,7 +186,7 @@ const CASE = [
       "StillCraft delivered a Valentine's Day activation at Southfield Mall, a romance led programme timed to the day's concentrated shopping window.",
     result:
       'The activation gave Southfield a distinct presence during a short, highly competitive retail window, adding an experience layer to a day that otherwise passes quickly.',
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -204,7 +207,7 @@ const CASE = [
       'StillCraft planned and delivered a family focused Easter activation at Southfield Mall, built around the holiday window.',
     result:
       'The activation drew strong family engagement through the Easter period, reinforcing Southfield as a holiday destination for families.',
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -225,7 +228,7 @@ const CASE = [
       "StillCraft delivered a Mother's Day activation at Southfield Mall, a gifting focused programme timed to peak weekend footfall.",
     result:
       "The programme gave Southfield a visible presence during one of the year's highest value retail weekends.",
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -246,7 +249,7 @@ const CASE = [
       "StillCraft delivered a Father's Day activation at Southfield Mall, a shorter, sharper programme built as a counterpart to the mall's Mother's Day activation.",
     result:
       "The activation gave Southfield consistent seasonal coverage across both major family gifting days in the calendar, not just one.",
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
   {
@@ -267,7 +270,7 @@ const CASE = [
       "StillCraft planned and delivered Southfield Mall's Christmas campaign, the anchor season of a full year of programming already run for the mall.",
     result:
       'The campaign gave Southfield a distinct festive identity through its highest traffic season, capping a year in which StillCraft ran five seasonal moments for the mall in a row.',
-    quote: '[Placeholder for a client quote, if available]',
+    quote: '',
     facts: PH_FACTS,
   },
 ];

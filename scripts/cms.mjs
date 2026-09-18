@@ -1273,6 +1273,8 @@ function applyProjects(html, cfg, page) {
     if (data.challenge && live.challenge && data.challenge !== live.challenge) html = swapText(html, live.challenge, data.challenge);
     if (data.whatWeDid && live.whatWeDid && data.whatWeDid !== live.whatWeDid) html = swapText(html, live.whatWeDid, data.whatWeDid);
     if (data.result && live.result && data.result !== live.result) html = swapText(html, live.result, data.result);
+    // quotes may be blank on the page (placeholders removed): an admin-supplied
+    // quote applies onto the live quote when one exists.
     if (data.quote && live.quote && data.quote !== live.quote) html = swapText(html, live.quote, data.quote);
   }
   // overview stat on /projects (once) — inject/replace a small banner if present

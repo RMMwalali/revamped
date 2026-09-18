@@ -8,64 +8,16 @@ export const NAMES = {
    "name": "Carrefour"
   },
   {
-   "id": "t-33",
-   "old": "UEFA",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Champions-League.svg",
-   "name": "EABL"
-  },
-  {
    "id": "t-34",
    "old": "Turkish Airlines",
    "src": "/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg",
    "name": "Galleria Shopping Mall"
   },
   {
-   "id": "t-35",
-   "old": "Pfizer",
-   "src": "/assets/cms/wp-content/uploads/2025/11/pfizer.png",
-   "name": "Giovane Gentile"
-  },
-  {
-   "id": "t-36",
-   "old": "FedEx",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Fedex.svg",
-   "name": "Heineken"
-  },
-  {
    "id": "t-37",
    "old": "Adidas",
    "src": "/assets/cms/wp-content/uploads/2026/08/adidas.png",
    "name": "Kenya Flower Festival"
-  },
-  {
-   "id": "t-38",
-   "old": "Euroleague",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Euroleague.svg",
-   "name": "Kitu Kali"
-  },
-  {
-   "id": "t-39",
-   "old": "Ribbon Communications",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Ribbon.svg",
-   "name": "Lintons"
-  },
-  {
-   "id": "t-40",
-   "old": "Centrient",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Centrient.svg",
-   "name": "Mastercard"
-  },
-  {
-   "id": "t-41",
-   "old": "Corden Pharma",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg",
-   "name": "OPPO"
-  },
-  {
-   "id": "t-42",
-   "old": "Radisys",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Radisys.svg",
-   "name": "PUMA"
   },
   {
    "id": "t-43",
@@ -77,7 +29,7 @@ export const NAMES = {
    "id": "t-44",
    "old": "YPO",
    "src": "/assets/cms/wp-content/uploads/2025/07/YPO.svg",
-   "name": "Sarit Center"
+   "name": "Sarit Centre"
   },
   {
    "id": "t-45",
@@ -109,12 +61,6 @@ export const NAMES = {
    "src": "/assets/cms/wp-content/uploads/2025/07/Fiat.svg",
    "name": "Westgate Shopping Mall"
   },
-  {
-   "id": "t-50",
-   "old": "VEEAM",
-   "src": "/assets/cms/wp-content/uploads/2025/07/VEEAM.svg",
-   "name": "Yallo"
-  }
  ],
  "/": [
   {
@@ -124,64 +70,16 @@ export const NAMES = {
    "name": "Carrefour"
   },
   {
-   "id": "t-33",
-   "old": "UEFA",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Champions-League.svg",
-   "name": "EABL"
-  },
-  {
    "id": "t-34",
    "old": "Turkish Airlines",
    "src": "/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg",
    "name": "Galleria Shopping Mall"
   },
   {
-   "id": "t-35",
-   "old": "Pfizer",
-   "src": "/assets/cms/wp-content/uploads/2025/11/pfizer.png",
-   "name": "Giovane Gentile"
-  },
-  {
-   "id": "t-36",
-   "old": "FedEx",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Fedex.svg",
-   "name": "Heineken"
-  },
-  {
    "id": "t-37",
    "old": "Adidas",
    "src": "/assets/cms/wp-content/uploads/2026/08/adidas.png",
    "name": "Kenya Flower Festival"
-  },
-  {
-   "id": "t-38",
-   "old": "Euroleague",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Euroleague.svg",
-   "name": "Kitu Kali"
-  },
-  {
-   "id": "t-39",
-   "old": "Ribbon Communications",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Ribbon.svg",
-   "name": "Lintons"
-  },
-  {
-   "id": "t-40",
-   "old": "Centrient",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Centrient.svg",
-   "name": "Mastercard"
-  },
-  {
-   "id": "t-41",
-   "old": "Corden Pharma",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg",
-   "name": "OPPO"
-  },
-  {
-   "id": "t-42",
-   "old": "Radisys",
-   "src": "/assets/cms/wp-content/uploads/2025/07/Radisys.svg",
-   "name": "PUMA"
   },
   {
    "id": "t-43",
@@ -193,7 +91,7 @@ export const NAMES = {
    "id": "t-44",
    "old": "YPO",
    "src": "/assets/cms/wp-content/uploads/2025/07/YPO.svg",
-   "name": "Sarit Center"
+   "name": "Sarit Centre"
   },
   {
    "id": "t-45",
@@ -225,11 +123,5 @@ export const NAMES = {
    "src": "/assets/cms/wp-content/uploads/2025/07/Fiat.svg",
    "name": "Westgate Shopping Mall"
   },
-  {
-   "id": "t-50",
-   "old": "VEEAM",
-   "src": "/assets/cms/wp-content/uploads/2025/07/VEEAM.svg",
-   "name": "Yallo"
-  }
  ]
 };
