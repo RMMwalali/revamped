@@ -1051,9 +1051,10 @@ export function applySliderFix(html, page) {
     hits.sort((a, b) => b[0] - a[0]);
     for (const [a, b] of hits) html = html.slice(0, a) + html.slice(b);
   }
-  // flight testimonial arrays → empty (edges and plain shapes; guarded).
+// flight testimonial arrays → empty (edges and plain shapes; guarded).
   // Only template-curated arrays (leave admin-curated ones alone).
   const TM_RE = /(UEFA|Pfizer|CordenPharma|Menzies|Midas|Adevinta|Adidas|FedEx|Turkish|VEEAM)/;
+  let emptiedEdges = false;
   try {
     const BS = String.fromCharCode(92);
     const FQ = BS + '"';
@@ -1095,16 +1096,67 @@ export function applySliderFix(html, page) {
         const cand = safeReplacePairs(html, [[inner, '']]);
         if (cand === html) { idx = html.indexOf(tkey, end); continue; }
         try {
-          if (verifyFlight(cand).bad <= badBefore) html = cand;
+          if (verifyFlight(cand).bad <= badBefore) { html = cand; emptiedEdges = true; }
         } catch { /* keep static fix */ }
         idx = html.indexOf(tkey, idx + 2);
       }
     }
   } catch { /* static fix stands */ }
+  // The slider component renders its slides from a "testimonials" prop that
+  // lists "$4:…:testimonialBlock:testimonials:edges:N:node" path references
+  // into the home data chunk. Once the edges array above is emptied, each of
+  // those references resolves to undefined and React's Flight client throws
+  // "Cannot read properties of undefined (reading '$$typeof')", fatalling the
+  // whole page. Empty the referencing array in lockstep so the slider simply
+  // gets zero slides instead of a corrupted stream.
+  if (emptiedEdges) {
+    try { html = emptyTestimonialRefArrays(html); } catch { /* static fix stands */ }
+  }
   // preloads for slider headshots / testimonial logos
   for (const slug of ['Adel-Kertesz', 'Theresa-Ruivo', 'Bruno-Sciamanna', 'Camilla-Di-Zenzo', 'Ella-McClary', 'Costanza-Rota', 'Jo-Harrison', 'Testimonials_', 'Testimonial_', 'UEFA-logo', 'Pfizer-logo']) {
     const esc = slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     html = html.replace(new RegExp(`<link\\b[^>]*${esc}[^>]*>\\s*`, 'g'), '');
+  }
+  return html;
+}
+// Empty every "testimonials" prop array whose members are exclusively
+// "$4:…:testimonials:edges:N:node" path references (escape-aware: refs sit in
+// flight strings as \", and contain no commas, so a plain split is safe).
+function emptyTestimonialRefArrays(html) {
+  const BS = String.fromCharCode(92);
+  const FQ = BS + '"';
+  const key = FQ + 'testimonials' + FQ + ':[';
+  let idx = html.indexOf(key);
+  let guard = 0;
+  while (idx >= 0 && guard++ < 6) {
+    const open = idx + key.length - 1;
+    let depth = 0, k = open, end = -1;
+    for (; k < html.length; k++) {
+      const c = html[k];
+      if (c === BS) { k++; continue; }
+      if (c === '[') depth++;
+      else if (c === ']') { depth--; if (depth === 0) { end = k; break; } }
+      if (k - open > 120000) break;
+    }
+    if (end < 0) break;
+    const inner = html.slice(open + 1, end);
+    const members = inner.split(',');
+    let allRefs = members.length >= 1;
+    for (const m of members) {
+      const t = m.trim();
+      if (!(t.length > 6 && t.startsWith(FQ + '$4:') && t.endsWith(FQ)
+        && t.includes(':testimonialBlock:') && t.includes(':edges:') && t.endsWith(':node' + FQ))) {
+        allRefs = false;
+        break;
+      }
+    }
+    if (!allRefs) { idx = html.indexOf(key, end); continue; }
+    const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
+    const cand = safeReplacePairs(html, [[inner, '']]);
+    if (cand !== html) {
+      try { if (verifyFlight(cand).bad <= badBefore) html = cand; } catch {}
+    }
+    idx = html.indexOf(key, end);
   }
   return html;
 }
@@ -1301,12 +1353,12 @@ function portfolioNodeCase(node, idx) {
   const FQ = BS + '"';
   // slug
   {
-    const m = (FQ + 'slug' + FQ + ':').length;
-    const i = out.indexOf(FQ + 'slug' + FQ + ':');
+    const lead = FQ + 'slug' + FQ + ':' + FQ;
+    const i = out.indexOf(lead);
     if (i < 0) return null;
-    const q = out.indexOf(FQ, i + m + 1);
+    const q = out.indexOf(FQ, i + lead.length);
     if (q < 0) return null;
-    out = out.slice(0, i + m + 1) + c.slug + out.slice(q);
+    out = out.slice(0, i + lead.length) + c.slug + out.slice(q);
   }
   // databaseId (first numeric)
   {
@@ -1801,7 +1853,7 @@ export function applyCaseMetaFix(html, page) {
     return out;
   } catch { return html; }
 }
-export function applyLogosFix(html) {
+export function applyLogosFix(html, items) {
   if (html.indexOf('js-worked-brand') < 0 && html.indexOf('partners') < 0) return html;
   // --- head preloads for template logo files (rewritten/dropped below) ---
   for (const src of Object.keys(WALL_SRC_MAP)) {
@@ -1812,6 +1864,11 @@ export function applyLogosFix(html) {
   for (const base of ['EABL.png', 'GIOVANE%20GENTILE.png', 'GIOVANE GENTILE.png', 'HEINEKEN.png', 'KITU%20KALI.webp', 'KITU KALI.webp', 'LINTONS.png', 'MASTERCARD.png', 'OPPO.png', 'PUMA.png', 'YALLO.png', 'Ribbon.svg']) {
     const esc = base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     html = html.replace(new RegExp(`<link\\b[^>]*${esc}[^>]*>\\s*`, 'g'), '');
+  }
+  // CMS list drives the wall wholesale (19 client slots, position keyed):
+  // every name, coverflow image and flight partner node is rebuilt to match.
+  if (Array.isArray(items) && items.length) {
+    return wallRebuild(html, items.slice(0, 19));
   }
   for (const t of WALL_DROP_TITLES) {
     const slug = t.toLowerCase().replace(/[^a-z0-9]+/g, '-');
@@ -1912,6 +1969,173 @@ function wallFixFlight(html) {
     idx = html.indexOf(key, idx + fresh.length);
   }
   return html;
+}
+// Wall rebuild driven by the CMS logos list. The template home ships a fixed
+// 19-slot wall (name labels t-32..t-50, coverflow cards with image pairs
+// i-39..i-76, and a flight "partners" node per slot). Every slot is rewritten
+// positionally to match the admin's saved items; slots beyond the list are
+// dropped (labels, cards and flight nodes alike). Length-synced engine swaps
+// plus the flight oracle guard keep the page valid no matter the input.
+function wallRebuild(html, items) {
+  const used = Array.from({ length: 19 }, (_, k) => items[k] || null);
+  const oldSrcs = collectWallOldSrcs(html);
+  // --- 1) name labels t-32..t-50 ---
+  for (let k = 0; k < 19; k++) {
+    const id = 't-' + (32 + k);
+    if (used[k]) {
+      const name = String(used[k].name == null ? '' : used[k].name)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;');
+      html = html.replace(new RegExp(`(<p[^>]*data-sc-id="${id}"[^>]*>)[^<]*(</p>)`), (m, a, b) => a + name + b);
+    } else {
+      html = html.replace(new RegExp(`<p\\b[^<>]*data-sc-id="${id}"[^<>]*>[\\s\\S]*?<\\/p>`, 'g'), '');
+    }
+  }
+  // --- 2) coverflow images i-39..i-76 (slot k → i-[39+2k] + i-[40+2k]) ---
+  for (let k = 0; k < 19; k++) {
+    const a = 'i-' + (39 + 2 * k);
+    const b = 'i-' + (40 + 2 * k);
+    const it = used[k];
+    if (it && it.src) {
+      html = wallImgTag(html, a, String(it.src), true);
+      html = wallImgTag(html, b, String(it.src), false);
+    } else {
+      html = dropWallCard(html, a, b);
+    }
+  }
+  // --- 3) drop stale <head> preloads for old logo files ---
+  for (const os of oldSrcs) {
+    html = html.replace(new RegExp(`<link\\b[^>]*${escRegExp(os)}[^>]*>\\s*`, 'gi'), '');
+  }
+  // --- 4) flight partners array: rebuild every node's title + sourceUrl ---
+  return wallRebuildFlight(html, used);
+}
+// Replace an entire <img data-sc-id="ID"> with a canonical logo tag.
+function wallImgTag(html, id, src, eager) {
+  const re = new RegExp(`(<img\\b[^>]*data-sc-id="${id}"[^>]*>)`);
+  const tag = `<img data-sc-id="${id}" alt="logo" loading="${eager ? 'eager' : 'lazy'}" width="32" height="32" decoding="async" data-nimg="${eager ? '1' : 'fill'}" class="" style="color:transparent;object-fit:contain" srcset="${src} 1x, ${src} 2x" src="${src}">`;
+  return html.match(re) ? html.replace(re, tag) : html;
+}
+// Remove the balanced coverflow card (css-1c6heav) that owns the image id.
+function dropWallCard(html, imgId, altId) {
+  let at = html.indexOf(`data-sc-id="${imgId}"`);
+  if (at < 0 && altId) at = html.indexOf(`data-sc-id="${altId}"`);
+  if (at < 0) return html;
+  const open = html.lastIndexOf('<div class="css-1c6heav"', at);
+  if (open < 0) return html;
+  const end = cutBalancedDiv(html, open);
+  if (end < 0) return html;
+  return html.slice(0, open) + html.slice(end);
+}
+// Collect every sourceUrl currently sitting in the flight partners array.
+function collectWallOldSrcs(html) {
+  const BS = String.fromCharCode(92);
+  const FQ = BS + '"';
+  const key = FQ + 'partners' + FQ + ':[';
+  const srcLead = FQ + 'sourceUrl' + FQ + ':' + FQ;
+  const out = [];
+  let idx = html.indexOf(key);
+  let guard = 0;
+  while (idx >= 0 && guard++ < 6) {
+    const open = idx + key.length - 1;
+    let depth = 0, end = -1;
+    for (let k = open; k < html.length; k++) {
+      const ch = html[k];
+      if (ch === BS) { k++; continue; }
+      if (ch === '[') depth++;
+      else if (ch === ']') { depth--; if (depth === 0) { end = k; break; } }
+      if (k - open > 60000) break;
+    }
+    if (end < 0) break;
+    const inner = html.slice(open + 1, end);
+    if (!inner.includes('featuredImage')) { idx = html.indexOf(key, end); continue; }
+    let si = 0;
+    while ((si = inner.indexOf(srcLead, si)) >= 0) {
+      const sj = inner.indexOf(FQ, si + srcLead.length);
+      if (sj <= si) break;
+      const v = inner.slice(si + srcLead.length, sj);
+      if (v && !out.includes(v)) out.push(v);
+      si = sj;
+    }
+    idx = html.indexOf(key, end);
+  }
+  return out;
+}
+// Positional flight rebuild: slot k's node gets title/sourceUrl of items[k];
+// slots with no item are removed from the array.
+function wallRebuildFlight(html, used) {
+  const BS = String.fromCharCode(92);
+  const FQ = BS + '"';
+  const key = FQ + 'partners' + FQ + ':[';
+  const titleLead = FQ + 'title' + FQ + ':' + FQ;
+  const srcLead = FQ + 'sourceUrl' + FQ + ':' + FQ;
+  let idx = html.indexOf(key);
+  let guard = 0;
+  while (idx >= 0 && guard++ < 6) {
+    const open = idx + key.length - 1;
+    let depth = 0, k = open, end = -1;
+    for (; k < html.length; k++) {
+      const ch = html[k];
+      if (ch === BS) { k++; continue; }
+      if (ch === '[') depth++;
+      else if (ch === ']') { depth--; if (depth === 0) { end = k; break; } }
+      if (k - open > 60000) break;
+    }
+    if (end < 0) break;
+    const inner = html.slice(open + 1, end);
+    if (!inner.includes('featuredImage')) { idx = html.indexOf(key, end); continue; }
+    const nodes = [];
+    let d2 = 0, s2 = open + 1;
+    for (let q = open + 1; q < end; q++) {
+      const ch = html[q];
+      if (ch === BS) { q++; continue; }
+      if (ch === '{') { if (d2 === 0) s2 = q; d2++; }
+      else if (ch === '}') { d2--; if (d2 === 0) nodes.push(html.slice(s2, q + 1)); }
+    }
+    if (!nodes.length) { idx = html.indexOf(key, end); continue; }
+    const kept = [];
+    for (let n0 = 0; n0 < nodes.length; n0++) {
+      const it = used[n0];
+      if (!it) continue;
+      let nn = nodes[n0];
+      const si = nn.indexOf(srcLead);
+      if (si >= 0) {
+        const sj = nn.indexOf(FQ, si + srcLead.length);
+        if (sj > si) {
+          const old = nn.slice(si + srcLead.length, sj);
+          if (it.src && old !== it.src) nn = nn.split(old).join(String(it.src));
+        }
+      }
+      const ti = nn.indexOf(titleLead);
+      if (ti >= 0 && it.name) {
+        const tj = nn.indexOf(FQ, ti + titleLead.length);
+        if (tj > ti) {
+          const oldT = nn.slice(ti + titleLead.length, tj);
+          const name = String(it.name);
+          if (oldT !== name) {
+            nn = nn.split(FQ + 'title' + FQ + ':' + FQ + oldT + FQ)
+              .join(FQ + 'title' + FQ + ':' + FQ + name + FQ);
+          }
+        }
+      }
+      kept.push(nn);
+    }
+    if (!kept.length) { idx = html.indexOf(key, end); continue; }
+    const fresh = kept.join(',');
+    const before = html.slice(open + 1, end);
+    if (before === fresh) { idx = html.indexOf(key, end); continue; }
+    const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
+    const cand = safeReplacePairs(html, [[before, fresh]]);
+    if (cand === html) { idx = html.indexOf(key, end); continue; }
+    try {
+      if (verifyFlight(cand).bad > badBefore) { idx = html.indexOf(key, end); continue; }
+    } catch { idx = html.indexOf(key, end); continue; }
+    html = cand;
+    idx = html.indexOf(key, idx + fresh.length);
+  }
+  return html;
+}
+function escRegExp(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 // StillCraft stats: the template block ships 5 achievements (270+ projects,
 // 90% clients, 21 nationalities, 31 countries, 1.2K moments). The brief keeps
@@ -2655,7 +2879,7 @@ function teamMember(p) {
     .split('<').join('\\u003c').split('>').join('\\u003e').split('&').join('\\u0026')
     .split('"').join('\\"');
 }
-function replaceMembersArray(html) {
+function replaceMembersArray(html, cms) {
   const key = '\\"members\\":[';
   let idx = html.indexOf(key);
   let guard = 0;
@@ -2672,7 +2896,7 @@ function replaceMembersArray(html) {
     const innerText = html.slice(idx + key.length, k);
     if (!innerText.includes('Alise Grota')) { idx = html.indexOf(key, k); continue; }
     if (process.env.SC_KEEPARR) {
-      return replaceTeamGrid(html);
+      return replaceTeamGrid(html, cms);
     }
     let fresh = TEAM.map(teamMember).join(',');
     // Length-framed flight rows: keep exact byte length so the stream parser
@@ -2690,21 +2914,77 @@ function replaceMembersArray(html) {
   }
   return html;
 }
-export function applyTeamRoster(html) {
+export function applyTeamRoster(html, cms) {
   if (process.env.SC_NOTEAM) return html;
   if (!html.includes('Alise Grota')) return html;
-  html = replaceMembersArray(html);
-  if (!process.env.SC_NOGRID) html = replaceTeamGrid(html);
+  html = replaceMembersArray(html, cms);
+  if (!process.env.SC_NOGRID) html = replaceTeamGrid(html, cms);
   return html;
 }
 
-const TEAM_CSS = '<style>.sc-team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;padding:2rem 0}.sc-team-card{background:#F5F1EC;border-radius:14px;padding:20px;border-top:4px solid #C9A24B}.sc-team-mono{width:42px;height:42px;border-radius:50%;background:#1B2A4A;color:#fff;display:grid;place-items:center;font:700 13px Inter,Arial,sans-serif;letter-spacing:.04em;margin-bottom:12px}.sc-team-card h3{font-size:16px;color:#1B2A4A;margin:0 0 4px;font-family:Georgia,serif}.sc-team-role{color:#C9A24B;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 10px}.sc-team-bio{font-size:13px;line-height:1.6;color:#000000;margin:0}@media(max-width:900px){.sc-team-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.sc-team-grid{grid-template-columns:1fr}}</style>';
+// ---------- shared "voices" section (testimonials band + team roster) ----------
+// One card language for both: cream cards on navy, gold accents, Georgia
+// headings, initials in the heading bold font. Testimonial cards carry a
+// photo/logo + quote + name/role/org + industry·location meta; team cards
+// carry initials instead of an image + name + title + description.
+const VOICES_CSS_RULES = '.sc-voices{background:#1B2A4A;padding:clamp(70px,9vw,110px) max(24px,5vw);color:#F5F1EC}'
+  + '.sc-voices-head{max-width:1240px;margin:0 auto 52px}'
+  + '.sc-voices-kicker{color:#C9A24B;font:600 13px Arial,sans-serif;letter-spacing:.32em;text-transform:uppercase;display:block;margin-bottom:14px}'
+  + '.sc-voices-title{color:#F5F1EC;font:500 clamp(34px,4.2vw,54px)/1.1 Georgia,serif;margin:0}'
+  + '.sc-voices-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.2rem;max-width:1240px;margin:0 auto}'
+  + '.sc-vo{background:#F5F1EC;border-radius:18px;padding:2.2rem 2.4rem;border-top:6px solid #C9A24B;box-shadow:0 10px 30px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:.9rem;min-width:0}'
+  + '.sc-vo-media{width:62px;height:62px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#e3dccf;border:2px solid #C9A24B}'
+  + '.sc-vo-media img{width:100%;height:100%;object-fit:cover;display:block}'
+  + '.sc-vo-mono{width:62px;height:62px;border-radius:50%;background:#1B2A4A;color:#F5F1EC;display:flex;align-items:center;justify-content:center;font:700 22px Georgia,serif;letter-spacing:.05em;border:2px solid #C9A24B;flex-shrink:0}'
+  + '.sc-vo-quote{font:400 19px/1.75 Georgia,serif;color:#1B2A4A;margin:0}'
+  + '.sc-vo-quote::before{content:"\\201C"}'
+  + '.sc-vo-quote::after{content:"\\201D"}'
+  + '.sc-vo-who{margin-top:auto}'
+  + '.sc-vo-name{font:700 24px Georgia,serif;color:#1B2A4A;margin:0}'
+  + '.sc-vo-role{color:#A67B1F;font-size:13px;letter-spacing:.11em;text-transform:uppercase;margin:6px 0 0;font-weight:700}'
+  + '.sc-vo-meta{color:#4a5568;font-size:13px;margin:8px 0 0}'
+  + '.sc-vo-title{color:#A67B1F;font-size:13px;letter-spacing:.11em;text-transform:uppercase;margin:0;font-weight:700}'
+  + '.sc-vo-bio{font-size:15px;line-height:1.7;color:#1a1a1a;margin:0}'
+  + '@media(max-width:960px){.sc-voices-grid{grid-template-columns:repeat(2,1fr)}}'
+  + '@media(max-width:560px){.sc-voices-grid{grid-template-columns:1fr}}';
+const VOICES_CSS = '<style>' + VOICES_CSS_RULES + '</style>';
 function monoOf(name) { return String(name || '').trim().split(/\s+/).slice(0, 2).map((w) => w[0] || '').join('').toUpperCase() || 'SC'; }
-function teamCard(p, n) {
-  const t = (k) => 't-team' + (n * 3 + k);
-  return `<div class="sc-team-card"><div class="sc-team-mono">${monoOf(p.name)}</div><h3 data-sc-id="${t(1)}">${p.name}</h3><p data-sc-id="${t(2)}" class="sc-team-role">${p.role}</p><p data-sc-id="${t(3)}" class="sc-team-bio">${p.bio}</p></div>`;
+function scEsc(s) {
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-function replaceTeamGrid(html) {
+function scBrand(s) {
+  return String(s).split('Iventions').join('StillCraft').split('IVENTIONS').join('STILLCRAFT');
+}
+function teamVoiceCard(p, n) {
+  const t = (k) => 't-team' + (n * 3 + k);
+  return `<article class="sc-vo" data-sc-voice="team"><div class="sc-vo-mono" data-sc-id="${t(0)}">${monoOf(p.name)}</div><h3 class="sc-vo-name" data-sc-id="${t(1)}">${scEsc(p.name)}</h3><p class="sc-vo-title" data-sc-id="${t(2)}">${scEsc(p.role)}</p><p class="sc-vo-bio" data-sc-id="${t(3)}">${scEsc(scBrand(p.bio))}</p></article>`;
+}
+function reviewCard(it, n) {
+  const t = (k) => 't-review' + (n * 4 + k);
+  const esc = scEsc;
+  const initials = monoOf(it.name || it.org || '');
+  const media = it.photo || it.logo;
+  const m = media
+    ? `<div class="sc-vo-media" data-sc-id="${t(0)}"><img loading="lazy" alt="${esc(it.org || it.name)}" src="${esc(media)}"></div>`
+    : `<div class="sc-vo-mono" data-sc-id="${t(0)}">${esc(initials)}</div>`;
+  const roleOrg = [it.role, it.org].filter(Boolean).join(' · ');
+  const meta = [it.industry, it.location].filter(Boolean).join(' · ');
+  return `<article class="sc-vo" data-sc-voice="testimonial">${m}<blockquote class="sc-vo-quote" data-sc-id="${t(1)}">${esc(scBrand(it.quote))}</blockquote><div class="sc-vo-who"><div class="sc-vo-name" data-sc-id="${t(2)}">${esc(it.name)}</div>${roleOrg ? `<p class="sc-vo-role">${esc(roleOrg)}</p>` : ''}${meta ? `<p class="sc-vo-meta">${esc(meta)}</p>` : ''}</div></article>`;
+}
+function voicesGrid(items, mode) {
+  const card = mode === 'team' ? teamVoiceCard : reviewCard;
+  return '<div class="sc-voices-grid">' + (items || []).map((it, n) => card(it, n)).join('') + '</div>';
+}
+function teamItemsOf(cms) {
+  const src = cms && cms.team && Array.isArray(cms.team.items)
+    ? cms.team.items
+    : (cms && Array.isArray(cms.team) ? cms.team : null);
+  if (src && src.length) {
+    return src.map((it) => ({ name: String(it.name || '').trim(), role: String(it.role || '').trim(), bio: String(it.bio || '').trim() }));
+  }
+  return TEAM;
+}
+function replaceTeamGrid(html, cms) {
   const anchor = 'js-talent-main';
   const gi = html.indexOf(anchor);
   if (gi < 0) return html;
@@ -2729,8 +3009,53 @@ function replaceTeamGrid(html) {
   // sanity: the grid we replace must contain the old roster
   const inner = html.slice(openEnd + 1, end);
   if (!inner.includes('Alise Grota')) return html;
-  const cards = TEAM.map((p, n) => teamCard(p, n)).join('');
-  return html.slice(0, openEnd + 1) + TEAM_CSS + '<div class="sc-team-grid">' + cards + '</div>' + html.slice(end);
+  const cards = voicesGrid(teamItemsOf(cms), 'team');
+  return html.slice(0, openEnd + 1) + VOICES_CSS + cards + html.slice(end);
+}
+export function applyTeamSectionFix(html, cms) {
+  if (process.env.SC_NOTEAM) return html;
+  if (!html.includes('js-talent-main')) return html;
+  const gridHtml = JSON.stringify(voicesGrid(teamItemsOf(cms), 'team'));
+  const css = '<style id="sc-talent-fix">'
+    + '.styles_talent__AlRC3{display:block !important}'
+    + '@media(max-width:1199px){.styles_talent__AlRC3{padding:10rem 2.4rem 10rem !important}}'
+    + '.styles_talent__AlRC3 .styles_talent_wrapper_title__up9Zp h2,'
+    + '.styles_talent__AlRC3 .styles_talent_wrapper_title__up9Zp h2 span,'
+    + '.styles_talent__AlRC3 h2, .styles_talent__AlRC3 h2 span{color:#F5F1EC !important}'
+    + '.styles_talent__AlRC3 .styles_talent_wrapper_title__up9Zp .Paragraph_paragraph__SId_Y,'
+    + '.styles_talent__AlRC3 .styles_talent_wrapper_title__up9Zp p{color:#F5F1EC !important;font-size:clamp(22px,2.4vw,30px) !important;line-height:1.6 !important}'
+    + '.styles_talent__AlRC3 .sc-voices-grid{padding:3rem 0 0}'
+    + VOICES_CSS_RULES
+    + '</style>';
+  const js = '<script>(function(){var inject=function(){try{var els=document.querySelectorAll(\'[class*="js-talent-main"]\');for(var i=0;i<els.length;i++){var el=els[i];if(el.querySelector(\'.sc-voices-grid\'))continue;el.innerHTML=' + gridHtml + ';}}catch(e){}};window.addEventListener(\'load\',function(){setTimeout(inject,900);setTimeout(inject,2500);});setTimeout(inject,1200);setTimeout(inject,3200);setTimeout(inject,6000);if(document.readyState!==\'loading\'){setTimeout(inject,600);}})();</script>';
+  if (/<\/head>/i.test(html)) html = html.replace(/<\/head>/i, css + '\n$&');
+  if (/<\/body>/i.test(html)) html = html.replace(/<\/body>/i, js + '\n$&');
+  return html;
+}
+// Homepage client-voice band: rebuild it as the testimonial voices section from
+// real CMS data. Runs AFTER applySliderFix (flight testimonial arrays already
+// emptied, template band gutted). Keeps the css-0/css-5ohagv wrappers intact so
+// React's mount point survives, then re-injects post-hydration when wiped.
+export function applyHomeVoices(html, page, cms) {
+  if (page === '/insider') return html;
+  if (page !== '/' && page !== '/home') return html;
+  const items = cms && Array.isArray(cms.testimonials.items) ? cms.testimonials.items : (cms && Array.isArray(cms.testimonials) ? cms.testimonials : []);
+  if (!items.length) return html;
+  const bandOpen = '<div class="css-0"><div class="css-5ohagv">';
+  const statsOpen = '<div class="css-0"><div class="css-4ysux8">';
+  const bi = html.indexOf(bandOpen);
+  if (bi < 0) return html;
+  const si = html.indexOf(statsOpen);
+  if (si <= bi) return html;
+  if (!html.slice(bi, si).includes('css-5ohagv')) return html;
+  const section = '<section class="sc-voices"><header class="sc-voices-head"><span class="sc-voices-kicker">CLIENT VOICES</span><h2 class="sc-voices-title">What our clients say</h2></header>'
+    + voicesGrid(items, 'testimonial') + '</section>';
+  html = html.slice(0, bi) + '<div class="css-0"><div class="css-5ohagv">' + section + '</div></div>' + html.slice(si);
+  const sec = JSON.stringify(section);
+  const js = '<script>(function(){var sec=' + sec + ';var inject=function(){try{var els=document.querySelectorAll(\'[class*="css-5ohagv"]\');for(var i=0;i<els.length;i++){var el=els[i];if(el.querySelector(\'.sc-voices\'))continue;el.innerHTML=sec;}}catch(e){}};window.addEventListener(\'load\',function(){setTimeout(inject,900);setTimeout(inject,2500);});setTimeout(inject,1200);setTimeout(inject,3200);setTimeout(inject,6000);if(document.readyState!==\'loading\'){setTimeout(inject,600);}})();</script>';
+  if (/<\/head>/i.test(html)) html = html.replace(/<\/head>/i, VOICES_CSS + '\n$&');
+  if (/<\/body>/i.test(html)) html = html.replace(/<\/body>/i, js + '\n$&');
+  return html;
 }
 export function applySplash(html, page) {  if (page === '/insider') return html;
   if (!/<body[^>]*>/i.test(html)) return html;

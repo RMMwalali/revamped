@@ -383,6 +383,29 @@ export function splitTopObjects(inner) {
   return out;
 }
 
+// Split a bracket-balanced `[...]` array inner into top-level `[...]`
+// array-element spans (string-aware, same rules as splitTopObjects).
+export function splitTopArrays(inner) {
+  const out = [];
+  let depth = 0, start = -1, inStr = false;
+  for (let i = 0; i < inner.length; i++) {
+    const c = inner[i];
+    if (c === BS) {
+      if (inner[i + 1] === '"') inStr = !inStr;
+      i++;
+      continue;
+    }
+    if (inStr) continue;
+    if (c === '[') { if (depth === 0) start = i; depth++; }
+    else if (c === ']') {
+      depth--;
+      if (depth === 0 && start >= 0) { out.push({ start, end: i + 1 }); start = -1; }
+      if (depth < 0) depth = 0;
+    }
+  }
+  return out;
+}
+
 // Find `edges:[...]` arrays (bracket-inclusive spans) in raw html.
 export function findEdgesArrays(html) {
   const out = [];
@@ -401,7 +424,7 @@ export function findEdgesArrays(html) {
 
 // Raw bracket matcher for push content: skips \X escapes and `\"`-strings.
 // `open` must index `[`. Returns index past `]` or -1.
-function matchBracketRaw(html, open) {
+export function matchBracketRaw(html, open) {
   let depth = 0, inStr = false;
   for (let i = open; i < html.length; i++) {
     const c = html[i];

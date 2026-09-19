@@ -1,0 +1,21 @@
+﻿import { chromium } from 'playwright';
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+await p.goto('http://localhost:3000/about', { waitUntil: 'load', timeout: 120000 });
+await p.waitForTimeout(8000);
+const out = await p.evaluate(() => {
+  const s = [...document.querySelectorAll('section')].find(x => /talent/i.test(x.className||''));
+  const t = (el) => { if(!el) return null; const cs=getComputedStyle(el); return { t: (el.textContent||'').trim().slice(0,50), tag: el.tagName, c: cs.color, s: cs.fontSize, w: cs.fontWeight, lh: cs.lineHeight, d: cs.display }; };
+  const res = {};
+  const h2 = s.querySelector('h2');
+  res.h2 = t(h2);
+  res.intro = t(s.querySelector('.css-434dce, [class*="Paragraph"]'));
+  res.facts = [...s.querySelectorAll('p')].slice(0,4).map(t);
+  res.quotes = [...s.querySelectorAll('span.Label_label, [class*="Label_label"]')].slice(0,6).map(t);
+  res.quoteContainers = [...s.querySelectorAll('[class*="styles_main_right"], [class*="css-164x2ri"], [class*="css-1hzj7rl"]')].slice(0, 6).map(t);
+  res.sectionBg = getComputedStyle(s).backgroundColor;
+  res.sectionPadding = getComputedStyle(s).padding;
+  return res;
+});
+console.log(JSON.stringify(out, null, 1));
+await b.close();

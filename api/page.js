@@ -74,7 +74,7 @@ async function serveHtml(pathname, cookies, host) {
     if (__cms) html = await applyStructuredCMS(html, __cms, key);
     html = applyStatsFix(html);
     html = applyCitiesFix(html);
-    html = applyLogosFix(html);
+    html = applyLogosFix(html, __cms && __cms.logos && Array.isArray(__cms.logos.items) ? __cms.logos.items : []);
     html = applyFooterSingleOffice(html);
     html = applyHighlightsFix(html, key);
     html = applySliderFix(html, key);

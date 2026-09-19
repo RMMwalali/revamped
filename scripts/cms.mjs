@@ -12,7 +12,7 @@ import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
-import { safeReplace, safeReplaceVerified, boundedSplitJoin, findEdgesArrays, splitTopObjects, verifyFlight } from './flight.mjs';
+import { safeReplace, safeReplaceVerified, boundedSplitJoin, findEdgesArrays, splitTopObjects, splitTopArrays, matchBracketRaw, verifyFlight } from './flight.mjs';
 
 export const CMS_SECTIONS = ['hero', 'highlights', 'logos', 'stats', 'testimonials', 'cities', 'articles', 'insights', 'team', 'projects'];
 
@@ -1018,7 +1018,64 @@ export function applyInsights(html, cfg, page, manifest) {
   if (page === '/insights' && Object.keys(items).length) {
     html = syncInsightsCards(html, eff, manBySlug);
   }
+  // 5) home insights circles: flight cells vs surviving edge count
+  if (isHome) {
+    html = syncInsightCircleCells(html);
+  }
   return html;
+}
+
+// The home "insights" hero circles render from a flight cell list where each
+// cell references `data...insights.edges:N` by index. When applyInsights
+// trims/rebuilds the home edges array (hidden filter or home ordering), stray
+// cells pointing past the new count de-reference to undefined and crash
+// hydration (`AnimatedCircle` reads `node`). Rewrite the cell list so it
+// always mirrors the surviving edge count, keeping `edges:N`/`index:N` in
+// sync with the on-page data row's `$4:...` reference prefix.
+function syncInsightCircleCells(html) {
+  const count = homeInsightEdgeCount(html);
+  if (count < 1) return html;
+  // the circle cells live in the flight rows (`$L53` cells with `item` refs)
+  const needle = 'styles_bottom__ivX84';
+  const gi = html.indexOf(needle);
+  if (gi < 0) return html;
+  // cells appear as `"children":[[["$","$L53",...],...]` where the children
+  // value opens `[`, then the cells ARRAY opens `[`, then each cell `[`. The
+  // cells array (first child) is what must be trimmed to `count` cells.
+  const cellStart = html.indexOf('children' + FQ + ':[', gi);
+  if (cellStart < 0) return html;
+  const cellsOpen = cellStart + ('children' + FQ + ':[').length; // X-open index
+  const cellsEnd = matchBracketRaw(html, cellsOpen);
+  if (cellsEnd <= 0) return html;
+  // keep exactly `count` leading cells and renumber edges:N/index:N 0..count-1
+  const inner = html.slice(cellsOpen + 1, cellsEnd - 1);
+  const spans = splitTopArrays(inner);
+  if (spans.length < 2) return html;
+  const keep = spans.slice(0, count);
+  const rebuilt = keep.map((s, i) => {
+    let cell = inner.slice(s.start, s.end);
+    const reNum = new RegExp('(edges:)\\d+').exec(cell);
+    if (reNum) cell = cell.slice(0, reNum.index) + reNum[1] + i + cell.slice(reNum.index + reNum[0].length);
+    const reIdx = new RegExp(RFQ + 'index' + RFQ + ':\\d+').exec(cell);
+    if (reIdx) cell = cell.slice(0, reIdx.index) + pfkey('index').slice(0, -FQ.length) + i + cell.slice(reIdx.index + reIdx[0].length);
+    return cell;
+  });
+  return html.slice(0, cellsOpen + 1) + rebuilt.join(',') + html.slice(cellsEnd - 1);
+}
+
+// Number of insight edge nodes in the (home) insights edges array.
+function homeInsightEdgeCount(html) {
+  for (const a of findEdgesArrays(html)) {
+    const inner = html.slice(a.start + 1, a.end - 1);
+    const nodes = splitTopObjects(inner);
+    if (nodes.length < 1) continue;
+    const first = inner.slice(nodes[0].start, nodes[0].end);
+    if (!first.includes('insightTemplate')) continue;
+    // the listing page keeps many edges; home arrays are small (<=6)
+    if (nodes.length > 6) continue;
+    return nodes.length;
+  }
+  return 0;
 }
 
 // Rebuild every home insights edges array to exactly `slugs` (in order).
@@ -1214,7 +1271,7 @@ function addInsightsCards(html, cards) {
 // ---------- team (text-only monogram cards) ----------
 export function extractTeam(html) {
   const out = [];
-  const re = /<div class="sc-team-card">[\s\S]*?<h3[^>]*>([^<]+)<\/h3>[\s\S]*?<p[^>]*class="sc-team-role"[^>]*>([^<]+)<\/p>[\s\S]*?<p[^>]*class="sc-team-bio"[^>]*>([\s\S]*?)<\/p>/g;
+  const re = /<article class="sc-vo" data-sc-voice="team">[\s\S]*?<h3[^>]*>([^<]+)<\/h3>[\s\S]*?<p[^>]*class="sc-vo-title"[^>]*>([^<]+)<\/p>[\s\S]*?<p[^>]*class="sc-vo-bio"[^>]*>([\s\S]*?)<\/p>/g;
   let m;
   while ((m = re.exec(html))) out.push({ name: m[1].trim(), role: m[2].trim(), bio: m[3].replace(/<[^>]*>/g, '').trim() });
   return out;

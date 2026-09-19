@@ -15,7 +15,7 @@ import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
   applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash, applyStyleBlocks,
-  applyFooterFix, applyTeamRoster, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  applyFooterFix, applyTeamRoster, applyTeamSectionFix, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
@@ -361,10 +361,11 @@ const server = http.createServer(async (req, res) => {
       if (__cms) html = await applyStructuredCMS(html, __cms, key);
       html = applyStatsFix(html);
       html = applyCitiesFix(html);
-      html = applyLogosFix(html);
+      html = applyLogosFix(html, __cms && __cms.logos && Array.isArray(__cms.logos.items) ? __cms.logos.items : []);
       html = applyFooterSingleOffice(html);
       html = applyHighlightsFix(html, key);
       html = applySliderFix(html, key);
+      html = applyHomeVoices(html, key, __cms);
       html = applyShareImage(html);
       html = applyMetaFix(html, key);
       html = applyValuesFix(html, key);
@@ -377,7 +378,8 @@ const server = http.createServer(async (req, res) => {
       html = applyFooterAddresses(html);
       html = applyContentFlight(html, key);
       html = applyLinks(html, req.headers.host, key);
-      html = applyTeamRoster(html);
+      html = applyTeamRoster(html, __cms);
+      html = applyTeamSectionFix(html, __cms);
       html = applyStyleBlocks(html, await getBrand());
       html = await applyImgDims(html);
       html = encodeAssetSpaces(html);
