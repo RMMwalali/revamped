@@ -6,7 +6,7 @@ import { getOverrides, applyOverrides, bustOverrides } from '../scripts/override
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash,
-  applyStyleBlocks, applyFooterFix, applyTeamRoster, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix,
+  applyStyleBlocks, applyFooterFix, applyTeamRoster, applyTeamSectionFix, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks,
 } from '../scripts/transform.mjs';
@@ -78,6 +78,7 @@ async function serveHtml(pathname, cookies, host) {
     html = applyFooterSingleOffice(html);
     html = applyHighlightsFix(html, key);
     html = applySliderFix(html, key);
+    html = applyHomeVoices(html, key, __cms);
     html = applyShareImage(html);
     html = applyMetaFix(html, key);
     html = applyValuesFix(html, key);
@@ -90,7 +91,8 @@ async function serveHtml(pathname, cookies, host) {
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
     html = applyLinks(html, host, key);
-    html = applyTeamRoster(html);
+    html = applyTeamRoster(html, __cms);
+    html = applyTeamSectionFix(html, __cms);
     html = applyStyleBlocks(html, await getBrand());
     html = await applyImgDims(html);
     html = encodeAssetSpaces(html);
