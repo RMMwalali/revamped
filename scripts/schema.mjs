@@ -36,6 +36,12 @@ CREATE TABLE IF NOT EXISTS brand_settings (
   value TEXT NOT NULL,
   updated_at TIMESTAMPTZ DEFAULT now()
 );
+CREATE TABLE IF NOT EXISTS login_attempts (
+  ip TEXT PRIMARY KEY,
+  fails INTEGER NOT NULL DEFAULT 0,
+  locked_until TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
 `);
 console.log('schema OK');
 
