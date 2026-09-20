@@ -285,6 +285,13 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/projects/mall-activations' || pathname.startsWith('/projects/mall-activations/')) {
       pathname = '/projects';
     }
+    // /projects/filter is a dynamic route (client-side filtering) with no static
+    // equivalent: redirect to the static /projects listing.
+    if (pathname === '/projects/filter' || pathname.startsWith('/projects/filter/')) {
+      res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
+      res.end();
+      return;
+    }
 
     // ----- Next.js image optimizer shim (serve bytes directly: no redirect roundtrip) -----
     if (pathname === '/_next/image') {
@@ -341,16 +348,21 @@ const server = http.createServer(async (req, res) => {
       html = removeBadges(html);
       html = applyBrand(html, await getBrand());
       if (!process.env.SC_NONAV) html = applyNav(html, key);
+      const __dbg_nav = (html.match(/href="\/projects"/g) || []).length;
+      const __dbg_step = (label) => { const c = (html.match(/href="\/projects"/g) || []).length; if (c !== __dbg_nav) console.error(`[serve] ${label}: ${c}`); return c; };
       // Legal pages have no below-root error boundary: a flight patch that the
       // client parses as a truncated stream fatals the whole page, so serve
       // them static-only (a 418 revert beats an Application error).
       const noFP = key === '/cookie-policy' || key === '/privacy-policy' || key === '/legal-notice-terms-of-use';
       html = applyOverrides(html, await getOverrides(key), { noFlightPatch: noFP });
+      __dbg_step('overrides');
       const fileItems = [...(FILE_CONTENT[key] || []),
         ...((LOGO_ROWS[key] || []).filter(r => !/Testimonial/i.test(r.orig_html))),
         ...((LOGO_NAMES[key] || []).map(n => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
       if (fileItems.length) html = applyOverrides(html, fileItems, { noFlightPatch: noFP });
+      __dbg_step('fileItems');
       html = applyGlobalSwaps(html, key);
+      __dbg_step('globalSwaps');
       if (key === '/cookie-policy' || key === '/privacy-policy' || key === '/legal-notice-terms-of-use') html = applyLegalFix(html);
       const __brand = await getBrand();
       const __cms = await getCMS().catch(() => null);
@@ -358,34 +370,63 @@ const server = http.createServer(async (req, res) => {
       const __heroMob = (__cms && __cms.hero && __cms.hero.video_mobile_url) || mobileFor(__heroUrl) || HERO_VIDEO_MOBILE_URL;
       const __heroPos = posterFor(__heroUrl) || HERO_POSTER_URL;
       html = applyHeroVideo(html, __heroUrl, __heroMob, __heroPos);
+      __dbg_step('heroVideo');
       if (__cms) html = await applyStructuredCMS(html, __cms, key);
+      __dbg_step('cms');
       html = applyStatsFix(html);
+      __dbg_step('statsFix');
       html = applyCitiesFix(html);
+      __dbg_step('citiesFix');
       html = applyLogosFix(html, __cms && __cms.logos && Array.isArray(__cms.logos.items) ? __cms.logos.items : []);
+      __dbg_step('logosFix');
       html = applyFooterSingleOffice(html);
+      __dbg_step('footerSingleOffice');
       html = applyHighlightsFix(html, key);
+      __dbg_step('highlightsFix');
       html = applySliderFix(html, key);
+      __dbg_step('sliderFix');
       html = applyHomeVoices(html, key, __cms);
+      __dbg_step('homeVoices');
       html = applyShareImage(html);
+      __dbg_step('shareImage');
       html = applyMetaFix(html, key);
+      __dbg_step('metaFix');
       html = applyValuesFix(html, key);
+      __dbg_step('valuesFix');
       html = applyServiceCardsFix(html, key);
+      __dbg_step('serviceCardsFix');
       html = applyListingStaticFix(html);
+      __dbg_step('listingStaticFix');
       html = applyPortfolioFix(html);
+      __dbg_step('portfolioFix');
       html = applySplitTextFix(html);
+      __dbg_step('splitTextFix');
       html = applyCardTitlesFix(html);
+      __dbg_step('cardTitlesFix');
       html = applyCaseMetaFix(html, key);
+      __dbg_step('caseMetaFix');
       html = applyFooterAddresses(html);
+      __dbg_step('footerAddresses');
       html = applyContentFlight(html, key);
+      __dbg_step('contentFlight');
       html = applyLinks(html, req.headers.host, key);
+      __dbg_step('links');
       html = applyTeamRoster(html, __cms);
+      __dbg_step('teamRoster');
       html = applyTeamSectionFix(html, __cms);
+      __dbg_step('teamSectionFix');
       html = applyStyleBlocks(html, await getBrand());
+      __dbg_step('styleBlocks');
       html = await applyImgDims(html);
+      __dbg_step('imgDims');
       html = encodeAssetSpaces(html);
+      __dbg_step('encodeAssetSpaces');
       html = removeStaleProjectCards(html);
+      __dbg_step('removeStaleProjectCards');
       html = applySplash(html, key);
+      __dbg_step('splash');
       html = applyFooterFix(html, key);
+      __dbg_step('footerFix');
       const sess = await verifySession(cookies.sc_admin).catch(() => null);
       // /insider hosts the standalone mini-CMS dashboard (own auth UI):
       // never inject the floating inline edit bar there.

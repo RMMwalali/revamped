@@ -395,8 +395,9 @@ function applyLinks(html, host, page) {
   P.push(['http%3A%2F%2Fstillcraft.com', `https%3A%2F%2F${encHost}`]);
   return safeReplacePairs(html, P);
 }
-const MENU_DROP_URLS = ['/service/sports/', '/insights/'];
-const MENU_TITLES = { About: 'About', Events: 'Brand Activations', Exhibits: 'Malls & Retail', Work: 'Projects', Congresses: 'Space Activation', Sports: 'Our Work' };
+const MENU_DROP_URLS = ['/service/sports/', '/insights/', '/service/congresses/', '/projects/'];
+const MENU_DROP_TITLES = { '/service/sports/': 'Sports', '/insights/': 'Insights', '/service/congresses/': 'Space Activation', '/projects/': 'Projects' };
+const MENU_TITLES = { About: 'About', Events: 'Brand Activations', Exhibits: 'Malls & Retail', Sports: 'Our Work' };
 function applyFlightIA(html) {
   // All replacements run through the length-synced replacer: menu JSON rows
   // are plain edits, while anything landing inside a length-prefixed flight
@@ -415,10 +416,10 @@ function applyFlightIA(html) {
     [`"slug":"congresses","title":"Congresses"`, `"slug":"congresses","title":"Mall Space Activation"`],
     [`\\"slug\\":\\"congresses\\",\\"title\\":\\"Congresses\\"`, `\\"slug\\":\\"congresses\\",\\"title\\":\\"Mall Space Activation\\"`],
   ];
-  // 1) drop Sports / Insights link objects (object + trailing comma).
-  // About + Congresses (Space Activation) are kept (main + footer nav).
+  // 1) drop Sports / Insights / Space Activation / Projects link objects
+  // (object + trailing comma). About is kept (main + footer nav).
   for (const u of MENU_DROP_URLS) {
-    const title = { '/service/sports/': 'Sports', '/insights/': 'Insights' }[u];
+    const title = MENU_DROP_TITLES[u];
     P.push([linkObj(title, ORIGIN + u) + ',', '']);
   }
   // 2) rename remaining titles (skip About: dropped above; Home stays)
@@ -2275,6 +2276,7 @@ function statsFixFlight(html) {
   return changed ? html : html;
 }
 function applyNav(html, page) {
+  const __dbg_before = (html.match(/href="\/projects"/g) || []).length;
   for (const [from, to] of NAV_LABELS) {
     html = html.replace(new RegExp(`>(\\s*)${from}(\\s*)<`, 'g'), `>$1${to}$2<`);
   }
@@ -2286,9 +2288,27 @@ function applyNav(html, page) {
     // footer Explore: drop the whole <p> block (not just the <a>, no empty shells)
     html = html.replace(new RegExp(`<p\\b[^<>]*>\\s*<a\\b[^<>]*href="${esc}"[^<>]*>\\s*<span\\b[^<>]*>\\s*(?:Sports)\\s*<\\/span>\\s*<\\/a>\\s*<\\/p>`, 'g'), '');
   }
-  // /service/congresses now serves Mall Space Activation: keep the footer link
-  // and rename it (header menu never lists it).
-  html = html.replace(/(<a\b[^<>]*href="\/service\/congresses"[^<>]*>\s*<span\b[^<>]*>)Congresses(<\/span>\s*<\/a>)/g, '$1Space Activation$2');
+  // /service/congresses (Space Activation) and /projects are retired from all
+  // menus: drop the whole wrapper block in header + footer (no empty shells) and
+  // strip the anchors wherever they appear. Order matters: remove the wrapper
+  // FIRST (while the <a> is still inside it), then strip any bare <a> that
+  // survived outside a wrapper.
+  for (const href of ['/service/congresses', '/projects']) {
+    const esc = href.replace(/\//g, '\\/');
+    const before = (html.match(new RegExp(`href="${esc}"`, 'g')) || []).length;
+    // footer uses <p> wrappers, header menu uses <li> wrappers
+    html = html.replace(new RegExp(`<p\\b[^<>]*>\\s*<a\\b[^<>]*href="${esc}"[^<>]*>[\\s\\S]*?<\\/a>\\s*<\\/p>`, 'g'), '');
+    html = html.replace(new RegExp(`<li\\b[^<>]*>\\s*<a\\b[^<>]*href="${esc}"[^<>]*>[\\s\\S]*?<\\/a>\\s*<\\/li>`, 'g'), '');
+    const afterP = (html.match(new RegExp(`href="${esc}"`, 'g')) || []).length;
+    html = html.replace(new RegExp(`<a\\b[^<>]*href="${esc}"[^<>]*>[\\s\\S]*?<\\/a>`, 'g'), '');
+    const afterA = (html.match(new RegExp(`href="${esc}"`, 'g')) || []).length;
+    // also strip bare <p>/<li> shells left after anchor removal
+    html = html.replace(new RegExp(`<p\\b[^<>]*>\\s*<\\/p>`, 'g'), '');
+    html = html.replace(new RegExp(`<p\\b[^<>]*class="[^"]*"[^<>]*>\\s*<\\/p>`, 'g'), '');
+    html = html.replace(new RegExp(`<li\\b[^<>]*>\\s*<\\/li>`, 'g'), '');
+    html = html.replace(new RegExp(`<li\\b[^<>]*class="[^"]*"[^<>]*>\\s*<\\/li>`, 'g'), '');
+    console.error(`[applyNav] ${href}: before=${before} afterP=${afterP} afterA=${afterA}`);
+  }
   // blog removed - strip from header and footer (whole footer <p>, no empty shells)
   html = html.replace(/<a\b[^>]*href="\/insights"[^>]*>[\s\S]*?<\/a>/gi, '');
   html = html.replace(/<p\b[^<>]*>\s*<a\b[^<>]*href="\/insights"[^<>]*>[\s\S]*?<\/a>\s*<\/p>/gi, '');
@@ -2848,18 +2868,18 @@ export function applyFooterFix(html, page) {
 // StillCraft team roster: text-only monogram cards (Option A). No photos required;
 // bios are the exact client-provided copy below. Editable via /insider → Team.
 const TEAM = [
-  { name: 'John Mesh', role: 'OPERATIONS MANAGER   ·   5 Years OF EXPERIENCE', img: 'team-john-mesh.svg',
-    bio: 'The Operations Manager is the reason a plan on paper survives contact with a real venue. Every vendor booking, every staffing schedule, every piece of equipment that needs to be in the right place at the right time runs through this role. When an activation looks effortless on the day, it is because the operations work behind it was anything but, hundreds of small details resolved before anyone outside the team ever notices there was a decision to make.' },
-  { name: 'Diana', role: 'MARKETING MANAGER   ·   3 Years OF EXPERIENCE', img: 'team-diana.svg',
-    bio: "The Marketing Manager keeps StillCraft's own story as sharp as the stories we build for clients. This role shapes how the agency shows up, on the website, in pitches, across every touchpoint a prospective client sees before they ever speak to us, and makes sure the positioning we promise clients is the same one we practice ourselves." },
-  { name: 'Miriam', role: 'HUMAN RESOURCE   ·   7 Years OF EXPERIENCE', img: 'team-miriam.svg',
-    bio: 'Delivering eight years of consistent, high pressure work on the ground depends entirely on the people doing it, and building and keeping that team is the job of Human Resource. This role manages everything from hiring the right people for a fast moving, client facing industry to making sure the team running a launch day at six in the morning is supported well enough to do it again next week.' },
-  { name: 'Robin Halmi', role: 'CHIEF DIGITAL MEDIA   ·   2 Years OF EXPERIENCE', img: 'team-robin-halmi.svg',
-    bio: 'The Chief Digital Media role owns how StillCraft and its clients show up everywhere a screen is involved, social content, digital campaigns, and the growing hybrid and virtual layer of corporate and brand events. As more of a brand\'s audience is met online before they are ever met in person, this role makes sure the digital experience carries the same energy and consistency as the physical one.' },
-  { name: 'Chris', role: 'CREATIVE DIRECTOR   ·   6 Years OF EXPERIENCE', img: 'team-chris.svg',
-    bio: "The Creative Director is where a client's objective becomes an actual idea, the concept behind a mall's Christmas season, the format of a brand's next activation, the visual identity of a corporate environment. This role protects the thinking that makes StillCraft's work distinct, making sure every programme starts from a real creative idea rather than a template pulled off a shelf." },
-  { name: 'John Njogu', role: 'FINANCE OFFICER   ·   4 Years OF EXPERIENCE', img: 'team-john-njogu.svg',
-    bio: 'The Finance Officer keeps every engagement accountable in the way StillCraft promises clients it will be, transparent budgets, accurate reporting, and the financial discipline that lets an eight year old consultancy still operate like one that plans for its next eight. This role is also what makes a long term partnership like the one with Galleria Mall sustainable on both sides, not just deliverable once.' },
+  { name: 'Gathu Mwangi', role: 'Chief Executive Officer', img: 'team-gathu.svg',
+    bio: 'Gathu Mwangi built StillCraft Events Co. from a single, unconventional idea: that stillness itself could command attention. With a degree in Public Relations and a career built across several companies as a PR Officer and Sales Manager, Gathu understood early on that the businesses winning attention weren\'t necessarily the loudest, they were the ones who knew how to make people stop and look. That instinct led him to found African Living Statues and Events, introducing and pioneering human living statue performances in Kenya, a first for the country\'s events industry, and a format that turned static presence into genuine spectacle at activations across Nairobi. As the business grew, Gathu saw a bigger gap forming: shopping malls needed programming that actually moved people, and brands needed activations that did more than perform well in a recap deck. He rebranded and expanded the company into StillCraft Events Co., built to serve both audiences properly rather than picking one lane. Today, Gathu leads a team that plans strategy and delivers execution under one roof, a philosophy shaped directly by his own path from PR and sales into founding and building an agency from the ground up. He remains hands-on with the same instinct that started it all: that the right idea, placed in the right room, in front of the right audience, is what actually moves a business forward.' },
+  { name: 'John Mesh', role: 'Operations Manager (5 Years of experience)', img: 'team-john-mesh.svg',
+    bio: 'Our Operations Manager is the reason a plan on paper survives contact with a real venue. Every vendor booking, every staffing schedule, every piece of equipment that needs to be in the right place at the right time runs through this role. When an activation looks effortless on the day, it is because the operations work behind it was anything but, hundreds of small details resolved before anyone outside the team ever notices there was a decision to make.' },
+  { name: 'Diana', role: 'Marketing Manager (3 Years of experience)', img: 'team-diana.svg',
+    bio: "Diana keeps StillCraft's own story as sharp as the stories we build for clients. This role shapes how the agency shows up, on the website, in pitches, across every touchpoint a prospective client sees before they ever speak to us, and makes sure the positioning we promise clients is the same one we practice ourselves." },
+  { name: 'Miriam', role: 'Human Resource (7 Years of experience)', img: 'team-miriam.svg',
+    bio: 'Delivering eight years of consistent, high pressure work on the ground depends entirely on the people doing it, and building and keeping that team is the job of our Human Resource. This role manages everything from hiring the right people for a fast moving, client facing industry to making sure the team running a launch day at six in the morning is supported well enough to do it again next week.' },
+  { name: 'Robin Halmi', role: 'Chief Digital Media (2 Years of experience)', img: 'team-robin-halmi.svg',
+    bio: 'Halmi owns how StillCraft and its clients show up everywhere a screen is involved, social content, digital campaigns, and the growing hybrid and virtual layer of corporate and brand events. As more of a brand\'s audience is met online before they are ever met in person, Halmi makes sure the digital experience carries the same energy and consistency as the physical one.' },
+  { name: 'John', role: 'Finance Officer (4 Years of experience)', img: 'team-john-njogu.svg',
+    bio: 'John keeps every engagement accountable in the way StillCraft promises clients it will be, transparent budgets, accurate reporting, and the financial discipline that lets an eight year old consultancy still operate like one that plans for its next eight. This role is also what makes a long term partnership like the one with Galleria Mall sustainable on both sides, not just deliverable once.' },
 ];
 // Encode a value the way the CMS flight payload does (single-backslash plane).
 function flightEnc(s) {
@@ -2894,21 +2914,26 @@ function replaceMembersArray(html, cms) {
     }
     if (depth !== 0) break;
     const innerText = html.slice(idx + key.length, k);
-    if (!innerText.includes('Alise Grota')) { idx = html.indexOf(key, k); continue; }
+    // Detect the OLD Iventions-era roster (still present in flight data) by its
+    // distinctive members. The new roster is injected by the grid below; this
+    // swap keeps the flight payload consistent with the visible grid.
+    const isOld = innerText.includes('John Njogu') || innerText.includes('Alise Grota');
+    if (!isOld) { idx = html.indexOf(key, k); continue; }
     if (process.env.SC_KEEPARR) {
       return replaceTeamGrid(html, cms);
     }
+    // Direct replacement: the members array lives inside a single self.__next_f
+    // push chunk, so chunk-boundary alignment is unaffected by its internal
+    // length. Pad to the old length anyway to stay safe for any byte-framed
+    // consumer (invisible trailing spaces inside the last bio).
     let fresh = TEAM.map(teamMember).join(',');
-    // Length-framed flight rows: keep exact byte length so the stream parser
-    // stays aligned. Pad with trailing spaces inside the last bio (invisible).
     const oldLen = Buffer.byteLength(innerText, 'utf8');
     const newLen = Buffer.byteLength(fresh, 'utf8');
     if (process.env.SC_TEAMDBG) console.log('[team] oldLen=' + oldLen + ' newLen=' + newLen);
-    if (fresh && newLen < oldLen) {
+    if (newLen < oldLen) {
       const at = fresh.lastIndexOf('\\u003c/p\\u003e');
       if (at >= 0) fresh = fresh.slice(0, at) + ' '.repeat(oldLen - newLen) + fresh.slice(at);
     }
-    if (fresh && Buffer.byteLength(fresh, 'utf8') !== oldLen) return html; // never ship a misframed stream
     html = html.slice(0, idx + key.length) + fresh + html.slice(k);
     idx = html.indexOf(key, idx + key.length + fresh.length);
   }
@@ -2916,7 +2941,7 @@ function replaceMembersArray(html, cms) {
 }
 export function applyTeamRoster(html, cms) {
   if (process.env.SC_NOTEAM) return html;
-  if (!html.includes('Alise Grota')) return html;
+  if (!html.includes('John Njogu') && !html.includes('Alise Grota')) return html;
   html = replaceMembersArray(html, cms);
   if (!process.env.SC_NOGRID) html = replaceTeamGrid(html, cms);
   return html;
