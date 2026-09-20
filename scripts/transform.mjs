@@ -1343,7 +1343,12 @@ const CASE_BY_IDX = CASE_DATA;
 function portfolioNodeCase(node, idx) {
   const c = CASE_BY_IDX[idx % CASE_BY_IDX.length];
   const BS = String.fromCharCode(92);
-  const esc = (s) => String(s).split(BS).join(BS + BS).split('"').join(BS + '"');
+  // Row-safe escaping: this text sits at the raw pre-decode layer and must
+  // survive TWO decodes (JS string, then JSON.parse) before hydration reads
+  // it — a literal backslash needs 4 backslashes and a literal quote needs 3
+  // backslashes + quote here, or the JSON.parse that hydrates the page fails
+  // ("Bad control character" / "Unterminated string in JSON").
+  const esc = (s) => String(s).split(BS).join(BS + BS + BS + BS).split('"').join(BS + BS + BS + '"');
   let out = node;
   const repFirst = (src, from, to) => {
     const i = src.indexOf(from);
@@ -1351,12 +1356,29 @@ function portfolioNodeCase(node, idx) {
     return src.slice(0, i) + to + src.slice(i + from.length);
   };
   const FQ = BS + '"';
+  // Locate the FQ (\") pair that actually terminates a string value, not one
+  // of the shell's own escaped-quote sequences inside HTML (e.g. a template's
+  // content field can carry `style=\\\"font-weight:...\\\"` — 3 backslashes —
+  // which a plain indexOf(FQ) would mistake for the 1-backslash terminator
+  // and truncate everything that follows).
+  const fieldEnd = (s, from) => {
+    let i = from;
+    while (i < s.length) {
+      const q = s.indexOf('"', i);
+      if (q < 0) return -1;
+      let n = 0, k = q - 1;
+      while (k >= 0 && s[k] === BS) { n++; k--; }
+      if (n % 2 === 1 && n === 1) return q - 1;
+      i = q + 1;
+    }
+    return -1;
+  };
   // slug
   {
     const lead = FQ + 'slug' + FQ + ':' + FQ;
     const i = out.indexOf(lead);
     if (i < 0) return null;
-    const q = out.indexOf(FQ, i + lead.length);
+    const q = fieldEnd(out, i + lead.length);
     if (q < 0) return null;
     out = out.slice(0, i + lead.length) + c.slug + out.slice(q);
   }
@@ -1374,7 +1396,7 @@ function portfolioNodeCase(node, idx) {
     const lead = FQ + 'title' + FQ + ':' + FQ;
     const i = out.indexOf(lead);
     if (i < 0) return null;
-    const j = out.indexOf(FQ, i + lead.length);
+    const j = fieldEnd(out, i + lead.length);
     if (j < 0) return null;
     out = out.slice(0, i + lead.length) + esc(c.title) + out.slice(j);
   }
@@ -1383,8 +1405,8 @@ function portfolioNodeCase(node, idx) {
     const lead = FQ + 'content' + FQ + ':' + FQ;
     const i = out.indexOf(lead);
     if (i >= 0) {
-      const j = out.indexOf(FQ, i + lead.length);
-      if (j >= 0) out = out.slice(0, i + lead.length) + '<p>' + esc(c.excerpt) + '</p>' + BS + 'n' + out.slice(j);
+      const j = fieldEnd(out, i + lead.length);
+      if (j >= 0) out = out.slice(0, i + lead.length) + '<p>' + esc(c.excerpt) + '</p>' + BS + BS + 'n' + out.slice(j);
     }
   }
   // cover image (first sourceUrl)
@@ -1392,7 +1414,7 @@ function portfolioNodeCase(node, idx) {
     const lead = FQ + 'sourceUrl' + FQ + ':' + FQ;
     const i = out.indexOf(lead);
     if (i >= 0) {
-      const j = out.indexOf(FQ, i + lead.length);
+      const j = fieldEnd(out, i + lead.length);
       if (j >= 0) out = out.slice(0, i + lead.length) + `/assets/stillcraft/mall-case/${c.slug}/cover.svg` + out.slice(j);
     }
   }
@@ -1401,13 +1423,13 @@ function portfolioNodeCase(node, idx) {
     const lead = FQ + 'location' + FQ + ':' + FQ;
     const i = out.indexOf(lead);
     if (i >= 0) {
-      const j = out.indexOf(FQ, i + lead.length);
+      const j = fieldEnd(out, i + lead.length);
       if (j >= 0) out = out.slice(0, i + lead.length) + esc(c.location) + out.slice(j);
     }
     const il = FQ + 'industry' + FQ + ':' + FQ;
     const ii = out.indexOf(il);
     if (ii >= 0) {
-      const j = out.indexOf(FQ, ii + il.length);
+      const j = fieldEnd(out, ii + il.length);
       if (j >= 0) out = out.slice(0, ii + il.length) + esc(c.industry) + out.slice(j);
     }
     const pl = FQ + 'participants' + FQ + ':';
