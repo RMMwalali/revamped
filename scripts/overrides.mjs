@@ -154,6 +154,44 @@ function patchFlight(html, orig, value) {
   return html;
 }
 
+// Image overrides cannot be won in the served markup alone. The bundle rebuilds
+// image srcs on the client - the hydrated value ("/upload/hero.svg") does not
+// appear anywhere in the HTML we send - so React overwrites whatever we patch.
+// Text survives because it is patched into the flight payload React renders
+// from; image URLs are not carried there. So the swap is also applied after
+// hydration, for every visitor and not just the admin whose edit bar happened
+// to re-apply it client-side. Reruns while the page settles, like the other
+// post-hydration guards in this codebase.
+export function imageOverrideScript(items) {
+  const pairs = [];
+  const seen = new Set();
+  for (const it of items || []) {
+    if (it.kind !== 'image' || !it.orig_html || !it.value) continue;
+    for (const cand of imgSrcCandidates(it.orig_html)) {
+      // A candidate equal to the new value is a no-op: the logo rows expand to
+      // dozens of these, and shipping them just pads the page.
+      if (!cand || cand === it.value || seen.has(cand)) continue;
+      seen.add(cand);
+      pairs.push([cand, it.value]);
+    }
+  }
+  if (!pairs.length) return '';
+  const data = JSON.stringify(pairs).replace(/<\/script/gi, '<\\/script');
+  return '<script>(function(){var P=' + data + ';'
+    + 'function swap(){for(var i=0;i<P.length;i++){'
+    + 'var from=P[i][0],to=P[i][1];'
+    // encodeAssetSpaces runs after this script is injected and rewrites
+    // spaces on both sides of a pair, so some pairs arrive here identical.
+    + 'if(!from||from===to)continue;'
+    + 'var els=document.querySelectorAll(\'img[src="\'+from+\'"]\');'
+    + 'for(var j=0;j<els.length;j++){var el=els[j];'
+    + 'el.setAttribute("src",to);el.removeAttribute("srcset");el.removeAttribute("sizes");}}}'
+    + 'function run(){try{swap();}catch(e){}}'
+    + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
+    + '[200,600,1200,2500,4000,6000,9000].forEach(function(t){setTimeout(run,t);});'
+    + '})();<\/script>';
+}
+
 export function applyOverrides(html, items, opts) {
   const noFP = !!(opts && opts.noFlightPatch);
   for (const it of items) {
@@ -172,6 +210,8 @@ export function applyOverrides(html, items, opts) {
       if (!noFP) html = patchFlight(html, it.orig_html, it.value);
     }
   }
+  const imgScript = imageOverrideScript(items);
+  if (imgScript) html = html.replace(/<\/body>/i, imgScript + '$&');
   return html;
 }
 
@@ -187,14 +227,33 @@ function replaceNth(html, needle, n, replacement) {
   return html.slice(0, idx) + replacement + html.slice(idx + needle.length);
 }
 
+// Root-relative assets are served both at their own path and mirrored under
+// /assets/root; /assets/* paths are already absolute for this build.
+function imgSrcCandidates(src) {
+  const out = [src];
+  if (src && src.charAt(0) === '/' && !src.startsWith('/assets/')) out.push('/assets/root' + src);
+  if (src && src.startsWith('/assets/root/')) out.push(src.slice('/assets/root'.length));
+  return out;
+}
+
 function applyAnchor(html, it) {
   if (it.kind === 'image' || it.kind === 'media') {
     if (it.kind === 'image') {
-      const re = new RegExp(`<img\\b[^<>]*src="${escapeRegExp(it.orig_html)}"`, 'gi');
-      let m;
-      const hits = [];
-      while ((m = re.exec(html)) && hits.length <= (it.idx || 0)) hits.push(m);
-      const hit = hits[it.idx || 0];
+      // The edit bar records the src it sees in the hydrated DOM, e.g.
+      // "/upload/hero.svg", but the served markup mirrors root-relative assets
+      // under /assets/root ("/assets/root/upload/hero.svg"). Matching only the
+      // recorded spelling found nothing, so image edits saved fine, showed for
+      // the logged-in admin (the bar re-applies them client-side) and never
+      // reached an anonymous visitor. Try both spellings.
+      let hit = null;
+      for (const cand of imgSrcCandidates(it.orig_html)) {
+        const re = new RegExp(`<img\\b[^<>]*src="${escapeRegExp(cand)}"`, 'gi');
+        let m;
+        const hits = [];
+        while ((m = re.exec(html)) && hits.length <= (it.idx || 0)) hits.push(m);
+        hit = hits[it.idx || 0];
+        if (hit) break;
+      }
       if (!hit) return html;
       const tagStart = hit.index;
       const tagEnd = html.indexOf('>', tagStart);
