@@ -5,6 +5,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { FLIGHT as FILE_FLIGHT } from './stillcraft-content.mjs';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
+import { CONGRESS_PRECISION_SECTION } from './congress-precision.mjs';
 export { LOGO_ROWS };
 export { CONTENT as FILE_CONTENT } from './stillcraft-content.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
@@ -987,24 +988,34 @@ export function applySliderFix(html, page) {
   return html;
 }
 
-// Team-members section removal ("Our secret? The people", the js-talent-main
-// grid with its Show fact / Hide fact toggles and member bios). The section
-// lives inside a styles_parallaxBox wrapper; when that wrapper is the talent
-// section's immediate parent the whole wrapper goes, otherwise just the
-// section itself. Presence-guarded, so pages without the team section are
-// untouched.
-export function applyAboutTeamRemove(html) {
+// Team-members section replacement: the "Our secret? The people" js-talent-main
+// grid (plus the client-side "The People Behind" team accordion that hydrates
+// over it) is swapped for the congress precision section (CONGRESS_PRECISION_SECTION,
+// the user's new teams section). The section lives inside a styles_parallaxBox
+// wrapper; when that wrapper is the talent section's immediate parent the whole
+// wrapper goes, otherwise just the section itself. Presence-guarded, so pages
+// without the team section are untouched. A small guard is injected with the
+// section to hide/remove the hydrated team accordion (section.css-4csq8r) so it
+// does not render back over the new section.
+const ABOUT_GUARD_CSS = 'section.css-4csq8r{display:none !important;}';
+const ABOUT_GUARD_JS = `<script>(function(){function drop(){var els=document.querySelectorAll('section.css-4csq8r');for(var i=0;i<els.length;i++){var n=els[i];if(n)n.remove();}}function run(){drop();}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}setTimeout(run,800);setTimeout(run,2500);setTimeout(run,6000);setTimeout(run,12000);})();</script>`;
+export function applyAboutTeamReplace(html) {
   const open = html.indexOf('<section class="styles_talent__AlRC3">');
   if (open < 0) return html;
+  const block = CONGRESS_PRECISION_SECTION.replace('css-1pylvzh">', 'css-1pylvzh" id="sc-congress-precision">')
+    + '<style>' + ABOUT_GUARD_CSS + '</style>' + ABOUT_GUARD_JS;
   const box = html.lastIndexOf('<div class="styles_parallaxBox__19SzL', open);
   if (box >= 0) {
     const boxEnd = cutBalancedDiv(html, box);
     const sec = html.indexOf('<section class="styles_talent__AlRC3">', box);
-    if (sec === open && boxEnd > open) return html.slice(0, box) + html.slice(boxEnd);
+    if (sec === open && boxEnd > open) return html.slice(0, box) + block + html.slice(boxEnd);
   }
   const end = html.indexOf('</section>', open);
-  if (end > open) return html.slice(0, open) + html.slice(end + 10);
+  if (end > open) return html.slice(0, open) + block + html.slice(end + 10);
   return html;
+}
+export function applyAboutTeamRemove(html) {
+  return applyAboutTeamReplace(html);
 }
 // Social share image: template points og:image/twitter:image at an Adevinta
 // case photo. Point at StillCraft's own hero poster until a dedicated
