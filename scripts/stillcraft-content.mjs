@@ -8,7 +8,7 @@ const T = (el_id, value, orig_html) => ({ el_id, kind: 'text', value, orig_html 
 // (short origs like "Branding" never pass patchFlight's uniqueness gate, so they need this).
 export const FLIGHT = {
   '/service/exhibits': [
-    [`Exhibits`, `Mall Space Monetisation`],
+    [`Exhibits`, `Mall and Retail`],
     [`Branding`, `Eight Years Running Calendars`],
     [`Concept & Design`, `One Team From Planning To The Floor`],
     [`Complex Logistics`, `Built Around Your Tenant Mix`],
@@ -28,7 +28,7 @@ export const FLIGHT = {
     [`Guest Experience & Activations`, `One Team Accountable`],
   ],
   '/service/congresses': [
-    [`Congresses`, `Mall Space Activation`],
+    [`Congresses`, `Mall Space Monetization`],
     [`Concept & Design`, `Assessment & Curation`],
     [`Branding`, `Vendor Sourcing`],
     [`Hybrid & Digital Content`, `Activation & Fit-Out`],
@@ -62,7 +62,7 @@ export const CONTENT = {
     // template element; the story is carried by header/values/team/stats.
   ],
   '/service/exhibits': [
-    T('t-21', `Mall Space Monetisation`, `Exhibits`),
+    T('t-21', `Mall and Retail`, `Exhibits`),
     T('t-24', `One calendar, run for you.`, `We make exhibits`),
     T('t-25', `Not just`, `impossible to`),
     T('t-26', `planned.`, `ignore.`),
@@ -151,7 +151,7 @@ export const CONTENT = {
     T('t-54', `Call +254 792 234 337 or +254 755 959 236. Visit Piedmont, 671 Ngong Road, Nairobi, Kenya. Let's connect.`, `and respond with purpose. Let’s connect.`),
   ],
   '/service/congresses': [
-    T('t-21', `Mall Space Activation`, `Congresses`),
+    T('t-21', `Mall Space Monetization`, `Congresses`),
     T('t-22', `The Problem.`, `create your moment`),
     T('t-23', `The Problem.`, `create your moment`),
     T('t-24', `When an anchor tenant exits, StillCraft steps in to run the space.`, `Where minds meet, decision move.`),
