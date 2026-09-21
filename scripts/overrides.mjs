@@ -120,28 +120,45 @@ export function replaceMediaSrc(html, id, src) {
 
 const jesc = (s) => JSON.stringify(s).slice(1, -1);
 
-// Patch flight-data occurrences so hydration renders the override instead of
-// reverting it. Tries entity-decoded and \u-escaped planes: flight often
-// stores markup as \u003c-div\u003e and &nbsp; as spaces, while static HTML
-// keeps entities.
-// ALL standalone occurrences follow the edit (length-synced, token-bounded):
-// shared labels (nav items, card titles) live in N flight nodes, and patching
-// only a unique one meant multi-node edits "saved" yet never reached visitors.
-// Token edges protect URLs/slugs/asset paths from partial rewrites.
+// Patch flight-data occurrence when the original string is unique there, so
+// hydration renders the override instead of reverting it. Tries entity-decoded
+// and \u-escaped planes: flight often stores markup as \u003c-div\u003e and
+// &nbsp; as spaces, while static HTML keeps entities.
+// Only a SINGLE occurrence is patched (and only when exactly one exists):
+// shared labels (nav items, card titles, footer links) live in N flight nodes,
+// and a blanket replace of all of them would retitle unrelated elements (the
+// header/footer menu, sibling cards). Multi-node edits are covered after
+// hydration by the injected text guard (textOverrideScript), which re-matches
+// by element tag + exact content + index — the same targeting the edit bar
+// used when the edit was recorded.
 function patchFlight(html, orig, value) {
   if (process.env.SC_NOFLIGHTPATCH) return html;
   if (!orig || orig === value) return html;
-  if (html.indexOf('self.__next_f.push(') < 0) return html;
+  const parts = html.split('self.__next_f.push(');
+  if (parts.length < 2) return html;
   const dec = (s) => s.split('&nbsp;').join(' ').split('&amp;').join('&').split('&#39;').join("'").split('&quot;').join('"');
   const escU = (s) => s.split('<').join('\\u003c').split('>').join('\\u003e').split('&').join('\\u0026');
-  const pairs = [];
+  const cands = [];
   for (const o of (dec(orig) === orig ? [orig] : [orig, dec(orig)])) {
-    pairs.push([jesc(o), jesc(o === orig ? value : value)]);
-    pairs.push([jesc(escU(o)), jesc(escU(o === orig ? value : value))]);
+    cands.push([jesc(o), jesc(o === orig ? value : value)]);
+    cands.push([jesc(escU(o)), jesc(escU(o === orig ? value : value))]);
   }
-  const jobs = pairs.filter(([a, b]) => a && a.length >= 4 && a !== b);
-  if (!jobs.length) return html;
-  return safeReplacePairs(html, jobs, true);
+  for (const [eo, ev] of cands) {
+    if (!eo || eo.length < 4 || eo === ev) continue;
+    let count = 0;
+    for (let i = 1; i < parts.length; i++) {
+      let j = parts[i].indexOf('])');
+      const seg = j >= 0 ? parts[i].slice(0, j) : parts[i];
+      let k = seg.indexOf(eo);
+      while (k >= 0) { count++; k = seg.indexOf(eo, k + 1); }
+    }
+    if (count !== 1) continue;
+    // Length-synced single swap: safe inside length-prefixed rows, and
+    // static HTML is untouched (the idx-th static occurrence is handled by
+    // applyAnchor/replaceElInner, which must keep the other copies intact).
+    return safeReplacePushes(html, eo, ev);
+  }
+  return html;
 }
 
 // Image overrides cannot be won in the served markup alone. The bundle rebuilds
@@ -184,6 +201,45 @@ export function imageOverrideScript(items) {
     + '})();<\/script>';
 }
 
+// Text overrides for multi-node shared strings (nav labels, card titles):
+// patchFlight only handles strings unique in the flight payload, because a
+// blanket replace retitles sibling elements (the header menu, other cards).
+// The admin edit bar re-applies such edits client-side, so they "stuck" for
+// the editor yet reverted for a plain visitor after hydration re-rendered the
+// flight value. Mirror the image guard: ship the recorded orig -> value pairs
+// and re-assert them post-hydration, matching by element tag + exact content +
+// occurrence index (the same targeting the edit bar used to record them).
+// Only plain-text edits ship (no tag soup, no humorous line-mask captures);
+// the edit bar records those for DOM-mining sprawl we do not want on pages.
+export function textOverrideScript(items) {
+  const jobs = [];
+  for (const it of items || []) {
+    if (it.kind !== 'text' || !it.orig_html || it.value === it.orig_html) continue;
+    if (!it.orig_html || !it.value) continue;
+    const o = String(it.orig_html);
+    const v = String(it.value);
+    if (o.length < 2 || o.length > 120) continue;
+    if (v.length < 1 || v.length > 200) continue;
+    if (/<[^>]+>/.test(o)) continue;            // plain text only
+    if (/^<br\s*\/?>$/i.test(v)) continue;      // "clear this line" noise
+    jobs.push({ o, v, t: it.tag || '', i: it.idx || 0 });
+  }
+  if (!jobs.length) return '';
+  const data = JSON.stringify(jobs).replace(/<\/script/gi, '<\\/script');
+  return '<script>(function(){var O=' + data + ';'
+    + 'function peers(tag,orig){'
+    + 'var names=(tag&&tag.toLowerCase())||"";'
+    + 'var found=[];'
+    + 'if(names){var list=document.getElementsByTagName(names);for(var j=0;j<list.length;j++){var e=list[j];if(e.closest&&e.closest(\'#sc-bar,#sc-brand-panel\'))continue;if(e.innerHTML===orig)found.push(e);}return found;}'
+    + 'return [];}'
+    + 'function swap(){for(var i=0;i<O.length;i++){var o=O[i];var ps=peers(o.t,o.o);var el=ps[o.i]||ps[0];if(el&&el.innerHTML!==o.v)el.innerHTML=o.v;}}'
+    + 'function run(){try{swap();}catch(e){}}'
+    + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
+    + 'try{new MutationObserver(function(m){for(var i=0;i<m.length;i++){if(m[i].type==="childList"){run();break;}}}).observe(document.body,{childList:true,subtree:true});}catch(e){}'
+    + '[200,600,1200,2500,4000,6000,9000,14000].forEach(function(t){setTimeout(run,t);});'
+    + '})();<\/script>';
+}
+
 export function applyOverrides(html, items, opts) {
   const noFP = !!(opts && opts.noFlightPatch);
   for (const it of items) {
@@ -204,6 +260,8 @@ export function applyOverrides(html, items, opts) {
   }
   const imgScript = imageOverrideScript(items);
   if (imgScript) html = html.replace(/<\/body>/i, imgScript + '$&');
+  const textScript = textOverrideScript(items);
+  if (textScript) html = html.replace(/<\/body>/i, textScript + '$&');
   return html;
 }
 

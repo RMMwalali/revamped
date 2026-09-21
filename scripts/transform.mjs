@@ -2465,13 +2465,22 @@ function applyNav(html, page) {
   if (TITLE_MAP[page]) {
     const orig = /<title>([^<]*)<\/title>/.exec(html);
     html = html.replace(/<title>[^<]*<\/title>/, `<title>${TITLE_MAP[page]}</title>`);
-    // keep document.title stable through hydration (flight metadata carries the old title)
+    // keep document.title stable through hydration. The old title rides in
+    // several places at once: the static <title> (done above), og:title /
+    // twitter:title meta content (entity-escaped), and the RSC metadata title
+    // nodes (where "&" is \u0026). Patch every form so hydration cannot set
+    // document.title back to the pre-rename value.
     if (orig && orig[1] && orig[1] !== TITLE_MAP[page]) {
-      const fromFlight = orig[1].replace(/&amp;/g, '&');
-      const toFlight = TITLE_MAP[page].replace(/&amp;/g, '&');
-      if (fromFlight.length > 8) html = flightReplace(html, fromFlight, toFlight);
-      // flight escapes & as \u0026 in metadata strings
-      if (fromFlight.includes('&')) html = flightReplace(html, fromFlight.split('&').join('\\u0026'), toFlight);
+      const newT = TITLE_MAP[page];
+      const oldE = orig[1];                       // entity form from the raw <title>
+      const oldP = oldE.replace(/&amp;/g, '&').replace(/&#39;/g, "'");
+      const oldU = oldE.replace(/&amp;/g, '\\u0026');
+      const pairs = [];
+      const push = (a, b) => { if (a && a !== b) pairs.push([a, b]); };
+      push(oldP, newT);
+      push(oldU, newT);
+      if (oldE !== oldP) push(oldE, newT);
+      html = safeReplacePairs(html, pairs);
     }
   }
   html = applyMenuOrder(html);
