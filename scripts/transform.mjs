@@ -130,6 +130,59 @@ function flightReplace(html, fromJson, toJson) {
   return safeReplace(html, `"${fromJson}"`, `"${toJson}"`);
 }
 
+// Stale chunk insurance: chunk renames (content-hash rotation for the
+// immutable `/_next/static` cache) must reach every HTML reference, including
+// split-across-push flight refs that plain searches miss. A stale name 404s
+// and Next.js dies with "Application error: a client-side exception has
+// occurred". Same-length swaps, flight-aware — no-op when already clean.
+// Runs at serve time so a regenerated dist/ (rebuild from scraped/) can never
+// ship a desynced reference again.
+const CHUNK_ROTATIONS = [
+  ['7051-6e38258f27e823dd.js', '7051-f39c5f36163b0072.js'],
+  ['7051-94cd094f4a3e8f0a.js', '7051-f3ed6d5164f253fc.js'],
+  ['7172-1942429eed9ac7e3.js', '7172-4db4616175fc1cb4.js'],
+  ['8809-c4e3ac275ea670ca.js', '8809-786367b29b78465e.js'],
+  ['page-39444cf470c387d5.js', 'page-309422970545a739.js'],
+  ['page-1086f123f968dd96.js', 'page-fd9d75e5d0bdf437.js'],
+];
+export function normalizeChunkRefs(html) {
+  if (!html || html.indexOf('self.__next_f.push(') < 0) return html;
+  // 1) contiguous refs (static markup, tails, whole pushes) — flight-aware.
+  html = safeReplacePairs(html, CHUNK_ROTATIONS);
+  // 2) refs split across push boundaries hide from plain searches: merge push
+  // contents (order-preserving), swap, re-emit. Same-length swaps preserve
+  // byte counts by construction; remaining pushes are emptied (same shape
+  // applyOnePair uses for cross-push payloads).
+  const delim = 'self.__next_f.push(';
+  const parts = html.split(delim);
+  const segs = [];
+  for (let i = 1; i < parts.length; i++) {
+    const m = /^\[(\d+),"/.exec(parts[i]);
+    if (!m) return html; // unexpected shape: leave untouched
+    let j = m[0].length;
+    while (j < parts[i].length) {
+      if (parts[i][j] === '\\') { j += 2; continue; }
+      if (parts[i][j] === '"') break;
+      j++;
+    }
+    if (j >= parts[i].length) return html;
+    segs.push({ prefix: parts[i].slice(0, m[0].length), content: parts[i].slice(m[0].length, j), suffix: parts[i].slice(j) });
+  }
+  const joined = segs.map((s) => s.content).join('');
+  let fixed = joined;
+  let needs = false;
+  for (const [from, to] of CHUNK_ROTATIONS) {
+    if (fixed.includes(from)) { fixed = fixed.split(from).join(to); needs = true; }
+  }
+  if (!needs) return html;
+  // Same-length swaps: byte counts are preserved by construction. Push order
+  // is unchanged; remaining pushes are emptied (same shape applyOnePair uses
+  // for cross-push payloads).
+  let out = parts[0] + delim + segs[0].prefix + fixed + segs[0].suffix;
+  for (let k = 1; k < segs.length; k++) out += delim + segs[k].prefix + '' + segs[k].suffix;
+  return out;
+}
+
 // StillCraft IA inside flight vdom (CMS menu data React actually renders).
 // Operates on flight pushes only; static markup is handled by NAV_LABELS/applyMenuOrder.
 const EQ = '\\"'; // an escaped quote as it appears raw in flight HTML

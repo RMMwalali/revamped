@@ -8,7 +8,7 @@ import {
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash,
   applyStyleBlocks, applyFooterFix, applyTeamRoster, applyTeamSectionFix, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
-  HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks,
+  HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
 import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
 
@@ -53,6 +53,7 @@ async function serveHtml(pathname, cookies, host) {
     if (!st.isFile()) continue;
     const key = pageKey(pathname);
     let html = await readFile(file, 'utf8');
+    html = normalizeChunkRefs(html);
     if (!process.env.SC_NOSTRIP) html = stripThirdParty(html);
     html = removeBadges(html);
     html = applyBrand(html, await getBrand());
