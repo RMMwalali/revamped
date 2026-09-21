@@ -408,8 +408,14 @@ const server = http.createServer(async (req, res) => {
       html = removeBadges(html);
       html = applyBrand(html, await getBrand());
       if (!process.env.SC_NONAV) html = applyNav(html, key);
-      const __dbg_nav = (html.match(/href="\/projects"/g) || []).length;
-      const __dbg_step = (label) => { const c = (html.match(/href="\/projects"/g) || []).length; if (c !== __dbg_nav) console.error(`[serve] ${label}: ${c}`); return c; };
+      // Nav-link tracing, kept for diagnosing the pipeline but off by default:
+      // it scanned the whole document 33 times per render and logged to stderr
+      // on every request. Set SC_DEBUG_NAV=1 to turn it back on.
+      const __dbgNav = !!process.env.SC_DEBUG_NAV;
+      const __dbg_nav = __dbgNav ? (html.match(/href="\/projects"/g) || []).length : 0;
+      const __dbg_step = __dbgNav
+        ? (label) => { const c = (html.match(/href="\/projects"/g) || []).length; if (c !== __dbg_nav) console.error(`[serve] ${label}: ${c}`); return c; }
+        : () => 0;
       // Legal pages have no below-root error boundary: a flight patch that the
       // client parses as a truncated stream fatals the whole page, so serve
       // them static-only (a 418 revert beats an Application error).
