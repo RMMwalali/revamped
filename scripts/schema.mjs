@@ -42,6 +42,23 @@ CREATE TABLE IF NOT EXISTS login_attempts (
   locked_until TIMESTAMPTZ,
   updated_at TIMESTAMPTZ DEFAULT now()
 );
+CREATE TABLE IF NOT EXISTS leads (
+  id SERIAL PRIMARY KEY,
+  kind TEXT NOT NULL CHECK (kind IN ('quote','contact','prize')),
+  name TEXT NOT NULL DEFAULT '',
+  email TEXT NOT NULL,
+  phone TEXT NOT NULL DEFAULT '',
+  company TEXT NOT NULL DEFAULT '',
+  message TEXT NOT NULL DEFAULT '',
+  -- every other field the form sends, verbatim, so nothing is lost if the
+  -- form gains a field before this table does.
+  payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+  source_page TEXT NOT NULL DEFAULT '',
+  ip TEXT NOT NULL DEFAULT '',
+  handled BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS leads_created_idx ON leads (created_at DESC);
 `);
 console.log('schema OK');
 
