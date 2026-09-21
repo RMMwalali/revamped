@@ -120,38 +120,28 @@ export function replaceMediaSrc(html, id, src) {
 
 const jesc = (s) => JSON.stringify(s).slice(1, -1);
 
-// Patch flight-data occurrence when the original string is unique there,
-// so hydration renders the override instead of reverting it.
-// Tries entity-decoded and \u-escaped planes: flight often stores markup as
-// \u003c-div\u003e and &nbsp; as spaces, while static HTML keeps entities.
+// Patch flight-data occurrences so hydration renders the override instead of
+// reverting it. Tries entity-decoded and \u-escaped planes: flight often
+// stores markup as \u003c-div\u003e and &nbsp; as spaces, while static HTML
+// keeps entities.
+// ALL standalone occurrences follow the edit (length-synced, token-bounded):
+// shared labels (nav items, card titles) live in N flight nodes, and patching
+// only a unique one meant multi-node edits "saved" yet never reached visitors.
+// Token edges protect URLs/slugs/asset paths from partial rewrites.
 function patchFlight(html, orig, value) {
   if (process.env.SC_NOFLIGHTPATCH) return html;
   if (!orig || orig === value) return html;
-  const parts = html.split('self.__next_f.push(');
-  if (parts.length < 2) return html;
+  if (html.indexOf('self.__next_f.push(') < 0) return html;
   const dec = (s) => s.split('&nbsp;').join(' ').split('&amp;').join('&').split('&#39;').join("'").split('&quot;').join('"');
   const escU = (s) => s.split('<').join('\\u003c').split('>').join('\\u003e').split('&').join('\\u0026');
-  const cands = [];
+  const pairs = [];
   for (const o of (dec(orig) === orig ? [orig] : [orig, dec(orig)])) {
-    cands.push([jesc(o), jesc(o === orig ? value : value)]);
-    cands.push([jesc(escU(o)), jesc(escU(o === orig ? value : value))]);
+    pairs.push([jesc(o), jesc(o === orig ? value : value)]);
+    pairs.push([jesc(escU(o)), jesc(escU(o === orig ? value : value))]);
   }
-  for (const [eo, ev] of cands) {
-    if (!eo || eo.length < 4 || eo === ev) continue;
-    let count = 0;
-    for (let i = 1; i < parts.length; i++) {
-      let j = parts[i].indexOf('])');
-      const seg = j >= 0 ? parts[i].slice(0, j) : parts[i];
-      let k = seg.indexOf(eo);
-      while (k >= 0) { count++; k = seg.indexOf(eo, k + 1); }
-    }
-    if (count !== 1) continue;
-    // Length-synced single swap: safe inside length-prefixed rows, and
-    // static HTML is untouched (the idx-th static occurrence is handled by
-    // applyAnchor/replaceElInner, which must keep the other copies intact).
-    return safeReplacePushes(html, eo, ev);
-  }
-  return html;
+  const jobs = pairs.filter(([a, b]) => a && a.length >= 4 && a !== b);
+  if (!jobs.length) return html;
+  return safeReplacePairs(html, jobs, true);
 }
 
 // Image overrides cannot be won in the served markup alone. The bundle rebuilds
@@ -167,12 +157,14 @@ export function imageOverrideScript(items) {
   const seen = new Set();
   for (const it of items || []) {
     if (it.kind !== 'image' || !it.orig_html || !it.value) continue;
-    for (const cand of imgSrcCandidates(it.orig_html)) {
-      // A candidate equal to the new value is a no-op: the logo rows expand to
-      // dozens of these, and shipping them just pads the page.
-      if (!cand || cand === it.value || seen.has(cand)) continue;
-      seen.add(cand);
-      pairs.push([cand, it.value]);
+    for (const orig of imgOrigCandidates(it.orig_html)) {
+      for (const cand of imgSrcCandidates(orig)) {
+        // A candidate equal to the new value is a no-op: the logo rows expand to
+        // dozens of these, and shipping them just pads the page.
+        if (!cand || cand === it.value || seen.has(cand)) continue;
+        seen.add(cand);
+        pairs.push([cand, it.value]);
+      }
     }
   }
   if (!pairs.length) return '';
@@ -236,6 +228,38 @@ function imgSrcCandidates(src) {
   return out;
 }
 
+// Recorded image/media origs may use the Next optimizer spelling
+// ("/_next/image?url=<enc>&w=..") while served markup carries the mapped
+// direct file (rewriteAssets). Normalize to the direct form so older edits
+// keep matching current markup, in served HTML and in the post-hydration guard.
+function directImgSrc(src) {
+  const m = /\/_next\/image\?url=([^&\s"'<>]+)/.exec(String(src || ''));
+  if (!m) return null;
+  let dec;
+  try { dec = decodeURIComponent(m[1]); } catch { return null; }
+  if (dec.startsWith('https://cms.iventions.com/')) {
+    return '/assets/cms/' + dec.replace('https://cms.iventions.com/', '');
+  }
+  if (dec.startsWith('/')) return dec;
+  return null;
+}
+
+function imgOrigCandidates(orig) {
+  const out = [];
+  const push = (s) => { if (s && !out.includes(s)) out.push(s); };
+  push(orig);
+  const direct = directImgSrc(orig);
+  if (direct) {
+    push(direct);
+    if (direct.includes(' ')) push(direct.split(' ').join('%20'));
+  }
+  for (const base of [...out]) {
+    if (base.charAt(0) === '/' && !base.startsWith('/assets/')) push('/assets/root' + base);
+    if (base.startsWith('/assets/root/')) push(base.slice('/assets/root'.length));
+  }
+  return out;
+}
+
 function applyAnchor(html, it) {
   if (it.kind === 'image' || it.kind === 'media') {
     if (it.kind === 'image') {
@@ -244,14 +268,18 @@ function applyAnchor(html, it) {
       // under /assets/root ("/assets/root/upload/hero.svg"). Matching only the
       // recorded spelling found nothing, so image edits saved fine, showed for
       // the logged-in admin (the bar re-applies them client-side) and never
-      // reached an anonymous visitor. Try both spellings.
+      // reached an anonymous visitor. Try every known spelling, including the
+      // pre-rewrite optimizer URL ("/_next/image?url=...") recorded by older DOMs.
       let hit = null;
-      for (const cand of imgSrcCandidates(it.orig_html)) {
-        const re = new RegExp(`<img\\b[^<>]*src="${escapeRegExp(cand)}"`, 'gi');
-        let m;
-        const hits = [];
-        while ((m = re.exec(html)) && hits.length <= (it.idx || 0)) hits.push(m);
-        hit = hits[it.idx || 0];
+      for (const cand of imgOrigCandidates(it.orig_html)) {
+        for (const spelling of imgSrcCandidates(cand)) {
+          const re = new RegExp(`<img\\b[^<>]*src="${escapeRegExp(spelling)}"`, 'gi');
+          let m;
+          const hits = [];
+          while ((m = re.exec(html)) && hits.length <= (it.idx || 0)) hits.push(m);
+          hit = hits[it.idx || 0];
+          if (hit) break;
+        }
         if (hit) break;
       }
       if (!hit) return html;
@@ -264,21 +292,25 @@ function applyAnchor(html, it) {
         .replace(/\ssizes\s*=\s*"[^"]*"/i, '');
       return html.slice(0, tagStart) + tag + html.slice(tagEnd + 1);
     }
-    // media: swap video/source/poster URLs at the nth exact match of the URL text.
-    const esc = escapeRegExp(it.orig_html);
-    const re = new RegExp(`((?:src|poster)\\s*=\\s*")${esc}(")`, 'gi');
-    let m, hits = 0;
-    let out = '';
-    let last = 0;
-    while ((m = re.exec(html))) {
-      if (hits === (it.idx || 0)) {
-        out += html.slice(last, m.index + m[1].length) + it.value + m[2];
-        last = m.index + m[0].length;
-        break;
+    // media: swap video/source/poster URLs at the nth exact match of the URL text
+    // (trying every known spelling of a recorded optimizer URL first).
+    let patched = html;
+    for (const cand of imgOrigCandidates(it.orig_html)) {
+      const esc = escapeRegExp(cand);
+      const re = new RegExp(`((?:src|poster)\\s*=\\s*")${esc}(")`, 'gi');
+      let m, hits = 0;
+      let out = '';
+      let last = 0;
+      while ((m = re.exec(patched))) {
+        if (hits === (it.idx || 0)) {
+          out += patched.slice(last, m.index + m[1].length) + it.value + m[2];
+          last = m.index + m[0].length;
+          break;
+        }
+        hits++;
       }
-      hits++;
+      if (last !== 0) { patched = out + patched.slice(last); break; }
     }
-    let patched = last === 0 ? html : out + html.slice(last);
     return patchReelPairs(patched, it.orig_html, it.value);
   }
   // text: match the full element so substring occurrences (titles, metas) can't collide
