@@ -2250,6 +2250,9 @@ export function applyStyleBlocks(html, brand) {
   return chunks.join('');
 }
 
+const DONOR_GTM_ID = 'GTM-PVJC495';
+const INERT_GTM_ID = 'GTM-0000000';
+
 function stripThirdParty(html) {
   // Cookiebot + Cloudflare beacon: 404/domain-not-authorized on localhost, safe to drop.
   html = html.replace(/<link[^>]*href="https:\/\/consent\.cookiebot\.com[^"]*"[^>]*>\s*/gi, '');
@@ -2265,6 +2268,15 @@ function stripThirdParty(html) {
   html = removeRecaptchaContainer(html);
   html = html.replace(/<iframe\b[^<>]*title="reCAPTCHA"[^<>]*>\s*<\/iframe>/gi, '');
   html = html.replace(/<textarea\b[^<>]*id="g-recaptcha-response"[^<>]*>\s*<\/textarea>/gi, '');
+  // Google Tag Manager: the container baked into the clone is the donor
+  // agency's, so StillCraft pageviews and form conversions were being reported
+  // into their analytics. Drop the static loader and its preload, then
+  // neutralise the id inside the flight payload as well, or the hydrated
+  // <GoogleTagManager> component just re-injects the script. The placeholder is
+  // the same length as the real id so flight row byte counts stay intact.
+  html = html.replace(/<link\b[^<>]*href="https:\/\/www\.googletagmanager\.com[^"]*"[^<>]*>\s*/gi, '');
+  html = html.replace(/<script\b[^<>]*src="https:\/\/www\.googletagmanager\.com[^"]*"[^<>]*>\s*<\/script>\s*/gi, '');
+  if (DONOR_GTM_ID.length === INERT_GTM_ID.length) html = html.split(DONOR_GTM_ID).join(INERT_GTM_ID);
   return html;
 }
 
