@@ -71,28 +71,32 @@ async function getBrand() {
 const DEFAULT_TAGLINE = 'Step into the Spotlight';
 
 // ---------- site IA: StillCraft navigation (existing pages, new titles) ----------
+// Three service lanes: Brand Activations, Mall Space Monetisation, Mall Space Activation.
 const NAV_LABELS = [
 ['Events', 'Brand Activations'],
-  ['Exhibits', 'Mall space and monetisation'],
+  ['Exhibits', 'Mall Space Monetisation'],
+  ['Congresses', 'Mall Space Activation'],
 ];
 const NAV_DROP_HREFS = ['/service/sports'];
 const TITLE_MAP = {
-  '/': 'International Event Agency | Brand Activations, Mall space and monetisation | StillCraft Events',
-  '/home': 'International Event Agency | Brand Activations, Mall space and monetisation | StillCraft Events',
+  '/': 'International Event Agency | Brand Activations, Mall Space Monetisation | StillCraft Events',
+  '/home': 'International Event Agency | Brand Activations, Mall Space Monetisation | StillCraft Events',
   '/about': 'About - StillCraft Events',
-  '/service/events': 'Brand Activations | Brands and Corporates | StillCraft Events',
-  '/service/exhibits': 'Mall space and monetisation | StillCraft Events',
+  '/service/events': 'Brand Activations | StillCraft Events',
+  '/service/exhibits': 'Mall Space Monetisation | StillCraft Events',
   '/projects': 'Projects | Case Studies | StillCraft Events',
   '/contact': 'Contact | Start Your Project | StillCraft Events',
-  '/service/congresses': 'Mall Space Activation | Vacant Units Earning | StillCraft Events',
+  '/service/congresses': 'Mall Space Activation | StillCraft Events',
 };
 
-// StillCraft menu order: Home, About, Malls & Retail, Brand Activations, Projects, Contact.
+// StillCraft menu order: Home, About, Brand Activations, Mall Space Monetisation,
+// Mall Space Activation, Contact.
 const MENU_ORDER = [
   ['/', 'Home'],
   ['/about', 'About'],
-  ['/service/exhibits', 'Mall space and monetisation'],
   ['/service/events', 'Brand Activations'],
+  ['/service/exhibits', 'Mall Space Monetisation'],
+  ['/service/congresses', 'Mall Space Activation'],
 ];
 const CONTACT_HREF = '/contact?form=quote';
 function applyMenuOrder(html) {
@@ -418,9 +422,9 @@ function applyLinks(html, host, page) {
   P.push(['http%3A%2F%2Fstillcraft.com', `https%3A%2F%2F${encHost}`]);
   return safeReplacePairs(html, P);
 }
-const MENU_DROP_URLS = ['/service/sports/', '/insights/', '/service/congresses/', '/projects/'];
-const MENU_DROP_TITLES = { '/service/sports/': 'Sports', '/insights/': 'Insights', '/service/congresses/': 'Space Activation', '/projects/': 'Projects' };
-const MENU_TITLES = { About: 'About', Events: 'Brand Activations', Exhibits: 'Mall space and monetisation', Sports: 'Our Work' };
+const MENU_DROP_URLS = ['/service/sports/', '/insights/', '/projects/'];
+const MENU_DROP_TITLES = { '/service/sports/': 'Sports', '/insights/': 'Insights', '/projects/': 'Projects' };
+const MENU_TITLES = { About: 'About', Events: 'Brand Activations', Exhibits: 'Mall Space Monetisation', Congresses: 'Mall Space Activation', Sports: 'Our Work' };
 function applyFlightIA(html) {
   // All replacements run through the length-synced replacer: menu JSON rows
   // are plain edits, while anything landing inside a length-prefixed flight
@@ -429,18 +433,19 @@ function applyFlightIA(html) {
   const origin = flightOrigin(html);
   const homeObj = linkObj('Home', origin + '/home/');
   const brandObj = linkObj('Brand Activations', origin + '/service/events/');
-  const mallsObj = linkObj('Mall space and monetisation', origin + '/service/exhibits/');
+  const mallsObj = linkObj('Mall Space Monetisation', origin + '/service/exhibits/');
+  const actObj = linkObj('Mall Space Activation', origin + '/service/congresses/');
   const P = [
     // 0) service entity titles drive the page headlines (menu keeps short
     // labels). Must run before the menu rename below (same original values).
-    [`"slug":"events","title":"Events"`, `"slug":"events","title":"Brands and Corporates"`],
-    [`\\"slug\\":\\"events\\",\\"title\\":\\"Events\\"`, `\\"slug\\":\\"events\\",\\"title\\":\\"Brands and Corporates\\"`],
-    [`"slug":"exhibits","title":"Exhibits"`, `"slug":"exhibits","title":"Mall space and monetisation"`],
-    [`\\"slug\\":\\"exhibits\\",\\"title\\":\\"Exhibits\\"`, `\\"slug\\":\\"exhibits\\",\\"title\\":\\"Mall space and monetisation\\"`],
+    [`"slug":"events","title":"Events"`, `"slug":"events","title":"Brand Activations"`],
+    [`\\"slug\\":\\"events\\",\\"title\\":\\"Events\\"`, `\\"slug\\":\\"events\\",\\"title\\":\\"Brand Activations\\"`],
+    [`"slug":"exhibits","title":"Exhibits"`, `"slug":"exhibits","title":"Mall Space Monetisation"`],
+    [`\\"slug\\":\\"exhibits\\",\\"title\\":\\"Exhibits\\"`, `\\"slug\\":\\"exhibits\\",\\"title\\":\\"Mall Space Monetisation\\"`],
     [`"slug":"congresses","title":"Congresses"`, `"slug":"congresses","title":"Mall Space Activation"`],
     [`\\"slug\\":\\"congresses\\",\\"title\\":\\"Congresses\\"`, `\\"slug\\":\\"congresses\\",\\"title\\":\\"Mall Space Activation\\"`],
   ];
-  // 1) drop Sports / Insights / Space Activation / Projects link objects
+  // 1) drop Sports / Insights / Projects link objects
   // (object + trailing comma). About is kept (main + footer nav).
   for (const u of MENU_DROP_URLS) {
     for (const obj of findMenuLinkObjs(html, u)) {
@@ -457,8 +462,13 @@ function applyFlightIA(html) {
   // Header flight starts with About (kept), so anchor on the About object.
   const aboutObj = linkObj('About', origin + '/about/');
   P.push([`${EQ}menus${EQ}:[${aboutObj}`, `${EQ}menus${EQ}:[${homeObj},${aboutObj}`]);
-  // 4) order Malls & Retail before Brand Activations
-  P.push([brandObj + ',' + mallsObj, mallsObj + ',' + brandObj]);
+  // 4) order the three service lanes: Brand Activations, Mall Space
+  // Monetisation, Mall Space Activation (raw CMS order is Events, Exhibits,
+  // Congresses, so post-rename the sequence is usually already right; these
+  // adjacent swaps only fix pages where it drifted).
+  P.push([mallsObj + ',' + brandObj, brandObj + ',' + mallsObj]);
+  P.push([actObj + ',' + mallsObj, mallsObj + ',' + actObj]);
+  P.push([actObj + ',' + brandObj, brandObj + ',' + actObj]);
   // 5) localize CMS link targets (LinkedIn/Instagram untouched)
   P.push([origin + '/', '/']);
   if (origin !== ORIGIN) P.push([ORIGIN + '/', '/']);
@@ -576,19 +586,42 @@ function removeInsightSection(html) {
   return out;
 }
 function applyFooterMenuOrder(html) {
-  // Footer Explore order must match the header: Home, About, Malls & Retail,
-  // Brand Activations, Projects, Contact. Raw footer has Events before
-  // Exhibits, so swap those two <p> blocks (href-anchored, rename-safe).
-  const re = (href) => new RegExp(`<p\\b[^<>]*>\\s*<a\\b[^<>]*href="${href}"[^<>]*>[\\s\\S]*?<\\/a>\\s*<\\/p>`, 'i');
-  const evM = re('/service/events').exec(html);
-  const exM = re('/service/exhibits').exec(html);
-  if (!evM || !exM || evM.index < 0 || exM.index < 0) return html;
-  // Only swap when Events block comes first (raw order).
-  if (evM.index > exM.index) return html;
-  const ev = evM[0], ex = exM[0];
-  const PH1 = '\0FOOTEV\0', PH2 = '\0FOOTEX\0';
-  html = html.replace(ev, PH1).replace(ex, PH2);
-  return html.split(PH1).join(ex).split(PH2).join(ev);
+  // Footer Explore order must match the header: Home, About, Brand
+  // Activations, Mall Space Monetisation, Mall Space Activation, Contact.
+  // Sports / Work / Insights entries are dropped (retired lanes). Rename-safe:
+  // blocks are keyed by href, labels were already renamed by NAV_LABELS.
+  const ORDER = ['/home', '/about', '/service/events', '/service/exhibits', '/service/congresses', '/contact?form=quote'];
+  const DROP = ['/service/sports', '/projects/filter', '/projects', '/insights'];
+  const openRe = /<div class="styles_contents_menu___Mcbo">/g;
+  let m = openRe.exec(html);
+  if (!m) return html;
+  const boxStart = m.index;
+  const boxEnd = cutBalancedDiv(html, boxStart);
+  if (boxEnd < 0) return html;
+  let box = html.slice(boxStart, boxEnd);
+  const blocks = [...box.matchAll(/<p\b[^<>]*>\s*<a\b[^<>]*href="([^"]+)"[^<>]*>[\s\S]*?<\/a>\s*<\/p>/gi)];
+  if (!blocks.length) return html;
+  const byHref = new Map();
+  for (const b of blocks) {
+    if (!byHref.has(b[1])) byHref.set(b[1], b[0]);
+  }
+  const kept = [];
+  for (const href of ORDER) {
+    const b = byHref.get(href);
+    if (b) kept.push(b);
+  }
+  if (!kept.length) return html;
+  let firstIdx = -1;
+  let lastEnd = -1;
+  for (const b of blocks) {
+    const i = box.indexOf(b[0]);
+    if (firstIdx < 0 || i < firstIdx) firstIdx = i;
+    const e = i + b[0].length;
+    if (e > lastEnd) lastEnd = e;
+  }
+  box = box.slice(0, firstIdx) + kept.join('') + box.slice(lastEnd);
+  void DROP;
+  return html.slice(0, boxStart) + box + html.slice(boxEnd);
 }
 // StillCraft footprint: the template marquee scrolls 45 European/Middle-East
 // cities under a botched "Nairobi … Europe's most iconic cities" heading.
@@ -822,8 +855,9 @@ export function applyHighlightsFix(html, page) {
   region = region.split('>2026: Budapest. Nine spaces. One </div>').join('></div>');
   region = region.split('>night to remember.</div>').join('></div>');
   // categories → Retail & Malls (strict counts; nav rename already ran, so
-  // Events/Exhibits metas read Brand Activations / Malls & Retail by now)
-  const catGuards = [['>Sports</div>', 4], ['>Brand Activations</div>', 2], ['>Mall space and monetisation</div>', 2], ['>Congresses</div>', 2]];
+  // Events/Exhibits/Congresses metas read Brand Activations /
+  // Mall Space Monetisation / Mall Space Activation by now)
+  const catGuards = [['>Sports</div>', 4], ['>Brand Activations</div>', 2], ['>Mall Space Monetisation</div>', 2], ['>Mall Space Activation</div>', 2]];
   for (const [old, want] of catGuards) {
     if (region.split(old).length - 1 !== want) return html;
     region = region.split(old).join('>Retail &amp; Malls</div>');
@@ -1182,28 +1216,35 @@ const VALUES = [
 ];
 const VALUES_DESC = 'Five habits from eight years of planning and delivering on the ground.';
 // Homepage service-category cards: Events/Exhibits/Congresses/Sports become
-// Brand Activations / Malls & Retail / Space Activation / Our Work (home only;
-// strict count guards, static + flight via length-synced pairs).
+// Brand Activations / Mall Space Monetisation / Mall Space Activation / Our Work
+// (home only; static + flight via length-synced pairs). Each card's button links
+// to its own lane page: events, exhibits, congresses, and the portfolio for
+// Our Work. Tolerant per-card: a card whose copy drifted (admin edits) keeps
+// its copy, but its title + button are still enforced so buttons never lie.
 const SVC_CARDS = [
   { title: ['Events', 'Brand Activations'],
+    href: '/service/events',
     subs: [['Global Events, Brand ', 'Campaigns & Sponsorships,'], ['Activations, Experience ', 'Activations & Roadshows,'], ['Content', 'One Team End To End']],
     flightTitle: ['Global Events, Brand Activations, Experience Content', 'Campaigns & Sponsorships, Activations & Roadshows, One Team End To End'],
     desc: ['From corporate summits to viral moments, we create experiences that fuel alignment and connection between audiences and business goals.',
       'Strategy through delivery. One team plans your brand’s next move and stays to deliver it, from the boardroom to the ground.'],
     frags: ['From corporate summits to viral moments, '] },
-  { title: ['Exhibits', 'Mall space and monetisation'],
+  { title: ['Exhibits', 'Mall Space Monetisation'],
+    href: '/service/exhibits',
     subs: [['Exhibitions, Trade Shows, ', 'Year-Round Calendars,'], ['Roadshows, Ephemeral ', 'Seasonal Moments,'], ['Builds', 'Run For You']],
     flightTitle: ['Exhibitions, Trade Shows, Roadshows, Ephemeral Builds', 'Year-Round Calendars, Seasonal Moments, Run For You'],
     desc: ['Presence isn’t enough. We design modular brand spaces that speak, perform and stick, with strategy and flair built into every wall.',
       'One calendar, run for you. StillCraft plans, staffs and runs the entire programme, so your team manages the center instead of the calendar.'],
     frags: ['Presence isn’t enough. We design modular '] },
-  { title: ['Congresses', 'Space Activation'],
+  { title: ['Congresses', 'Mall Space Activation'],
+    href: '/service/congresses',
     subs: [['Congresses, Internal ', 'Vacant Units,'], ['Meetings, Destination ', 'Curated Occupation,'], ['Management', 'Earning While Relet']],
     flightTitle: ['Congresses, Internal Meetings, Destination Management', 'Vacant Units, Curated Occupation, Earning While Relet'],
     desc: ['We turn high-stakes gatherings into high-impact experiences. Designed to align minds, move decisions and maximise clarity.',
       'When an anchor exits, StillCraft runs the space as a working, earning programme until it is properly relet.'],
     frags: ['We turn high-stakes gatherings into '] },
   { title: ['Sports', 'Our Work'],
+    href: '/projects',
     subs: [['Sponsorship, Activations, ', 'Mall Programmes,'], ['Venue Transformation', 'Brand Campaigns, Case Studies']],
     flightTitle: ['Sponsorship, Activations, Venue Transformation', 'Mall Programmes, Brand Campaigns, Case Studies'],
     desc: ['We build emotional power into every play. From VIP lounges to brand arenas, we help you win over fans and leave a lasting mark.',
@@ -1213,40 +1254,96 @@ const SVC_CARDS = [
 export function applyServiceCardsFix(html, page) {
   if (page !== '/' && page !== '/home') return html;
   if (html.indexOf('css-bpizdw') < 0) return html;
-  // verify every old string first (atomic: bail before touching anything).
-  // Titles may already carry the new name (nav rename runs earlier): then the
-  // title job is skipped, but the new name must be present or we bail.
+  // Per-card best effort (a drifted card keeps its copy instead of killing the
+  // whole pass). Titles may already carry the new name (nav rename runs
+  // earlier): then the title job is skipped for that card.
   // Subtitle lines are scoped to line-divs (bare words like Content/Builds
   // would collide); flight card titles are swapped whole.
   const jobs = [];
+  const maybe = (from, to) => {
+    if (!from || from === to || !html.includes(from)) return;
+    jobs.push([from, to]);
+  };
   for (const card of SVC_CARDS) {
     const [oldT, newT] = card.title;
-    const tc = html.split('>' + oldT + '</').length - 1;
-    if (tc >= 1) {
+    if (html.includes('>' + oldT + '</')) {
       jobs.push(['>' + oldT + '</', '>' + newT + '</']);
-    } else if (html.split('>' + newT + '</').length - 1 < 1) {
-      return html;
     }
     for (const [oldS, newS] of card.subs) {
       const key = '>' + oldS + '</div>';
-      if (html.split(key).length - 1 < 1) return html;
-      jobs.push([key, '>' + newS + '</div>']);
+      if (html.includes(key)) jobs.push([key, '>' + newS + '</div>']);
     }
     const [oldF, newF] = card.flightTitle;
-    if (html.split(oldF).length - 1 < 1) return html;
-    jobs.push([oldF, newF]);
+    if (html.includes(oldF)) jobs.push([oldF, newF]);
     const [oldD, newD] = card.desc;
-    if (html.split(oldD).length - 1 < 2) return html;
-    jobs.push([oldD, newD]);
+    if (html.includes(oldD)) jobs.push([oldD, newD]);
     for (const frag of (card.frags || [])) {
-      if (html.split(frag).length - 1 < 1) return html;
-      jobs.push([frag, '']);
+      if (html.includes(frag)) jobs.push([frag, '']);
+    }
+    // Button label travels with the card ("See what we create - <lane>").
+    const btnOld = 'See what we create - ' + oldT;
+    const btnNew = 'See what we create - ' + newT;
+    if (html.includes(btnOld)) jobs.push([btnOld, btnNew]);
+    const btnOldEsc = btnOld.split('"').join('\\"');
+    if (btnOldEsc !== btnOld && html.includes(btnOldEsc)) {
+      jobs.push([btnOldEsc, btnNew.split('"').join('\\"')]);
     }
   }
-  // sports card → portfolio (page-gated: never rewrite the sports page itself)
+  // Card buttons must land on their own lane page (page-gated: home only, so
+  // the retired sports lane rewrite can never touch the sports page itself).
+  // sports card → portfolio (retired lane). Static hrefs plus the flight href
+  // props (raw `"href":"..."` and EQ-escaped `\/` forms) — otherwise hydration
+  // reverts the button to /service/sports after first paint.
   jobs.push(['href="/service/sports"', 'href="/projects"']);
+  jobs.push(['"href":"/service/sports"', '"href":"/projects"']);
+  jobs.push(['\\"href\\":\\"\\/service\\/sports\\"', '\\"href\\":\\"\\/projects\\"']);
+  // The CMS testimonials pass can relabel the retired-sports card static copy
+  // to a testimonial industry ("Retail & Malls") before this runs (positional
+  // mapping onto donor nodes). Reclaim it here, scoped to the card heading
+  // and its button label so highlight categories elsewhere are untouched.
+  // (Post-hydration the heading renders from the service entity title, which
+  // MENU_TITLES already set to Our Work — this keeps first paint identical.)
+  for (const [from, to] of [
+    ['>Retail & Malls</h4>', '>Our Work</h4>'],
+    ['>Retail &amp; Malls</h4>', '>Our Work</h4>'],
+    ['See what we create - Retail & Malls', 'See what we create - Our Work'],
+    ['See what we create - Retail &amp; Malls', 'See what we create - Our Work'],
+  ]) {
+    if (html.includes(from)) jobs.push([from, to]);
+  }
   // length-synced single pass (static markup + flight rows)
-  return safeReplacePairs(html, jobs);
+  html = safeReplacePairs(html, jobs);
+  // Anchor-level enforcement: walk each home card anchor (title="See what we
+  // create - ...") and force its href to the lane page, so a stale or stripped
+  // href can never send visitors to the wrong page. Static markup only —
+  // flight href props are covered by the pairs above.
+  html = html.replace(/<a\b([^<>]*?)title="See what we create - ([^"]+)"([^<>]*?)>/g,
+    (a, pre, name, post) => {
+      const want = { 'Brand Activations': '/service/events', 'Mall Space Monetisation': '/service/exhibits', 'Mall Space Activation': '/service/congresses', 'Our Work': '/projects',
+        'Events': '/service/events', 'Exhibits': '/service/exhibits', 'Congresses': '/service/congresses', 'Sports': '/projects' }[name];
+      if (!want) return a;
+      const tag = ('<a' + pre + 'title="See what we create - ' + name + '"' + post + '>');
+      if (/href="/.test(tag)) return tag.replace(/href="[^"]*"/, 'href="' + want + '"');
+      return tag.replace('<a', '<a href="' + want + '"');
+    });
+  // The card link component builds its href at runtime as "/service/" + slug,
+  // so the retired-sports card ("Our Work") reverts to /service/sports on
+  // hydration no matter what the static markup says. Pin it client-side (same
+  // parse-time script pattern as the team mount): rewrite + click capture.
+  if (html.indexOf('sc-ourwork-pin') < 0) {
+    html = html.replace(/<\/body>/i,
+      '<script id="sc-ourwork-pin">(function(){var T="See what we create - Our Work";'
+      + 'function fix(){try{var as=document.querySelectorAll(\'a[title="\'+T+\'"]\');'
+      + 'for(var i=0;i<as.length;i++){if(as[i].getAttribute("href")!=="/projects")as[i].setAttribute("href","/projects");}}catch(e){}}'
+      + 'function run(){fix();}'
+      + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
+      + 'try{new MutationObserver(function(m){for(var i=0;i<m.length;i++){if(m[i].type==="childList"){run();break;}}}).observe(document.body,{childList:true,subtree:true});}catch(e){}'
+      + 'document.addEventListener("click",function(e){var t=e.target&&e.target.closest?e.target.closest(\'a[title="\'+T+\'"]\'):null;'
+      + 'if(t&&t.getAttribute("href")!=="/projects"){e.preventDefault();e.stopPropagation();window.location.assign("/projects");}},true);'
+      + '[500,1500,3000,6000,12000].forEach(function(t){setTimeout(run,t);});'
+      + '})();</script>\n$&');
+  }
+  return html;
 }
 // Split-text runs: related/portfolio titles and descriptions render word-split
 // across consecutive line-mask/line divs. Runs whose concatenated text names a
@@ -2283,12 +2380,14 @@ function applyNav(html, page) {
     // footer Explore: drop the whole <p> block (not just the <a>, no empty shells)
     html = html.replace(new RegExp(`<p\\b[^<>]*>\\s*<a\\b[^<>]*href="${esc}"[^<>]*>\\s*<span\\b[^<>]*>\\s*(?:Sports)\\s*<\\/span>\\s*<\\/a>\\s*<\\/p>`, 'g'), '');
   }
-  // /service/congresses (Space Activation) and /projects are retired from all
-  // menus: drop the whole wrapper block in header + footer (no empty shells) and
-  // strip the anchors wherever they appear. Order matters: remove the wrapper
-  // FIRST (while the <a> is still inside it), then strip any bare <a> that
-  // survived outside a wrapper.
-  for (const href of ['/service/congresses', '/projects']) {
+  // /projects is retired from all menus (its listing lives behind "Our Work"
+  // and "View our work" buttons): drop the whole wrapper block in header +
+  // footer (no empty shells) and strip the anchors wherever they appear.
+  // Order matters: remove the wrapper FIRST (while the <a> is still inside
+  // it), then strip any bare <a> that survived outside a wrapper.
+  // /service/congresses (Mall Space Activation) is a live service lane and
+  // stays linked everywhere.
+  for (const href of ['/projects']) {
     const esc = href.replace(/\//g, '\\/');
     const before = (html.match(new RegExp(`href="${esc}"`, 'g')) || []).length;
     // footer uses <p> wrappers, header menu uses <li> wrappers
@@ -2542,6 +2641,10 @@ function applyBrand(html, brand) {
   const logo = (brand.logo_src || '').trim();
   if (logo) {
     const target = logo.replace(/^\//, '');
+    // Prefixed copy FIRST (bare swap below would otherwise corrupt it into
+    // "/assets/root/assets/custom/..." 404s): <link rel=preload> on /about.
+    html = safeReplace(html, '/assets/root/upload/icon-logo.svg', '/' + target);
+    html = safeReplace(html, '\\/assets\\/root\\/upload\\/icon-logo\\.svg', '\\/' + target.split('/').join('\\/'));
     // Existing copies: bare "upload/icon-logo.svg" (root + assets/root).
     html = safeReplace(html, 'upload/icon-logo.svg', target);
     // Header figure + preload refs use the CMS-upload path; swap it too.

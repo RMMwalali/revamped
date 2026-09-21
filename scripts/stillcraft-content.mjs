@@ -8,7 +8,7 @@ const T = (el_id, value, orig_html) => ({ el_id, kind: 'text', value, orig_html 
 // (short origs like "Branding" never pass patchFlight's uniqueness gate, so they need this).
 export const FLIGHT = {
   '/service/exhibits': [
-    [`Exhibits`, `Malls Programming and Retail`],
+    [`Exhibits`, `Mall Space Monetisation`],
     [`Branding`, `Eight Years Running Calendars`],
     [`Concept & Design`, `One Team From Planning To The Floor`],
     [`Complex Logistics`, `Built Around Your Tenant Mix`],
@@ -18,7 +18,7 @@ export const FLIGHT = {
     [`Guest Experience & Activations`, `Reported Each Season`],
   ],
   '/service/events': [
-    [`Events`, `Brands and Corporates`],
+    [`Events`, `Brand Activations`],
     [`Concept & Design`, `Eight Years Delivering`],
     [`Branding`, `Your Strategist Is Your Producer`],
     [`Hybrid & Digital Content`, `Built Around Your Audience`],
@@ -28,7 +28,7 @@ export const FLIGHT = {
     [`Guest Experience & Activations`, `One Team Accountable`],
   ],
   '/service/congresses': [
-    [`Congresses`, `Space Activation`],
+    [`Congresses`, `Mall Space Activation`],
     [`Concept & Design`, `Assessment & Curation`],
     [`Branding`, `Vendor Sourcing`],
     [`Hybrid & Digital Content`, `Activation & Fit-Out`],
@@ -62,7 +62,7 @@ export const CONTENT = {
     // template element; the story is carried by header/values/team/stats.
   ],
   '/service/exhibits': [
-    T('t-21', `Malls Programming and Retail`, `Exhibits`),
+    T('t-21', `Mall Space Monetisation`, `Exhibits`),
     T('t-24', `One calendar, run for you.`, `We make exhibits`),
     T('t-25', `Not just`, `impossible to`),
     T('t-26', `planned.`, `ignore.`),
@@ -105,7 +105,7 @@ export const CONTENT = {
     T('t-133', `Tell us about your shopping mall and what this year's calendar still needs. We'll come back with a plan, and a team that runs it, not just proposes it.`, `From bold ideas to flawless execution, we design exhibit spaces that grab attention and keep it. Let’s create something people won’t just walk past, but talk about.`),
   ],
   '/service/events': [
-    T('t-21', `Brands and Corporates`, `Events`),
+    T('t-21', `Brand Activations`, `Events`),
     T('t-24', `Strategy through delivery.`, `We bring people into`),
     T('t-25', `One team, one brand,`, `the moment, and make`),
     T('t-26', `one bond with your audience.`, `it last.`),
@@ -151,7 +151,7 @@ export const CONTENT = {
     T('t-54', `Call +254 792 234 337 or +254 755 959 236. Visit Piedmont, 671 Ngong Road, Nairobi, Kenya. Let's connect.`, `and respond with purpose. Let’s connect.`),
   ],
   '/service/congresses': [
-    T('t-21', `Space Activation`, `Congresses`),
+    T('t-21', `Mall Space Activation`, `Congresses`),
     T('t-22', `The Problem.`, `create your moment`),
     T('t-23', `The Problem.`, `create your moment`),
     T('t-24', `When an anchor tenant exits, StillCraft steps in to run the space.`, `Where minds meet, decision move.`),

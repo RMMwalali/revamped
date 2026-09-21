@@ -1,0 +1,10 @@
+import {readFile} from 'node:fs/promises';
+import {getCMS, extractTestimonials} from './cms.mjs';
+const raw = await readFile('dist/index.html', 'utf8');
+const live = extractTestimonials(raw);
+console.log('LIVE nodes:', live.length);
+live.forEach((l, i) => console.log(i, JSON.stringify({name: l.name, org: l.org, industry: l.industry, role: l.role})));
+const cms = await getCMS();
+console.log('DB items:', cms.testimonials.items.length);
+cms.testimonials.items.forEach((t, i) => console.log(i, JSON.stringify({name: t.name, org: t.org, industry: t.industry, role: t.role})));
+await (await import('./db.mjs')).pool.end();
