@@ -74,7 +74,6 @@ const DEFAULT_TAGLINE = 'Step into the Spotlight';
 const NAV_LABELS = [
 ['Events', 'Brand Activations'],
   ['Exhibits', 'Malls & Retail'],
-  ['Work', 'Projects'],
 ];
 const NAV_DROP_HREFS = ['/service/sports'];
 const TITLE_MAP = {
@@ -94,7 +93,6 @@ const MENU_ORDER = [
   ['/about', 'About'],
   ['/service/exhibits', 'Malls &amp; Retail'],
   ['/service/events', 'Brand Activations'],
-  ['/projects', 'Projects'],
 ];
 const CONTACT_HREF = '/contact?form=quote';
 function applyMenuOrder(html) {
@@ -372,6 +370,30 @@ export function applyLegalFix(html) {
 }
 const linkObj = (title, url) =>
   `{${EQ}link${EQ}:{${EQ}target${EQ}:${EQ}${EQ},${EQ}title${EQ}:${EQ}${title}${EQ},${EQ}url${EQ}:${EQ}${url}${EQ}}}`;
+// Menu links are dropped by URL, never by title. A title-keyed drop fails
+// silently when the CMS renames an item: "Congresses" and "Work" sat in the
+// hydrated header and footer for exactly that reason while the static markup
+// looked correct, because the drop list was still looking for the older
+// "Space Activation" and "Projects" labels.
+// dist pages disagree about the origin baked into their flight payload: the
+// homepage still carries the donor's, while every other page was rewritten to
+// the live host by an earlier sweep. Anything keyed to a single hard-coded
+// ORIGIN therefore silently no-ops off the homepage, which is how the header
+// and footer drifted apart page to page. Read it from the document instead.
+function flightOrigin(html) {
+  const m = new RegExp(EQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + 'url' +
+    EQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ':' +
+    EQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(https?://[^\\\\/]+)/(?:home|about)/').exec(html);
+  return m ? m[1] : ORIGIN;
+}
+function findMenuLinkObjs(html, path) {
+  const esc = (v) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(
+    '\\{' + esc(EQ) + 'link' + esc(EQ) + ':\\{' + esc(EQ) + 'target' + esc(EQ) + ':' + esc(EQ) + esc(EQ) + ',' +
+    esc(EQ) + 'title' + esc(EQ) + ':' + esc(EQ) + '[^\\\\]*?' + esc(EQ) + ',' +
+    esc(EQ) + 'url' + esc(EQ) + ':' + esc(EQ) + '(?:https?://[^\\\\/]*)?' + esc(path) + esc(EQ) + '\\}\\}', 'g');
+  return [...new Set(html.match(re) || [])];
+}
 const ORIGIN = 'https://iventions.com';
 // Absolute site URLs (meta og:url, share links) must point at the host that
 // actually serves the site. Rewritten per request; length-synced for flight.
@@ -404,9 +426,10 @@ function applyFlightIA(html) {
   // are plain edits, while anything landing inside a length-prefixed flight
   // row (e.g. article HTML) gets its hex length recomputed instead of
   // corrupting the stream ("Application error ... Connection closed").
-  const homeObj = linkObj('Home', ORIGIN + '/home/');
-  const brandObj = linkObj('Brand Activations', ORIGIN + '/service/events/');
-  const mallsObj = linkObj('Malls & Retail', ORIGIN + '/service/exhibits/');
+  const origin = flightOrigin(html);
+  const homeObj = linkObj('Home', origin + '/home/');
+  const brandObj = linkObj('Brand Activations', origin + '/service/events/');
+  const mallsObj = linkObj('Malls & Retail', origin + '/service/exhibits/');
   const P = [
     // 0) service entity titles drive the page headlines (menu keeps short
     // labels). Must run before the menu rename below (same original values).
@@ -420,8 +443,10 @@ function applyFlightIA(html) {
   // 1) drop Sports / Insights / Space Activation / Projects link objects
   // (object + trailing comma). About is kept (main + footer nav).
   for (const u of MENU_DROP_URLS) {
-    const title = MENU_DROP_TITLES[u];
-    P.push([linkObj(title, ORIGIN + u) + ',', '']);
+    for (const obj of findMenuLinkObjs(html, u)) {
+      P.push([obj + ',', '']);  // mid-array
+      P.push([',' + obj, '']);  // last entry, no trailing comma
+    }
   }
   // 2) rename remaining titles (skip About: dropped above; Home stays)
   for (const [from, to] of Object.entries(MENU_TITLES)) {
@@ -430,12 +455,13 @@ function applyFlightIA(html) {
   }
   // 3) prepend Home to header menus (footer already starts with Home).
   // Header flight starts with About (kept), so anchor on the About object.
-  const aboutObj = linkObj('About', ORIGIN + '/about/');
+  const aboutObj = linkObj('About', origin + '/about/');
   P.push([`${EQ}menus${EQ}:[${aboutObj}`, `${EQ}menus${EQ}:[${homeObj},${aboutObj}`]);
   // 4) order Malls & Retail before Brand Activations
   P.push([brandObj + ',' + mallsObj, mallsObj + ',' + brandObj]);
   // 5) localize CMS link targets (LinkedIn/Instagram untouched)
-  P.push([ORIGIN + '/', '/']);
+  P.push([origin + '/', '/']);
+  if (origin !== ORIGIN) P.push([ORIGIN + '/', '/']);
   // 6) trailing brand mentions in values ("... | Iventions")
   P.push([` Iventions${EQ}`, ` StillCraft Events${EQ}`]);
   P.push([` IVENTIONS${EQ}`, ` STILLCRAFT EVENTS${EQ}`]);
