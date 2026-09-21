@@ -102,17 +102,44 @@ function pageKey(pathname) {
   return p || '/';
 }
 
-// login rate limit: ip -> { fails, until }
-const rl = new Map();
-function rateLimited(ip) {
-  const e = rl.get(ip);
-  return e && e.until > Date.now();
+// Login rate limit: DB-backed (login_attempts table, scripts/schema.mjs) so
+// it matches api/login.js — Vercel runs that behind several instances, each
+// with its own memory, so an in-memory counter there barely slows a real
+// attempt. Kept DB-backed here too rather than a separate in-memory version,
+// so local dev actually exercises the same behavior production ships.
+const LOCK_MINUTES = 5;
+const MAX_FAILS = 5;
+async function rateLimited(ip) {
+  try {
+    const r = await pool.query('SELECT locked_until FROM login_attempts WHERE ip = $1', [ip]);
+    const row = r.rows[0];
+    return !!(row && row.locked_until && new Date(row.locked_until) > new Date());
+  } catch {
+    return false; // table not migrated yet, or DB unreachable: fail open
+  }
 }
-function rateFail(ip) {
-  const e = rl.get(ip) || { fails: 0, until: 0 };
-  e.fails += 1;
-  if (e.fails >= 5) { e.until = Date.now() + 5 * 60 * 1000; e.fails = 0; }
-  rl.set(ip, e);
+async function rateFail(ip) {
+  try {
+    const r = await pool.query('SELECT fails FROM login_attempts WHERE ip = $1', [ip]);
+    const fails = (r.rows[0]?.fails || 0) + 1;
+    if (fails >= MAX_FAILS) {
+      const lockedUntil = new Date(Date.now() + LOCK_MINUTES * 60 * 1000).toISOString();
+      await pool.query(
+        `INSERT INTO login_attempts (ip, fails, locked_until, updated_at) VALUES ($1, 0, $2, now())
+         ON CONFLICT (ip) DO UPDATE SET fails = 0, locked_until = $2, updated_at = now()`,
+        [ip, lockedUntil]
+      );
+    } else {
+      await pool.query(
+        `INSERT INTO login_attempts (ip, fails, updated_at) VALUES ($1, $2, now())
+         ON CONFLICT (ip) DO UPDATE SET fails = $2, updated_at = now()`,
+        [ip, fails]
+      );
+    }
+  } catch {}
+}
+async function rateClear(ip) {
+  try { await pool.query('DELETE FROM login_attempts WHERE ip = $1', [ip]); } catch {}
 }
 
 
@@ -125,13 +152,14 @@ const server = http.createServer(async (req, res) => {
 
     // ----- API -----
     if (pathname === '/api/login' && method === 'POST') {
-      const ip = req.socket.remoteAddress || 'x';
-      if (rateLimited(ip)) return json(res, 429, { error: 'too many attempts, try later' });
+      const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'x';
+      if (await rateLimited(ip)) return json(res, 429, { error: 'too many attempts, try later' });
       let body;
       try { body = JSON.parse((await readBody(req)).toString('utf8')); }
       catch { return json(res, 400, { error: 'bad request' }); }
       const sess = await login(String(body.email || ''), String(body.password || '')).catch(() => null);
-      if (!sess) { rateFail(ip); return json(res, 401, { error: 'invalid credentials' }); }
+      if (!sess) { await rateFail(ip); return json(res, 401, { error: 'invalid credentials' }); }
+      await rateClear(ip);
       return json(res, 200, { email: sess.email }, sessionCookie(sess.token, sess.expires));
     }
     if (pathname === '/api/logout' && method === 'POST') {

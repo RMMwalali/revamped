@@ -42,11 +42,15 @@ export async function logout(token) {
   if (token) await pool.query('DELETE FROM sessions WHERE token = $1', [token]);
 }
 
+// Secure is only added on Vercel (real HTTPS) — plain `http://localhost` dev
+// would silently drop the cookie on some browsers if it were always set.
+const SECURE = process.env.VERCEL ? ' Secure;' : '';
+
 export function sessionCookie(token, expires) {
   const maxAge = Math.max(1, Math.floor((expires.getTime() - Date.now()) / 1000));
-  return `sc_admin=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}`;
+  return `sc_admin=${token}; HttpOnly;${SECURE} SameSite=Lax; Path=/; Max-Age=${maxAge}`;
 }
 
 export function clearCookie() {
-  return 'sc_admin=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0';
+  return `sc_admin=; HttpOnly;${SECURE} SameSite=Lax; Path=/; Max-Age=0`;
 }
