@@ -972,193 +972,38 @@ const WALL_SRC_MAP = {
   '/assets/cms/wp-content/uploads/2025/07/ISE.svg': ['Two Rivers Mall', '/assets/custom/TWO RIVERS MALL.png'],
   '/assets/cms/wp-content/uploads/2025/07/Fiat.svg': ['Westgate Shopping Mall', '/assets/custom/WESTGATE SHOPPING MALL.png'],
 };
-// Homepage client-voice slider: 8 template slides (UEFA, Pfizer, CordenPharma,
-// Menzies, Midas, Adevinta…) with quotes, headshots and case links that do not
-// belong to StillCraft. No real StillCraft quotes exist (brief: do not
-// fabricate), so the whole band goes — quotes/info container, arrows/counter
-// container and leader-photos strip — plus the flight testimonials nodes and
-// their preloads. Skipped when the band carries no template markers.
-const SLIDER_TEMPLATE_MARKS = ['UEFA', 'Pfizer', 'CordenPharma', 'Menzies', 'Midas', 'Adevinta', 'Iventions delivered excellent'];
+
+// Homepage client-voice slider: the template testimonials slider is RESTORED,
+// not gutted. The facet rows, quote slides, leader info, event logos,
+// arrows/counter, leader photos and the "see full case study" link stay in the
+// DOM, and the flight testimonials edges stay intact so the slider can render
+// its slides, exactly as in the original template. The content remains
+// admin-editable via /insider > Testimonials (applyTestimonials swaps quotes,
+// names, roles, orgs, photos and logos inside the flight payload) and via the
+// inline edit bar. This step is intentionally a no-op: every page that carries
+// the slider band keeps it, and no flight arrays are emptied.
 export function applySliderFix(html, page) {
   if (page === '/insider') return html;
-  // Facet rows + slider pieces are identified structurally with template-mark
-  // guards, so this safely runs on any page that still carries them.
-  // cut from the first facet row: 4 contiguous css-zme24x rows
-  // (participants / industry / event type / location) feed the slider,
-  // followed immediately by its quotes container
-  const lvt = html.indexOf('<div class="Container_container_grid__LWYyb css-lvtjah">');
-  if (lvt < 0) return html;
-  const pOpen = '<div class="css-zme24x">';
-  const rows = [];
-  let scan = lvt;
-  for (let k = 0; k < 4; k++) {
-    const o = html.lastIndexOf(pOpen, scan - 1);
-    if (o < 0) return html;
-    rows.unshift(o);
-    scan = o;
-  }
-  const labels = ['participants', 'industry', 'event type', 'location'];
-  const ends = rows.map((o) => cutBalancedDiv(html, o));
-  if (ends.some((e) => e < 0)) return html;
-  for (let k = 0; k < 4; k++) {
-    const inner = html.slice(rows[k], ends[k]);
-    if (!inner.includes('>' + labels[k] + '<')) return html;
-    if (k < 3 && rows[k + 1] !== ends[k]) return html;
-  }
-  // remove the 4 facet rows (back to front)
-  for (let k = 3; k >= 0; k--) html = html.slice(0, rows[k]) + html.slice(ends[k]);
-  // quotes container (balanced, must carry a template mark)
-  {
-    const s = html.indexOf('<div class="Container_container_grid__LWYyb css-lvtjah">');
-    if (s >= 0) {
-      const e = cutBalancedDiv(html, s);
-      if (e > 0) {
-        const band = html.slice(s, e);
-        if (SLIDER_TEMPLATE_MARKS.some((m) => band.includes(m))) {
-          html = html.slice(0, s) + html.slice(e);
-        }
-      }
-    }
-  }
-  // arrows + counter container (balanced, EventSliderActions inside)
-  {
-    const s = html.indexOf('<div class="Container_container_grid__LWYyb css-12ybk68">');
-    if (s >= 0) {
-      const e = cutBalancedDiv(html, s);
-      if (e > 0 && html.slice(s, e).includes('EventSliderActions')) {
-        html = html.slice(0, s) + html.slice(e);
-      }
-    }
-  }
-  // leader-photos strip (balanced div, Leader alts inside)
-  {
-    const s = html.indexOf('<div class="css-41c6dw">');
-    if (s >= 0) {
-      const e = cutBalancedDiv(html, s);
-      if (e > 0) {
-        const seg = html.slice(s, e);
-        if (seg.includes('alt="Leader"') && SLIDER_TEMPLATE_MARKS.some((m) => seg.includes(m))) {
-          html = html.slice(0, s) + html.slice(e);
-        }
-      }
-    }
-  }
-  // case-link buttons of the slider (generic hrefs, slider-only pages)
-  {
-    const re = /<div class="css-jp7bfh">[\s\S]*?see full case study[\s\S]*?<\/a><\/div>/g;
-    let m;
-    const hits = [];
-    while ((m = re.exec(html))) hits.push([m.index, m.index + m[0].length]);
-    hits.sort((a, b) => b[0] - a[0]);
-    for (const [a, b] of hits) html = html.slice(0, a) + html.slice(b);
-  }
-// flight testimonial arrays → empty (edges and plain shapes; guarded).
-  // Only template-curated arrays (leave admin-curated ones alone).
-  const TM_RE = /(UEFA|Pfizer|CordenPharma|Menzies|Midas|Adevinta|Adidas|FedEx|Turkish|VEEAM)/;
-  let emptiedEdges = false;
-  try {
-    const BS = String.fromCharCode(92);
-    const FQ = BS + '"';
-    const tkeys = [FQ + 'testimonials' + FQ + ':{' + FQ + 'edges' + FQ + ':[', FQ + 'testimonials' + FQ + ':'];
-    for (const tkey of tkeys) {
-      let idx = html.indexOf(tkey);
-      let guard = 0;
-      while (idx >= 0 && guard++ < 6) {
-        // value open: '[' for edges-key hits; for the plain key the value may
-        // be an immediate array or an object holding an edges array
-        let open = idx + tkey.length - 1;
-        if (html[open] !== '[') {
-          if (tkey.endsWith(':[')) break;
-          if (html[open] === ':' && html[open + 1] === '[') {
-            open = open + 1;
-          } else if (html[open] === ':') {
-            // plain key hit an object value: step into it only via edges
-            const ek = FQ + 'edges' + FQ + ':[';
-            const ei = html.indexOf(ek, idx);
-            if (ei < 0 || ei - idx > 400) { idx = html.indexOf(tkey, idx + tkey.length); continue; }
-            open = ei + ek.length - 1;
-          } else {
-            idx = html.indexOf(tkey, idx + tkey.length);
-            continue;
-          }
-        }
-        let depth = 0, k = open, end = -1;
-        for (; k < html.length; k++) {
-          const c = html[k];
-          if (c === BS) { k++; continue; }
-          if (c === '[') depth++;
-          else if (c === ']') { depth--; if (depth === 0) { end = k; break; } }
-          if (k - open > 120000) break;
-        }
-        if (end < 0) break;
-        const inner = html.slice(open + 1, end);
-        if (!inner.includes('testimonialTemplate') || !TM_RE.test(inner)) { idx = html.indexOf(tkey, end); continue; }
-        const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
-        const cand = safeReplacePairs(html, [[inner, '']]);
-        if (cand === html) { idx = html.indexOf(tkey, end); continue; }
-        try {
-          if (verifyFlight(cand).bad <= badBefore) { html = cand; emptiedEdges = true; }
-        } catch { /* keep static fix */ }
-        idx = html.indexOf(tkey, idx + 2);
-      }
-    }
-  } catch { /* static fix stands */ }
-  // The slider component renders its slides from a "testimonials" prop that
-  // lists "$4:…:testimonialBlock:testimonials:edges:N:node" path references
-  // into the home data chunk. Once the edges array above is emptied, each of
-  // those references resolves to undefined and React's Flight client throws
-  // "Cannot read properties of undefined (reading '$$typeof')", fatalling the
-  // whole page. Empty the referencing array in lockstep so the slider simply
-  // gets zero slides instead of a corrupted stream.
-  if (emptiedEdges) {
-    try { html = emptyTestimonialRefArrays(html); } catch { /* static fix stands */ }
-  }
-  // preloads for slider headshots / testimonial logos
-  for (const slug of ['Adel-Kertesz', 'Theresa-Ruivo', 'Bruno-Sciamanna', 'Camilla-Di-Zenzo', 'Ella-McClary', 'Costanza-Rota', 'Jo-Harrison', 'Testimonials_', 'Testimonial_', 'UEFA-logo', 'Pfizer-logo']) {
-    const esc = slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    html = html.replace(new RegExp(`<link\\b[^>]*${esc}[^>]*>\\s*`, 'g'), '');
-  }
   return html;
 }
-// Empty every "testimonials" prop array whose members are exclusively
-// "$4:…:testimonials:edges:N:node" path references (escape-aware: refs sit in
-// flight strings as \", and contain no commas, so a plain split is safe).
-function emptyTestimonialRefArrays(html) {
-  const BS = String.fromCharCode(92);
-  const FQ = BS + '"';
-  const key = FQ + 'testimonials' + FQ + ':[';
-  let idx = html.indexOf(key);
-  let guard = 0;
-  while (idx >= 0 && guard++ < 6) {
-    const open = idx + key.length - 1;
-    let depth = 0, k = open, end = -1;
-    for (; k < html.length; k++) {
-      const c = html[k];
-      if (c === BS) { k++; continue; }
-      if (c === '[') depth++;
-      else if (c === ']') { depth--; if (depth === 0) { end = k; break; } }
-      if (k - open > 120000) break;
-    }
-    if (end < 0) break;
-    const inner = html.slice(open + 1, end);
-    const members = inner.split(',');
-    let allRefs = members.length >= 1;
-    for (const m of members) {
-      const t = m.trim();
-      if (!(t.length > 6 && t.startsWith(FQ + '$4:') && t.endsWith(FQ)
-        && t.includes(':testimonialBlock:') && t.includes(':edges:') && t.endsWith(':node' + FQ))) {
-        allRefs = false;
-        break;
-      }
-    }
-    if (!allRefs) { idx = html.indexOf(key, end); continue; }
-    const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
-    const cand = safeReplacePairs(html, [[inner, '']]);
-    if (cand !== html) {
-      try { if (verifyFlight(cand).bad <= badBefore) html = cand; } catch {}
-    }
-    idx = html.indexOf(key, end);
+
+// Team-members section removal ("Our secret? The people", the js-talent-main
+// grid with its Show fact / Hide fact toggles and member bios). The section
+// lives inside a styles_parallaxBox wrapper; when that wrapper is the talent
+// section's immediate parent the whole wrapper goes, otherwise just the
+// section itself. Presence-guarded, so pages without the team section are
+// untouched.
+export function applyAboutTeamRemove(html) {
+  const open = html.indexOf('<section class="styles_talent__AlRC3">');
+  if (open < 0) return html;
+  const box = html.lastIndexOf('<div class="styles_parallaxBox__19SzL', open);
+  if (box >= 0) {
+    const boxEnd = cutBalancedDiv(html, box);
+    const sec = html.indexOf('<section class="styles_talent__AlRC3">', box);
+    if (sec === open && boxEnd > open) return html.slice(0, box) + html.slice(boxEnd);
   }
+  const end = html.indexOf('</section>', open);
+  if (end > open) return html.slice(0, open) + html.slice(end + 10);
   return html;
 }
 // Social share image: template points og:image/twitter:image at an Adevinta
