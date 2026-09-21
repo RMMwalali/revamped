@@ -10,11 +10,13 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { pool } from './db.mjs';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
+import { saveLead } from '../api/lead.js';
 import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.mjs';import {
   getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty, removeBadges,
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
   applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash, applyStyleBlocks,
+  applyFooterFix, applyAboutTeamRemove, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   applyFooterFix, applyAboutTeamReplace, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor,
 } from './transform.mjs';
@@ -253,6 +255,37 @@ const server = http.createServer(async (req, res) => {
       bustCMS();
       return json(res, 200, await getBrand());
     }
+    // Form submissions. saveLead is imported from api/lead.js rather than
+    // reimplemented — a hand-duplicated handler here is what let the login
+    // fix drift out of sync once already.
+    if (pathname === '/api/lead' && method === 'POST') {
+      const ctype = String(req.headers['content-type'] || '');
+      if (ctype.includes('multipart/form-data')) return json(res, 200, { ok: true });
+      let body;
+      try { body = JSON.parse((await readBody(req)).toString('utf8')); }
+      catch { return json(res, 400, { error: 'bad request' }); }
+      const leadIp = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+        .split(',')[0].trim().slice(0, 64);
+      try {
+        const r = await saveLead(body, leadIp);
+        if (!r.ok) return json(res, 400, { error: r.error });
+        return json(res, 200, { ok: true });
+      } catch (e) {
+        console.error('lead insert failed:', String((e && e.code) || 'unknown'));
+        return json(res, 500, { error: 'could not save' });
+      }
+    }
+    if (pathname === '/api/leads' && method === 'GET') {
+      const s = await verifySession(cookies.sc_admin).catch(() => null);
+      if (!s) return json(res, 401, { error: 'unauthorized' });
+      const limit = Math.min(500, Math.max(1, parseInt(u.searchParams.get('limit') || '100', 10) || 100));
+      const r = await pool.query(
+        `SELECT id, created_at, kind, name, email, phone, company, message, source_page, handled
+         FROM leads ORDER BY created_at DESC LIMIT $1`,
+        [limit]
+      );
+      return json(res, 200, { leads: r.rows });
+    }
     if (pathname === '/api/upload' && method === 'POST') {
       const s = await verifySession(cookies.sc_admin).catch(() => null);
       if (!s) return json(res, 401, { error: 'unauthorized' });
@@ -376,8 +409,14 @@ const server = http.createServer(async (req, res) => {
       html = removeBadges(html);
       html = applyBrand(html, await getBrand());
       if (!process.env.SC_NONAV) html = applyNav(html, key);
-      const __dbg_nav = (html.match(/href="\/projects"/g) || []).length;
-      const __dbg_step = (label) => { const c = (html.match(/href="\/projects"/g) || []).length; if (c !== __dbg_nav) console.error(`[serve] ${label}: ${c}`); return c; };
+      // Nav-link tracing, kept for diagnosing the pipeline but off by default:
+      // it scanned the whole document 33 times per render and logged to stderr
+      // on every request. Set SC_DEBUG_NAV=1 to turn it back on.
+      const __dbgNav = !!process.env.SC_DEBUG_NAV;
+      const __dbg_nav = __dbgNav ? (html.match(/href="\/projects"/g) || []).length : 0;
+      const __dbg_step = __dbgNav
+        ? (label) => { const c = (html.match(/href="\/projects"/g) || []).length; if (c !== __dbg_nav) console.error(`[serve] ${label}: ${c}`); return c; }
+        : () => 0;
       // Legal pages have no below-root error boundary: a flight patch that the
       // client parses as a truncated stream fatals the whole page, so serve
       // them static-only (a 418 revert beats an Application error).
@@ -437,6 +476,10 @@ const server = http.createServer(async (req, res) => {
       __dbg_step('contentFlight');
       html = applyLinks(html, req.headers.host, key);
       __dbg_step('links');
+      html = applyAboutTeamRemove(html);
+      __dbg_step('aboutTeamRemove');
+      html = applyRevealFailsafe(html);
+      __dbg_step('revealFailsafe');
       html = applyAboutTeamReplace(html);
       __dbg_step('aboutTeamReplace');
       html = applyStyleBlocks(html, await getBrand());
