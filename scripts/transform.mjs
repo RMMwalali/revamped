@@ -73,15 +73,15 @@ const DEFAULT_TAGLINE = 'Step into the Spotlight';
 // ---------- site IA: StillCraft navigation (existing pages, new titles) ----------
 const NAV_LABELS = [
 ['Events', 'Brand Activations'],
-  ['Exhibits', 'Malls & Retail'],
+  ['Exhibits', 'Mall space and monetisation'],
 ];
 const NAV_DROP_HREFS = ['/service/sports'];
 const TITLE_MAP = {
-  '/': 'International Event Agency | Brand Activations, Malls &amp; Retail | StillCraft Events',
-  '/home': 'International Event Agency | Brand Activations, Malls &amp; Retail | StillCraft Events',
+  '/': 'International Event Agency | Brand Activations, Mall space and monetisation | StillCraft Events',
+  '/home': 'International Event Agency | Brand Activations, Mall space and monetisation | StillCraft Events',
   '/about': 'About - StillCraft Events',
   '/service/events': 'Brand Activations | Brands and Corporates | StillCraft Events',
-  '/service/exhibits': 'Malls &amp; Retail | Malls Programming and Retail | StillCraft Events',
+  '/service/exhibits': 'Mall space and monetisation | StillCraft Events',
   '/projects': 'Projects | Case Studies | StillCraft Events',
   '/contact': 'Contact | Start Your Project | StillCraft Events',
   '/service/congresses': 'Mall Space Activation | Vacant Units Earning | StillCraft Events',
@@ -91,7 +91,7 @@ const TITLE_MAP = {
 const MENU_ORDER = [
   ['/', 'Home'],
   ['/about', 'About'],
-  ['/service/exhibits', 'Malls &amp; Retail'],
+  ['/service/exhibits', 'Mall space and monetisation'],
   ['/service/events', 'Brand Activations'],
 ];
 const CONTACT_HREF = '/contact?form=quote';
@@ -420,7 +420,7 @@ function applyLinks(html, host, page) {
 }
 const MENU_DROP_URLS = ['/service/sports/', '/insights/', '/service/congresses/', '/projects/'];
 const MENU_DROP_TITLES = { '/service/sports/': 'Sports', '/insights/': 'Insights', '/service/congresses/': 'Space Activation', '/projects/': 'Projects' };
-const MENU_TITLES = { About: 'About', Events: 'Brand Activations', Exhibits: 'Malls & Retail', Sports: 'Our Work' };
+const MENU_TITLES = { About: 'About', Events: 'Brand Activations', Exhibits: 'Mall space and monetisation', Sports: 'Our Work' };
 function applyFlightIA(html) {
   // All replacements run through the length-synced replacer: menu JSON rows
   // are plain edits, while anything landing inside a length-prefixed flight
@@ -429,14 +429,14 @@ function applyFlightIA(html) {
   const origin = flightOrigin(html);
   const homeObj = linkObj('Home', origin + '/home/');
   const brandObj = linkObj('Brand Activations', origin + '/service/events/');
-  const mallsObj = linkObj('Malls & Retail', origin + '/service/exhibits/');
+  const mallsObj = linkObj('Mall space and monetisation', origin + '/service/exhibits/');
   const P = [
     // 0) service entity titles drive the page headlines (menu keeps short
     // labels). Must run before the menu rename below (same original values).
     [`"slug":"events","title":"Events"`, `"slug":"events","title":"Brands and Corporates"`],
     [`\\"slug\\":\\"events\\",\\"title\\":\\"Events\\"`, `\\"slug\\":\\"events\\",\\"title\\":\\"Brands and Corporates\\"`],
-    [`"slug":"exhibits","title":"Exhibits"`, `"slug":"exhibits","title":"Malls Programming and Retail"`],
-    [`\\"slug\\":\\"exhibits\\",\\"title\\":\\"Exhibits\\"`, `\\"slug\\":\\"exhibits\\",\\"title\\":\\"Malls Programming and Retail\\"`],
+    [`"slug":"exhibits","title":"Exhibits"`, `"slug":"exhibits","title":"Mall space and monetisation"`],
+    [`\\"slug\\":\\"exhibits\\",\\"title\\":\\"Exhibits\\"`, `\\"slug\\":\\"exhibits\\",\\"title\\":\\"Mall space and monetisation\\"`],
     [`"slug":"congresses","title":"Congresses"`, `"slug":"congresses","title":"Mall Space Activation"`],
     [`\\"slug\\":\\"congresses\\",\\"title\\":\\"Congresses\\"`, `\\"slug\\":\\"congresses\\",\\"title\\":\\"Mall Space Activation\\"`],
   ];
@@ -823,7 +823,7 @@ export function applyHighlightsFix(html, page) {
   region = region.split('>night to remember.</div>').join('></div>');
   // categories → Retail & Malls (strict counts; nav rename already ran, so
   // Events/Exhibits metas read Brand Activations / Malls & Retail by now)
-  const catGuards = [['>Sports</div>', 4], ['>Brand Activations</div>', 2], ['>Malls & Retail</div>', 2], ['>Congresses</div>', 2]];
+  const catGuards = [['>Sports</div>', 4], ['>Brand Activations</div>', 2], ['>Mall space and monetisation</div>', 2], ['>Congresses</div>', 2]];
   for (const [old, want] of catGuards) {
     if (region.split(old).length - 1 !== want) return html;
     region = region.split(old).join('>Retail &amp; Malls</div>');
@@ -1191,7 +1191,7 @@ const SVC_CARDS = [
     desc: ['From corporate summits to viral moments, we create experiences that fuel alignment and connection between audiences and business goals.',
       'Strategy through delivery. One team plans your brand’s next move and stays to deliver it, from the boardroom to the ground.'],
     frags: ['From corporate summits to viral moments, '] },
-  { title: ['Exhibits', 'Malls & Retail'],
+  { title: ['Exhibits', 'Mall space and monetisation'],
     subs: [['Exhibitions, Trade Shows, ', 'Year-Round Calendars,'], ['Roadshows, Ephemeral ', 'Seasonal Moments,'], ['Builds', 'Run For You']],
     flightTitle: ['Exhibitions, Trade Shows, Roadshows, Ephemeral Builds', 'Year-Round Calendars, Seasonal Moments, Run For You'],
     desc: ['Presence isn’t enough. We design modular brand spaces that speak, perform and stick, with strategy and flair built into every wall.',
