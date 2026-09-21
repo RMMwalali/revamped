@@ -74,7 +74,6 @@ const DEFAULT_TAGLINE = 'Step into the Spotlight';
 const NAV_LABELS = [
 ['Events', 'Brand Activations'],
   ['Exhibits', 'Malls & Retail'],
-  ['Work', 'Projects'],
 ];
 const NAV_DROP_HREFS = ['/service/sports'];
 const TITLE_MAP = {
@@ -94,7 +93,6 @@ const MENU_ORDER = [
   ['/about', 'About'],
   ['/service/exhibits', 'Malls &amp; Retail'],
   ['/service/events', 'Brand Activations'],
-  ['/projects', 'Projects'],
 ];
 const CONTACT_HREF = '/contact?form=quote';
 function applyMenuOrder(html) {
@@ -372,6 +370,30 @@ export function applyLegalFix(html) {
 }
 const linkObj = (title, url) =>
   `{${EQ}link${EQ}:{${EQ}target${EQ}:${EQ}${EQ},${EQ}title${EQ}:${EQ}${title}${EQ},${EQ}url${EQ}:${EQ}${url}${EQ}}}`;
+// Menu links are dropped by URL, never by title. A title-keyed drop fails
+// silently when the CMS renames an item: "Congresses" and "Work" sat in the
+// hydrated header and footer for exactly that reason while the static markup
+// looked correct, because the drop list was still looking for the older
+// "Space Activation" and "Projects" labels.
+// dist pages disagree about the origin baked into their flight payload: the
+// homepage still carries the donor's, while every other page was rewritten to
+// the live host by an earlier sweep. Anything keyed to a single hard-coded
+// ORIGIN therefore silently no-ops off the homepage, which is how the header
+// and footer drifted apart page to page. Read it from the document instead.
+function flightOrigin(html) {
+  const m = new RegExp(EQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + 'url' +
+    EQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ':' +
+    EQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(https?://[^\\\\/]+)/(?:home|about)/').exec(html);
+  return m ? m[1] : ORIGIN;
+}
+function findMenuLinkObjs(html, path) {
+  const esc = (v) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(
+    '\\{' + esc(EQ) + 'link' + esc(EQ) + ':\\{' + esc(EQ) + 'target' + esc(EQ) + ':' + esc(EQ) + esc(EQ) + ',' +
+    esc(EQ) + 'title' + esc(EQ) + ':' + esc(EQ) + '[^\\\\]*?' + esc(EQ) + ',' +
+    esc(EQ) + 'url' + esc(EQ) + ':' + esc(EQ) + '(?:https?://[^\\\\/]*)?' + esc(path) + esc(EQ) + '\\}\\}', 'g');
+  return [...new Set(html.match(re) || [])];
+}
 const ORIGIN = 'https://iventions.com';
 // Absolute site URLs (meta og:url, share links) must point at the host that
 // actually serves the site. Rewritten per request; length-synced for flight.
@@ -404,9 +426,10 @@ function applyFlightIA(html) {
   // are plain edits, while anything landing inside a length-prefixed flight
   // row (e.g. article HTML) gets its hex length recomputed instead of
   // corrupting the stream ("Application error ... Connection closed").
-  const homeObj = linkObj('Home', ORIGIN + '/home/');
-  const brandObj = linkObj('Brand Activations', ORIGIN + '/service/events/');
-  const mallsObj = linkObj('Malls & Retail', ORIGIN + '/service/exhibits/');
+  const origin = flightOrigin(html);
+  const homeObj = linkObj('Home', origin + '/home/');
+  const brandObj = linkObj('Brand Activations', origin + '/service/events/');
+  const mallsObj = linkObj('Malls & Retail', origin + '/service/exhibits/');
   const P = [
     // 0) service entity titles drive the page headlines (menu keeps short
     // labels). Must run before the menu rename below (same original values).
@@ -420,8 +443,10 @@ function applyFlightIA(html) {
   // 1) drop Sports / Insights / Space Activation / Projects link objects
   // (object + trailing comma). About is kept (main + footer nav).
   for (const u of MENU_DROP_URLS) {
-    const title = MENU_DROP_TITLES[u];
-    P.push([linkObj(title, ORIGIN + u) + ',', '']);
+    for (const obj of findMenuLinkObjs(html, u)) {
+      P.push([obj + ',', '']);  // mid-array
+      P.push([',' + obj, '']);  // last entry, no trailing comma
+    }
   }
   // 2) rename remaining titles (skip About: dropped above; Home stays)
   for (const [from, to] of Object.entries(MENU_TITLES)) {
@@ -430,12 +455,13 @@ function applyFlightIA(html) {
   }
   // 3) prepend Home to header menus (footer already starts with Home).
   // Header flight starts with About (kept), so anchor on the About object.
-  const aboutObj = linkObj('About', ORIGIN + '/about/');
+  const aboutObj = linkObj('About', origin + '/about/');
   P.push([`${EQ}menus${EQ}:[${aboutObj}`, `${EQ}menus${EQ}:[${homeObj},${aboutObj}`]);
   // 4) order Malls & Retail before Brand Activations
   P.push([brandObj + ',' + mallsObj, mallsObj + ',' + brandObj]);
   // 5) localize CMS link targets (LinkedIn/Instagram untouched)
-  P.push([ORIGIN + '/', '/']);
+  P.push([origin + '/', '/']);
+  if (origin !== ORIGIN) P.push([ORIGIN + '/', '/']);
   // 6) trailing brand mentions in values ("... | Iventions")
   P.push([` Iventions${EQ}`, ` StillCraft Events${EQ}`]);
   P.push([` IVENTIONS${EQ}`, ` STILLCRAFT EVENTS${EQ}`]);
@@ -997,22 +1023,113 @@ export function applySliderFix(html, page) {
 // without the team section are untouched. A small guard is injected with the
 // section to hide/remove the hydrated team accordion (section.css-4csq8r) so it
 // does not render back over the new section.
+// ---------- About page: team section ----------
+// Replaces the donor template's team block. Names, roles and the order come
+// from TEAM (client-provided copy); no photography is required, so nothing
+// here can 404 the way the old roster's missing portrait did. Monograms are
+// drawn in CSS rather than shipped as SVGs for the same reason.
+// Scoped to .sc-team-* so it cannot collide with the bundle's emotion classes.
+const TEAM_CSS = `
+.sc-team{padding:9rem 0;color:#1B2A4A}
+.sc-team__inner{width:100%;max-width:132rem;margin:0 auto;padding:0 2.4rem;box-sizing:border-box}
+.sc-team__eyebrow{font-size:1.2rem;letter-spacing:.32em;text-transform:uppercase;color:#C9A24B;margin:0 0 1.6rem}
+.sc-team__title{font-size:clamp(2.4rem,4vw,4rem);line-height:1.1;font-weight:400;margin:0 0 1.6rem;max-width:18ch}
+.sc-team__intro{font-size:1.4rem;line-height:1.6;max-width:56ch;margin:0 0 4.8rem;opacity:.72}
+.sc-team__grid{list-style:none;margin:0;padding:0;display:grid;gap:4rem 3.2rem;grid-template-columns:1fr}
+.sc-team__member{display:flex;flex-direction:column;align-items:flex-start;gap:1.6rem}
+.sc-team__mono{width:4.8rem;height:4.8rem;border-radius:50%;border:1px solid #C9A24B;display:flex;align-items:center;justify-content:center;font-size:1.6rem;letter-spacing:.06em;color:#C9A24B;flex:none}
+.sc-team__name{font-size:1.8rem;font-weight:500;margin:0 0 .4rem;line-height:1.25}
+.sc-team__role{font-size:1.3rem;line-height:1.5;margin:0;opacity:.6}
+.sc-team__rule{border:0;border-top:1px solid rgba(27,42,74,.14);margin:0 0 4rem}
+@media(min-width:600px){.sc-team__grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.sc-team{padding:12rem 0}.sc-team__grid{grid-template-columns:repeat(3,1fr);gap:5.6rem 4rem}}
+@media(prefers-reduced-motion:no-preference){.sc-team__member{transition:transform .4s ease}}
+`;
+const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// "John Mesh" -> JM, "Diana" -> D. Initials only, so a missing portrait can
+// never leave a hole in the grid.
+function monogram(name) {
+  return String(name).trim().split(/\s+/).slice(0, 2).map((w) => w[0] || '').join('').toUpperCase();
+}
+// Roles carry a parenthetical years-of-experience note in the source copy;
+// keep it, it is the client's wording.
+export function teamSectionHTML() {
+  const items = TEAM.map((m) => `<li class="sc-team__member">`
+    + `<span class="sc-team__mono" aria-hidden="true">${esc(monogram(m.name))}</span>`
+    + `<span><h3 class="sc-team__name">${esc(m.name)}</h3>`
+    + `<p class="sc-team__role">${esc(m.role)}</p></span>`
+    + `</li>`).join('');
+  return `<section class="sc-team" id="sc-team" aria-labelledby="sc-team-title">`
+    + `<style>${TEAM_CSS}</style>`
+    + `<div class="sc-team__inner">`
+    + `<hr class="sc-team__rule">`
+    + `<p class="sc-team__eyebrow">Our team</p>`
+    + `<h2 class="sc-team__title" id="sc-team-title">The people behind the work</h2>`
+    + `<p class="sc-team__intro">Strategy and delivery under one roof, so the people who plan your event are the same ones standing in the room on the day.</p>`
+    + `<ul class="sc-team__grid">${items}</ul>`
+    + `</div></section>`;
+}
+
 const ABOUT_GUARD_CSS = 'section.css-4csq8r{display:none !important;}';
 const ABOUT_GUARD_JS = `<script>(function(){function drop(){var els=document.querySelectorAll('section.css-4csq8r');for(var i=0;i<els.length;i++){var n=els[i];if(n)n.remove();}}function run(){drop();}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}setTimeout(run,800);setTimeout(run,2500);setTimeout(run,6000);setTimeout(run,12000);})();</script>`;
 export function applyAboutTeamReplace(html) {
   const open = html.indexOf('<section class="styles_talent__AlRC3">');
   if (open < 0) return html;
-  const block = CONGRESS_PRECISION_SECTION.replace('css-1pylvzh">', 'css-1pylvzh" id="sc-congress-precision">')
-    + '<style>' + ABOUT_GUARD_CSS + '</style>' + ABOUT_GUARD_JS;
+  // 1) cut the donor template's team block out of the static markup.
   const box = html.lastIndexOf('<div class="styles_parallaxBox__19SzL', open);
+  let cut = null;
   if (box >= 0) {
     const boxEnd = cutBalancedDiv(html, box);
     const sec = html.indexOf('<section class="styles_talent__AlRC3">', box);
-    if (sec === open && boxEnd > open) return html.slice(0, box) + block + html.slice(boxEnd);
+    if (sec === open && boxEnd > open) cut = html.slice(0, box) + html.slice(boxEnd);
   }
-  const end = html.indexOf('</section>', open);
-  if (end > open) return html.slice(0, open) + block + html.slice(end + 10);
+  if (cut === null) {
+    const end = html.indexOf('</section>', open);
+    if (end < open) return html;
+    cut = html.slice(0, open) + html.slice(end + 10);
+  }
+  html = cut;
+  // 2) Styles go in <head> and the section is mounted by script after
+  //    hydration. Markup injected into the static body inside the React root
+  //    does not survive: React reconciles the tree on hydration and throws it
+  //    away, which is why the block this replaced never actually reached the
+  //    rendered page. The script tag executes during parse, so its timers keep
+  //    running even though the tag itself is discarded with the rest.
+  html = html.replace(/<\/head>/i, '<style>' + TEAM_CSS + ABOUT_GUARD_CSS + '</style>\n$&');
+  html = html.replace(/<\/body>/i, teamMountScript() + '\n$&');
   return html;
+}
+// Mounts the team section just before the "Join our team" block - the place
+// the roster occupied in the donor template - and removes the hydrated team
+// accordion if it ever renders. Idempotent, and re-runs while the page settles.
+function teamMountScript() {
+  return '<script>(function(){'
+    + 'var HTML=' + JSON.stringify(teamSectionHTML()).replace(/<\/script/gi, '<\\/script') + ';'
+    + 'function root(){return document.querySelector("main")||document.body;}'
+    // The "Join our team" heading sits inside a narrow two-column block, so
+    // climb to the block that is a direct child of <main> and insert before
+    // that - otherwise the section inherits a half-width column.
+    + 'function topLevel(n){var m=root();while(n&&n.parentElement&&n.parentElement!==m){n=n.parentElement;}'
+    + 'return (n&&n.parentElement===m)?n:null;}'
+    + 'function anchor(){'
+    + 'var hs=document.querySelectorAll("h2");'
+    + 'for(var i=0;i<hs.length;i++){if(/join our team/i.test(hs[i].textContent||"")){'
+    + 'var t=topLevel(hs[i]);if(t)return t;}}'
+    + 'var made=document.querySelector(".styles_madeof__UEfw1");'
+    + 'if(made){var mt=topLevel(made);if(mt)return mt.nextElementSibling;}'
+    + 'return null;}'
+    + 'function drop(){var e=document.querySelectorAll("section.css-4csq8r");'
+    + 'for(var i=0;i<e.length;i++){if(e[i])e[i].remove();}}'
+    + 'function mount(){drop();'
+    + 'if(document.getElementById("sc-team"))return true;'
+    + 'var a=anchor();if(!a||!a.parentNode)return false;'
+    + 'var d=document.createElement("div");d.innerHTML=HTML;'
+    + 'var n=d.firstElementChild;if(!n)return false;'
+    + 'a.parentNode.insertBefore(n,a);return true;}'
+    + 'function run(){try{mount();}catch(e){}}'
+    + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
+    + '[300,800,1500,2500,4000,6000,9000,12000].forEach(function(t){setTimeout(run,t);});'
+    + '})();<\/script>';
 }
 export function applyAboutTeamRemove(html) {
   return applyAboutTeamReplace(html);
