@@ -5,3 +5,11 @@ node_modules/
 *.log
 .vercel/
 .claude/
+# Build output: regenerate with `npm run build` instead of committing.
+# NOTE: dist/ is still tracked historically; run `git rm -r --cached dist`
+# only after verifying a clean `npm run build` reproduces it (Vercel builds
+# from outputDirectory dist on every deploy).
+dist/
+scripts/probe-*.mjs
+scripts/tmp-*.mjs
+probe-out.txt

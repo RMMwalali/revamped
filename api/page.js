@@ -6,7 +6,7 @@ import { getOverrides, applyOverrides, bustOverrides } from '../scripts/override
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash,
-  applyStyleBlocks, applyFooterFix, applyTeamRoster, applyTeamSectionFix, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix,
+  applyStyleBlocks, applyFooterFix, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
@@ -35,11 +35,15 @@ function candidates(urlPath) {
 }
 
 async function serveHtml(pathname, cookies, host) {
-  // On Vercel, lambda instances are reused across visitors: drop module-level
-  // caches so every page view reads fresh DB state. An edit saved by one
-  // admin is then visible to everyone (and every region/instance) on the
-  // very next refresh — no stale windows, no per-user divergence.
-  if (process.env.VERCEL) { bustBrand(); bustOverrides(); bustCMS(); }
+  // Freshness vs speed: admins (valid session) bypass caches so edits preview
+  // instantly; public visitors share the warm module caches (brand 60s,
+  // CMS/overrides 15s TTLs). Busting on every request forced ~5 sequential
+  // DB roundtrips per page view - the main cause of production slowness.
+  let isAdmin = false;
+  if (cookies && cookies.sc_admin) {
+    try { isAdmin = !!(await verifySession(cookies.sc_admin)); } catch { isAdmin = false; }
+  }
+  if (process.env.VERCEL && isAdmin) { bustBrand(); bustOverrides(); bustCMS(); }
   let lookup = pathname;
   if (lookup.endsWith('/')) lookup += 'index.html';
   const tries = [];
@@ -56,18 +60,22 @@ async function serveHtml(pathname, cookies, host) {
     html = normalizeChunkRefs(html);
     if (!process.env.SC_NOSTRIP) html = stripThirdParty(html);
     html = removeBadges(html);
-    html = applyBrand(html, await getBrand());
+    // Independent DB reads run concurrently, not sequentially.
+    const [__brand, __overrides, __cms] = await Promise.all([
+      getBrand(),
+      getOverrides(key),
+      getCMS().catch(() => null),
+    ]);
+    html = applyBrand(html, __brand);
     if (!process.env.SC_NONAV) html = applyNav(html, key);
     const noFP = NO_FP.has(key);
-    html = applyOverrides(html, await getOverrides(key), { noFlightPatch: noFP });
+    html = applyOverrides(html, __overrides, { noFlightPatch: noFP });
     const fileItems = [...(FILE_CONTENT[key] || []),
       ...((LOGO_ROWS[key] || []).filter((r) => !/Testimonial/i.test(r.orig_html))),
       ...((LOGO_NAMES[key] || []).map((n) => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
     if (fileItems.length) html = applyOverrides(html, fileItems, { noFlightPatch: noFP });
     html = applyGlobalSwaps(html, key);
     if (NO_FP.has(key)) html = applyLegalFix(html);
-    const __brand = await getBrand();
-    const __cms = await getCMS().catch(() => null);
     const __heroUrl = (__cms && __cms.hero && __cms.hero.video_url) || __brand.hero_video_src || HERO_VIDEO_URL;
     const __heroMob = (__cms && __cms.hero && __cms.hero.video_mobile_url) || mobileFor(__heroUrl) || HERO_VIDEO_MOBILE_URL;
     const __heroPos = posterFor(__heroUrl) || HERO_POSTER_URL;
@@ -86,29 +94,28 @@ async function serveHtml(pathname, cookies, host) {
     html = applyServiceCardsFix(html, key);
     html = applyListingStaticFix(html);
     html = applyPortfolioFix(html);
-    html = applyRevealFailsafe(html);
     html = applySplitTextFix(html);
     html = applyCardTitlesFix(html);
     html = applyCaseMetaFix(html, key);
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
     html = applyLinks(html, host, key);
-    html = applyTeamRoster(html, __cms);
-    html = applyTeamSectionFix(html, __cms);
-    html = applyStyleBlocks(html, await getBrand());
+    html = applyAboutTeamRemove(html);
+    html = applyRevealFailsafe(html);
+    html = applyAboutTeamReplace(html, __cms);
+    html = applyStyleBlocks(html, __brand);
     html = await applyImgDims(html);
     html = encodeAssetSpaces(html);
     html = removeStaleProjectCards(html);
     html = applySplash(html, key);
     html = applyFooterFix(html, key);
-    const sess = await verifySession(cookies.sc_admin).catch(() => null);
     // /insider hosts the standalone mini-CMS dashboard (own auth UI):
     // never inject the floating inline edit bar there.
-    if (sess && key !== '/insider') {
+    if (isAdmin && key !== '/insider') {
       html = html.replace(/(<\/body>)/i,
         `<script>window.__SC_PAGE__=${JSON.stringify(key)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js';s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
     }
-    return { key, html };
+    return { key, html, isAdmin };
   }
   return null;
 }
@@ -159,7 +166,12 @@ export default async function handler(req, res) {
     const found = await serveHtml(pathname, cookies, req.headers.host);
     if (!found) { res.status(404).send('not found'); return; }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'no-cache');
+    // Public pages are edge-cached (60s fresh, background revalidate after)
+    // so repeat views skip the DB + transform pipeline entirely. Admins get
+    // no-cache so edits preview instantly.
+    res.setHeader('Cache-Control', found.isAdmin
+      ? 'no-cache'
+      : 'public, s-maxage=60, stale-while-revalidate=600');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).send(found.html);
   } catch (e) {
