@@ -69,11 +69,12 @@ async function serveHtml(pathname, cookies, host) {
     html = applyBrand(html, __brand);
     if (!process.env.SC_NONAV) html = applyNav(html, key);
     const noFP = NO_FP.has(key);
-    html = applyOverrides(html, __overrides, { noFlightPatch: noFP });
+    // Single overrides pass (DB items then file items, same order as the old
+    // two-pass sequence) so the document is scanned once, not twice.
     const fileItems = [...(FILE_CONTENT[key] || []),
       ...((LOGO_ROWS[key] || []).filter((r) => !/Testimonial/i.test(r.orig_html))),
       ...((LOGO_NAMES[key] || []).map((n) => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
-    if (fileItems.length) html = applyOverrides(html, fileItems, { noFlightPatch: noFP });
+    html = applyOverrides(html, [...__overrides, ...fileItems], { noFlightPatch: noFP });
     html = applyGlobalSwaps(html, key);
     if (NO_FP.has(key)) html = applyLegalFix(html);
     const __heroUrl = (__cms && __cms.hero && __cms.hero.video_url) || __brand.hero_video_src || HERO_VIDEO_URL;

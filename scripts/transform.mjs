@@ -340,6 +340,17 @@ function applyHeroVideo(html, desktop, mobile, poster) {
       cursor = start + url.length;
     }
   }
+  // The SSR <video> still points at the donor's Vimeo progressive URL while
+  // hydration swaps it to the Cloudinary URL above: the browser downloads
+  // BOTH (~35MB). Align the static tag to the same URL hydration sets, so
+  // there is exactly one download and no reload on match. Same for the
+  // poster (Vimeo thumb vs Cloudinary frame).
+  if (dUrl) {
+    html = html.replace(/(<video\b[^<>]*\ssrc=")https:\/\/player\.vimeo\.com[^"]*(")/gi, '$1' + dUrl + '$2');
+  }
+  if (pUrl) {
+    html = html.replace(/(<video\b[^<>]*\sposter=")https:\/\/i\.vimeocdn\.com[^"]*(")/gi, '$1' + pUrl + '$2');
+  }
   return html;
 }
 function applyGlobalSwaps(html, page) {
@@ -2590,8 +2601,12 @@ const DONOR_GTM_ID = 'GTM-PVJC495';
 const INERT_GTM_ID = 'GTM-0000000';
 
 function stripThirdParty(html) {
-  // Cookiebot + Cloudflare beacon: 404/domain-not-authorized on localhost, safe to drop.
+  // Cookiebot + Cloudflare beacon: 404/domain-not-authorized, safe to drop.
+  // uc.js loads via the Next Script loader (__next_s bootstrap) and a flight
+  // copy, so static tag-stripping misses it: neutralise the URL itself to an
+  // empty script instead. beforeInteractive order is preserved, zero bytes.
   html = html.replace(/<link[^>]*href="https:\/\/consent\.cookiebot\.com[^"]*"[^>]*>\s*/gi, '');
+  html = html.replace(/https:\/\/consent\.cookiebot\.com\/uc\.js/gi, 'data:text/javascript,void 0');
   html = html.replace(/<script[^>]*src="https:\/\/consent\.cookiebot\.com[^"]*"[^>]*>\s*<\/script>\s*/gi, '');
   html = html.replace(/<script[^>]*src="https:\/\/static\.cloudflareinsights\.com[^"]*"[^>]*>\s*<\/script>\s*/gi, '');
   // reCAPTCHA: loader tags (gstatic + provider api.js, any host variant),
@@ -2613,6 +2628,15 @@ function stripThirdParty(html) {
   html = html.replace(/<link\b[^<>]*href="https:\/\/www\.googletagmanager\.com[^"]*"[^<>]*>\s*/gi, '');
   html = html.replace(/<script\b[^<>]*src="https:\/\/www\.googletagmanager\.com[^"]*"[^<>]*>\s*<\/script>\s*/gi, '');
   if (DONOR_GTM_ID.length === INERT_GTM_ID.length) html = html.split(DONOR_GTM_ID).join(INERT_GTM_ID);
+  // The placeholder id is still read by the framework's GTM loader at
+  // runtime (URL assembled in JS, so no literal to stub): it fires a ~2s
+  // 404 to googletagmanager on every visit for a container that reports
+  // nowhere. Empty the id instead - the loader skips without one, while
+  // the gtag()/dataLayer stub the consent script needs stays intact.
+  // Scoped to the placeholder id only - a real container id must never
+  // match this.
+  html = html.split('"' + INERT_GTM_ID + '"').join('""');
+  html = html.split('\\"' + INERT_GTM_ID + '\\"').join('\\"\\"');
   return html;
 }
 

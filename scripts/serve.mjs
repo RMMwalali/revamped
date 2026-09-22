@@ -76,6 +76,39 @@ async function sendFile(res, file, noCache) {
   } catch { return false; }
 }
 
+// Resized image variants (/_next/image?w=..&q=..). Memory-capped; sharp is a
+// hard dependency. Returns null on any failure so callers fall back to the
+// original bytes - never a 500 for an image.
+const RESIZE_CACHE = new Map();
+const RESIZE_CACHE_MAX = 40;
+const RESIZE_MIME = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif', '.avif': 'image/avif' };
+async function resizedImage(file, w, q) {
+  const ext = path.extname(file).toLowerCase();
+  if (!RESIZE_MIME[ext]) return null;
+  const key = file + '|' + w + '|' + q;
+  const hit = RESIZE_CACHE.get(key);
+  if (hit) {
+    RESIZE_CACHE.delete(key);
+    RESIZE_CACHE.set(key, hit);
+    return hit;
+  }
+  const { default: sharp } = await import('sharp');
+  const input = await readFile(file);
+  const meta = await sharp(input).metadata();
+  if (meta.width && meta.width <= w) return null; // never upscale
+  let pipe = sharp(input).resize({ width: w, withoutEnlargement: true });
+  if (ext === '.jpg' || ext === '.jpeg') pipe = pipe.jpeg({ quality: q, mozjpeg: true });
+  else if (ext === '.png') pipe = pipe.png({ quality: q });
+  else if (ext === '.webp') pipe = pipe.webp({ quality: q });
+  else if (ext === '.gif') pipe = pipe.gif();
+  else if (ext === '.avif') pipe = pipe.avif({ quality: q });
+  const buf = await pipe.toBuffer();
+  const out = { buf, type: RESIZE_MIME[ext] };
+  if (RESIZE_CACHE.size >= RESIZE_CACHE_MAX) RESIZE_CACHE.delete(RESIZE_CACHE.keys().next().value);
+  RESIZE_CACHE.set(key, out);
+  return out;
+}
+
 function readBody(req, limit = 1 << 20) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -353,7 +386,8 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    // ----- Next.js image optimizer shim (serve bytes directly: no redirect roundtrip) -----
+    // ----- Next.js image optimizer shim (real resizing: variants serve the
+    // requested width, not the full original) -----
     if (pathname === '/_next/image') {
       const src = u.searchParams.get('url');
       if (!src) {
@@ -368,7 +402,25 @@ const server = http.createServer(async (req, res) => {
       } else if (!target.startsWith('/')) {
         target = '/' + target;
       }
+      const w = Math.min(3840, Math.max(0, parseInt(u.searchParams.get('w') || '0', 10) || 0));
+      const q = Math.min(100, Math.max(10, parseInt(u.searchParams.get('q') || '75', 10) || 75));
       for (const f of resolveFile(target)) {
+        const ext = path.extname(f).toLowerCase();
+        if (!w || ext === '.svg' || ext === '.ico') {
+          if (await sendFile(res, f)) return;
+          continue;
+        }
+        const resized = await resizedImage(f, w, q).catch(() => null);
+        if (resized) {
+          res.writeHead(200, {
+            'Content-Type': resized.type,
+            'Content-Length': resized.buf.length,
+            'Cache-Control': 'public, max-age=3600',
+            'Access-Control-Allow-Origin': '*',
+          });
+          res.end(resized.buf);
+          return;
+        }
         if (await sendFile(res, f)) return;
       }
       res.writeHead(302, { Location: target, 'Access-Control-Allow-Origin': '*' });
@@ -421,13 +473,13 @@ const server = http.createServer(async (req, res) => {
       // client parses as a truncated stream fatals the whole page, so serve
       // them static-only (a 418 revert beats an Application error).
       const noFP = key === '/cookie-policy' || key === '/privacy-policy' || key === '/legal-notice-terms-of-use';
-      html = applyOverrides(html, await getOverrides(key), { noFlightPatch: noFP });
-      __dbg_step('overrides');
+      // Single overrides pass (DB items then file items, same order as the old
+      // two-pass sequence) so the document is scanned once, not twice.
       const fileItems = [...(FILE_CONTENT[key] || []),
         ...((LOGO_ROWS[key] || []).filter(r => !/Testimonial/i.test(r.orig_html))),
         ...((LOGO_NAMES[key] || []).map(n => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
-      if (fileItems.length) html = applyOverrides(html, fileItems, { noFlightPatch: noFP });
-      __dbg_step('fileItems');
+      html = applyOverrides(html, [...await getOverrides(key), ...fileItems], { noFlightPatch: noFP });
+      __dbg_step('overrides');
       html = applyGlobalSwaps(html, key);
       __dbg_step('globalSwaps');
       if (key === '/cookie-policy' || key === '/privacy-policy' || key === '/legal-notice-terms-of-use') html = applyLegalFix(html);

@@ -214,6 +214,9 @@
     },
     "api/cms.js": {
       "includeFiles": "dist/**/*.html"
+    },
+    "api/img.js": {
+      "includeFiles": "dist/assets/**"
     }
   },
   "headers": [
