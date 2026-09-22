@@ -39,6 +39,55 @@
     return null;
   }
 
+  // Climb from a clicked node to the element the user actually means. The
+  // animated-copy stack (span.css-3w1c3c > div.line-mask > div.line > sliced
+  // text) exposes the SAME visible text at every level, so walking up while
+  // the text stays identical lands on the real heading/paragraph — and stops
+  // the editor from recording framework-mutated wrapper markup (live
+  // transform/--rX/--line-index values never match on the next render).
+  function editableTarget(el) {
+    if (!el || el.tagName === 'IMG' || el.tagName === 'VIDEO' || el.tagName === 'SOURCE') return el;
+    var base = (el.innerText || el.textContent || '').trim();
+    if (!base) return el;
+    var t = el;
+    var top = el;
+    while (t && t.parentElement && t.parentElement !== document.body) {
+      var p = t.parentElement;
+      if ((p.innerText || p.textContent || '').trim() !== base) break;
+      if (TEXT_TAGS.test(p.tagName)) top = p;
+      t = p;
+    }
+    return top;
+  }
+
+  // Serialize content without presentation chrome: unwrap div/span wrappers
+  // that only carry animation/positioning (line-mask, fix-clip, css-hashed
+  // classes, live transform/animation styles) and drop framework-mutated
+  // inline styles, so the recorded orig/value stay stable between sessions and
+  // match the static markup the server/guard re-finds.
+  function cleanTextHTML(el) {
+    function clean(node) {
+      if (node.nodeType !== 1) return node.cloneNode(true);
+      var tag = node.tagName;
+      var cls = String(node.className || '');
+      var st = String(node.getAttribute ? node.getAttribute('style') || '' : '');
+      var chrome = /line-mask|fix-mask|fix-clip|will-change|css-3w1c3c|css-1lpdf6v/.test(cls) ||
+                   /transform|translate|rotate|scale|--r[XY]|animation/i.test(st);
+      if (/^(DIV|SPAN)$/.test(tag) && chrome) {
+        var out = '';
+        for (var c = 0; c < node.childNodes.length; c++) out += clean(node.childNodes[c]);
+        return out;
+      }
+      var clone = node.cloneNode(false);
+      if (node.getAttribute) clone.removeAttribute('style');
+      for (var c2 = 0; c2 < node.childNodes.length; c2++) clone.appendChild(clean(node.childNodes[c2]));
+      return clone;
+    }
+    var out = clean(el);
+    var s = typeof out === 'string' ? out : (out.nodeType === 1 ? out.outerHTML : String(out));
+    return s.replace(/\s+/g, ' ').replace(/ >/g, '>').replace(/> </g, '><').trim();
+  }
+
   // nth occurrence of the same content among same-tag peers (for duplicates)
   function peerIndex(el, kind) {
     if (kind === 'video') {
@@ -57,12 +106,12 @@
       }
       return 0;
     }
-    var key = kind === 'image' ? el.getAttribute('src') : el.innerHTML;
+    var key = kind === 'image' ? el.getAttribute('src') : (kind === 'text' ? cleanTextHTML(el) : el.innerHTML);
     var list = document.getElementsByTagName(el.tagName);
     var n = 0;
     for (var i = 0; i < list.length; i++) {
       if (list[i].closest('#sc-bar,#sc-brand-panel')) continue;
-      var k = kind === 'image' ? list[i].getAttribute('src') : list[i].innerHTML;
+      var k = kind === 'image' ? list[i].getAttribute('src') : (kind === 'text' ? cleanTextHTML(list[i]) : list[i].innerHTML);
       if (k === key) {
         if (list[i] === el) return n;
         n++;
@@ -80,7 +129,7 @@
       var list = document.getElementsByTagName(tg);
       for (var i = 0; i < list.length; i++) {
         if (list[i].closest('#sc-bar,#sc-brand-panel')) continue;
-        if (list[i].innerHTML === orig) out.push(list[i]);
+        if (list[i].innerHTML === orig || cleanTextHTML(list[i]) === orig) out.push(list[i]);
       }
     });
     return out;
@@ -274,9 +323,11 @@
   }
 
   function startTextEdit(el, _id) {
+    var target = editableTarget(el);
+    el = target;
     if (active && active !== el) active.blur();
     active = el;
-    var orig = el.innerHTML;
+    var orig = cleanTextHTML(el);
     var idx = peerIndex(el, 'text');
     var k = key('text', el.tagName, idx);
     el.contentEditable = 'true';
@@ -287,7 +338,7 @@
       el.contentEditable = 'false';
       el.classList.remove('sc-editing');
       if (active === el) active = null;
-      var v = el.innerHTML;
+      var v = cleanTextHTML(el);
       if (v !== orig) markDirty(k, 'text', v, orig, idx, el.tagName);
       updateSave();
     });

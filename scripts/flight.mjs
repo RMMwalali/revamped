@@ -353,6 +353,8 @@ export function safeReplaceVerified(html, from, to) {
   return out;
 }
 
+export { parseSeg, findLenRows, decodeFully, encodeJs };
+
 // Scanner model for push-string content: every literal quote char is
 // backslash-escaped, so string delimiters are the 2-char sequence `\".
 // The helpers below toggle string state on `\"` and skip other `\X`

@@ -3,7 +3,7 @@
 // Anchor rows (el_id starting with 'a') match by exact content + occurrence
 // index, so they keep working after React hydration re-renders the tree.
 import { pool } from './db.mjs';
-import { safeReplacePushes, safeReplacePairs } from './flight.mjs';
+import { safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs } from './flight.mjs';
 
 const cache = new Map(); // page -> { at, items }
 const TTL = 15000;
@@ -118,6 +118,143 @@ export function replaceMediaSrc(html, id, src) {
   return html.replace(new RegExp(`((?:src|poster)\\s*=\\s*")${esc(src)}(")`, 'gi'), `$1${src}$2`);
 }
 
+// Text normalization for cross-domain matching. Recorded origins are DOM
+// snapshots (ASCII apostrophes, <br class="css-0">, "—or") while flight rows
+// keep canonical plain text ("We'll get you started or help you dream bigger.").
+// Collapse both sides to a comparable form: drop tags, fold smart quotes and
+// dashes, squash whitespace.
+function normText(s) {
+  return String(s == null ? '' : s)
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/[‘’]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/–/g, '-')
+    .replace(/—/g, ' ')
+    .replace(/\u2028/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Normalize decoded flight text the same way, returning an alignment map from
+// normalized index back to decoded index (whitespace runs collapse onto their
+// first char; tags — absent in decoded text — would be skipped).
+function normTextMapped(s) {
+  let out = [];
+  let map = [];
+  let lastWs = false;
+  const fold = (c) => c === '’' ? "'" : c === '‘' ? "'" : c === '”' ? '"' : c === '“' ? '"' : c === '–' ? '-' : c === '\u2028' ? ' ' : c;
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (c === '—') {
+      if (!lastWs) { out.push(' '); map.push(i); lastWs = true; }
+      continue;
+    }
+    const ws = /\s/.test(c);
+    if (ws) {
+      if (!lastWs) { out.push(' '); map.push(i); lastWs = true; }
+      continue;
+    }
+    out.push(fold(c));
+    map.push(i);
+    lastWs = false;
+  }
+  return { s: out.join(''), map };
+}
+
+// Decoded merge of all push-string contents (plain JS string domain). This
+// build stores flight payloads as escaped JSON text without length-framed
+// rows, so row walking finds nothing; decode the contents outright.
+function flightDecoded(html) {
+  const delim = 'self.__next_f.push(';
+  const parts = html.split(delim);
+  let out = '';
+  for (let i = 1; i < parts.length; i++) {
+    const s = parseSeg(parts[i]);
+    if (!s) continue;
+    out += decodeFully(s.content);
+  }
+  return out;
+}
+
+// Map decoded characters back to raw-slice boundaries inside a push string so
+// a decoded-domain replacement can be spliced into the escaped content.
+function decodeSpans(content) {
+  const spans = [];
+  let i = 0;
+  while (i < content.length) {
+    const r = advSpan(content, i);
+    if (!r) break;
+    spans.push({ rs: i, re: i + r });
+    i += r;
+  }
+  return spans;
+}
+function advSpan(s, i) {
+  const c = s[i];
+  if (c === undefined) return 0;
+  if (c !== '\\') { const cp = s.codePointAt(i); return cp > 0xffff ? 2 : 1; }
+  const n = s[i + 1];
+  if (n === undefined) return 0;
+  if (n === '\n') return 2;
+  if (n === '\r') return s[i + 2] === '\n' ? 3 : 2;
+  if (/^[nrtbfv"]$/.test(n)) return 2;
+  if (n === '\\') return 2;
+  if (n === 'x' && /^[0-9a-fA-F]{2}/.test(s.slice(i + 2, i + 4))) return 4;
+  if (n === 'u') {
+    if (/^[0-9a-fA-F]{4}/.test(s.slice(i + 2, i + 6))) return 6;
+    if (s[i + 2] === '{') {
+      const e = s.indexOf('}', i + 3);
+      if (e > 0 && e - (i + 3) <= 6 && /^[0-9a-fA-F]+$/.test(s.slice(i + 3, e))) return e - i + 1;
+    }
+  }
+  return 2;
+}
+
+// Splice the canonical text edit into the merged push contents (decoded
+// domain), where safeReplacePushes cannot operate because no length-framed
+// rows exist. Requires an exactly-once decoded match to avoid retitling
+// sibling nodes; value is re-encoded so quotes/newlines never break the
+// enclosing JS string.
+function patchCanonicalFlight(html, decoded, nOrig, value) {
+  const { s: nDec, map } = normTextMapped(decoded);
+  let at = -1, count = 0, from = 0;
+  while ((from = nDec.indexOf(nOrig, from)) >= 0) {
+    count++;
+    if (at < 0) at = from;
+    from += nOrig.length;
+  }
+  if (count !== 1 || at + nOrig.length > map.length) return html;
+  const rs = map[at];
+  const re = map[at + nOrig.length - 1];
+  const seg = decoded.slice(rs, re + 1);
+  if (!seg || /<[^>]+>/.test(seg)) return html;
+  const delim = 'self.__next_f.push(';
+  const parts = html.split(delim);
+  const segs = [];
+  for (let i = 1; i < parts.length; i++) segs.push(parseSeg(parts[i]));
+  if (segs.some((s) => !s)) return html;
+  const joined = segs.map((s) => s.content).join('');
+  const spans = decodeSpans(joined);
+  if (rs + seg.length > spans.length) return html;
+  const rawStart = spans[rs].rs;
+  const rawEnd = spans[rs + seg.length - 1].re;
+  const newJoined = joined.slice(0, rawStart) + encodeJs(value) + joined.slice(rawEnd);
+  // Re-emit merged pushes exactly like the editor path: first push carries the
+  // content, the rest are emptied (order preserved, so the client stream is
+  // unchanged).
+  let out = parts[0];
+  for (let k = 0; k < segs.length; k++) {
+    const content = k === 0 ? newJoined : '';
+    out += delim + segs[k].prefix + content + segs[k].suffix;
+  }
+  return out;
+}
+
 const jesc = (s) => JSON.stringify(s).slice(1, -1);
 
 // Patch flight-data occurrence when the original string is unique there, so
@@ -157,6 +294,21 @@ function patchFlight(html, orig, value) {
     // static HTML is untouched (the idx-th static occurrence is handled by
     // applyAnchor/replaceElInner, which must keep the other copies intact).
     return safeReplacePushes(html, eo, ev);
+  }
+  // Canonical pass: bridge the recorded DOM snapshot to the canonical flight
+  // text by normalization. Only plain values are patched here — a JSX text
+  // node cannot render raw tags (multi-line HTML is re-asserted after
+  // hydration by the injected text guard). The canonical text must occur once
+  // in the decoded payload, or a blanket rewrite would touch sibling nodes
+  // (shared labels go through the client guard instead).
+  if (!/<[^>]+>/.test(value)) {
+    const v = String(value);
+    const nOrig = normText(orig);
+    const nVal = normText(v);
+    if (nOrig.length >= 8 && nVal.length >= 1 && nOrig !== nVal) {
+      const decoded = flightDecoded(html);
+      return patchCanonicalFlight(html, decoded, nOrig, v);
+    }
   }
   return html;
 }
@@ -201,41 +353,51 @@ export function imageOverrideScript(items) {
     + '})();<\/script>';
 }
 
-// Text overrides for multi-node shared strings (nav labels, card titles):
-// patchFlight only handles strings unique in the flight payload, because a
-// blanket replace retitles sibling elements (the header menu, other cards).
-// The admin edit bar re-applies such edits client-side, so they "stuck" for
-// the editor yet reverted for a plain visitor after hydration re-rendered the
-// flight value. Mirror the image guard: ship the recorded orig -> value pairs
-// and re-assert them post-hydration, matching by element tag + exact content +
-// occurrence index (the same targeting the edit bar used to record them).
-// Only plain-text edits ship (no tag soup, no humorous line-mask captures);
-// the edit bar records those for DOM-mining sprawl we do not want on pages.
+// Text overrides cannot always be won in the served markup alone:
+// - patchFlight (above) handles plain-text edits whose canonical form appears
+//   once in the flight payload, so hydration renders the new value.
+// - Shared labels (nav, card titles) appear in N flight nodes; a blanket
+//   replace would retitle siblings. Multi-line values and animated-copy edits
+//   can't live in a JSX text node verbatim. For all of those, ship a
+//   post-hydration guard that re-asserts the recorded orig -> value by element
+//   tag + normalized text + occurrence index (the same targeting the edit bar
+//   used when the edit was recorded). Matching normalizes both sides (fold
+//   smart quotes/dashes, drop <br> and wrapper tags, squash whitespace) so a
+//   DOM-recorded orig still lands on the hydrated canonical text.
+// Animation-wrapper captures (line-mask/fix-clip markup with live transform
+// styles) are excluded: they would replace a heading's chrome, not its words.
 export function textOverrideScript(items) {
   const jobs = [];
+  const tags = 'P H1 H2 H3 H4 H5 H6 LI A SPAN BUTTON BLOCKQUOTE FIGCAPTION DT DD TD TH LABEL';
+  const GRIME = /line-mask|fix-mask|fix-clip|will-change|translate3d|translate\(|animation:|--rX|--rY|css-3w1c3c|css-1lpdf6v/i;
   for (const it of items || []) {
-    if (it.kind !== 'text' || !it.orig_html || it.value === it.orig_html) continue;
-    if (!it.orig_html || !it.value) continue;
+    if (it.kind !== 'text' || !it.orig_html || !it.value || it.value === it.orig_html) continue;
     const o = String(it.orig_html);
     const v = String(it.value);
-    if (o.length < 2 || o.length > 120) continue;
-    if (v.length < 1 || v.length > 200) continue;
-    if (/<[^>]+>/.test(o)) continue;            // plain text only
-    if (/^<br\s*\/?>$/i.test(v)) continue;      // "clear this line" noise
-    jobs.push({ o, v, t: it.tag || '', i: it.idx || 0 });
+    if (o.length < 4 || o.length > 600) continue;
+    if (v.length < 1 || v.length > 4000) continue;
+    if (GRIME.test(o) || GRIME.test(v)) continue;      // animated chrome, not text
+    if (/^<br\s*\/?\s*>$/i.test(v.trim())) continue;   // "clear this line" noise
+    if (tags.indexOf(' ' + (it.tag || '').toUpperCase()) < 0) continue;
+    jobs.push({ o, v, t: (it.tag || 'P').toUpperCase(), i: it.idx || 0 });
   }
   if (!jobs.length) return '';
   const data = JSON.stringify(jobs).replace(/<\/script/gi, '<\\/script');
   return '<script>(function(){var O=' + data + ';'
-    + 'function peers(tag,orig){'
-    + 'var names=(tag&&tag.toLowerCase())||"";'
-    + 'var found=[];'
-    + 'if(names){var list=document.getElementsByTagName(names);for(var j=0;j<list.length;j++){var e=list[j];if(e.closest&&e.closest(\'#sc-bar,#sc-brand-panel\'))continue;if(e.innerHTML===orig)found.push(e);}return found;}'
-    + 'return [];}'
-    + 'function swap(){for(var i=0;i<O.length;i++){var o=O[i];var ps=peers(o.t,o.o);var el=ps[o.i]||ps[0];if(el&&el.innerHTML!==o.v)el.innerHTML=o.v;}}'
+    + 'var N=function(s){return (""+(s==null?"":s)).'
+    + 'replace(/<br\\s*\\/?>/gi," ").replace(/<[^>]*>/g," ").replace(/\u00a0/g," ")'
+    + '.replace(/[\u2018\u2019]/g,"\u0027").replace(/[\u201c\u201d]/g,"\u0022")'
+    + '.replace(/\u2013/g,"-").replace(/\u2014/g," ").replace(/\s+/g," ").trim();};'
+    + 'function peers(tag,orig){var nn=N(orig),list=document.getElementsByTagName(tag),out=[];'
+    + 'for(var j=0;j<list.length;j++){var e=list[j];'
+    + 'if(e.closest&&e.closest(\'#sc-bar,#sc-brand-panel\'))continue;'
+    + 'if(N(e.textContent)===nn)out.push(e);}return out;}'
+    + 'function swap(){for(var i=0;i<O.length;i++){var o=O[i];'
+    + 'var ps=peers(o.t,o.o);var el=ps[o.i]||ps[0];'
+    + 'if(el&&el.innerHTML!==o.v)el.innerHTML=o.v;}}'
     + 'function run(){try{swap();}catch(e){}}'
     + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
-    + 'try{new MutationObserver(function(m){for(var i=0;i<m.length;i++){if(m[i].type==="childList"){run();break;}}}).observe(document.body,{childList:true,subtree:true});}catch(e){}'
+    + 'try{new MutationObserver(function(){run();}).observe(document.body,{childList:true,subtree:true});}catch(e){}'
     + '[200,600,1200,2500,4000,6000,9000,14000].forEach(function(t){setTimeout(run,t);});'
     + '})();<\/script>';
 }
