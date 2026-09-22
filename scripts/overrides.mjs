@@ -386,7 +386,7 @@ export function textOverrideScript(items) {
   return '<script>(function(){var O=' + data + ';'
     + 'var N=function(s){return (""+(s==null?"":s)).'
     + 'replace(/<br\\s*\\/?>/gi," ").replace(/<[^>]*>/g," ").replace(/\u00a0/g," ")'
-    + '.replace(/[\u2018\u2019]/g,"\u0027").replace(/[\u201c\u201d]/g,"\u0022")'
+    + '.replace(/[\u2018\u2019]/g,"\u0027").replace(/[\u201c\u201d]/g,"\'")'
     + '.replace(/\u2013/g,"-").replace(/\u2014/g," ").replace(/\s+/g," ").trim();};'
     + 'function peers(tag,orig){var nn=N(orig),list=document.getElementsByTagName(tag),out=[];'
     + 'for(var j=0;j<list.length;j++){var e=list[j];'

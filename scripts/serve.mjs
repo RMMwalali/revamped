@@ -480,7 +480,7 @@ const server = http.createServer(async (req, res) => {
       __dbg_step('aboutTeamRemove');
       html = applyRevealFailsafe(html);
       __dbg_step('revealFailsafe');
-      html = applyAboutTeamReplace(html);
+      html = applyAboutTeamReplace(html, __cms);
       __dbg_step('aboutTeamReplace');
       html = applyStyleBlocks(html, await getBrand());
       __dbg_step('styleBlocks');

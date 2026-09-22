@@ -1,0 +1,18 @@
+{
+  "served_len": 210219,
+  "served_sc_team_member": 10,
+  "served_sc_team_mono": 8,
+  "served_sc_vo": 0,
+  "served_sc_vo_media_img": 0,
+  "served_join_our_team": true,
+  "served_talent_refs": 0,
+  "served_portrait_refs": 34,
+  "served_teamMount": false,
+  "served_voicesMount": false,
+  "donor_len": 182185,
+  "donor_sc_vo": 0,
+  "donor_sc_vo_media_img": 0,
+  "donor_portrait_refs": 34,
+  "donor_roster_count": 0,
+  "donor_roster_sample": []
+}

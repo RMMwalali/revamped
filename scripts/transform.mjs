@@ -554,6 +554,28 @@ function cutBalancedDiv(html, start) {
   }
   return -1;
 }
+// Script-aware search: Next.js flight payloads embed escaped copies of page
+// text (e.g. "Join our team", "</section>" inside strings). Cutting at a
+// match that lives INSIDE a <script> block corrupts the flight JS and blanks
+// the page (React fails to parse). These helpers only match static markup.
+function insideScript(html, i) {
+  const open = html.lastIndexOf('<script', i);
+  if (open < 0) return false;
+  const gt = html.indexOf('>', open);
+  if (gt < 0 || gt > i) return false;
+  const close = html.indexOf('</script>', gt);
+  return close < 0 || close > i;
+}
+function staticIndexOf(html, needle, from) {
+  let i = html.indexOf(needle, from || 0);
+  while (i >= 0 && insideScript(html, i)) i = html.indexOf(needle, i + 1);
+  return i;
+}
+function staticLastIndexOf(html, needle, from) {
+  let i = html.lastIndexOf(needle, from);
+  while (i >= 0 && insideScript(html, i)) i = html.lastIndexOf(needle, i - 1);
+  return i;
+}
 function cutFlightTuple(html, open) {
   // open at '[' of ["$",type,key,props]; string-aware bracket balance.
   let depth = 0;
@@ -1157,39 +1179,46 @@ export function teamSectionHTML() {
 
 const ABOUT_GUARD_CSS = 'section.css-4csq8r{display:none !important;}';
 const ABOUT_GUARD_JS = `<script>(function(){function drop(){var els=document.querySelectorAll('section.css-4csq8r');for(var i=0;i<els.length;i++){var n=els[i];if(n)n.remove();}}function run(){drop();}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}setTimeout(run,800);setTimeout(run,2500);setTimeout(run,6000);setTimeout(run,12000);})();</script>`;
-export function applyAboutTeamReplace(html) {
-  const open = html.indexOf('<section class="styles_talent__AlRC3">');
+export function applyAboutTeamReplace(html, cms) {
+  // Key on the heading the served /about ACTUALLY ships. The static roster grid
+  // was stripped by applyAboutTeamRemove, so if the served page contains the
+  // "Join our team" CTA heading we rebuild the roster (CMS portraits when the
+  // bundle has them, monogram fallback otherwise) and mount it before it.
+  // Static markup only: the flight payload carries escaped copies of the same
+  // text, and cutting inside a <script> block corrupts flight JS (blank page).
+  const open = staticIndexOf(html, 'Join our team');
   if (open < 0) return html;
   // 1) cut the donor template's team block out of the static markup.
-  const box = html.lastIndexOf('<div class="styles_parallaxBox__19SzL', open);
+  const box = staticLastIndexOf(html, '<div class="styles_parallaxBox__19SzL', open);
   let cut = null;
   if (box >= 0) {
     const boxEnd = cutBalancedDiv(html, box);
-    const sec = html.indexOf('<section class="styles_talent__AlRC3">', box);
+    const sec = staticIndexOf(html, '<section class="styles_talent__AlRC3">', box);
     if (sec === open && boxEnd > open) cut = html.slice(0, box) + html.slice(boxEnd);
   }
   if (cut === null) {
-    const end = html.indexOf('</section>', open);
+    const end = staticIndexOf(html, '</section>', open);
     if (end < open) return html;
     cut = html.slice(0, open) + html.slice(end + 10);
   }
   html = cut;
-  // 2) Styles go in <head> and the section is mounted by script after
-  //    hydration. Markup injected into the static body inside the React root
-  //    does not survive: React reconciles the tree on hydration and throws it
-  //    away, which is why the block this replaced never actually reached the
-  //    rendered page. The script tag executes during parse, so its timers keep
-  //    running even though the tag itself is discarded with the rest.
-  html = html.replace(/<\/head>/i, '<style>' + TEAM_CSS + ABOUT_GUARD_CSS + '</style>\n$&');
-  html = html.replace(/<\/body>/i, teamMountScript() + '\n$&');
+  // 2) Donor-exact card language lives in the shared voices grid: portrait
+  //    (CMS featuredImage) with sc-vo-media avatar, monogram fallback when
+  //    the bundle has none. Mount before the "Join our team" block - the
+  //    place the roster occupied in the donor template.
+  html = html.replace(/<\/head>/i, '<style>' + VOICES_CSS_RULES + TEAM_X_CSS + ABOUT_GUARD_CSS + '</style>\n$&');
+  html = html.replace(/<\/body>/i, teamMountScript(cms) + '\n$&');
   return html;
 }
-// Mounts the team section just before the "Join our team" block - the place
-// the roster occupied in the donor template - and removes the hydrated team
-// accordion if it ever renders. Idempotent, and re-runs while the page settles.
-function teamMountScript() {
+// Mounts the roster just before the "Join our team" block - the place the
+// roster occupied in the donor template - using the local CMS team items
+// (portrait cards when the bundle carries them, monogram fallback otherwise),
+// and removes the hydrated talent grid if it ever renders. Idempotent, and
+// re-runs while the page settles.
+function teamMountScript(cms) {
   return '<script>(function(){'
-    + 'var HTML=' + JSON.stringify(teamSectionHTML()).replace(/<\/script/gi, '<\\/script') + ';'
+    + 'var HTML=' + JSON.stringify(teamExpandSection(teamItemsOf(cms))).replace(/<\/script/gi, '<\\/script') + ';'
+    + 'var BINDCODE=' + JSON.stringify(TEAM_X_BIND_JS).replace(/<\/script/gi, '<\\/script') + ';'
     + 'function root(){return document.querySelector("main")||document.body;}'
     // The "Join our team" heading sits inside a narrow two-column block, so
     // climb to the block that is a direct child of <main> and insert before
@@ -1210,14 +1239,38 @@ function teamMountScript() {
     + 'var a=anchor();if(!a||!a.parentNode)return false;'
     + 'var d=document.createElement("div");d.innerHTML=HTML;'
     + 'var n=d.firstElementChild;if(!n)return false;'
-    + 'a.parentNode.insertBefore(n,a);return true;}'
+    + 'a.parentNode.insertBefore(n,a);'
+    + 'if(!document.getElementById("sc-xbind")){var s=document.createElement("script");s.id="sc-xbind";s.textContent=BINDCODE;document.body.appendChild(s);}'
+    + 'return true;}'
     + 'function run(){try{mount();}catch(e){}}'
     + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
     + '[300,800,1500,2500,4000,6000,9000,12000].forEach(function(t){setTimeout(run,t);});'
     + '})();<\/script>';
 }
 export function applyAboutTeamRemove(html) {
-  return applyAboutTeamReplace(html);
+  // Strip ONLY the donor's static talent roster block. No CTA cut, no mount -
+  // applyAboutTeamReplace (with the CMS bundle) rebuilds and mounts after.
+  // Static markup only: never touch flight payload copies.
+  const secOpen = staticIndexOf(html, '<section class="styles_talent__AlRC3">');
+  if (secOpen < 0) return html;
+  let depth = 0, i = secOpen;
+  while (i < html.length) {
+    if (html.startsWith('</section', i) && /[\s>]/.test(html[i + 9] || '')) {
+      const gt = html.indexOf('>', i);
+      if (gt < 0) return html;
+      depth--;
+      i = gt + 1;
+      if (depth === 0) return html.slice(0, secOpen) + html.slice(i);
+    } else if (html.startsWith('<section', i) && /[\s>]/.test(html[i + 8] || '')) {
+      const gt = html.indexOf('>', i);
+      if (gt < 0) return html;
+      if (html[gt - 1] !== '/') depth++;
+      i = gt + 1;
+    } else {
+      i++;
+    }
+  }
+  return html;
 }
 // Social share image: template points og:image/twitter:image at an Adevinta
 // case photo. Point at StillCraft's own hero poster until a dedicated
@@ -2289,18 +2342,12 @@ function escRegExp(s) {
 // the flight half, static edits are plain string ops).
 export function applyStatsFix(html) {
   if (html.indexOf('Projects Delivered') < 0 || html.indexOf('achievements') < 0) return html;
-  // --- 1) flight achievements array: keep first 2 nodes, rewrite 150+/88% ---
+  // --- 1) flight achievements array: keep ALL nodes (no truncation), }
+  // (show every stat card incl. the 5th; value rewrites happen in step 3) ---
   try {
     const out = statsFixFlight(html);
     if (out && out !== html) html = out;
   } catch { /* keep static-only fix */ }
-  // --- 2) static rows: keep first 2 items per row ---
-  // (pinned counters are nested 3-deep; match the outer wrapper instead)
-  html = statsKeepFirstTwo(html, '<div class="css-a1l9nu"', '<p', '</div>');
-  html = statsKeepFirstTwo(html, '<div class="Container_container_grid__LWYyb css-lvr4xy"><div class="css-37zjk9"><div class="css-1k1kaow"><div class="js-team-achievement-item', '<p', '</div></div></div></div>');
-  html = statsKeepFirstTwo(html, '<div class="css-1ciizvo"', '<p', '</div>');
-  html = statsKeepFirstTwoBalanced(html, '<div class="styles_embla__slide__ORTTe');
-  html = statsKeepFirstTwoBalanced(html, '<div class="css-ns7bf6');
   // --- 3) slot 1-2 values → 150+ / 88% + StillCraft blurbs ---
   html = html.split('>270<').join('>150<');
   html = html.split('>90<').join('>88<');
@@ -2395,7 +2442,9 @@ function statsFixFlight(html) {
       else if (c === '}') { d2--; if (d2 === 0) nodes.push(html.slice(s2, q + 1)); }
     }
     if (nodes.length !== 5) { idx = html.indexOf(key, end); continue; }
-    let fresh = nodes.slice(0, 2).join(',');
+    // keep ALL nodes (no truncation) → show every stat card incl. the 5th with
+    // its image; slot value/blurb rewrites below are flight-encoded planes.
+    let fresh = nodes.join(',');
     // slot values → 150+ / 88% + StillCraft blurbs (flight-encoded planes)
     fresh = fresh.split('\\"amount\\":270').join('\\"amount\\":150');
     fresh = fresh.split('"amount":270').join('"amount":150');
@@ -3038,17 +3087,19 @@ export function applyFooterFix(html, page) {
 // StillCraft team roster: text-only monogram cards (Option A). No photos required;
 // bios are the exact client-provided copy below. Editable via /insider → Team.
 const TEAM = [
-  { name: 'Gathu Mwangi', role: 'Chief Executive Officer', img: 'team-gathu.svg',
+  { name: 'Gathu Mwangi', role: 'Chief Executive Officer', img: '',
+    // (no portrait file ships for Gathu - monogram fallback; do NOT point at
+    // donor portraits in dist/assets/cms - local CMS team only)
     bio: 'Gathu Mwangi built StillCraft Events Co. from a single, unconventional idea: that stillness itself could command attention. With a degree in Public Relations and a career built across several companies as a PR Officer and Sales Manager, Gathu understood early on that the businesses winning attention weren\'t necessarily the loudest, they were the ones who knew how to make people stop and look. That instinct led him to found African Living Statues and Events, introducing and pioneering human living statue performances in Kenya, a first for the country\'s events industry, and a format that turned static presence into genuine spectacle at activations across Nairobi. As the business grew, Gathu saw a bigger gap forming: shopping malls needed programming that actually moved people, and brands needed activations that did more than perform well in a recap deck. He rebranded and expanded the company into StillCraft Events Co., built to serve both audiences properly rather than picking one lane. Today, Gathu leads a team that plans strategy and delivers execution under one roof, a philosophy shaped directly by his own path from PR and sales into founding and building an agency from the ground up. He remains hands-on with the same instinct that started it all: that the right idea, placed in the right room, in front of the right audience, is what actually moves a business forward.' },
-  { name: 'John Mesh', role: 'Operations Manager (5 Years of experience)', img: 'team-john-mesh.svg',
+  { name: 'John Mesh', role: 'Operations Manager (5 Years of experience)', img: '/assets/custom/team-john-mesh.svg',
     bio: 'Our Operations Manager is the reason a plan on paper survives contact with a real venue. Every vendor booking, every staffing schedule, every piece of equipment that needs to be in the right place at the right time runs through this role. When an activation looks effortless on the day, it is because the operations work behind it was anything but, hundreds of small details resolved before anyone outside the team ever notices there was a decision to make.' },
-  { name: 'Diana', role: 'Marketing Manager (3 Years of experience)', img: 'team-diana.svg',
+  { name: 'Diana', role: 'Marketing Manager (3 Years of experience)', img: '/assets/custom/team-diana.svg',
     bio: "Diana keeps StillCraft's own story as sharp as the stories we build for clients. This role shapes how the agency shows up, on the website, in pitches, across every touchpoint a prospective client sees before they ever speak to us, and makes sure the positioning we promise clients is the same one we practice ourselves." },
-  { name: 'Miriam', role: 'Human Resource (7 Years of experience)', img: 'team-miriam.svg',
+  { name: 'Miriam', role: 'Human Resource (7 Years of experience)', img: '/assets/custom/team-miriam.svg',
     bio: 'Delivering eight years of consistent, high pressure work on the ground depends entirely on the people doing it, and building and keeping that team is the job of our Human Resource. This role manages everything from hiring the right people for a fast moving, client facing industry to making sure the team running a launch day at six in the morning is supported well enough to do it again next week.' },
-  { name: 'Robin Halmi', role: 'Chief Digital Media (2 Years of experience)', img: 'team-robin-halmi.svg',
+  { name: 'Robin Halmi', role: 'Chief Digital Media (2 Years of experience)', img: '/assets/custom/team-robin-halmi.svg',
     bio: 'Halmi owns how StillCraft and its clients show up everywhere a screen is involved, social content, digital campaigns, and the growing hybrid and virtual layer of corporate and brand events. As more of a brand\'s audience is met online before they are ever met in person, Halmi makes sure the digital experience carries the same energy and consistency as the physical one.' },
-  { name: 'John', role: 'Finance Officer (4 Years of experience)', img: 'team-john-njogu.svg',
+  { name: 'John', role: 'Finance Officer (4 Years of experience)', img: '/assets/custom/team-john-njogu.svg',
     bio: 'John keeps every engagement accountable in the way StillCraft promises clients it will be, transparent budgets, accurate reporting, and the financial discipline that lets an eight year old consultancy still operate like one that plans for its next eight. This role is also what makes a long term partnership like the one with Galleria Mall sustainable on both sides, not just deliverable once.' },
 ];
 // Encode a value the way the CMS flight payload does (single-backslash plane).
@@ -3058,7 +3109,8 @@ function flightEnc(s) {
     .split('\r').join('\\r').split('\n').join('\\n');
 }
 function teamMember(p) {
-  const src = '/assets/custom/' + p.img;
+  const rawImg = String(p.img || '');
+  const src = rawImg.charAt(0) === '/' ? rawImg : '/assets/custom/' + rawImg;
   const raw = JSON.stringify({
     title: p.name,
     content: '<p>' + p.bio + '</p>\\n',
@@ -3143,6 +3195,46 @@ const VOICES_CSS_RULES = '.sc-voices{background:#1B2A4A;padding:clamp(70px,9vw,1
   + '@media(max-width:960px){.sc-voices-grid{grid-template-columns:repeat(2,1fr)}}'
   + '@media(max-width:560px){.sc-voices-grid{grid-template-columns:1fr}}';
 const VOICES_CSS = '<style>' + VOICES_CSS_RULES + '</style>';
+// Team expand-card language (motion-ui ExpandCards translated to static
+// HTML+CSS+JS: minimalist glassmorphic trigger cards in a grid, click opens
+// a frosted-glass detail dialog with close button, backdrop-click and Escape
+// to dismiss. Desktop/tablet: centered scale-in; phones: bottom sheet
+// slide-up. Scoped to .sc-x* so it cannot collide with emotion classes.
+const TEAM_X_CSS = '.sc-xteam{position:relative;overflow:hidden}'
+  + '.sc-xteam::before,.sc-xteam::after{content:"";position:absolute;border-radius:50%;pointer-events:none}'
+  + '.sc-xteam::before{width:44rem;height:44rem;top:-14rem;right:-12rem;background:radial-gradient(circle,rgba(201,162,75,.16),transparent 65%)}'
+  + '.sc-xteam::after{width:38rem;height:38rem;bottom:-12rem;left:-10rem;background:radial-gradient(circle,rgba(120,150,220,.12),transparent 65%)}'
+  + '.sc-xteam .sc-xgrid{position:relative;z-index:1;list-style:none;margin:0 auto;padding:0;display:grid;gap:1.4rem;max-width:1240px;grid-template-columns:repeat(3,1fr)}'
+  + '.sc-xcard{display:flex;flex-direction:column;gap:.9rem;width:100%;text-align:left;background:rgba(245,241,236,.07);-webkit-backdrop-filter:blur(18px) saturate(1.25);backdrop-filter:blur(18px) saturate(1.25);border:1px solid rgba(245,241,236,.16);border-radius:20px;padding:2rem;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,.18);transition:border-color .25s ease,transform .25s ease,box-shadow .25s ease,background .25s ease}'
+  + '.sc-xcard:hover{border-color:rgba(201,162,75,.55);background:rgba(245,241,236,.1);transform:translateY(-4px);box-shadow:0 16px 44px rgba(0,0,0,.28)}'
+  + '.sc-xcard:focus-visible{outline:none;border-color:#C9A24B;box-shadow:0 0 0 3px rgba(201,162,75,.45)}'
+  + '.sc-xavatar{width:60px;height:60px;border-radius:50%;overflow:hidden;flex-shrink:0;background:rgba(245,241,236,.1);border:1px solid rgba(245,241,236,.28);display:flex;align-items:center;justify-content:center}'
+  + '.sc-xavatar img{width:100%;height:100%;object-fit:cover;display:block}'
+  + '.sc-xmono{background:rgba(245,241,236,.08);color:#F5F1EC;font:700 20px Georgia,serif;letter-spacing:.05em}'
+  + '.sc-xname{font:600 20px/1.3 Georgia,serif;color:#F5F1EC;display:block;letter-spacing:.01em}'
+  + '.sc-xrole{color:#D8B45E;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;display:block;margin-top:3px}'
+  + '.sc-xsum{font-size:14px;line-height:1.65;color:rgba(245,241,236,.72);display:block;margin-top:auto}'
+  + '.sc-xmore{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,241,236,.85);display:block;margin-top:.5rem}'
+  + '.sc-xcard:hover .sc-xmore{color:#D8B45E}'
+  + '.sc-xpanel[hidden]{display:none}'
+  + '.sc-xpanel{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:2.4rem}'
+  + '.sc-xscrim{position:absolute;inset:0;background:rgba(10,16,32,.6);opacity:0;transition:opacity .3s ease}'
+  + '.sc-xdialog{position:relative;z-index:1;width:100%;max-width:600px;max-height:86dvh;max-height:86svh;overflow-y:auto;background:rgba(27,42,74,.55);-webkit-backdrop-filter:blur(24px) saturate(1.3);backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(245,241,236,.18);border-radius:22px;padding:2.8rem;box-shadow:0 30px 90px rgba(0,0,0,.5);opacity:0;transform:translateY(16px) scale(.97);transition:opacity .3s ease,transform .38s cubic-bezier(.22,.9,.28,1)}'
+  + '.sc-xpanel.open .sc-xscrim{opacity:1}'
+  + '.sc-xpanel.open .sc-xdialog{opacity:1;transform:none}'
+  + '.sc-xdavatar{width:84px;height:84px;border-radius:50%;overflow:hidden;background:rgba(245,241,236,.1);border:1px solid rgba(245,241,236,.3);display:flex;align-items:center;justify-content:center;margin-bottom:1.6rem}'
+  + '.sc-xdavatar img{width:100%;height:100%;object-fit:cover;display:block}'
+  + '.sc-xdmono{background:rgba(245,241,236,.08);color:#F5F1EC;font:700 28px Georgia,serif}'
+  + '.sc-xdname{font:500 clamp(26px,3vw,34px)/1.15 Georgia,serif;color:#F5F1EC;margin:0 0 .4rem;padding-right:4rem}'
+  + '.sc-xdrole{color:#D8B45E;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin:0 0 1.4rem}'
+  + '.sc-xdbio{font-size:16px;line-height:1.75;color:rgba(245,241,236,.88);margin:0;white-space:pre-line}'
+  + '.sc-xclose{position:absolute;top:1.4rem;right:1.4rem;width:3.6rem;height:3.6rem;border-radius:50%;border:1px solid rgba(245,241,236,.25);background:rgba(245,241,236,.08);color:#F5F1EC;font-size:1.8rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background .2s ease,transform .2s ease}'
+  + '.sc-xclose:hover{background:rgba(245,241,236,.18);transform:rotate(90deg)}'
+  + '.sc-xclose:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(201,162,75,.5)}'
+  + '@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.sc-xcard{background:rgba(35,50,80,.94)}.sc-xdialog{background:rgba(24,36,64,.97)}}'
+  + '@media(max-width:960px){.sc-xteam .sc-xgrid{grid-template-columns:repeat(2,1fr)}}'
+  + '@media(max-width:560px){.sc-xteam .sc-xgrid{grid-template-columns:1fr;gap:1.2rem}.sc-xpanel{align-items:flex-end;padding:0}.sc-xdialog{max-width:none;max-height:92dvh;max-height:92svh;border-radius:22px 22px 0 0;padding:2.2rem 2rem calc(2rem + env(safe-area-inset-bottom));transform:translateY(100%)}.sc-xpanel.open .sc-xdialog{transform:none}}'
+  + '@media(prefers-reduced-motion:reduce){.sc-xcard,.sc-xscrim,.sc-xdialog,.sc-xclose{transition:none}}';
 function monoOf(name) { return String(name || '').trim().split(/\s+/).slice(0, 2).map((w) => w[0] || '').join('').toUpperCase() || 'SC'; }
 function scEsc(s) {
   return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -3152,8 +3244,89 @@ function scBrand(s) {
 }
 function teamVoiceCard(p, n) {
   const t = (k) => 't-team' + (n * 3 + k);
-  return `<article class="sc-vo" data-sc-voice="team"><div class="sc-vo-mono" data-sc-id="${t(0)}">${monoOf(p.name)}</div><h3 class="sc-vo-name" data-sc-id="${t(1)}">${scEsc(p.name)}</h3><p class="sc-vo-title" data-sc-id="${t(2)}">${scEsc(p.role)}</p><p class="sc-vo-bio" data-sc-id="${t(3)}">${scEsc(scBrand(p.bio))}</p></article>`;
+  const esc = scEsc;
+  const media = String(p.img || p.featuredImage || '').trim();
+  const avatar = media
+    ? `<div class="sc-vo-media" data-sc-id="${t(0)}"><img loading="lazy" alt="${esc(p.name)}" src="${esc(media)}"></div>`
+    : `<div class="sc-vo-mono" data-sc-id="${t(0)}">${monoOf(p.name)}</div>`;
+  return `<article class="sc-vo" data-sc-voice="team">${avatar}<h3 class="sc-vo-name" data-sc-id="${t(1)}">${esc(p.name)}</h3><p class="sc-vo-title" data-sc-id="${t(2)}">${esc(p.role)}</p><p class="sc-vo-bio" data-sc-id="${t(3)}">${esc(scBrand(p.bio))}</p></article>`;
 }
+// Card summary: first ~120 chars of the bio, cut at a word boundary.
+function teamExcerpt(bio) {
+  const s = String(bio || '').replace(/\s+/g, ' ').trim();
+  if (s.length <= 120) return s;
+  const cut = s.slice(0, 120);
+  const sp = cut.lastIndexOf(' ');
+  return (sp > 60 ? cut.slice(0, sp) : cut).trim() + '…';
+}
+// Team expand-card section: trigger cards in a grid; clicking one opens the
+// detail dialog (populated from the embedded JSON by the binder script).
+// data-sc-id hooks on name/role keep the inline edit bar working.
+function teamExpandSection(items) {
+  const list = items || [];
+  const cards = list.map((p, n) => {
+    const media = String(p.img || '').trim();
+    const avatar = media
+      ? `<span class="sc-xavatar"><img loading="lazy" alt="" src="${scEsc(media)}"></span>`
+      : `<span class="sc-xavatar sc-xmono" aria-hidden="true">${monoOf(p.name)}</span>`;
+    return `<li><button type="button" class="sc-xcard" data-xi="${n}" aria-haspopup="dialog" aria-label="${scEsc(p.name + '. ' + p.role + '. Open for detail.')}">`
+      + avatar
+      + `<span class="sc-xhead"><span class="sc-xname" data-sc-id="t-team${n * 3 + 1}">${scEsc(p.name)}</span>`
+      + `<span class="sc-xrole" data-sc-id="t-team${n * 3 + 2}">${scEsc(p.role)}</span></span>`
+      + `<span class="sc-xsum">${scEsc(teamExcerpt(p.bio))}</span>`
+      + `<span class="sc-xmore" aria-hidden="true">Read more &rarr;</span>`
+      + `</button></li>`;
+  }).join('');
+  const data = list.map((p) => ({ name: p.name, role: p.role, bio: scBrand(p.bio), img: String(p.img || '') }));
+  return `<section class="sc-voices sc-xteam" id="sc-team" aria-labelledby="sc-xteam-title">`
+    + `<header class="sc-voices-head"><span class="sc-voices-kicker">Our team</span>`
+    + `<h2 class="sc-voices-title" id="sc-xteam-title">The people behind the work</h2></header>`
+    + `<ul class="sc-xgrid">${cards}</ul>`
+    + `<div class="sc-xpanel" hidden><div class="sc-xscrim" data-xclose="1"></div>`
+    + `<div class="sc-xdialog" role="dialog" aria-modal="true" aria-labelledby="sc-xdname">`
+    + `<button type="button" class="sc-xclose" data-xclose="1" aria-label="Close detail">&times;</button>`
+    + `<div class="sc-xdavatar" id="sc-xdavatar"></div>`
+    + `<h3 class="sc-xdname" id="sc-xdname"></h3>`
+    + `<p class="sc-xdrole" id="sc-xdrole"></p>`
+    + `<p class="sc-xdbio" id="sc-xdbio"></p>`
+    + `</div></div>`
+    + `<script type="application/json" class="sc-xdata">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`
+    + `</section>`;
+}
+// Dialog binder: delegated clicks open the panel from the embedded JSON,
+// close button / scrim click / Escape dismiss it, focus moves into the
+// dialog and back to the trigger. Bound once; safe to re-run while settling.
+// Code only (no <script> wrapper): the mount injects it via createElement +
+// textContent, which executes. (innerHTML-parsed scripts never run.)
+const TEAM_X_BIND_JS = `(function(){`
+  + `if(window.__scXBound)return;window.__scXBound=1;`
+  + `var last=null;`
+  + `function sec(){return document.getElementById("sc-team");}`
+  + `function items(s){try{var d=s.querySelector(".sc-xdata");return d?JSON.parse(d.textContent||"[]"):[];}catch(e){return [];}}`
+  + `function panel(s){return s?s.querySelector(".sc-xpanel"):null;}`
+  + `function initials(n){return String(n||"").trim().split(/\\s+/).slice(0,2).map(function(w){return w[0]||"";}).join("").toUpperCase()||"SC";}`
+  + `function open(s,i,btn){var list=items(s);var p=list[i];var pn=panel(s);if(!p||!pn)return;`
+  + `var av=pn.querySelector("#sc-xdavatar");av.innerHTML="";`
+  + `if(p.img){var im=document.createElement("img");im.alt=p.name||"Team member";im.src=p.img;av.appendChild(im);av.className="sc-xdavatar";}`
+  + `else{av.className="sc-xdavatar sc-xdmono";av.textContent=initials(p.name);}`
+  + `pn.querySelector("#sc-xdname").textContent=p.name||"";`
+  + `pn.querySelector("#sc-xdrole").textContent=p.role||"";`
+  + `pn.querySelector("#sc-xdbio").textContent=p.bio||"";`
+  + `last=btn||null;pn.hidden=false;void pn.offsetWidth;pn.classList.add("open");`
+  + `try{document.body.style.overflow="hidden";}catch(e){}`
+  + `var c=pn.querySelector(".sc-xclose");if(c)try{c.focus();}catch(e){}}`
+  + `function close(){var pn=panel(sec());if(!pn||pn.hidden)return;pn.classList.remove("open");`
+  + `try{document.body.style.overflow="";}catch(e){}`
+  + `setTimeout(function(){pn.hidden=true;},400);`
+  + `if(last&&last.focus)try{last.focus();}catch(e){}last=null;}`
+  + `document.addEventListener("click",function(e){`
+  + `var t=e.target&&e.target.closest?e.target.closest(".sc-xcard"):null;`
+  + `var s=t?t.closest("#sc-team"):null;`
+  + `if(t&&s){e.preventDefault();open(s,parseInt(t.getAttribute("data-xi"),10)||0,t);return;}`
+  + `var x=e.target&&e.target.closest?e.target.closest("[data-xclose]"):null;`
+  + `if(x)close();});`
+  + `document.addEventListener("keydown",function(e){if(e.key==="Escape"||e.key==="27")close();});`
+  + `})();`;
 function reviewCard(it, n) {
   const t = (k) => 't-review' + (n * 4 + k);
   const esc = scEsc;
@@ -3175,7 +3348,16 @@ function teamItemsOf(cms) {
     ? cms.team.items
     : (cms && Array.isArray(cms.team) ? cms.team : null);
   if (src && src.length) {
-    return src.map((it) => ({ name: String(it.name || '').trim(), role: String(it.role || '').trim(), bio: String(it.bio || '').trim() }));
+    return src.map((it) => ({
+      name: String(it.name || '').trim(),
+      role: String(it.role || '').trim(),
+      bio: String(it.bio || '').trim(),
+      // CMS portraits (StillCraft's own team shots) when the bundle carries them;
+      // absent -> the sc-vo-mono monogram fallback.
+      img: String((it.featuredImage && it.featuredImage.node && it.featuredImage.node.sourceUrl)
+        || (it.portrait && it.portrait.node && it.portrait.node.sourceUrl)
+        || it.featuredImage || it.portrait || it.photo || '').trim(),
+    }));
   }
   return TEAM;
 }
