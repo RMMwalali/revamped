@@ -33,7 +33,11 @@ export default async function handler(req, res) {
     res.status(204).end();
     return;
   }
-  const w = Math.min(3840, Math.max(0, parseInt(u.searchParams.get('w') || '0', 10) || 0));
+  const rawW = Math.min(3840, Math.max(0, parseInt(u.searchParams.get('w') || '0', 10) || 0));
+  // Snap to a small whitelist so variants share cache keys instead of
+  // creating a new sharp resize per arbitrary width (cache thrash -> CPU stall).
+  const ALLOWED_W = [640, 750, 828, 1080, 1200, 1920, 3840];
+  const w = rawW ? ALLOWED_W.find((a) => a >= rawW) || 3840 : 0;
   const q = Math.min(100, Math.max(10, parseInt(u.searchParams.get('q') || '75', 10) || 75));
   const file = resolveTarget(src);
   if (!file) { res.status(400).end(); return; }
