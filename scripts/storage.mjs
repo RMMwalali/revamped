@@ -5,10 +5,8 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
-const IS_BLOB = !!process.env.BLOB_READ_WRITE_TOKEN;
-// Vercel serverless functions have a read-only filesystem except /tmp.
-// Use /tmp locally on Vercel so writes don't crash in a pinch;
-// Blob storage is the real production path when the token is set.
+const BLOB_TOKEN = process.env.BLOB_READ_WRITE_TOKEN;
+const IS_BLOB = !!BLOB_TOKEN;
 const DATA_DIR = process.env.VERCEL
   ? path.join('/tmp', '.data')
   : path.join(process.cwd(), 'dist', '.data');
