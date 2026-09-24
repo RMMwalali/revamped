@@ -1,4 +1,4 @@
-// Shared Postgres pool. Reads DATABASE_URL from .env (never log it).
+// Shared Postgres pool. Reads DB_URL from .env (never log it).
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import pg from 'pg';
@@ -13,15 +13,15 @@ function loadEnv() {
 }
 loadEnv();
 
-if (!process.env.DATABASE_URL) {
-  console.error('DATABASE_URL missing. Copy .env.example to .env and fill it in.');
+if (!process.env.DB_URL) {
+  console.error('DB_URL missing. Copy .env.example to .env and fill it in.');
   process.exit(1);
 }
 
-const isLocal = /localhost|127\.0\.0\.1/.test(process.env.DATABASE_URL);
+const isLocal = /localhost|127\.0\.0\.1/.test(process.env.DB_URL);
 
 export const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DB_URL,
   // Supabase requires SSL; local dev cluster has no certs.
   ssl: isLocal ? false : { rejectUnauthorized: false },
   // Serverless functions share the pooler: keep per-instance connections tiny.

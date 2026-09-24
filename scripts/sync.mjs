@@ -3,11 +3,11 @@
 // its own database. After editing locally, push the rows to production:
 //
 //   node scripts/sync.mjs export backup.json        # from local DB (.env)
-//   DATABASE_URL="<supabase pooled string>" node scripts/sync.mjs import backup.json
+//   DB_URL="<supabase pooled string>" node scripts/sync.mjs import backup.json
 //
 // Only content_overrides + brand_settings are synced. Admins/sessions are
 // per-environment: create logins with
-//   DATABASE_URL="<target>" node scripts/seed-admin.mjs <email> <password>
+//   DB_URL="<target>" node scripts/seed-admin.mjs <email> <password>
 // Uploaded images live in dist/assets/custom/ — commit + push them so the
 // static CDN serves the files the synced DB rows point at.
 import { readFile, writeFile } from 'node:fs/promises';
