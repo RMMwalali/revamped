@@ -3,11 +3,11 @@
 // (highlight cards, logo wall, stats, testimonials, cities, long-form
 // articles) render from Next.js flight payloads where one-click edits
 // can't survive hydration. This module extracts those lists live from the
-// HTML being served and swaps in admin-approved values from the DB.
+// HTML being served and swaps in admin-approved values from the store.
 //
-// Model: `cms_sections(section TEXT PRIMARY KEY, data JSONB)`.
+// Model: JSON keyed by section name (stored in Vercel Blob or local fs).
 // Empty/missing values are always a no-op (live content is kept).
-import { pool } from './db.mjs';
+import { readStore, writeStore } from './storage.mjs';
 import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
@@ -195,7 +195,7 @@ function simpleVal(e, key) {
   return m ? m[1] : '';
 }
 
-// ---------- DB access (15s cache, same pattern as overrides) ----------
+// ---------- store access (15s cache, same pattern as overrides) ----------
 let cmsCache = null, cmsAt = 0;
 export function bustCMS() { cmsCache = null; cmsAt = 0; }
 const CMS_DEFAULTS = { hero: {}, highlights: {}, logos: {}, stats: {}, testimonials: {}, cities: {}, articles: {} };
@@ -203,10 +203,10 @@ export async function getCMS() {
   if (cmsCache && Date.now() - cmsAt < 15000) return cmsCache;
   const out = JSON.parse(JSON.stringify(CMS_DEFAULTS));
   try {
-    const r = await pool.query('SELECT section, data FROM cms_sections');
-    for (const row of r.rows) {
-      if (row && typeof row.section === 'string' && row.data && typeof row.data === 'object') {
-        out[row.section] = { ...(out[row.section] || {}), ...row.data };
+    const data = await readStore('cms.json');
+    if (data) {
+      for (const [section, sd] of Object.entries(data)) {
+        if (sd && typeof sd === 'object') out[section] = { ...(out[section] || {}), ...sd };
       }
     }
   } catch {}
@@ -216,10 +216,9 @@ export async function getCMS() {
 export async function saveCMSSection(section, data) {
   if (!CMS_SECTIONS.includes(section)) throw new Error('unknown section');
   if (!data || typeof data !== 'object') throw new Error('bad data');
-  await pool.query(
-    'INSERT INTO cms_sections (section, data, updated_at) VALUES ($1, $2::jsonb, now()) ON CONFLICT (section) DO UPDATE SET data = EXCLUDED.data, updated_at = now()',
-    [section, JSON.stringify(data).slice(0, 200000)]
-  );
+  const all = await readStore('cms.json') || {};
+  all[section] = JSON.parse(JSON.stringify(data));
+  await writeStore('cms.json', all);
   bustCMS();
 }
 
