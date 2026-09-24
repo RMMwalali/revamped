@@ -85,3 +85,4 @@ export function sessionCookie(token, expires) {
 export function clearCookie() {
   return `sc_admin=; HttpOnly;${SECURE} SameSite=Lax; Path=/; Max-Age=0`;
 }
+// Force redeploy
