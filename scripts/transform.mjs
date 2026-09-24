@@ -2748,14 +2748,11 @@ function applyBrand(html, brand) {
   const name = (brand.site_name || '').trim();
   if (name && name !== 'Iventions') {
     const upper = name.toUpperCase();
-    // 1) flight payloads: brand word at value starts/ends (code/URLs/slugs untouched).
-    // Length-synced so matches inside length-prefixed rows stay valid.
     html = safeReplacePairs(html, [
       [`"Iventions`, `"` + name],
       [`"IVENTIONS`, `"` + upper],
       [` Iventions${EQ}`, ` ${name}${EQ}`],
     ]);
-    // 2) static markup outside <script> (attributes/URLs/emails untouched)
     const parts = html.split(/(<script[\s\S]*?<\/script>)/gi);
     for (let i = 0; i < parts.length; i += 2) {
       parts[i] = parts[i].replace(/>([^<>]*)(Iventions|IVENTIONS)([^<>]*)</g, (m, a, w, b) => {
@@ -2771,32 +2768,20 @@ function applyBrand(html, brand) {
   if (tag && tag !== DEFAULT_TAGLINE) {
     html = safeReplace(html, DEFAULT_TAGLINE, tag);
   }
-  const logo = (brand.logo_src || '').trim();
-  if (logo) {
-    const target = logo.replace(/^\//, '');
-    // Prefixed copy FIRST (bare swap below would otherwise corrupt it into
-    // "/assets/root/assets/custom/..." 404s): <link rel=preload> on /about.
-    html = safeReplace(html, '/assets/root/upload/icon-logo.svg', '/' + target);
-    html = safeReplace(html, '\\/assets\\/root\\/upload\\/icon-logo\\.svg', '\\/' + target.split('/').join('\\/'));
-    // Existing copies: bare "upload/icon-logo.svg" (root + assets/root).
-    html = safeReplace(html, 'upload/icon-logo.svg', target);
-    // Header figure + preload refs use the CMS-upload path; swap it too.
-    html = safeReplace(html, '/assets/cms/wp-content/uploads/2025/06/icon-logo.svg', '/' + target);
-    // Escaped variant inside flight payloads (backslash-forward-slash).
-    html = safeReplace(html, '\\u002Fassets\\u002Fcms\\u002Fwp-content\\u002Fuploads\\u002F2025\\u002F06\\u002Ficon-logo\\u002Esvg', '\\u002F' + target.split('/').join('\\u002F'));
-    html = safeReplace(html, '\\/assets\\/cms\\/wp-content\\/uploads\\/2025\\/06\\/icon-logo\\.svg', '\\/' + target.split('/').join('\\/'));
-    // Browser-tab icon: point rel=icon + apple-touch-icon links at the brand
-    // favicon PNG (regenerated from the logo on disk) instead of the old ICO.
-    html = safeReplace(html, '/assets/root/favicon.ico', '/assets/root/favicon.png');
-    // Fix the logo rendering: the Next.js header was designed for a narrow wordmark
-    // SVG. Override blend mode and let the PNG retain its natural 2.19:1 aspect ratio.
-    const logoStyle = `<style id="sc-logo-style">` +
-      `.styles_logo__7LWm4{mix-blend-mode:normal !important;}` +
-      `.styles_logo__7LWm4>div{width:fit-content !important;height:100% !important;aspect-ratio:auto !important;}` +
-      `.styles_logo__7LWm4 img{position:static !important;height:100% !important;width:auto !important;max-width:min(80vw,44rem) !important;object-fit:contain !important;}` +
-      `</style>`;
-    html = html.replace(/<\/head>/i, logoStyle + '</head>');
-  }
+  const target = 'assets/root/Stillcraft_logo.png';
+  html = safeReplace(html, '/assets/root/upload/icon-logo.svg', '/' + target);
+  html = safeReplace(html, '\\/assets\\/root\\/upload\\/icon-logo\\.svg', '\\/' + target.split('/').join('\\/'));
+  html = safeReplace(html, 'upload/icon-logo.svg', target);
+  html = safeReplace(html, '/assets/cms/wp-content/uploads/2025/06/icon-logo.svg', '/' + target);
+  html = safeReplace(html, '\\u002Fassets\\u002Fcms\\u002Fwp-content\\u002Fuploads\\u002F2025\\u002F06\\u002Ficon-logo\\u002Esvg', '\\u002F' + target.split('/').join('\\u002F'));
+  html = safeReplace(html, '\\/assets\\/cms\\/wp-content\\/uploads\\/2025\\/06\\/icon-logo\\.svg', '\\/' + target.split('/').join('\\/'));
+  html = safeReplace(html, '/assets/root/favicon.ico', '/assets/root/favicon.png');
+  const logoStyle = `<style id="sc-logo-style">` +
+    `.styles_logo__7LWm4{mix-blend-mode:normal !important;}` +
+    `.styles_logo__7LWm4>div{width:fit-content !important;height:100% !important;aspect-ratio:auto !important;}` +
+    `.styles_logo__7LWm4 img{position:static !important;height:100% !important;width:auto !important;max-width:min(80vw,44rem) !important;object-fit:contain !important;}` +
+    `</style>`;
+  html = html.replace(/<\/head>/i, logoStyle + '</head>');
   return html;
 }
 // minimal multipart single-file parser (field "image")
