@@ -5,12 +5,9 @@ import crypto from 'node:crypto';
 import bcrypt from 'bcryptjs';
 
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || '').toLowerCase();
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD || '';
 const APP_SECRET = process.env.APP_SECRET || crypto.randomBytes(32).toString('hex');
 const TTL_HOURS = Number(process.env.SESSION_TTL_HOURS || 72);
-
-// Hash once at module load (cached per server instance / serverless cold start).
-const passwordHash = ADMIN_PASSWORD ? bcrypt.hashSync(ADMIN_PASSWORD, 12) : null;
 
 export function parseCookies(req) {
   const out = {};
@@ -54,7 +51,7 @@ export async function verifySession(token) {
 }
 
 export async function login(email, password) {
-  if (!ADMIN_EMAIL || !passwordHash) {
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD_HASH) {
     console.error('[login] admin not configured (set ADMIN_EMAIL and ADMIN_PASSWORD)');
     return null;
   }
@@ -62,7 +59,7 @@ export async function login(email, password) {
     console.error('[login] no admin configured for email:', email.toLowerCase());
     return null;
   }
-  const ok = await bcrypt.compare(password, passwordHash);
+  const ok = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
   if (!ok) {
     console.error('[login] password mismatch for email:', email.toLowerCase());
     return null;
