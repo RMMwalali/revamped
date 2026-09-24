@@ -14,7 +14,8 @@ async function isLimited(ip) {
     const r = await pool.query('SELECT locked_until FROM login_attempts WHERE ip = $1', [ip]);
     const row = r.rows[0];
     return !!(row && row.locked_until && new Date(row.locked_until) > new Date());
-  } catch {
+  } catch (err) {
+    console.error('isLimited DB error:', err.message);
     return false; // table not migrated yet, or DB unreachable: fail open rather than lock everyone out
   }
 }
@@ -37,11 +38,15 @@ async function recordFailure(ip) {
         [ip, fails]
       );
     }
-  } catch {} // same fail-open stance as isLimited
+  } catch (err) {
+    console.error('recordFailure DB error:', err.message);
+  }
 }
 
 async function clearFailures(ip) {
-  try { await pool.query('DELETE FROM login_attempts WHERE ip = $1', [ip]); } catch {}
+  try { await pool.query('DELETE FROM login_attempts WHERE ip = $1', [ip]); } catch (err) {
+    console.error('clearFailures DB error:', err.message);
+  }
 }
 
 export default async function handler(req, res) {
@@ -50,9 +55,12 @@ export default async function handler(req, res) {
   if (await isLimited(ip)) { res.status(429).json({ error: 'too many attempts, try later' }); return; }
   const body = req.body && typeof req.body === 'object' ? req.body : {};
   let sess = null;
-  try {
-    sess = await login(String(body.email || ''), String(body.password || ''));
-  } catch { sess = null; }
+    try {
+      sess = await login(String(body.email || ''), String(body.password || ''));
+    } catch (err) {
+      console.error('login() threw:', err.message);
+      sess = null;
+    }
   if (!sess) { await recordFailure(ip); res.status(401).json({ error: 'invalid credentials' }); return; }
   await clearFailures(ip);
   res.setHeader('Set-Cookie', sessionCookie(sess.token, sess.expires));
