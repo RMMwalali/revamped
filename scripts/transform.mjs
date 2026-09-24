@@ -2863,7 +2863,7 @@ function sniffImage(data, ext) {
   return ext === 'jpeg' ? 'jpg' : ext;
 }
 export {
-  IMAGE_EXTS, IMAGE_EXT_LIST, IMAGE_MAX, getBrand, bustBrand, saveBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,
+  IMAGE_EXTS, IMAGE_EXT_LIST, IMAGE_MAX, getBrand, bustBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,
   stripThirdParty, flightReplace, applyFlightIA, applyContentFlight, applyLinks,
   applyGlobalSwaps, applyFooterAddresses, applyHeroVideo, mobileFor, posterFor, parseUpload, sniffImage, sniffMedia, FILE_FLIGHT,
   TITLE_MAP, NAV_LABELS, NAV_DROP_HREFS, MENU_ORDER, DEFAULT_TAGLINE,
