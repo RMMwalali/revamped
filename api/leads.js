@@ -1,7 +1,6 @@
 // GET /api/leads (admin) — inquiries captured by api/lead.js.
 // ?limit=n (default 100, max 500), ?kind=quote|contact|prize, ?format=csv.
-// Without this the leads would only exist in a table nobody opens.
-import { pool } from '../scripts/db.mjs';
+import { readStore } from '../scripts/storage.mjs';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 
 const KINDS = ['quote', 'contact', 'prize'];
@@ -21,20 +20,19 @@ export default async function handler(req, res) {
   const limit = Math.min(500, Math.max(1, parseInt(u.searchParams.get('limit') || '100', 10) || 100));
   const kind = String(u.searchParams.get('kind') || '');
 
-  const where = KINDS.includes(kind) ? 'WHERE kind = $2' : '';
-  const args = KINDS.includes(kind) ? [limit, kind] : [limit];
-  const r = await pool.query(
-    `SELECT id, created_at, kind, name, email, phone, company, message, source_page, handled
-     FROM leads ${where} ORDER BY created_at DESC LIMIT $1`,
-    args
-  );
+  const leads = await readStore('leads.json') || [];
+  let rows = leads;
+  if (KINDS.includes(kind)) rows = rows.filter((l) => l.kind === kind);
+  rows = rows.slice().sort((a, b) => b.created_at - a.created_at).slice(0, limit);
+  // Convert created_at from ms to ISO string for consistency with old API.
+  rows = rows.map((r) => ({ ...r, created_at: new Date(r.created_at).toISOString() }));
 
   res.setHeader('Cache-Control', 'no-store');
   if (u.searchParams.get('format') === 'csv') {
     res.setHeader('Content-Type', 'text/csv; charset=utf-8');
     res.setHeader('Content-Disposition', 'attachment; filename="leads.csv"');
-    res.status(200).send(csv(r.rows));
+    res.status(200).send(csv(rows));
     return;
   }
-  res.status(200).json({ leads: r.rows });
+  res.status(200).json({ leads: rows });
 }

@@ -2,2951 +2,2949 @@
 
 Every photo/logo/media slot on the site, grouped by page and section. Replace any of them without touching code: log in at `/insider`, open the page, click the image, upload the new file.
 
-Brand files (logo, favicon) are managed in the edit bar under **Brand**.
 
 ## Page `/about`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| The global event agency behind powerful brand moments and events | `/assets/root/upload/about-ive-hero.svg` | ive | i-2 |
-| The global event agency behind powerful brand moments and events | `/assets/root/upload/about-ntions-hero.svg` | ntions | i-3 |
-| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_mute.svg` | mute | i-4 |
-| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_unmute.svg` | unmute | i-5 |
-| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_play.svg` | play | i-6 |
-| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_pause.svg` | pause | i-7 |
-| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_mute.svg` (repeat) | mute | i-8 |
-| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_unmute.svg` (repeat) | unmute | i-9 |
-| Our secret? The people | `/assets/root/icons/ic_eyes_open.svg` | eye-open | i-10 |
-| Our secret? The people | `/assets/root/icons/ic_eyes_close.svg` | eye-close | i-11 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_portrait.jpg` | Alise Grota | i-12 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_portrait.jpg` (repeat) | Alise Grota | i-13 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_funfact-1.jpg` | Alise Grota-2 | i-14 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_funfact-1.jpg` (repeat) | Alise Grota-2 | i-15 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_portrait.jpg` | Ana Oma | i-16 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_portrait.jpg` (repeat) | Ana Oma | i-17 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_funfact-1.jpg` | Ana Oma-2 | i-18 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_funfact-1.jpg` (repeat) | Ana Oma-2 | i-19 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_portrait.jpg` | Anci Hammerstein | i-20 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_portrait.jpg` (repeat) | Anci Hammerstein | i-21 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_funfact-1.jpg` | Anci Hammerstein-2 | i-22 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_funfact-1.jpg` (repeat) | Anci Hammerstein-2 | i-23 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_portrait.jpg` | Beatriz Cordero | i-24 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_portrait.jpg` (repeat) | Beatriz Cordero | i-25 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_funfact-1.jpg` | Beatriz Cordero-2 | i-26 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_funfact-1.jpg` (repeat) | Beatriz Cordero-2 | i-27 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_portrait.jpg` | Beatriz García-Tapia | i-28 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_portrait.jpg` (repeat) | Beatriz García-Tapia | i-29 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_funfact.jpg` | Beatriz García-Tapia-2 | i-30 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_funfact.jpg` (repeat) | Beatriz García-Tapia-2 | i-31 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_portrait-1.jpg` | Benita Lileikytė | i-32 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_portrait-1.jpg` (repeat) | Benita Lileikytė | i-33 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_funfact.jpg` | Benita Lileikytė-2 | i-34 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_funfact.jpg` (repeat) | Benita Lileikytė-2 | i-35 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_portrait.jpg` | Bruna Camaroti | i-36 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_portrait.jpg` (repeat) | Bruna Camaroti | i-37 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_funfact-1.jpg` | Bruna Camaroti-2 | i-38 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_funfact-1.jpg` (repeat) | Bruna Camaroti-2 | i-39 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Carla-Cusell.jpg` | Carla Cusell | i-40 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Carla-Cusell.jpg` (repeat) | Carla Cusell | i-41 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/CarlaCusell_funfact.jpg` | Carla Cusell-2 | i-42 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/CarlaCusell_funfact.jpg` (repeat) | Carla Cusell-2 | i-43 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_portrait.jpg` | Catalina Cardona | i-44 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_portrait.jpg` (repeat) | Catalina Cardona | i-45 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_funfact-1.jpg` | Catalina Cardona-2 | i-46 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_funfact-1.jpg` (repeat) | Catalina Cardona-2 | i-47 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_portrait.jpg` | Catalina Salamanca | i-48 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_portrait.jpg` (repeat) | Catalina Salamanca | i-49 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_funfact-1.jpg` | Catalina Salamanca-2 | i-50 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_funfact-1.jpg` (repeat) | Catalina Salamanca-2 | i-51 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_portrait.jpg` | Cathleen Rodriguez | i-52 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_portrait.jpg` (repeat) | Cathleen Rodriguez | i-53 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_funfact.jpg` | Cathleen Rodriguez-2 | i-54 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_funfact.jpg` (repeat) | Cathleen Rodriguez-2 | i-55 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_portrait.jpg` | Chris Goundrill | i-56 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_portrait.jpg` (repeat) | Chris Goundrill | i-57 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_funfact.jpg` | Chris Goundrill-2 | i-58 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_funfact.jpg` (repeat) | Chris Goundrill-2 | i-59 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_portrait.jpg` | Constanza Chicco | i-60 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_portrait.jpg` (repeat) | Constanza Chicco | i-61 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_funfact.jpg` | Constanza Chicco-2 | i-62 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_funfact.jpg` (repeat) | Constanza Chicco-2 | i-63 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_portrait.jpg` | David Atkinson | i-64 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_portrait.jpg` (repeat) | David Atkinson | i-65 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_funfact-1.jpg` | David Atkinson-2 | i-66 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_funfact-1.jpg` (repeat) | David Atkinson-2 | i-67 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_portrait.jpg` | Elisa Gazzola | i-68 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_portrait.jpg` (repeat) | Elisa Gazzola | i-69 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_fun-fact.jpg` | Elisa Gazzola-2 | i-70 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_fun-fact.jpg` (repeat) | Elisa Gazzola-2 | i-71 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_portrait.jpg` | Ezgi Alioglu | i-72 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_portrait.jpg` (repeat) | Ezgi Alioglu | i-73 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_funfact-1.jpg` | Ezgi Alioglu-2 | i-74 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_funfact-1.jpg` (repeat) | Ezgi Alioglu-2 | i-75 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_portrait.jpg` | Fernanda Vallejo | i-76 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_portrait.jpg` (repeat) | Fernanda Vallejo | i-77 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_funfact.jpg` | Fernanda Vallejo-2 | i-78 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_funfact.jpg` (repeat) | Fernanda Vallejo-2 | i-79 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/03/FlorRodriguez_portrait.jpg` | Flor Rodríguez | i-80 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/03/FlorRodriguez_portrait.jpg` (repeat) | Flor Rodríguez | i-81 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/FlorRodriguez_funfact.jpg` | Flor Rodríguez-2 | i-82 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/FlorRodriguez_funfact.jpg` (repeat) | Flor Rodríguez-2 | i-83 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg` | Jennifer Simionato | i-84 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg` (repeat) | Jennifer Simionato | i-85 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg` (repeat) | Jennifer Simionato-2 | i-86 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg` (repeat) | Jennifer Simionato-2 | i-87 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_portrait.jpg` | Jimena Castillo | i-88 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_portrait.jpg` (repeat) | Jimena Castillo | i-89 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_funfact.jpg` | Jimena Castillo-2 | i-90 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_funfact.jpg` (repeat) | Jimena Castillo-2 | i-91 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_portrait.jpg` | Juanita Benavides | i-92 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_portrait.jpg` (repeat) | Juanita Benavides | i-93 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_funfact.jpg` | Juanita Benavides-2 | i-94 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_funfact.jpg` (repeat) | Juanita Benavides-2 | i-95 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_portrait.jpg` | Kaytee Marsh | i-96 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_portrait.jpg` (repeat) | Kaytee Marsh | i-97 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_funfact.jpg` | Kaytee Marsh-2 | i-98 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_funfact.jpg` (repeat) | Kaytee Marsh-2 | i-99 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/KerstinSchuster_portrait.jpg` | Kerstin Schuster | i-100 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/KerstinSchuster_portrait.jpg` (repeat) | Kerstin Schuster | i-101 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Kerstin_funfact.jpg` | Kerstin Schuster-2 | i-102 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Kerstin_funfact.jpg` (repeat) | Kerstin Schuster-2 | i-103 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_portrait.jpg` | Lara Cellini | i-104 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_portrait.jpg` (repeat) | Lara Cellini | i-105 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_funfact-1.jpg` | Lara Cellini-2 | i-106 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_funfact-1.jpg` (repeat) | Lara Cellini-2 | i-107 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_portrait.jpg` | Léa Cécile | i-108 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_portrait.jpg` (repeat) | Léa Cécile | i-109 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_funfact-1.jpg` | Léa Cécile-2 | i-110 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_funfact-1.jpg` (repeat) | Léa Cécile-2 | i-111 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_portrait.jpg` | Lillian Marbaise | i-112 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_portrait.jpg` (repeat) | Lillian Marbaise | i-113 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_funfact.jpg` | Lillian Marbaise-2 | i-114 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_funfact.jpg` (repeat) | Lillian Marbaise-2 | i-115 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_portrait.jpg` | Lisa Bilman | i-116 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_portrait.jpg` (repeat) | Lisa Bilman | i-117 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_funfact-1.jpg` | Lisa Bilman-2 | i-118 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_funfact-1.jpg` (repeat) | Lisa Bilman-2 | i-119 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_portrait.jpg` | Mar Ortega | i-120 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_portrait.jpg` (repeat) | Mar Ortega | i-121 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_funfacti.jpg` | Mar Ortega-2 | i-122 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_funfacti.jpg` (repeat) | Mar Ortega-2 | i-123 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_portrait.jpg` | Melanie León | i-124 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_portrait.jpg` (repeat) | Melanie León | i-125 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_funfact.jpg` | Melanie León-2 | i-126 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_funfact.jpg` (repeat) | Melanie León-2 | i-127 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_portrait.jpg` | Olive Bychkova | i-128 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_portrait.jpg` (repeat) | Olive Bychkova | i-129 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_funfact.jpg` | Olive Bychkova-2 | i-130 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_funfact.jpg` (repeat) | Olive Bychkova-2 | i-131 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_portrait.jpg` | Pascal Jorritsma | i-132 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_portrait.jpg` (repeat) | Pascal Jorritsma | i-133 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_funfact-1.jpg` | Pascal Jorritsma-2 | i-134 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_funfact-1.jpg` (repeat) | Pascal Jorritsma-2 | i-135 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_portrait.jpg` | Robert McDonald | i-136 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_portrait.jpg` (repeat) | Robert McDonald | i-137 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_funfact.jpg` | Robert McDonald-2 | i-138 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_funfact.jpg` (repeat) | Robert McDonald-2 | i-139 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Sarahv-von-Aspern_portrait.jpg` | Sarah von Aspern | i-140 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Sarahv-von-Aspern_portrait.jpg` (repeat) | Sarah von Aspern | i-141 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Sarah-von-Aspern_funfact-1.jpg` | Sarah von Aspern-2 | i-142 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Sarah-von-Aspern_funfact-1.jpg` (repeat) | Sarah von Aspern-2 | i-143 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_portrait.jpg` | Sela Britton | i-144 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_portrait.jpg` (repeat) | Sela Britton | i-145 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_funfact.jpg` | Sela Britton-2 | i-146 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_funfact.jpg` (repeat) | Sela Britton-2 | i-147 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_portrait.jpg` | Stephanie Weber | i-148 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_portrait.jpg` (repeat) | Stephanie Weber | i-149 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_funfact-1.jpg` | Stephanie Weber-2 | i-150 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_funfact-1.jpg` (repeat) | Stephanie Weber-2 | i-151 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/CTA.jpg` | Join our team | i-152 |
-| Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/CTA.jpg` (repeat) | Join our team | i-153 |
-| Apply here | `/assets/root/upload/icon-arrow.svg` | icon | i-154 |
-| Apply here | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-155 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` | Projects Delivered | i-156 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat) | Projects Delivered | i-157 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` | Loyal Clients | i-158 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat) | Loyal Clients | i-159 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` | Team Nationalities | i-160 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat) | Team Nationalities | i-161 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` | Countries Reached | i-162 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat) | Countries Reached | i-163 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` | Lightbulb Moments | i-164 |
-| Apply here | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat) | Lightbulb Moments | i-165 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat) | Projects Delivered | i-166 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat) | Projects Delivered | i-167 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat) | Loyal Clients | i-168 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat) | Loyal Clients | i-169 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat) | Team Nationalities | i-170 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat) | Team Nationalities | i-171 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat) | Countries Reached | i-172 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat) | Countries Reached | i-173 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat) | Lightbulb Moments | i-174 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat) | Lightbulb Moments | i-175 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-176 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-177 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-178 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-179 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-180 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-181 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-182 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-183 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-184 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-185 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-186 |
-| Connect | `/assets/root/icons/ic_play.svg` (repeat) | play | i-187 |
-| Connect | `/assets/root/icons/ic_pause.svg` (repeat) | pause | i-188 |
+| Section                                                          | Current file                                                                         | Alt text                     | Edit ID |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------- | ------- |
+| (top of page)                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                             | logo                         | i-1     |
+| The global event agency behind powerful brand moments and events | `/assets/root/upload/about-ive-hero.svg`                                           | ive                          | i-2     |
+| The global event agency behind powerful brand moments and events | `/assets/root/upload/about-ntions-hero.svg`                                        | ntions                       | i-3     |
+| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_mute.svg`                                                   | mute                         | i-4     |
+| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_unmute.svg`                                                 | unmute                       | i-5     |
+| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_play.svg`                                                   | play                         | i-6     |
+| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_pause.svg`                                                  | pause                        | i-7     |
+| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_mute.svg` (repeat)                                          | mute                         | i-8     |
+| The global event agency behind powerful brand moments and events | `/assets/root/icons/ic_unmute.svg` (repeat)                                        | unmute                       | i-9     |
+| Our secret? The people                                           | `/assets/root/icons/ic_eyes_open.svg`                                              | eye-open                     | i-10    |
+| Our secret? The people                                           | `/assets/root/icons/ic_eyes_close.svg`                                             | eye-close                    | i-11    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_portrait.jpg`                  | Alise Grota                  | i-12    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_portrait.jpg` (repeat)         | Alise Grota                  | i-13    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_funfact-1.jpg`                 | Alise Grota-2                | i-14    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_funfact-1.jpg` (repeat)        | Alise Grota-2                | i-15    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_portrait.jpg`                      | Ana Oma                      | i-16    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_portrait.jpg` (repeat)             | Ana Oma                      | i-17    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_funfact-1.jpg`                     | Ana Oma-2                    | i-18    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_funfact-1.jpg` (repeat)            | Ana Oma-2                    | i-19    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_portrait.jpg`             | Anci Hammerstein             | i-20    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_portrait.jpg` (repeat)    | Anci Hammerstein             | i-21    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_funfact-1.jpg`            | Anci Hammerstein-2           | i-22    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_funfact-1.jpg` (repeat)   | Anci Hammerstein-2           | i-23    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_portrait.jpg`              | Beatriz Cordero              | i-24    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_portrait.jpg` (repeat)     | Beatriz Cordero              | i-25    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_funfact-1.jpg`             | Beatriz Cordero-2            | i-26    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_funfact-1.jpg` (repeat)    | Beatriz Cordero-2            | i-27    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_portrait.jpg`               | Beatriz García-Tapia        | i-28    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_portrait.jpg` (repeat)      | Beatriz García-Tapia        | i-29    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_funfact.jpg`                | Beatriz García-Tapia-2      | i-30    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_funfact.jpg` (repeat)       | Beatriz García-Tapia-2      | i-31    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_portrait-1.jpg`           | Benita Lileikytė            | i-32    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_portrait-1.jpg` (repeat)  | Benita Lileikytė            | i-33    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_funfact.jpg`              | Benita Lileikytė-2          | i-34    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_funfact.jpg` (repeat)     | Benita Lileikytė-2          | i-35    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_portrait.jpg`               | Bruna Camaroti               | i-36    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_portrait.jpg` (repeat)      | Bruna Camaroti               | i-37    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_funfact-1.jpg`              | Bruna Camaroti-2             | i-38    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_funfact-1.jpg` (repeat)     | Bruna Camaroti-2             | i-39    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Carla-Cusell.jpg`                          | Carla Cusell                 | i-40    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Carla-Cusell.jpg` (repeat)                 | Carla Cusell                 | i-41    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/CarlaCusell_funfact.jpg`                   | Carla Cusell-2               | i-42    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/CarlaCusell_funfact.jpg` (repeat)          | Carla Cusell-2               | i-43    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_portrait.jpg`             | Catalina Cardona             | i-44    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_portrait.jpg` (repeat)    | Catalina Cardona             | i-45    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_funfact-1.jpg`            | Catalina Cardona-2           | i-46    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_funfact-1.jpg` (repeat)   | Catalina Cardona-2           | i-47    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_portrait.jpg`           | Catalina Salamanca           | i-48    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_portrait.jpg` (repeat)  | Catalina Salamanca           | i-49    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_funfact-1.jpg`          | Catalina Salamanca-2         | i-50    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_funfact-1.jpg` (repeat) | Catalina Salamanca-2         | i-51    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_portrait.jpg`            | Cathleen Rodriguez           | i-52    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_portrait.jpg` (repeat)   | Cathleen Rodriguez           | i-53    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_funfact.jpg`             | Cathleen Rodriguez-2         | i-54    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_funfact.jpg` (repeat)    | Cathleen Rodriguez-2         | i-55    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_portrait.jpg`              | Chris Goundrill              | i-56    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_portrait.jpg` (repeat)     | Chris Goundrill              | i-57    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_funfact.jpg`               | Chris Goundrill-2            | i-58    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_funfact.jpg` (repeat)      | Chris Goundrill-2            | i-59    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_portrait.jpg`              | Constanza Chicco             | i-60    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_portrait.jpg` (repeat)     | Constanza Chicco             | i-61    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_funfact.jpg`               | Constanza Chicco-2           | i-62    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_funfact.jpg` (repeat)      | Constanza Chicco-2           | i-63    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_portrait.jpg`               | David Atkinson               | i-64    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_portrait.jpg` (repeat)      | David Atkinson               | i-65    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_funfact-1.jpg`              | David Atkinson-2             | i-66    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_funfact-1.jpg` (repeat)     | David Atkinson-2             | i-67    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_portrait.jpg`                | Elisa Gazzola                | i-68    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_portrait.jpg` (repeat)       | Elisa Gazzola                | i-69    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_fun-fact.jpg`                | Elisa Gazzola-2              | i-70    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_fun-fact.jpg` (repeat)       | Elisa Gazzola-2              | i-71    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_portrait.jpg`                 | Ezgi Alioglu                 | i-72    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_portrait.jpg` (repeat)        | Ezgi Alioglu                 | i-73    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_funfact-1.jpg`                | Ezgi Alioglu-2               | i-74    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_funfact-1.jpg` (repeat)       | Ezgi Alioglu-2               | i-75    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_portrait.jpg`             | Fernanda Vallejo             | i-76    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_portrait.jpg` (repeat)    | Fernanda Vallejo             | i-77    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_funfact.jpg`              | Fernanda Vallejo-2           | i-78    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_funfact.jpg` (repeat)     | Fernanda Vallejo-2           | i-79    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/03/FlorRodriguez_portrait.jpg`                | Flor Rodríguez              | i-80    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/03/FlorRodriguez_portrait.jpg` (repeat)       | Flor Rodríguez              | i-81    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/FlorRodriguez_funfact.jpg`                 | Flor Rodríguez-2            | i-82    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/FlorRodriguez_funfact.jpg` (repeat)        | Flor Rodríguez-2            | i-83    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg`           | Jennifer Simionato           | i-84    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg` (repeat)  | Jennifer Simionato           | i-85    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg` (repeat)  | Jennifer Simionato-2         | i-86    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg` (repeat)  | Jennifer Simionato-2         | i-87    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_portrait.jpg`              | Jimena Castillo              | i-88    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_portrait.jpg` (repeat)     | Jimena Castillo              | i-89    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_funfact.jpg`               | Jimena Castillo-2            | i-90    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_funfact.jpg` (repeat)      | Jimena Castillo-2            | i-91    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_portrait.jpg`            | Juanita Benavides            | i-92    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_portrait.jpg` (repeat)   | Juanita Benavides            | i-93    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_funfact.jpg`             | Juanita Benavides-2          | i-94    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_funfact.jpg` (repeat)    | Juanita Benavides-2          | i-95    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_portrait.jpg`                 | Kaytee Marsh                 | i-96    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_portrait.jpg` (repeat)        | Kaytee Marsh                 | i-97    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_funfact.jpg`                  | Kaytee Marsh-2               | i-98    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_funfact.jpg` (repeat)         | Kaytee Marsh-2               | i-99    |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/KerstinSchuster_portrait.jpg`              | Kerstin Schuster             | i-100   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/KerstinSchuster_portrait.jpg` (repeat)     | Kerstin Schuster             | i-101   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Kerstin_funfact.jpg`                       | Kerstin Schuster-2           | i-102   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Kerstin_funfact.jpg` (repeat)              | Kerstin Schuster-2           | i-103   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_portrait.jpg`                 | Lara Cellini                 | i-104   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_portrait.jpg` (repeat)        | Lara Cellini                 | i-105   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_funfact-1.jpg`                | Lara Cellini-2               | i-106   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_funfact-1.jpg` (repeat)       | Lara Cellini-2               | i-107   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_portrait.jpg`                   | Léa Cécile                 | i-108   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_portrait.jpg` (repeat)          | Léa Cécile                 | i-109   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_funfact-1.jpg`                  | Léa Cécile-2               | i-110   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_funfact-1.jpg` (repeat)         | Léa Cécile-2               | i-111   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_portrait.jpg`             | Lillian Marbaise             | i-112   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_portrait.jpg` (repeat)    | Lillian Marbaise             | i-113   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_funfact.jpg`              | Lillian Marbaise-2           | i-114   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_funfact.jpg` (repeat)     | Lillian Marbaise-2           | i-115   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_portrait.jpg`                  | Lisa Bilman                  | i-116   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_portrait.jpg` (repeat)         | Lisa Bilman                  | i-117   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_funfact-1.jpg`                 | Lisa Bilman-2                | i-118   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_funfact-1.jpg` (repeat)        | Lisa Bilman-2                | i-119   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_portrait.jpg`                    | Mar Ortega                   | i-120   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_portrait.jpg` (repeat)           | Mar Ortega                   | i-121   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_funfacti.jpg`                    | Mar Ortega-2                 | i-122   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_funfacti.jpg` (repeat)           | Mar Ortega-2                 | i-123   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_portrait.jpg`                 | Melanie León                | i-124   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_portrait.jpg` (repeat)        | Melanie León                | i-125   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_funfact.jpg`                  | Melanie León-2              | i-126   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_funfact.jpg` (repeat)         | Melanie León-2              | i-127   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_portrait.jpg`               | Olive Bychkova               | i-128   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_portrait.jpg` (repeat)      | Olive Bychkova               | i-129   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_funfact.jpg`                | Olive Bychkova-2             | i-130   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_funfact.jpg` (repeat)       | Olive Bychkova-2             | i-131   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_portrait.jpg`             | Pascal Jorritsma             | i-132   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_portrait.jpg` (repeat)    | Pascal Jorritsma             | i-133   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_funfact-1.jpg`            | Pascal Jorritsma-2           | i-134   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_funfact-1.jpg` (repeat)   | Pascal Jorritsma-2           | i-135   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_portrait.jpg`              | Robert McDonald              | i-136   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_portrait.jpg` (repeat)     | Robert McDonald              | i-137   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_funfact.jpg`               | Robert McDonald-2            | i-138   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_funfact.jpg` (repeat)      | Robert McDonald-2            | i-139   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Sarahv-von-Aspern_portrait.jpg`            | Sarah von Aspern             | i-140   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Sarahv-von-Aspern_portrait.jpg` (repeat)   | Sarah von Aspern             | i-141   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Sarah-von-Aspern_funfact-1.jpg`            | Sarah von Aspern-2           | i-142   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Sarah-von-Aspern_funfact-1.jpg` (repeat)   | Sarah von Aspern-2           | i-143   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_portrait.jpg`                 | Sela Britton                 | i-144   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_portrait.jpg` (repeat)        | Sela Britton                 | i-145   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_funfact.jpg`                  | Sela Britton-2               | i-146   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_funfact.jpg` (repeat)         | Sela Britton-2               | i-147   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_portrait.jpg`              | Stephanie Weber              | i-148   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_portrait.jpg` (repeat)     | Stephanie Weber              | i-149   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_funfact-1.jpg`             | Stephanie Weber-2            | i-150   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_funfact-1.jpg` (repeat)    | Stephanie Weber-2            | i-151   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/CTA.jpg`                                   | Join our team                | i-152   |
+| Our secret? The people                                           | `/assets/cms/wp-content/uploads/2025/08/CTA.jpg` (repeat)                          | Join our team                | i-153   |
+| Apply here                                                       | `/assets/root/upload/icon-arrow.svg`                                               | icon                         | i-154   |
+| Apply here                                                       | `/assets/root/upload/icon-arrow.svg` (repeat)                                      | icon                         | i-155   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg`                     | Projects Delivered           | i-156   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat)            | Projects Delivered           | i-157   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg`                         | Loyal Clients                | i-158   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat)                | Loyal Clients                | i-159   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg`                    | Team Nationalities           | i-160   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat)           | Team Nationalities           | i-161   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg`                     | Countries Reached            | i-162   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat)            | Countries Reached            | i-163   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg`                             | Lightbulb Moments            | i-164   |
+| Apply here                                                       | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat)                    | Lightbulb Moments            | i-165   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat)            | Projects Delivered           | i-166   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat)            | Projects Delivered           | i-167   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat)                | Loyal Clients                | i-168   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat)                | Loyal Clients                | i-169   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat)           | Team Nationalities           | i-170   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat)           | Team Nationalities           | i-171   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat)            | Countries Reached            | i-172   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat)            | Countries Reached            | i-173   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat)                    | Lightbulb Moments            | i-174   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat)                    | Lightbulb Moments            | i-175   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                 | Have an event in mind?       | i-176   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                        | Have an event in mind?       | i-177   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                               | Got questions? A wild idea? | i-178   |
+| Where passion meets precision                                    | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                      | Got questions? A wild idea? | i-179   |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg`                                            | icon                         | i-180   |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                         | i-181   |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                         | i-182   |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                         | i-183   |
+| contact                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                       | footer-certified             | i-184   |
+| contact                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)              | footer-certified             | i-185   |
+| contact                                                          | `/assets/root/cssda-wotm-white.svg`                                                | CSSDA WOTM                   | i-186   |
+| Connect                                                          | `/assets/root/icons/ic_play.svg` (repeat)                                          | play                         | i-187   |
+| Connect                                                          | `/assets/root/icons/ic_pause.svg` (repeat)                                         | pause                        | i-188   |
 
 ## Page `/contact`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| Your vision deserves a partner who listens, challenges and elevates. Share your  | `/assets/root/upload/icon-arrow-down.svg` | arrow | i-2 |
-| Every great collaboration starts with a conversation. Whether you’re exploring a | `/assets/root/upload/icon-arrow-down.svg` (repeat) | arrow | i-3 |
-| Every great collaboration starts with a conversation. Whether you’re exploring a | `/assets/root/icons/ic_upload.svg` | upload | i-4 |
-| Contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-5 |
-| Contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-6 |
-| Contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-7 |
+| Section                                                                           | Current file                                                            | Alt text         | Edit ID |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ---------------- | ------- |
+| (top of page)                                                                     | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                | logo             | i-1     |
+| Your vision deserves a partner who listens, challenges and elevates. Share your   | `/assets/root/upload/icon-arrow-down.svg`                             | arrow            | i-2     |
+| Every great collaboration starts with a conversation. Whether you’re exploring a | `/assets/root/upload/icon-arrow-down.svg` (repeat)                    | arrow            | i-3     |
+| Every great collaboration starts with a conversation. Whether you’re exploring a | `/assets/root/icons/ic_upload.svg`                                    | upload           | i-4     |
+| Contact                                                                           | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`          | footer-certified | i-5     |
+| Contact                                                                           | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-6     |
+| Contact                                                                           | `/assets/root/cssda-wotm-white.svg`                                   | CSSDA WOTM       | i-7     |
 
 ## Page `/cookie-policy`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| UPDATES TO THE COOKIES POLICY | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-2 |
-| UPDATES TO THE COOKIES POLICY | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-3 |
-| UPDATES TO THE COOKIES POLICY | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-4 |
+| Section                       | Current file                                                            | Alt text         | Edit ID |
+| ----------------------------- | ----------------------------------------------------------------------- | ---------------- | ------- |
+| (top of page)                 | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                | logo             | i-1     |
+| UPDATES TO THE COOKIES POLICY | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`          | footer-certified | i-2     |
+| UPDATES TO THE COOKIES POLICY | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-3     |
+| UPDATES TO THE COOKIES POLICY | `/assets/root/cssda-wotm-white.svg`                                   | CSSDA WOTM       | i-4     |
 
 ## Page `/home`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| We craft world-class spaces &amp; events that create memories, initiate conversa | `/assets/root/upload/home-hero-text.svg` | home-hero-text | i-2 |
-| We craft world-class spaces &amp; events that create memories, initiate conversa | `/assets/root/icons/ic_mute.svg` | mute | i-3 |
-| We craft world-class spaces &amp; events that create memories, initiate conversa | `/assets/root/icons/ic_unmute.svg` | unmute | i-4 |
-| We craft world-class spaces &amp; events that create memories, initiate conversa | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | projects | i-5 |
-| We craft world-class spaces &amp; events that create memories, initiate conversa | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | projects | i-6 |
-| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/root/icons/ic_arrow-left.svg` | icon | i-7 |
-| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-8 |
-| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/root/icons/ic_arrow-right.svg` | icon | i-9 |
-| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-10 |
-| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` | projects | i-11 |
-| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat) | projects | i-12 |
-| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-13 |
-| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-14 |
-| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-15 |
-| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-16 |
-| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | projects | i-17 |
-| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat) | projects | i-18 |
-| Highlight projects Adevinta Ignite: Empowering connection &amp; growth | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-19 |
-| Highlight projects Adevinta Ignite: Empowering connection &amp; growth | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-20 |
-| Highlight projects Adevinta Ignite: Empowering connection &amp; growth | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| Highlight projects Adevinta Ignite: Empowering connection &amp; growth | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-22 |
-| Highlight projects Adevinta Ignite: Empowering connection &amp; growth | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | projects | i-23 |
-| Highlight projects Adevinta Ignite: Empowering connection &amp; growth | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat) | projects | i-24 |
-| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-25 |
-| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-26 |
-| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-27 |
-| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-28 |
-| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` | projects | i-29 |
-| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` (repeat) | projects | i-30 |
-| Highlight projects Menzies Congress: Shaping leadership experiences | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-31 |
-| Highlight projects Menzies Congress: Shaping leadership experiences | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-32 |
-| Highlight projects Menzies Congress: Shaping leadership experiences | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-33 |
-| Highlight projects Menzies Congress: Shaping leadership experiences | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-34 |
-| Highlight projects | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-35 |
-| Highlight projects | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-36 |
-| Highlight projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-37 |
-| Highlight projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-38 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/05/NL.png` | logo | i-39 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/05/NL.png` (repeat) | logo | i-40 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Champions-League.svg` | logo | i-41 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Champions-League.svg` (repeat) | logo | i-42 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg` | logo | i-43 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg` (repeat) | logo | i-44 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/pfizer.png` | logo | i-45 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/pfizer.png` (repeat) | logo | i-46 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Fedex.svg` | logo | i-47 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Fedex.svg` (repeat) | logo | i-48 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/08/adidas.png` | logo | i-49 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/08/adidas.png` (repeat) | logo | i-50 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Euroleague.svg` | logo | i-51 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Euroleague.svg` (repeat) | logo | i-52 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Ribbon.svg` | logo | i-53 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Ribbon.svg` (repeat) | logo | i-54 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Centrient.svg` | logo | i-55 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Centrient.svg` (repeat) | logo | i-56 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg` | logo | i-57 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg` (repeat) | logo | i-58 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Radisys.svg` | logo | i-59 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Radisys.svg` (repeat) | logo | i-60 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/NL.svg` | logo | i-61 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/NL.svg` (repeat) | logo | i-62 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/YPO.svg` | logo | i-63 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/YPO.svg` (repeat) | logo | i-64 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Menzies.svg` | logo | i-65 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Menzies.svg` (repeat) | logo | i-66 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Adevinta.svg` | logo | i-67 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Adevinta.svg` (repeat) | logo | i-68 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/European-Commission.svg` | logo | i-69 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/European-Commission.svg` (repeat) | logo | i-70 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/ISE.svg` | logo | i-71 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/ISE.svg` (repeat) | logo | i-72 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Fiat.svg` | logo | i-73 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Fiat.svg` (repeat) | logo | i-74 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/VEEAM.svg` | logo | i-75 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/VEEAM.svg` (repeat) | logo | i-76 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Events-1.jpg` | Events | i-77 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` | icon | i-78 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-79 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Events-1.jpg` (repeat) | Events | i-80 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-81 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-82 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Exhibits-2.jpg` | Exhibits | i-83 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-84 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-85 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Exhibits-2.jpg` (repeat) | Exhibits | i-86 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-87 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-88 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Congresses-2.jpg` | Congresses | i-89 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-90 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-91 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Congresses-2.jpg` (repeat) | Congresses | i-92 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-93 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-94 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Sports-3.jpg` | Sports | i-95 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-96 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-97 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Sports-3.jpg` (repeat) | Sports | i-98 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-99 |
-| Highlight projects | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-100 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png` | Logo | i-101 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png` (repeat) | Logo | i-102 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg` | Logo | i-103 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg` (repeat) | Logo | i-104 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png` | Logo | i-105 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png` (repeat) | Logo | i-106 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` | Logo | i-107 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` (repeat) | Logo | i-108 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/midas.png` | Logo | i-109 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/midas.png` (repeat) | Logo | i-110 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg` | Logo | i-111 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg` (repeat) | Logo | i-112 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg` | Logo | i-113 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg` (repeat) | Logo | i-114 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` (repeat) | Logo | i-115 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` (repeat) | Logo | i-116 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` | Leader | i-117 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat) | Leader | i-118 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` | Leader | i-119 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat) | Leader | i-120 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` | Leader | i-121 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat) | Leader | i-122 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg` | Leader | i-123 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg` (repeat) | Leader | i-124 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg` | Leader | i-125 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg` (repeat) | Leader | i-126 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg` | Leader | i-127 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg` (repeat) | Leader | i-128 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg` | Leader | i-129 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg` (repeat) | Leader | i-130 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` | Leader | i-131 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat) | Leader | i-132 |
-| Highlight projects | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-133 |
-| Highlight projects | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-134 |
-| Highlight projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-135 |
-| Highlight projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-136 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat) | Leader | i-137 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat) | Leader | i-138 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat) | Leader | i-139 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat) | Leader | i-140 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat) | Leader | i-141 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat) | Leader | i-142 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg` (repeat) | Leader | i-143 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg` (repeat) | Leader | i-144 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg` (repeat) | Leader | i-145 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg` (repeat) | Leader | i-146 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg` (repeat) | Leader | i-147 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg` (repeat) | Leader | i-148 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg` (repeat) | Leader | i-149 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg` (repeat) | Leader | i-150 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat) | Leader | i-151 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat) | Leader | i-152 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` | Projects Delivered | i-153 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat) | Projects Delivered | i-154 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` | Loyal Clients | i-155 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat) | Loyal Clients | i-156 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` | Team Nationalities | i-157 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat) | Team Nationalities | i-158 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` | Countries Reached | i-159 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat) | Countries Reached | i-160 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` | Lightbulb Moments | i-161 |
-| Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat) | Lightbulb Moments | i-162 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat) | Projects Delivered | i-163 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat) | Projects Delivered | i-164 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat) | Loyal Clients | i-165 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat) | Loyal Clients | i-166 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat) | Team Nationalities | i-167 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat) | Team Nationalities | i-168 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat) | Countries Reached | i-169 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat) | Countries Reached | i-170 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat) | Lightbulb Moments | i-171 |
-| Where passion meets precision | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat) | Lightbulb Moments | i-172 |
-| Get insider tips, bold ideas, and future-forward trends, straight from the front | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-173 |
-| Get insider tips, bold ideas, and future-forward trends, straight from the front | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-174 |
-| Get insider tips, bold ideas, and future-forward trends, straight from the front | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-175 |
-| Get insider tips, bold ideas, and future-forward trends, straight from the front | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-176 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-177 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-178 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-179 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-180 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-181 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-182 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-183 |
-| Connect | `/assets/root/icons/ic_play.svg` | play | i-184 |
-| Connect | `/assets/root/icons/ic_pause.svg` | pause | i-185 |
+| Section                                                                          | Current file                                                                                         | Alt text                     | Edit ID |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------- | ------- |
+| (top of page)                                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                             | logo                         | i-1     |
+| We craft world-class spaces&amp; events that create memories, initiate conversa  | `/assets/root/upload/home-hero-text.svg`                                                           | home-hero-text               | i-2     |
+| We craft world-class spaces&amp; events that create memories, initiate conversa  | `/assets/root/icons/ic_mute.svg`                                                                   | mute                         | i-3     |
+| We craft world-class spaces&amp; events that create memories, initiate conversa  | `/assets/root/icons/ic_unmute.svg`                                                                 | unmute                       | i-4     |
+| We craft world-class spaces&amp; events that create memories, initiate conversa  | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp`          | projects                     | i-5     |
+| We craft world-class spaces&amp; events that create memories, initiate conversa  | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | projects                     | i-6     |
+| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/root/icons/ic_arrow-left.svg`                                                             | icon                         | i-7     |
+| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-8     |
+| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/root/icons/ic_arrow-right.svg`                                                            | icon                         | i-9     |
+| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-10    |
+| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg`                  | projects                     | i-11    |
+| Highlight projects UEFA Champions League Final 2026: Budapest. Nine spaces. One  | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat)         | projects                     | i-12    |
+| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-13    |
+| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-14    |
+| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-15    |
+| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-16    |
+| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`                          | projects                     | i-17    |
+| Highlight projects Etihad Euroleague Final Four 2026: From raw venue to premium  | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat)                 | projects                     | i-18    |
+| Highlight projects Adevinta Ignite: Empowering connection&amp; growth            | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-19    |
+| Highlight projects Adevinta Ignite: Empowering connection&amp; growth            | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-20    |
+| Highlight projects Adevinta Ignite: Empowering connection&amp; growth            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-21    |
+| Highlight projects Adevinta Ignite: Empowering connection&amp; growth            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-22    |
+| Highlight projects Adevinta Ignite: Empowering connection&amp; growth            | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`                               | projects                     | i-23    |
+| Highlight projects Adevinta Ignite: Empowering connection&amp; growth            | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat)                      | projects                     | i-24    |
+| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable       | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-25    |
+| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable       | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-26    |
+| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable       | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-27    |
+| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable       | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-28    |
+| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable       | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg`                                        | projects                     | i-29    |
+| Highlight projects Midas at ISE: Where six metres of LED sounds impeccable       | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` (repeat)                               | projects                     | i-30    |
+| Highlight projects Menzies Congress: Shaping leadership experiences              | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-31    |
+| Highlight projects Menzies Congress: Shaping leadership experiences              | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-32    |
+| Highlight projects Menzies Congress: Shaping leadership experiences              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-33    |
+| Highlight projects Menzies Congress: Shaping leadership experiences              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-34    |
+| Highlight projects                                                               | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-35    |
+| Highlight projects                                                               | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-36    |
+| Highlight projects                                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-37    |
+| Highlight projects                                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-38    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/05/NL.png`                                                    | logo                         | i-39    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/05/NL.png` (repeat)                                           | logo                         | i-40    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Champions-League.svg`                                      | logo                         | i-41    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Champions-League.svg` (repeat)                             | logo                         | i-42    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg`                                      | logo                         | i-43    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg` (repeat)                             | logo                         | i-44    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/pfizer.png`                                                | logo                         | i-45    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/pfizer.png` (repeat)                                       | logo                         | i-46    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Fedex.svg`                                                 | logo                         | i-47    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Fedex.svg` (repeat)                                        | logo                         | i-48    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/08/adidas.png`                                                | logo                         | i-49    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/08/adidas.png` (repeat)                                       | logo                         | i-50    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Euroleague.svg`                                            | logo                         | i-51    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Euroleague.svg` (repeat)                                   | logo                         | i-52    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Ribbon.svg`                                                | logo                         | i-53    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Ribbon.svg` (repeat)                                       | logo                         | i-54    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Centrient.svg`                                             | logo                         | i-55    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Centrient.svg` (repeat)                                    | logo                         | i-56    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg`                                         | logo                         | i-57    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg` (repeat)                                | logo                         | i-58    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Radisys.svg`                                               | logo                         | i-59    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Radisys.svg` (repeat)                                      | logo                         | i-60    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/NL.svg`                                                    | logo                         | i-61    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/NL.svg` (repeat)                                           | logo                         | i-62    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/YPO.svg`                                                   | logo                         | i-63    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/YPO.svg` (repeat)                                          | logo                         | i-64    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Menzies.svg`                                               | logo                         | i-65    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Menzies.svg` (repeat)                                      | logo                         | i-66    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Adevinta.svg`                                              | logo                         | i-67    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Adevinta.svg` (repeat)                                     | logo                         | i-68    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/European-Commission.svg`                                   | logo                         | i-69    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/European-Commission.svg` (repeat)                          | logo                         | i-70    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/ISE.svg`                                                   | logo                         | i-71    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/ISE.svg` (repeat)                                          | logo                         | i-72    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Fiat.svg`                                                  | logo                         | i-73    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Fiat.svg` (repeat)                                         | logo                         | i-74    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/VEEAM.svg`                                                 | logo                         | i-75    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/VEEAM.svg` (repeat)                                        | logo                         | i-76    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Events-1.jpg`                                              | Events                       | i-77    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg`                                                               | icon                         | i-78    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-79    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Events-1.jpg` (repeat)                                     | Events                       | i-80    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-81    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-82    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Exhibits-2.jpg`                                            | Exhibits                     | i-83    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-84    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-85    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Exhibits-2.jpg` (repeat)                                   | Exhibits                     | i-86    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-87    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-88    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Congresses-2.jpg`                                          | Congresses                   | i-89    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-90    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-91    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Congresses-2.jpg` (repeat)                                 | Congresses                   | i-92    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-93    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-94    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Sports-3.jpg`                                              | Sports                       | i-95    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-96    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-97    |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Sports-3.jpg` (repeat)                                     | Sports                       | i-98    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-99    |
+| Highlight projects                                                               | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                         | i-100   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png`                                             | Logo                         | i-101   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png` (repeat)                                    | Logo                         | i-102   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg`                          | Logo                         | i-103   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg` (repeat)                 | Logo                         | i-104   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png`                                     | Logo                         | i-105   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png` (repeat)                            | Logo                         | i-106   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg`                            | Logo                         | i-107   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` (repeat)                   | Logo                         | i-108   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/midas.png`                                                 | Logo                         | i-109   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/midas.png` (repeat)                                        | Logo                         | i-110   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg`                                 | Logo                         | i-111   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg` (repeat)                        | Logo                         | i-112   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg`                                  | Logo                         | i-113   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg` (repeat)                         | Logo                         | i-114   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` (repeat)                   | Logo                         | i-115   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` (repeat)                   | Logo                         | i-116   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg`                                     | Leader                       | i-117   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat)                            | Leader                       | i-118   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg`                                         | Leader                       | i-119   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat)                                | Leader                       | i-120   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg`                                       | Leader                       | i-121   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat)                              | Leader                       | i-122   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg`                               | Leader                       | i-123   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg` (repeat)                      | Leader                       | i-124   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg`                                          | Leader                       | i-125   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg` (repeat)                                 | Leader                       | i-126   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg`                                         | Leader                       | i-127   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg` (repeat)                                | Leader                       | i-128   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg`                                           | Leader                       | i-129   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg` (repeat)                                  | Leader                       | i-130   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg`                                      | Leader                       | i-131   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat)                             | Leader                       | i-132   |
+| Highlight projects                                                               | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-133   |
+| Highlight projects                                                               | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                         | i-134   |
+| Highlight projects                                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-135   |
+| Highlight projects                                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-136   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat)                            | Leader                       | i-137   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat)                            | Leader                       | i-138   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat)                                | Leader                       | i-139   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat)                                | Leader                       | i-140   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat)                              | Leader                       | i-141   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat)                              | Leader                       | i-142   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg` (repeat)                      | Leader                       | i-143   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg` (repeat)                      | Leader                       | i-144   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg` (repeat)                                 | Leader                       | i-145   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg` (repeat)                                 | Leader                       | i-146   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg` (repeat)                                | Leader                       | i-147   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg` (repeat)                                | Leader                       | i-148   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg` (repeat)                                  | Leader                       | i-149   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg` (repeat)                                  | Leader                       | i-150   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat)                             | Leader                       | i-151   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat)                             | Leader                       | i-152   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg`                                     | Projects Delivered           | i-153   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat)                            | Projects Delivered           | i-154   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg`                                         | Loyal Clients                | i-155   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat)                                | Loyal Clients                | i-156   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg`                                    | Team Nationalities           | i-157   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat)                           | Team Nationalities           | i-158   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg`                                     | Countries Reached            | i-159   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat)                            | Countries Reached            | i-160   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg`                                             | Lightbulb Moments            | i-161   |
+| Highlight projects                                                               | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat)                                    | Lightbulb Moments            | i-162   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat)                            | Projects Delivered           | i-163   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/06/Project-Delivered.jpg` (repeat)                            | Projects Delivered           | i-164   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat)                                | Loyal Clients                | i-165   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/06/Loyal-Clients.jpg` (repeat)                                | Loyal Clients                | i-166   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat)                           | Team Nationalities           | i-167   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` (repeat)                           | Team Nationalities           | i-168   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat)                            | Countries Reached            | i-169   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/06/Countries-reached.jpg` (repeat)                            | Countries Reached            | i-170   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat)                                    | Lightbulb Moments            | i-171   |
+| Where passion meets precision                                                    | `/assets/cms/wp-content/uploads/2025/06/Lightbulb.jpg` (repeat)                                    | Lightbulb Moments            | i-172   |
+| Get insider tips, bold ideas, and future-forward trends, straight from the front | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                 | Have an event in mind?       | i-173   |
+| Get insider tips, bold ideas, and future-forward trends, straight from the front | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                        | Have an event in mind?       | i-174   |
+| Get insider tips, bold ideas, and future-forward trends, straight from the front | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                               | Got questions? A wild idea? | i-175   |
+| Get insider tips, bold ideas, and future-forward trends, straight from the front | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                      | Got questions? A wild idea? | i-176   |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-177   |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-178   |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-179   |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                         | i-180   |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                       | footer-certified             | i-181   |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                              | footer-certified             | i-182   |
+| contact                                                                          | `/assets/root/cssda-wotm-white.svg`                                                                | CSSDA WOTM                   | i-183   |
+| Connect                                                                          | `/assets/root/icons/ic_play.svg`                                                                   | play                         | i-184   |
+| Connect                                                                          | `/assets/root/icons/ic_pause.svg`                                                                  | pause                        | i-185   |
 
 ## Page `/insight/10-tactics-to-treat-vip-guests-right`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| 10 tactics to treat VIP guests right: global event agency planning | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| 10 tactics to treat VIP guests right: global event agency planning | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-5.png` | 10 tactics to treat VIP guests right: global event agency pl | i-4 |
-| 10 tactics to treat VIP guests right: global event agency planning | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-5.png` (repeat) | 10 tactics to treat VIP guests right: global event agency pl | i-5 |
-| 10) Last-minute changes: adaptability in action | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-10.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Vie | i-6 |
-| 10) Last-minute changes: adaptability in action | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-10.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-7 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-8 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-9 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-10 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-11 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-12 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-13 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-14 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-15 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-16 |
-| Own the spotlight! | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-22 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-23 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-24 |
+| Section                                                            | Current file                                                                                               | Alt text                                                     | Edit ID |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                      | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                                      | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| 10 tactics to treat VIP guests right: global event agency planning | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| 10 tactics to treat VIP guests right: global event agency planning | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-5.png`                                  | 10 tactics to treat VIP guests right: global event agency pl | i-4     |
+| 10 tactics to treat VIP guests right: global event agency planning | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-5.png` (repeat)                         | 10 tactics to treat VIP guests right: global event agency pl | i-5     |
+| 10) Last-minute changes: adaptability in action                    | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-10.png`                                 | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Vie | i-6     |
+| 10) Last-minute changes: adaptability in action                    | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-10.png`                              | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-7     |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-8     |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-9     |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-10    |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-11    |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-12    |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-13    |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-14    |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-15    |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-16    |
+| Own the spotlight!                                                 | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-17    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-18    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-19    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-20    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-21    |
+| contact                                                            | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-22    |
+| contact                                                            | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-23    |
+| contact                                                            | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-24    |
 
 ## Page `/insight/an-event-management-companys-guide-to-going-green`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| An event management company’s guide to going green | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| An event management company’s guide to going green | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-4 |
-| An event management company’s guide to going green | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-5 |
-| 1) Start with sustainability goals (before the venue) | `/assets/cms/wp-content/uploads/2025/07/e_2018_sdg_poster_without_un_emblem_letter_us.png` | /assets/cms/wp-content/uploads/2025/07/e_2018_sdg_poster_wit | i-6 |
-| Wondering what have we done at Iventions? | `/assets/root/icons/ic_play.svg` | play | i-7 |
-| Wondering what have we done at Iventions? | `/assets/root/icons/ic_pause.svg` | pause | i-8 |
-| Wondering what have we done at Iventions? | `/assets/root/icons/ic_play.svg` (repeat) | play | i-9 |
-| Wondering what have we done at Iventions? | `/assets/root/icons/ic_pause.svg` (repeat) | pause | i-10 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Do you need an international event agency, a local partner,  | i-11 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Do you need an international event agency, a local partner,  | i-12 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-13 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-14 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-15 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-16 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-17 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-18 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-19 |
-| Planning a greener calendar? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-21 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-22 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-23 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-24 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-25 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-26 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-27 |
+| Section                                               | Current file                                                                                               | Alt text                                                     | Edit ID |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                         | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                         | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| An event management company’s guide to going green   | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| An event management company’s guide to going green   | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-4     |
+| An event management company’s guide to going green   | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-5     |
+| 1) Start with sustainability goals (before the venue) | `/assets/cms/wp-content/uploads/2025/07/e_2018_sdg_poster_without_un_emblem_letter_us.png`               | /assets/cms/wp-content/uploads/2025/07/e_2018_sdg_poster_wit | i-6     |
+| Wondering what have we done at Iventions?             | `/assets/root/icons/ic_play.svg`                                                                         | play                                                         | i-7     |
+| Wondering what have we done at Iventions?             | `/assets/root/icons/ic_pause.svg`                                                                        | pause                                                        | i-8     |
+| Wondering what have we done at Iventions?             | `/assets/root/icons/ic_play.svg` (repeat)                                                                | play                                                         | i-9     |
+| Wondering what have we done at Iventions?             | `/assets/root/icons/ic_pause.svg` (repeat)                                                               | pause                                                        | i-10    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                                               | Do you need an international event agency, a local partner,  | i-11    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                      | Do you need an international event agency, a local partner,  | i-12    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-13    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-14    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-15    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-16    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-17    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-18    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-19    |
+| Planning a greener calendar?                          | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-20    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-21    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-22    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-23    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-24    |
+| contact                                               | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-25    |
+| contact                                               | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-26    |
+| contact                                               | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-27    |
 
 ## Page `/insight/choosing-an-event-management-company`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Choosing an event management company: The questions our clients really ask | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Choosing an event management company: The questions our clients really ask | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-1-scaled.jpg` | Choosing an event management company: The questions our clie | i-4 |
-| Choosing an event management company: The questions our clients really ask | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-1-scaled.jpg` (repeat) | Choosing an event management company: The questions our clie | i-5 |
-| 6. “How do you make sure the event design fits the venue?” | `/assets/cms/wp-content/uploads/2026/01/2023_Adevinta_Venue-2-scaled.jpg` | /assets/cms/wp-content/uploads/2026/01/2023_Adevinta_Venue-2 | i-6 |
-| 9. “ Do you manage travel, accommodation, and guest experience?” | `/assets/cms/wp-content/uploads/2026/01/DIA-Amsterdam-Picture-13-scaled.jpg` | /assets/cms/wp-content/uploads/2026/01/DIA-Amsterdam-Picture | i-7 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-8 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-9 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-10 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-11 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-12 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-13 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-14 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-15 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-16 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-22 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-23 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-24 |
+| Section                                                                    | Current file                                                                                               | Alt text                                                     | Edit ID |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                              | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                                              | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| Choosing an event management company: The questions our clients really ask | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| Choosing an event management company: The questions our clients really ask | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-1-scaled.jpg`                            | Choosing an event management company: The questions our clie | i-4     |
+| Choosing an event management company: The questions our clients really ask | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-1-scaled.jpg` (repeat)                   | Choosing an event management company: The questions our clie | i-5     |
+| 6. “How do you make sure the event design fits the venue?”               | `/assets/cms/wp-content/uploads/2026/01/2023_Adevinta_Venue-2-scaled.jpg`                                | /assets/cms/wp-content/uploads/2026/01/2023_Adevinta_Venue-2 | i-6     |
+| 9. “ Do you manage travel, accommodation, and guest experience?”         | `/assets/cms/wp-content/uploads/2026/01/DIA-Amsterdam-Picture-13-scaled.jpg`                             | /assets/cms/wp-content/uploads/2026/01/DIA-Amsterdam-Picture | i-7     |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-8     |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-9     |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-10    |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-11    |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-12    |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-13    |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-14    |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-15    |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-16    |
+| Ready to plan your next event?                                             | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-17    |
+| contact                                                                    | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-18    |
+| contact                                                                    | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-19    |
+| contact                                                                    | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-20    |
+| contact                                                                    | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-21    |
+| contact                                                                    | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-22    |
+| contact                                                                    | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-23    |
+| contact                                                                    | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-24    |
 
 ## Page `/insight/choosing-exhibition-builders`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Choosing exhibition builders: The questions our clients always ask | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Choosing exhibition builders: The questions our clients always ask | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-7.png` | Choosing exhibition builders: The questions our clients alwa | i-4 |
-| Choosing exhibition builders: The questions our clients always ask | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-7.png` (repeat) | Choosing exhibition builders: The questions our clients alwa | i-5 |
-| 1. “Can you show us what the stand will look like before production starts?” | `/assets/cms/wp-content/uploads/2026/01/Exhibition-Builders-render-scaled.jpg` | /assets/cms/wp-content/uploads/2026/01/Exhibition-Builders-r | i-6 |
-| 6. “Will someone from your team actually be there?” | `/assets/cms/wp-content/uploads/2026/01/Exhibition-Builders-set-up-scaled.jpg` | /assets/cms/wp-content/uploads/2026/01/Exhibition-Builders-s | i-7 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` | Exhibition stand construction: from pretty spaces to high‑im | i-8 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat) | Exhibition stand construction: from pretty spaces to high‑im | i-9 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-10 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-11 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | International event agency secrets: the psychology of booth  | i-12 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-13 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-14 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-15 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-16 |
-| Planning your next exhibition? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-22 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-23 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-24 |
+| Section                                                                        | Current file                                                                     | Alt text                                                      | Edit ID |
+| ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                                  | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                         | logo                                                          | i-1     |
+| (top of page)                                                                  | `/assets/root/upload/logo-linkedin.svg`                                        | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| Choosing exhibition builders: The questions our clients always ask             | `/assets/root/upload/logo-linkedin.svg` (repeat)                               | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| Choosing exhibition builders: The questions our clients always ask             | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-7.png`                     | Choosing exhibition builders: The questions our clients alwa  | i-4     |
+| Choosing exhibition builders: The questions our clients always ask             | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-7.png` (repeat)            | Choosing exhibition builders: The questions our clients alwa  | i-5     |
+| 1. “Can you show us what the stand will look like before production starts?” | `/assets/cms/wp-content/uploads/2026/01/Exhibition-Builders-render-scaled.jpg` | /assets/cms/wp-content/uploads/2026/01/Exhibition-Builders-r  | i-6     |
+| 6. “Will someone from your team actually be there?”                          | `/assets/cms/wp-content/uploads/2026/01/Exhibition-Builders-set-up-scaled.jpg` | /assets/cms/wp-content/uploads/2026/01/Exhibition-Builders-s  | i-7     |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg`           | Exhibition stand construction: from pretty spaces to high‑im | i-8     |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat)  | Exhibition stand construction: from pretty spaces to high‑im | i-9     |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                  | The science behind a brand activation agency playbook         | i-10    |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)         | The science behind a brand activation agency playbook         | i-11    |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`           | International event agency secrets: the psychology of booth   | i-12    |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)  | International event agency secrets: the psychology of booth   | i-13    |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                             | Have an event in mind?                                        | i-14    |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                    | Have an event in mind?                                        | i-15    |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                           | Got questions? A wild idea?                                  | i-16    |
+| Planning your next exhibition?                                                 | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                  | Got questions? A wild idea?                                  | i-17    |
+| contact                                                                        | `/assets/root/icons/ic_arrow-right.svg`                                        | icon                                                          | i-18    |
+| contact                                                                        | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-19    |
+| contact                                                                        | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-20    |
+| contact                                                                        | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-21    |
+| contact                                                                        | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                   | footer-certified                                              | i-22    |
+| contact                                                                        | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)          | footer-certified                                              | i-23    |
+| contact                                                                        | `/assets/root/cssda-wotm-white.svg`                                            | CSSDA WOTM                                                    | i-24    |
 
 ## Page `/insight/cphi-trade-show`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| CPHI trade show: what experienced exhibitors understand that Pharma brands often | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| CPHI trade show: what experienced exhibitors understand that Pharma brands often | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg` | CPHI trade show: what experienced exhibitors understand that | i-4 |
-| CPHI trade show: what experienced exhibitors understand that Pharma brands often | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg` (repeat) | CPHI trade show: what experienced exhibitors understand that | i-5 |
-| What people misunderstand about CPHI? | `/assets/cms/wp-content/uploads/2025/08/Centrient_CPHI-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Centrient_CPHI-2024-3 | i-6 |
-| Why CPHI works differently from other trade shows? | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-branding-scaled.jpg` | /assets/cms/wp-content/uploads/2026/05/CPHI-2026-branding-sc | i-7 |
-| Why CPHI works differently from other trade shows? | `/assets/cms/wp-content/uploads/2025/08/NEXTPHARMA-CPHI-2023-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/NEXTPHARMA-CPHI-2023- | i-8 |
-| How attention works differently in pharma exhibitions? | `/assets/root/icons/ic_play.svg` | play | i-9 |
-| How attention works differently in pharma exhibitions? | `/assets/root/icons/ic_pause.svg` | pause | i-10 |
-| What experienced exhibitors understand? | `/assets/cms/wp-content/uploads/2025/08/Rhei-Life_-CPHI-2024-6.png` | /assets/cms/wp-content/uploads/2025/08/Rhei-Life_-CPHI-2024- | i-11 |
-| What experienced exhibitors understand? | `/assets/cms/wp-content/uploads/2025/08/GEN-CPHI-2023-7.png` | /assets/cms/wp-content/uploads/2025/08/GEN-CPHI-2023-7.png | i-12 |
-| Planning your presence at CPHI trade show 2026? | `/assets/root/icons/ic_play.svg` (repeat) | play | i-13 |
-| Planning your presence at CPHI trade show 2026? | `/assets/root/icons/ic_pause.svg` (repeat) | pause | i-14 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | IBC trade show: why the most remembered brands are built lon | i-15 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat) | IBC trade show: why the most remembered brands are built lon | i-16 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` | IFA trade show: how brands stand out at Europe’s leading tec | i-17 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` (repeat) | IFA trade show: how brands stand out at Europe’s leading tec | i-18 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | International event agency secrets: the psychology of booth  | i-19 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-20 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-21 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-22 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-23 |
-| Planning your presence at CPHI trade show 2026? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-24 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-25 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-26 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-27 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-28 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-29 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-30 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-31 |
+| Section                                                                          | Current file                                                                     | Alt text                                                      | Edit ID |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                         | logo                                                          | i-1     |
+| (top of page)                                                                    | `/assets/root/upload/logo-linkedin.svg`                                        | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| CPHI trade show: what experienced exhibitors understand that Pharma brands often | `/assets/root/upload/logo-linkedin.svg` (repeat)                               | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| CPHI trade show: what experienced exhibitors understand that Pharma brands often | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg`            | CPHI trade show: what experienced exhibitors understand that  | i-4     |
+| CPHI trade show: what experienced exhibitors understand that Pharma brands often | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg` (repeat)   | CPHI trade show: what experienced exhibitors understand that  | i-5     |
+| What people misunderstand about CPHI?                                            | `/assets/cms/wp-content/uploads/2025/08/Centrient_CPHI-2024-3.png`             | /assets/cms/wp-content/uploads/2025/08/Centrient_CPHI-2024-3  | i-6     |
+| Why CPHI works differently from other trade shows?                               | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-branding-scaled.jpg`         | /assets/cms/wp-content/uploads/2026/05/CPHI-2026-branding-sc  | i-7     |
+| Why CPHI works differently from other trade shows?                               | `/assets/cms/wp-content/uploads/2025/08/NEXTPHARMA-CPHI-2023-scaled.jpg`       | /assets/cms/wp-content/uploads/2025/08/NEXTPHARMA-CPHI-2023-  | i-8     |
+| How attention works differently in pharma exhibitions?                           | `/assets/root/icons/ic_play.svg`                                               | play                                                          | i-9     |
+| How attention works differently in pharma exhibitions?                           | `/assets/root/icons/ic_pause.svg`                                              | pause                                                         | i-10    |
+| What experienced exhibitors understand?                                          | `/assets/cms/wp-content/uploads/2025/08/Rhei-Life_-CPHI-2024-6.png`            | /assets/cms/wp-content/uploads/2025/08/Rhei-Life_-CPHI-2024-  | i-11    |
+| What experienced exhibitors understand?                                          | `/assets/cms/wp-content/uploads/2025/08/GEN-CPHI-2023-7.png`                   | /assets/cms/wp-content/uploads/2025/08/GEN-CPHI-2023-7.png    | i-12    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/root/icons/ic_play.svg` (repeat)                                      | play                                                          | i-13    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/root/icons/ic_pause.svg` (repeat)                                     | pause                                                         | i-14    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`           | IBC trade show: why the most remembered brands are built lon  | i-15    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat)  | IBC trade show: why the most remembered brands are built lon  | i-16    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg`          | IFA trade show: how brands stand out at Europe’s leading tec | i-17    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` (repeat) | IFA trade show: how brands stand out at Europe’s leading tec | i-18    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`           | International event agency secrets: the psychology of booth   | i-19    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)  | International event agency secrets: the psychology of booth   | i-20    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                             | Have an event in mind?                                        | i-21    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                    | Have an event in mind?                                        | i-22    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                           | Got questions? A wild idea?                                  | i-23    |
+| Planning your presence at CPHI trade show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                  | Got questions? A wild idea?                                  | i-24    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg`                                        | icon                                                          | i-25    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-26    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-27    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-28    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                   | footer-certified                                              | i-29    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)          | footer-certified                                              | i-30    |
+| contact                                                                          | `/assets/root/cssda-wotm-white.svg`                                            | CSSDA WOTM                                                    | i-31    |
 
 ## Page `/insight/destination-management-companies-explained-from-local-expertise-to-global-impact`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Destination management companies explained: from local expertise to global impac | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Destination management companies explained: from local expertise to global impac | `/assets/cms/wp-content/uploads/2026/02/Barcelona-DMC-Event-Destination-1-scaled.jpeg` | Destination management companies explained: from local exper | i-4 |
-| Destination management companies explained: from local expertise to global impac | `/assets/cms/wp-content/uploads/2026/02/Barcelona-DMC-Event-Destination-1-scaled.jpeg` (repeat) | Destination management companies explained: from local exper | i-5 |
-| 1. Local expertise is strategic intelligence&nbsp; | `/assets/cms/wp-content/uploads/2026/02/NYU_EDIMBURGH2022_2588-scaled.jpg` | /assets/cms/wp-content/uploads/2026/02/NYU_EDIMBURGH2022_258 | i-6 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2026/02/festival-venue-for-gallery-41-scaled.jpg` | /assets/cms/wp-content/uploads/2026/02/festival-venue-for-ga | i-7 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-8 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-9 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-10 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-11 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-12 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-13 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-14 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-15 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-16 |
-| Ready to plan your next event? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-22 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-23 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-24 |
+| Section                                                                          | Current file                                                                                               | Alt text                                                     | Edit ID |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                                                    | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| Destination management companies explained: from local expertise to global impac | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| Destination management companies explained: from local expertise to global impac | `/assets/cms/wp-content/uploads/2026/02/Barcelona-DMC-Event-Destination-1-scaled.jpeg`                   | Destination management companies explained: from local exper | i-4     |
+| Destination management companies explained: from local expertise to global impac | `/assets/cms/wp-content/uploads/2026/02/Barcelona-DMC-Event-Destination-1-scaled.jpeg` (repeat)          | Destination management companies explained: from local exper | i-5     |
+| 1. Local expertise is strategic intelligence&nbsp;                               | `/assets/cms/wp-content/uploads/2026/02/NYU_EDIMBURGH2022_2588-scaled.jpg`                               | /assets/cms/wp-content/uploads/2026/02/NYU_EDIMBURGH2022_258 | i-6     |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2026/02/festival-venue-for-gallery-41-scaled.jpg`                        | /assets/cms/wp-content/uploads/2026/02/festival-venue-for-ga | i-7     |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-8     |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-9     |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-10    |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-11    |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-12    |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-13    |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-14    |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-15    |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-16    |
+| Ready to plan your next event?                                                   | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-17    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-18    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-19    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-20    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-21    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-22    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-23    |
+| contact                                                                          | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-24    |
 
 ## Page `/insight/do-you-need-an-international-event-agency`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Do you need an international event agency, a local partner, or both? | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Do you need an international event agency, a local partner, or both? | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Do you need an international event agency, a local partner,  | i-4 |
-| Do you need an international event agency, a local partner, or both? | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Do you need an international event agency, a local partner,  | i-5 |
-| When to blend both: the hybrid model | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-3.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-3.png | i-6 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-7 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-8 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-9 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-10 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-11 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-12 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-13 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-14 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-15 |
-| Choose the right engine for your next event! | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-16 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-22 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-23 |
+| Section                                                              | Current file                                                                                               | Alt text                                                     | Edit ID |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                        | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                                        | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| Do you need an international event agency, a local partner, or both? | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| Do you need an international event agency, a local partner, or both? | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                                               | Do you need an international event agency, a local partner,  | i-4     |
+| Do you need an international event agency, a local partner, or both? | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                      | Do you need an international event agency, a local partner,  | i-5     |
+| When to blend both: the hybrid model                                 | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-3.png`                                           | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-3.png | i-6     |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-7     |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-8     |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-9     |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-10    |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-11    |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-12    |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-13    |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-14    |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-15    |
+| Choose the right engine for your next event!                         | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-16    |
+| contact                                                              | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-17    |
+| contact                                                              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-18    |
+| contact                                                              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-19    |
+| contact                                                              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-20    |
+| contact                                                              | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-21    |
+| contact                                                              | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-22    |
+| contact                                                              | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-23    |
 
 ## Page `/insight/exhibition-builders-turn-static-spaces-into-smart-experiences`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| How exhibition builders turn static spaces into smart experiences | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| How exhibition builders turn static spaces into smart experiences | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | How exhibition builders turn static spaces into smart experi | i-4 |
-| How exhibition builders turn static spaces into smart experiences | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | How exhibition builders turn static spaces into smart experi | i-5 |
-| Why it matters | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-3.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-3.png | i-6 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` | Exhibition stand construction: from pretty spaces to high‑im | i-7 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat) | Exhibition stand construction: from pretty spaces to high‑im | i-8 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-9 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-10 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | International event agency secrets: the psychology of booth  | i-11 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-12 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-13 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-14 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-15 |
-| Has Iventions done this? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-16 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-22 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-23 |
+| Section                                                           | Current file                                                                    | Alt text                                                      | Edit ID |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                     | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                        | logo                                                          | i-1     |
+| (top of page)                                                     | `/assets/root/upload/logo-linkedin.svg`                                       | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| How exhibition builders turn static spaces into smart experiences | `/assets/root/upload/logo-linkedin.svg` (repeat)                              | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| How exhibition builders turn static spaces into smart experiences | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`             | How exhibition builders turn static spaces into smart experi  | i-4     |
+| How exhibition builders turn static spaces into smart experiences | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)    | How exhibition builders turn static spaces into smart experi  | i-5     |
+| Why it matters                                                    | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-3.png`                | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-3.png  | i-6     |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg`          | Exhibition stand construction: from pretty spaces to high‑im | i-7     |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat) | Exhibition stand construction: from pretty spaces to high‑im | i-8     |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                 | The science behind a brand activation agency playbook         | i-9     |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)        | The science behind a brand activation agency playbook         | i-10    |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`          | International event agency secrets: the psychology of booth   | i-11    |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth   | i-12    |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                            | Have an event in mind?                                        | i-13    |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                   | Have an event in mind?                                        | i-14    |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                          | Got questions? A wild idea?                                  | i-15    |
+| Has Iventions done this?                                          | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                 | Got questions? A wild idea?                                  | i-16    |
+| contact                                                           | `/assets/root/icons/ic_arrow-right.svg`                                       | icon                                                          | i-17    |
+| contact                                                           | `/assets/root/icons/ic_arrow-right.svg` (repeat)                              | icon                                                          | i-18    |
+| contact                                                           | `/assets/root/icons/ic_arrow-right.svg` (repeat)                              | icon                                                          | i-19    |
+| contact                                                           | `/assets/root/icons/ic_arrow-right.svg` (repeat)                              | icon                                                          | i-20    |
+| contact                                                           | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                  | footer-certified                                              | i-21    |
+| contact                                                           | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)         | footer-certified                                              | i-22    |
+| contact                                                           | `/assets/root/cssda-wotm-white.svg`                                           | CSSDA WOTM                                                    | i-23    |
 
 ## Page `/insight/exhibition-stand-construction`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Exhibition stand construction: from pretty spaces to high‑impact experiences | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Exhibition stand construction: from pretty spaces to high‑impact experiences | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` | Exhibition stand construction: from pretty spaces to high‑im | i-4 |
-| Exhibition stand construction: from pretty spaces to high‑impact experiences | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat) | Exhibition stand construction: from pretty spaces to high‑im | i-5 |
-| After the lights | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-6-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-6-scal | i-6 |
-| After the lights | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-render-1-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-render | i-7 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-8 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-9 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | How exhibition builders turn static spaces into smart experi | i-10 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | How exhibition builders turn static spaces into smart experi | i-11 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | International event agency secrets: the psychology of booth  | i-12 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-13 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-14 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-15 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-16 |
-| How we build booths that perform? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-22 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-23 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-24 |
+| Section                                                                       | Current file                                                                    | Alt text                                                      | Edit ID |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                                 | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                        | logo                                                          | i-1     |
+| (top of page)                                                                 | `/assets/root/upload/logo-linkedin.svg`                                       | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| Exhibition stand construction: from pretty spaces to high‑impact experiences | `/assets/root/upload/logo-linkedin.svg` (repeat)                              | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| Exhibition stand construction: from pretty spaces to high‑impact experiences | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg`          | Exhibition stand construction: from pretty spaces to high‑im | i-4     |
+| Exhibition stand construction: from pretty spaces to high‑impact experiences | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat) | Exhibition stand construction: from pretty spaces to high‑im | i-5     |
+| After the lights                                                              | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-6-scaled.jpg`          | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-6-scal  | i-6     |
+| After the lights                                                              | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-render-1-scaled.jpg`   | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-render  | i-7     |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                 | The science behind a brand activation agency playbook         | i-8     |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)        | The science behind a brand activation agency playbook         | i-9     |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`             | How exhibition builders turn static spaces into smart experi  | i-10    |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)    | How exhibition builders turn static spaces into smart experi  | i-11    |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`          | International event agency secrets: the psychology of booth   | i-12    |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth   | i-13    |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                            | Have an event in mind?                                        | i-14    |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                   | Have an event in mind?                                        | i-15    |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                          | Got questions? A wild idea?                                  | i-16    |
+| How we build booths that perform?                                             | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                 | Got questions? A wild idea?                                  | i-17    |
+| contact                                                                       | `/assets/root/icons/ic_arrow-right.svg`                                       | icon                                                          | i-18    |
+| contact                                                                       | `/assets/root/icons/ic_arrow-right.svg` (repeat)                              | icon                                                          | i-19    |
+| contact                                                                       | `/assets/root/icons/ic_arrow-right.svg` (repeat)                              | icon                                                          | i-20    |
+| contact                                                                       | `/assets/root/icons/ic_arrow-right.svg` (repeat)                              | icon                                                          | i-21    |
+| contact                                                                       | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                  | footer-certified                                              | i-22    |
+| contact                                                                       | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)         | footer-certified                                              | i-23    |
+| contact                                                                       | `/assets/root/cssda-wotm-white.svg`                                           | CSSDA WOTM                                                    | i-24    |
 
 ## Page `/insight/full-service-experiential-agency-vs-creative-boutique`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Full-service experiential agency vs creative boutique: What’s the difference? | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Full-service experiential agency vs creative boutique: What’s the difference? | `/assets/cms/wp-content/uploads/2026/05/experiential-agency.webp` | Full-service experiential agency vs creative boutique: What’ | i-4 |
-| Full-service experiential agency vs creative boutique: What’s the difference? | `/assets/cms/wp-content/uploads/2026/05/experiential-agency.webp` (repeat) | Full-service experiential agency vs creative boutique: What’ | i-5 |
-| Scale and international capabilities | `/assets/cms/wp-content/uploads/2026/05/Experiential-Agency-4-scaled.webp` | /assets/cms/wp-content/uploads/2026/05/Experiential-Agency-4 | i-6 |
-| One partner for strategy, design, production and delivery | `/assets/cms/wp-content/uploads/2026/05/Experiential-agendy-2-scaled.webp` | /assets/cms/wp-content/uploads/2026/05/Experiential-agendy-2 | i-7 |
-| One partner for strategy, design, production and delivery | `/assets/cms/wp-content/uploads/2026/05/Experiential-agency-3.webp` | /assets/cms/wp-content/uploads/2026/05/Experiential-agency-3 | i-8 |
-| Matching the agency type to the event | `/assets/cms/wp-content/uploads/2026/05/Experiential-Agency-5-scaled.webp` | /assets/cms/wp-content/uploads/2026/05/Experiential-Agency-5 | i-9 |
-| Ready to bring your vision into the spotlight? | `/assets/root/icons/ic_play.svg` | play | i-10 |
-| Ready to bring your vision into the spotlight? | `/assets/root/icons/ic_pause.svg` | pause | i-11 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-12 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-13 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-14 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-15 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-16 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-17 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-18 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-19 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-20 |
-| Ready to bring your vision into the spotlight? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-21 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-22 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-23 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-24 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-25 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-26 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-27 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-28 |
+| Section                                                                        | Current file                                                                                               | Alt text                                                      | Edit ID |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                                  | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                          | i-1     |
+| (top of page)                                                                  | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| Full-service experiential agency vs creative boutique: What’s the difference? | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| Full-service experiential agency vs creative boutique: What’s the difference? | `/assets/cms/wp-content/uploads/2026/05/experiential-agency.webp`                                        | Full-service experiential agency vs creative boutique: What’ | i-4     |
+| Full-service experiential agency vs creative boutique: What’s the difference? | `/assets/cms/wp-content/uploads/2026/05/experiential-agency.webp` (repeat)                               | Full-service experiential agency vs creative boutique: What’ | i-5     |
+| Scale and international capabilities                                           | `/assets/cms/wp-content/uploads/2026/05/Experiential-Agency-4-scaled.webp`                               | /assets/cms/wp-content/uploads/2026/05/Experiential-Agency-4  | i-6     |
+| One partner for strategy, design, production and delivery                      | `/assets/cms/wp-content/uploads/2026/05/Experiential-agendy-2-scaled.webp`                               | /assets/cms/wp-content/uploads/2026/05/Experiential-agendy-2  | i-7     |
+| One partner for strategy, design, production and delivery                      | `/assets/cms/wp-content/uploads/2026/05/Experiential-agency-3.webp`                                      | /assets/cms/wp-content/uploads/2026/05/Experiential-agency-3  | i-8     |
+| Matching the agency type to the event                                          | `/assets/cms/wp-content/uploads/2026/05/Experiential-Agency-5-scaled.webp`                               | /assets/cms/wp-content/uploads/2026/05/Experiential-Agency-5  | i-9     |
+| Ready to bring your vision into the spotlight?                                 | `/assets/root/icons/ic_play.svg`                                                                         | play                                                          | i-10    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/root/icons/ic_pause.svg`                                                                        | pause                                                         | i-11    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green           | i-12    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green           | i-13    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip  | i-14    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip  | i-15    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook         | i-16    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook         | i-17    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                        | i-18    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                        | i-19    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                  | i-20    |
+| Ready to bring your vision into the spotlight?                                 | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                  | i-21    |
+| contact                                                                        | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                          | i-22    |
+| contact                                                                        | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-23    |
+| contact                                                                        | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-24    |
+| contact                                                                        | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-25    |
+| contact                                                                        | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                              | i-26    |
+| contact                                                                        | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                              | i-27    |
+| contact                                                                        | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                    | i-28    |
 
 ## Page `/insight/hottest-event-tech-trends`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| The hottest event tech trends every event marketing agency needs | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| The hottest event tech trends every event marketing agency needs | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-6.png` | The hottest event tech trends every event marketing agency n | i-4 |
-| The hottest event tech trends every event marketing agency needs | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-6.png` (repeat) | The hottest event tech trends every event marketing agency n | i-5 |
-| 9) Sustainability you can measure | `/assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-14.png` | /assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-14 | i-6 |
-| Ready to turn trends into results? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-7 |
-| Ready to turn trends into results? | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-8 |
-| Ready to turn trends into results? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-9 |
-| Ready to turn trends into results? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-10 |
-| Ready to turn trends into results? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-11 |
-| Ready to turn trends into results? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-12 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-13 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-14 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-15 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-16 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-17 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-18 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-19 |
+| Section                                                          | Current file                                                                                    | Alt text                                                     | Edit ID |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                        | logo                                                         | i-1     |
+| (top of page)                                                    | `/assets/root/upload/logo-linkedin.svg`                                                       | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| The hottest event tech trends every event marketing agency needs | `/assets/root/upload/logo-linkedin.svg` (repeat)                                              | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| The hottest event tech trends every event marketing agency needs | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-6.png`                             | The hottest event tech trends every event marketing agency n | i-4     |
+| The hottest event tech trends every event marketing agency needs | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-6.png` (repeat)                    | The hottest event tech trends every event marketing agency n | i-5     |
+| 9) Sustainability you can measure                                | `/assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-14.png`                            | /assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-14 | i-6     |
+| Ready to turn trends into results?                               | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`          | Event marketing agency insights: event apps attract particip | i-7     |
+| Ready to turn trends into results?                               | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-8     |
+| Ready to turn trends into results?                               | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                            | Have an event in mind?                                       | i-9     |
+| Ready to turn trends into results?                               | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                   | Have an event in mind?                                       | i-10    |
+| Ready to turn trends into results?                               | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                          | Got questions? A wild idea?                                 | i-11    |
+| Ready to turn trends into results?                               | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                 | Got questions? A wild idea?                                 | i-12    |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg`                                                       | icon                                                         | i-13    |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                              | icon                                                         | i-14    |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                              | icon                                                         | i-15    |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                              | icon                                                         | i-16    |
+| contact                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                  | footer-certified                                             | i-17    |
+| contact                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                         | footer-certified                                             | i-18    |
+| contact                                                          | `/assets/root/cssda-wotm-white.svg`                                                           | CSSDA WOTM                                                   | i-19    |
 
 ## Page `/insight/how-do-you-repeat-world-class-sports-events-across-cities`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| How do you repeat world-class sports events across cities? Lessons from women’s  | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| How do you repeat world-class sports events across cities? Lessons from women’s  | `/assets/cms/wp-content/uploads/2026/03/GP12879.jpg.webp` | How do you repeat world-class sports events across cities? L | i-4 |
-| How do you repeat world-class sports events across cities? Lessons from women’s  | `/assets/cms/wp-content/uploads/2026/03/GP12879.jpg.webp` (repeat) | How do you repeat world-class sports events across cities? L | i-5 |
-| 1. Designing the experience before the destination | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-6 |
-| 4. Consistency proven across editions | `/assets/cms/wp-content/uploads/2026/03/UEFA-UCLF-2023-15-scaled.jpg` | /assets/cms/wp-content/uploads/2026/03/UEFA-UCLF-2023-15-sca | i-7 |
-| Ready to elevate your competition? | `/assets/cms/wp-content/uploads/2026/03/BERTHOLD_CL_FINALE_190512_02_INTERNET.jpg` | /assets/cms/wp-content/uploads/2026/03/BERTHOLD_CL_FINALE_19 | i-8 |
-| Ready to elevate your competition? | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | How exhibition builders turn static spaces into smart experi | i-9 |
-| Ready to elevate your competition? | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | How exhibition builders turn static spaces into smart experi | i-10 |
-| Ready to elevate your competition? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-11 |
-| Ready to elevate your competition? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-12 |
-| Ready to elevate your competition? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-13 |
-| Ready to elevate your competition? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-14 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-15 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-16 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-18 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-19 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-20 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-21 |
+| Section                                                                          | Current file                                                                         | Alt text                                                     | Edit ID |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------ | ------- |
+| (top of page)                                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                             | logo                                                         | i-1     |
+| (top of page)                                                                    | `/assets/root/upload/logo-linkedin.svg`                                            | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| How do you repeat world-class sports events across cities? Lessons from women’s | `/assets/root/upload/logo-linkedin.svg` (repeat)                                   | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| How do you repeat world-class sports events across cities? Lessons from women’s | `/assets/cms/wp-content/uploads/2026/03/GP12879.jpg.webp`                          | How do you repeat world-class sports events across cities? L | i-4     |
+| How do you repeat world-class sports events across cities? Lessons from women’s | `/assets/cms/wp-content/uploads/2026/03/GP12879.jpg.webp` (repeat)                 | How do you repeat world-class sports events across cities? L | i-5     |
+| 1. Designing the experience before the destination                               | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021.png`             | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-6     |
+| 4. Consistency proven across editions                                            | `/assets/cms/wp-content/uploads/2026/03/UEFA-UCLF-2023-15-scaled.jpg`              | /assets/cms/wp-content/uploads/2026/03/UEFA-UCLF-2023-15-sca | i-7     |
+| Ready to elevate your competition?                                               | `/assets/cms/wp-content/uploads/2026/03/BERTHOLD_CL_FINALE_190512_02_INTERNET.jpg` | /assets/cms/wp-content/uploads/2026/03/BERTHOLD_CL_FINALE_19 | i-8     |
+| Ready to elevate your competition?                                               | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                  | How exhibition builders turn static spaces into smart experi | i-9     |
+| Ready to elevate your competition?                                               | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)         | How exhibition builders turn static spaces into smart experi | i-10    |
+| Ready to elevate your competition?                                               | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                 | Have an event in mind?                                       | i-11    |
+| Ready to elevate your competition?                                               | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                        | Have an event in mind?                                       | i-12    |
+| Ready to elevate your competition?                                               | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                               | Got questions? A wild idea?                                 | i-13    |
+| Ready to elevate your competition?                                               | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                      | Got questions? A wild idea?                                 | i-14    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg`                                            | icon                                                         | i-15    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                                                         | i-16    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                                                         | i-17    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                                                         | i-18    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                       | footer-certified                                             | i-19    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)              | footer-certified                                             | i-20    |
+| contact                                                                          | `/assets/root/cssda-wotm-white.svg`                                                | CSSDA WOTM                                                   | i-21    |
 
 ## Page `/insight/ibc-trade-show`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| IBC trade show: why the most remembered brands are built long before the exhibit | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| IBC trade show: why the most remembered brands are built long before the exhibit | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | IBC trade show: why the most remembered brands are built lon | i-4 |
-| IBC trade show: why the most remembered brands are built long before the exhibit | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat) | IBC trade show: why the most remembered brands are built lon | i-5 |
-| How IBC Amsterdam connects broadcasters, streaming platforms and tech innovators | `/assets/root/icons/ic_play.svg` | play | i-6 |
-| How IBC Amsterdam connects broadcasters, streaming platforms and tech innovators | `/assets/root/icons/ic_pause.svg` | pause | i-7 |
-| How experiential environments create stronger visitor recall? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-8 |
-| How experiential environments create stronger visitor recall? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scal | i-9 |
-| The production and logistics challenges behind international exhibitions | `/assets/cms/wp-content/uploads/2025/09/14A1188-scaled.jpg` | /assets/cms/wp-content/uploads/2025/09/14A1188-scaled.jpg | i-10 |
-| The risks of last-minute exhibition planning | `/assets/root/icons/ic_play.svg` (repeat) | play | i-11 |
-| The risks of last-minute exhibition planning | `/assets/root/icons/ic_pause.svg` (repeat) | pause | i-12 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/root/icons/ic_play.svg` (repeat) | play | i-13 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/root/icons/ic_pause.svg` (repeat) | pause | i-14 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg` | CPHI trade show: what experienced exhibitors understand that | i-15 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg` (repeat) | CPHI trade show: what experienced exhibitors understand that | i-16 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` | IFA trade show: how brands stand out at Europe’s leading tec | i-17 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` (repeat) | IFA trade show: how brands stand out at Europe’s leading tec | i-18 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-19 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-20 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-21 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-22 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-23 |
-| Ready to build your presence at IBC trade show 2026? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-24 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-25 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-26 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-27 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-28 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-29 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-30 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-31 |
+| Section                                                                          | Current file                                                                     | Alt text                                                      | Edit ID |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                         | logo                                                          | i-1     |
+| (top of page)                                                                    | `/assets/root/upload/logo-linkedin.svg`                                        | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| IBC trade show: why the most remembered brands are built long before the exhibit | `/assets/root/upload/logo-linkedin.svg` (repeat)                               | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| IBC trade show: why the most remembered brands are built long before the exhibit | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`           | IBC trade show: why the most remembered brands are built lon  | i-4     |
+| IBC trade show: why the most remembered brands are built long before the exhibit | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat)  | IBC trade show: why the most remembered brands are built lon  | i-5     |
+| How IBC Amsterdam connects broadcasters, streaming platforms and tech innovators | `/assets/root/icons/ic_play.svg`                                               | play                                                          | i-6     |
+| How IBC Amsterdam connects broadcasters, streaming platforms and tech innovators | `/assets/root/icons/ic_pause.svg`                                              | pause                                                         | i-7     |
+| How experiential environments create stronger visitor recall?                    | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                  | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png   | i-8     |
+| How experiential environments create stronger visitor recall?                    | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`           | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scal  | i-9     |
+| The production and logistics challenges behind international exhibitions         | `/assets/cms/wp-content/uploads/2025/09/14A1188-scaled.jpg`                    | /assets/cms/wp-content/uploads/2025/09/14A1188-scaled.jpg     | i-10    |
+| The risks of last-minute exhibition planning                                     | `/assets/root/icons/ic_play.svg` (repeat)                                      | play                                                          | i-11    |
+| The risks of last-minute exhibition planning                                     | `/assets/root/icons/ic_pause.svg` (repeat)                                     | pause                                                         | i-12    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/root/icons/ic_play.svg` (repeat)                                      | play                                                          | i-13    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/root/icons/ic_pause.svg` (repeat)                                     | pause                                                         | i-14    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg`            | CPHI trade show: what experienced exhibitors understand that  | i-15    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg` (repeat)   | CPHI trade show: what experienced exhibitors understand that  | i-16    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg`          | IFA trade show: how brands stand out at Europe’s leading tec | i-17    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` (repeat) | IFA trade show: how brands stand out at Europe’s leading tec | i-18    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)  | International event agency secrets: the psychology of booth   | i-19    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)  | International event agency secrets: the psychology of booth   | i-20    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                             | Have an event in mind?                                        | i-21    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                    | Have an event in mind?                                        | i-22    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                           | Got questions? A wild idea?                                  | i-23    |
+| Ready to build your presence at IBC trade show 2026?                             | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                  | Got questions? A wild idea?                                  | i-24    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg`                                        | icon                                                          | i-25    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-26    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-27    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-28    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                   | footer-certified                                              | i-29    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)          | footer-certified                                              | i-30    |
+| contact                                                                          | `/assets/root/cssda-wotm-white.svg`                                            | CSSDA WOTM                                                    | i-31    |
 
 ## Page `/insight/ifa-trade-show`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| IFA trade show: how brands stand out at Europe’s leading technology exhibition | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| IFA trade show: how brands stand out at Europe’s leading technology exhibition | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` | IFA trade show: how brands stand out at Europe’s leading tec | i-4 |
-| IFA trade show: how brands stand out at Europe’s leading technology exhibition | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` (repeat) | IFA trade show: how brands stand out at Europe’s leading tec | i-5 |
-| Why Berlin continues to attract leading technology brands and retailers? | `/assets/cms/wp-content/uploads/2026/05/Experiential-agendy-2-scaled.webp` | /assets/cms/wp-content/uploads/2026/05/Experiential-agendy-2 | i-6 |
-| Business connections beyond the exhibition floor | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Ribbon-scaled.jpg` | /assets/cms/wp-content/uploads/2026/05/IBC-2026-Ribbon-scale | i-7 |
-| Business connections beyond the exhibition floor | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scal | i-8 |
-| The operational complexity behind large-scale technology exhibitions | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-9-.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-9-.png | i-9 |
-| Common challenges brands face before IFA | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-6.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-6. | i-10 |
-| Planning your presence at IFA trade Show 2026? | `/assets/root/icons/ic_play.svg` | play | i-11 |
-| Planning your presence at IFA trade Show 2026? | `/assets/root/icons/ic_pause.svg` | pause | i-12 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` | Exhibition stand construction: from pretty spaces to high‑im | i-13 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat) | Exhibition stand construction: from pretty spaces to high‑im | i-14 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-15 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-16 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-17 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-18 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-19 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-20 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-21 |
-| Planning your presence at IFA trade Show 2026? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-22 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-23 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-24 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-25 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-26 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-27 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-28 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-29 |
+| Section                                                                         | Current file                                                                     | Alt text                                                      | Edit ID |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                                   | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                         | logo                                                          | i-1     |
+| (top of page)                                                                   | `/assets/root/upload/logo-linkedin.svg`                                        | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| IFA trade show: how brands stand out at Europe’s leading technology exhibition | `/assets/root/upload/logo-linkedin.svg` (repeat)                               | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| IFA trade show: how brands stand out at Europe’s leading technology exhibition | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg`          | IFA trade show: how brands stand out at Europe’s leading tec | i-4     |
+| IFA trade show: how brands stand out at Europe’s leading technology exhibition | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` (repeat) | IFA trade show: how brands stand out at Europe’s leading tec | i-5     |
+| Why Berlin continues to attract leading technology brands and retailers?        | `/assets/cms/wp-content/uploads/2026/05/Experiential-agendy-2-scaled.webp`     | /assets/cms/wp-content/uploads/2026/05/Experiential-agendy-2  | i-6     |
+| Business connections beyond the exhibition floor                                | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Ribbon-scaled.jpg`            | /assets/cms/wp-content/uploads/2026/05/IBC-2026-Ribbon-scale  | i-7     |
+| Business connections beyond the exhibition floor                                | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`           | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scal  | i-8     |
+| The operational complexity behind large-scale technology exhibitions            | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-9-.png`                 | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-9-.png  | i-9     |
+| Common challenges brands face before IFA                                        | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-6.png`              | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-6.  | i-10    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/root/icons/ic_play.svg`                                               | play                                                          | i-11    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/root/icons/ic_pause.svg`                                              | pause                                                         | i-12    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg`           | Exhibition stand construction: from pretty spaces to high‑im | i-13    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat)  | Exhibition stand construction: from pretty spaces to high‑im | i-14    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                  | The science behind a brand activation agency playbook         | i-15    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)         | The science behind a brand activation agency playbook         | i-16    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)  | International event agency secrets: the psychology of booth   | i-17    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)  | International event agency secrets: the psychology of booth   | i-18    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                             | Have an event in mind?                                        | i-19    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                    | Have an event in mind?                                        | i-20    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                           | Got questions? A wild idea?                                  | i-21    |
+| Planning your presence at IFA trade Show 2026?                                  | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                  | Got questions? A wild idea?                                  | i-22    |
+| contact                                                                         | `/assets/root/icons/ic_arrow-right.svg`                                        | icon                                                          | i-23    |
+| contact                                                                         | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-24    |
+| contact                                                                         | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-25    |
+| contact                                                                         | `/assets/root/icons/ic_arrow-right.svg` (repeat)                               | icon                                                          | i-26    |
+| contact                                                                         | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                   | footer-certified                                              | i-27    |
+| contact                                                                         | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)          | footer-certified                                              | i-28    |
+| contact                                                                         | `/assets/root/cssda-wotm-white.svg`                                            | CSSDA WOTM                                                    | i-29    |
 
 ## Page `/insight/international-event-agency-secrets`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| International event agency secrets: the psychology of booth design | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| International event agency secrets: the psychology of booth design | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | International event agency secrets: the psychology of booth  | i-4 |
-| International event agency secrets: the psychology of booth design | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-5 |
-| 4) Design multi-sensory moments (that stick) | `/assets/cms/wp-content/uploads/2025/07/van-gogh-alive-london-kensington-gardens-1024x576-1.jpg` | /assets/cms/wp-content/uploads/2025/07/van-gogh-alive-london | i-6 |
-| 10) Work with exhibition builders who design for behaviour | `/assets/root/icons/ic_play.svg` | play | i-7 |
-| 10) Work with exhibition builders who design for behaviour | `/assets/root/icons/ic_pause.svg` | pause | i-8 |
-| 10) Work with exhibition builders who design for behaviour | `/assets/cms/wp-content/uploads/2025/07/E7A1027-1-scaled.jpg` | /assets/cms/wp-content/uploads/2025/07/E7A1027-1-scaled.jpg | i-9 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` | Exhibition stand construction: from pretty spaces to high‑im | i-10 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat) | Exhibition stand construction: from pretty spaces to high‑im | i-11 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-12 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-13 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | How exhibition builders turn static spaces into smart experi | i-14 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | How exhibition builders turn static spaces into smart experi | i-15 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-16 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-17 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-18 |
-| Quick checklist | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-22 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-23 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-24 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-25 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-26 |
+| Section                                                            | Current file                                                                                       | Alt text                                                      | Edit ID |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                      | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                           | logo                                                          | i-1     |
+| (top of page)                                                      | `/assets/root/upload/logo-linkedin.svg`                                                          | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| International event agency secrets: the psychology of booth design | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                 | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| International event agency secrets: the psychology of booth design | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`                             | International event agency secrets: the psychology of booth   | i-4     |
+| International event agency secrets: the psychology of booth design | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)                    | International event agency secrets: the psychology of booth   | i-5     |
+| 4) Design multi-sensory moments (that stick)                       | `/assets/cms/wp-content/uploads/2025/07/van-gogh-alive-london-kensington-gardens-1024x576-1.jpg` | /assets/cms/wp-content/uploads/2025/07/van-gogh-alive-london  | i-6     |
+| 10) Work with exhibition builders who design for behaviour         | `/assets/root/icons/ic_play.svg`                                                                 | play                                                          | i-7     |
+| 10) Work with exhibition builders who design for behaviour         | `/assets/root/icons/ic_pause.svg`                                                                | pause                                                         | i-8     |
+| 10) Work with exhibition builders who design for behaviour         | `/assets/cms/wp-content/uploads/2025/07/E7A1027-1-scaled.jpg`                                    | /assets/cms/wp-content/uploads/2025/07/E7A1027-1-scaled.jpg   | i-9     |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg`                             | Exhibition stand construction: from pretty spaces to high‑im | i-10    |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat)                    | Exhibition stand construction: from pretty spaces to high‑im | i-11    |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                    | The science behind a brand activation agency playbook         | i-12    |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                           | The science behind a brand activation agency playbook         | i-13    |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                                | How exhibition builders turn static spaces into smart experi  | i-14    |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)                       | How exhibition builders turn static spaces into smart experi  | i-15    |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                               | Have an event in mind?                                        | i-16    |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                      | Have an event in mind?                                        | i-17    |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                             | Got questions? A wild idea?                                  | i-18    |
+| Quick checklist                                                    | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                    | Got questions? A wild idea?                                  | i-19    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg`                                                          | icon                                                          | i-20    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                 | icon                                                          | i-21    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                 | icon                                                          | i-22    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                 | icon                                                          | i-23    |
+| contact                                                            | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                     | footer-certified                                              | i-24    |
+| contact                                                            | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                            | footer-certified                                              | i-25    |
+| contact                                                            | `/assets/root/cssda-wotm-white.svg`                                                              | CSSDA WOTM                                                    | i-26    |
 
 ## Page `/insight/iventions-awarded-with-website-of-the-month`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Iventions awarded with “Website of the Month” | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Iventions awarded with “Website of the Month” | `/assets/cms/wp-content/uploads/2025/11/Iventions-Website-scaled.png` | Iventions awarded with “Website of the Month” | i-4 |
-| Iventions awarded with “Website of the Month” | `/assets/cms/wp-content/uploads/2025/11/Iventions-Website-scaled.png` (repeat) | Iventions awarded with “Website of the Month” | i-5 |
-| Who made the magic and who crowned it | `/assets/cms/wp-content/uploads/2025/11/Certificate.png` | /assets/cms/wp-content/uploads/2025/11/Certificate.png | i-6 |
-| Watch the behind the scenes podcast | `/assets/cms/wp-content/uploads/2025/11/BTS-Bolders.png` | /assets/cms/wp-content/uploads/2025/11/BTS-Bolders.png | i-7 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` | Iventions recognised as a great place to work | i-8 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` (repeat) | Iventions recognised as a great place to work | i-9 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` | Why we brainstorm first at our event marketing agency | i-10 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat) | Why we brainstorm first at our event marketing agency | i-11 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` | Iventions, but Bolder | i-12 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat) | Iventions, but Bolder | i-13 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-14 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-15 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-16 |
-| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-22 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-23 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-24 |
+| Section                                                     | Current file                                                                                        | Alt text                                               | Edit ID |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ------- |
+| (top of page)                                               | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                            | logo                                                   | i-1     |
+| (top of page)                                               | `/assets/root/upload/logo-linkedin.svg`                                                           | /assets/root/upload/logo-linkedin.svg                  | i-2     |
+| Iventions awarded with “Website of the Month”             | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                  | /assets/root/upload/logo-linkedin.svg                  | i-3     |
+| Iventions awarded with “Website of the Month”             | `/assets/cms/wp-content/uploads/2025/11/Iventions-Website-scaled.png`                             | Iventions awarded with “Website of the Month”        | i-4     |
+| Iventions awarded with “Website of the Month”             | `/assets/cms/wp-content/uploads/2025/11/Iventions-Website-scaled.png` (repeat)                    | Iventions awarded with “Website of the Month”        | i-5     |
+| Who made the magic and who crowned it                       | `/assets/cms/wp-content/uploads/2025/11/Certificate.png`                                          | /assets/cms/wp-content/uploads/2025/11/Certificate.png | i-6     |
+| Watch the behind the scenes podcast                         | `/assets/cms/wp-content/uploads/2025/11/BTS-Bolders.png`                                          | /assets/cms/wp-content/uploads/2025/11/BTS-Bolders.png | i-7     |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg`          | Iventions recognised as a great place to work          | i-8     |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` (repeat) | Iventions recognised as a great place to work          | i-9     |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg`                        | Why we brainstorm first at our event marketing agency  | i-10    |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat)               | Why we brainstorm first at our event marketing agency  | i-11    |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png`                    | Iventions, but Bolder                                  | i-12    |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat)           | Iventions, but Bolder                                  | i-13    |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                | Have an event in mind?                                 | i-14    |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                       | Have an event in mind?                                 | i-15    |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                              | Got questions? A wild idea?                           | i-16    |
+| Want to work with an award winning event management agency? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                     | Got questions? A wild idea?                           | i-17    |
+| contact                                                     | `/assets/root/icons/ic_arrow-right.svg`                                                           | icon                                                   | i-18    |
+| contact                                                     | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                  | icon                                                   | i-19    |
+| contact                                                     | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                  | icon                                                   | i-20    |
+| contact                                                     | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                  | icon                                                   | i-21    |
+| contact                                                     | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                      | footer-certified                                       | i-22    |
+| contact                                                     | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                             | footer-certified                                       | i-23    |
+| contact                                                     | `/assets/root/cssda-wotm-white.svg`                                                               | CSSDA WOTM                                             | i-24    |
 
 ## Page `/insight/iventions-but-bolder`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Iventions, but Bolder | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Iventions, but Bolder | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` | Iventions, but Bolder | i-4 |
-| Iventions, but Bolder | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat) | Iventions, but Bolder | i-5 |
-| Why the rebrand and why now? | `/assets/root/icons/ic_play.svg` | play | i-6 |
-| Why the rebrand and why now? | `/assets/root/icons/ic_pause.svg` | pause | i-7 |
-| The outcome that matters | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.29.00.png` | /assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27 | i-8 |
-| The outcome that matters | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-9 |
-| The outcome that matters | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-10 |
-| The outcome that matters | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-11 |
-| The outcome that matters | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-12 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-13 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-14 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-15 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-16 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-17 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-18 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-19 |
+| Section                      | Current file                                                                              | Alt text                                                     | Edit ID |
+| ---------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                  | logo                                                         | i-1     |
+| (top of page)                | `/assets/root/upload/logo-linkedin.svg`                                                 | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| Iventions, but Bolder        | `/assets/root/upload/logo-linkedin.svg` (repeat)                                        | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| Iventions, but Bolder        | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png`          | Iventions, but Bolder                                        | i-4     |
+| Iventions, but Bolder        | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat) | Iventions, but Bolder                                        | i-5     |
+| Why the rebrand and why now? | `/assets/root/icons/ic_play.svg`                                                        | play                                                         | i-6     |
+| Why the rebrand and why now? | `/assets/root/icons/ic_pause.svg`                                                       | pause                                                        | i-7     |
+| The outcome that matters     | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.29.00.png`          | /assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27 | i-8     |
+| The outcome that matters     | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                      | Have an event in mind?                                       | i-9     |
+| The outcome that matters     | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                             | Have an event in mind?                                       | i-10    |
+| The outcome that matters     | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                    | Got questions? A wild idea?                                 | i-11    |
+| The outcome that matters     | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                           | Got questions? A wild idea?                                 | i-12    |
+| contact                      | `/assets/root/icons/ic_arrow-right.svg`                                                 | icon                                                         | i-13    |
+| contact                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                        | icon                                                         | i-14    |
+| contact                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                        | icon                                                         | i-15    |
+| contact                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                        | icon                                                         | i-16    |
+| contact                      | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                            | footer-certified                                             | i-17    |
+| contact                      | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                   | footer-certified                                             | i-18    |
+| contact                      | `/assets/root/cssda-wotm-white.svg`                                                     | CSSDA WOTM                                                   | i-19    |
 
 ## Page `/insight/iventions-london-hub`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Iventions London hub: bringing precision, proximity and expertise to global bran | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Iventions London hub: bringing precision, proximity and expertise to global bran | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-3.jpg` | Iventions London hub: bringing precision, proximity and expe | i-4 |
-| Iventions London hub: bringing precision, proximity and expertise to global bran | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-3.jpg` (repeat) | Iventions London hub: bringing precision, proximity and expe | i-5 |
-| Q: What led Iventions to establish a hub in London at this moment? | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-1.jpg` | /assets/cms/wp-content/uploads/2026/03/London-is-calling-1.j | i-6 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2026/03/London-bridge-V.jpg` | /assets/cms/wp-content/uploads/2026/03/London-bridge-V.jpg | i-7 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` | Iventions recognised as a great place to work | i-8 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` (repeat) | Iventions recognised as a great place to work | i-9 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` | Why we brainstorm first at our event marketing agency | i-10 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat) | Why we brainstorm first at our event marketing agency | i-11 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` | Iventions, but Bolder | i-12 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat) | Iventions, but Bolder | i-13 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-14 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-15 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-16 |
-| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-22 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-23 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-24 |
+| Section                                                                          | Current file                                                                                        | Alt text                                                     | Edit ID |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                            | logo                                                         | i-1     |
+| (top of page)                                                                    | `/assets/root/upload/logo-linkedin.svg`                                                           | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| Iventions London hub: bringing precision, proximity and expertise to global bran | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                  | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| Iventions London hub: bringing precision, proximity and expertise to global bran | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-3.jpg`                                  | Iventions London hub: bringing precision, proximity and expe | i-4     |
+| Iventions London hub: bringing precision, proximity and expertise to global bran | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-3.jpg` (repeat)                         | Iventions London hub: bringing precision, proximity and expe | i-5     |
+| Q: What led Iventions to establish a hub in London at this moment?               | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-1.jpg`                                  | /assets/cms/wp-content/uploads/2026/03/London-is-calling-1.j | i-6     |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2026/03/London-bridge-V.jpg`                                      | /assets/cms/wp-content/uploads/2026/03/London-bridge-V.jpg   | i-7     |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg`          | Iventions recognised as a great place to work                | i-8     |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` (repeat) | Iventions recognised as a great place to work                | i-9     |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg`                        | Why we brainstorm first at our event marketing agency        | i-10    |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat)               | Why we brainstorm first at our event marketing agency        | i-11    |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png`                    | Iventions, but Bolder                                        | i-12    |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat)           | Iventions, but Bolder                                        | i-13    |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                | Have an event in mind?                                       | i-14    |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                       | Have an event in mind?                                       | i-15    |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                              | Got questions? A wild idea?                                 | i-16    |
+| Q: Looking ahead, what is your top priority for the London hub in this new phase | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                     | Got questions? A wild idea?                                 | i-17    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg`                                                           | icon                                                         | i-18    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                  | icon                                                         | i-19    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                  | icon                                                         | i-20    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                  | icon                                                         | i-21    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                      | footer-certified                                             | i-22    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                             | footer-certified                                             | i-23    |
+| contact                                                                          | `/assets/root/cssda-wotm-white.svg`                                                               | CSSDA WOTM                                                   | i-24    |
 
 ## Page `/insight/iventions-recognised-as-a-great-place-to-work`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Iventions recognised as a great place to work | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Iventions recognised as a great place to work | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` | Iventions recognised as a great place to work | i-4 |
-| Iventions recognised as a great place to work | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` (repeat) | Iventions recognised as a great place to work | i-5 |
-| What this means for our clients | `/assets/cms/wp-content/uploads/2025/09/Great-Place-to-Work_0170-scaled.jpg` | /assets/cms/wp-content/uploads/2025/09/Great-Place-to-Work_0 | i-6 |
-| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` | Why we brainstorm first at our event marketing agency | i-7 |
-| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat) | Why we brainstorm first at our event marketing agency | i-8 |
-| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` | Iventions, but Bolder | i-9 |
-| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat) | Iventions, but Bolder | i-10 |
-| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-11 |
-| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-12 |
-| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-13 |
-| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-14 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-15 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-16 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-18 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-19 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-20 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-21 |
+| Section                                                                          | Current file                                                                                        | Alt text                                                     | Edit ID |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                            | logo                                                         | i-1     |
+| (top of page)                                                                    | `/assets/root/upload/logo-linkedin.svg`                                                           | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| Iventions recognised as a great place to work                                    | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                  | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| Iventions recognised as a great place to work                                    | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg`          | Iventions recognised as a great place to work                | i-4     |
+| Iventions recognised as a great place to work                                    | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` (repeat) | Iventions recognised as a great place to work                | i-5     |
+| What this means for our clients                                                  | `/assets/cms/wp-content/uploads/2025/09/Great-Place-to-Work_0170-scaled.jpg`                      | /assets/cms/wp-content/uploads/2025/09/Great-Place-to-Work_0 | i-6     |
+| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg`                        | Why we brainstorm first at our event marketing agency        | i-7     |
+| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat)               | Why we brainstorm first at our event marketing agency        | i-8     |
+| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png`                    | Iventions, but Bolder                                        | i-9     |
+| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat)           | Iventions, but Bolder                                        | i-10    |
+| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                | Have an event in mind?                                       | i-11    |
+| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                       | Have an event in mind?                                       | i-12    |
+| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                              | Got questions? A wild idea?                                 | i-13    |
+| Want to work with a team that makes flawless look effortless, or work at a place | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                     | Got questions? A wild idea?                                 | i-14    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg`                                                           | icon                                                         | i-15    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                  | icon                                                         | i-16    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                  | icon                                                         | i-17    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                  | icon                                                         | i-18    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                      | footer-certified                                             | i-19    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                             | footer-certified                                             | i-20    |
+| contact                                                                          | `/assets/root/cssda-wotm-white.svg`                                                               | CSSDA WOTM                                                   | i-21    |
 
 ## Page `/insight/marketing-and-events`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| How marketing and events work together to drive brand growth | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| How marketing and events work together to drive brand growth | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-9-scaled.jpg` | How marketing and events work together to drive brand growth | i-4 |
-| How marketing and events work together to drive brand growth | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-9-scaled.jpg` (repeat) | How marketing and events work together to drive brand growth | i-5 |
-| Creating meaningful brand experiences&nbsp; | `/assets/cms/wp-content/uploads/2026/04/Event-photography.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-photography.jpg | i-6 |
-| Extending the conversation beyond the event | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-7 |
-| Extending the conversation beyond the event | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-5.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-5. | i-8 |
-| Measuring success beyond attendance&nbsp; | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Hackathon-2022-7-scal | i-9 |
-| Integrating data, content and follow-up | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-6.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-6.png | i-10 |
-| Production, delivery and long-term impact | `/assets/root/icons/ic_play.svg` | play | i-11 |
-| Production, delivery and long-term impact | `/assets/root/icons/ic_pause.svg` | pause | i-12 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-13 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-14 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-15 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-16 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-17 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-18 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-19 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-20 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-21 |
-| Production, delivery and long-term impact | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-22 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-23 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-24 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-25 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-26 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-27 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-28 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-29 |
+| Section                                                      | Current file                                                                                               | Alt text                                                     | Edit ID |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                                | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| How marketing and events work together to drive brand growth | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| How marketing and events work together to drive brand growth | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-9-scaled.jpg`                   | How marketing and events work together to drive brand growth | i-4     |
+| How marketing and events work together to drive brand growth | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-9-scaled.jpg` (repeat)          | How marketing and events work together to drive brand growth | i-5     |
+| Creating meaningful brand experiences&nbsp;                  | `/assets/cms/wp-content/uploads/2026/04/Event-photography.jpg`                                           | /assets/cms/wp-content/uploads/2026/04/Event-photography.jpg | i-6     |
+| Extending the conversation beyond the event                  | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                                           | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-7     |
+| Extending the conversation beyond the event                  | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-5.png`                                        | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-5. | i-8     |
+| Measuring success beyond attendance&nbsp;                    | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-7-scaled.jpg`                                     | /assets/cms/wp-content/uploads/2025/08/Hackathon-2022-7-scal | i-9     |
+| Integrating data, content and follow-up                      | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-6.png`                                           | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-6.png | i-10    |
+| Production, delivery and long-term impact                    | `/assets/root/icons/ic_play.svg`                                                                         | play                                                         | i-11    |
+| Production, delivery and long-term impact                    | `/assets/root/icons/ic_pause.svg`                                                                        | pause                                                        | i-12    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-13    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-14    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-15    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-16    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-17    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-18    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-19    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-20    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-21    |
+| Production, delivery and long-term impact                    | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-22    |
+| contact                                                      | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-23    |
+| contact                                                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-24    |
+| contact                                                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-25    |
+| contact                                                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-26    |
+| contact                                                      | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-27    |
+| contact                                                      | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-28    |
+| contact                                                      | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-29    |
 
 ## Page `/insight/mwc-2026-how-to-guide`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| MWC 2026: how to align your brand’s physical presence with digital advancements | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| MWC 2026: how to align your brand’s physical presence with digital advancements | `/assets/cms/wp-content/uploads/2026/02/Iventions_MWC2025_0059-scaled.jpg` | MWC 2026: how to align your brand’s physical presence with d | i-4 |
-| MWC 2026: how to align your brand’s physical presence with digital advancements | `/assets/cms/wp-content/uploads/2026/02/Iventions_MWC2025_0059-scaled.jpg` (repeat) | MWC 2026: how to align your brand’s physical presence with d | i-5 |
-| 1. Design your stand as an intelligent ecosystem&nbsp; | `/assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-10.png` | /assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-10 | i-6 |
-| 4. Make sustainability part of your intelligence narrative&nbsp; | `/assets/cms/wp-content/uploads/2026/02/origen-historia-mwc.jpg.webp` | /assets/cms/wp-content/uploads/2026/02/origen-historia-mwc.j | i-7 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2026/02/MWC24-scaled-1.jpg` | /assets/cms/wp-content/uploads/2026/02/MWC24-scaled-1.jpg | i-8 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` | Exhibition stand construction: from pretty spaces to high‑im | i-9 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat) | Exhibition stand construction: from pretty spaces to high‑im | i-10 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-11 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-12 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | International event agency secrets: the psychology of booth  | i-13 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-14 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-15 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-16 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-17 |
-| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-21 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-22 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-23 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-24 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-25 |
+| Section                                                                          | Current file                                                                          | Alt text                                                      | Edit ID |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                              | logo                                                          | i-1     |
+| (top of page)                                                                    | `/assets/root/upload/logo-linkedin.svg`                                             | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| MWC 2026: how to align your brand’s physical presence with digital advancements | `/assets/root/upload/logo-linkedin.svg` (repeat)                                    | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| MWC 2026: how to align your brand’s physical presence with digital advancements | `/assets/cms/wp-content/uploads/2026/02/Iventions_MWC2025_0059-scaled.jpg`          | MWC 2026: how to align your brand’s physical presence with d | i-4     |
+| MWC 2026: how to align your brand’s physical presence with digital advancements | `/assets/cms/wp-content/uploads/2026/02/Iventions_MWC2025_0059-scaled.jpg` (repeat) | MWC 2026: how to align your brand’s physical presence with d | i-5     |
+| 1. Design your stand as an intelligent ecosystem&nbsp;                           | `/assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-10.png`                  | /assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-10  | i-6     |
+| 4. Make sustainability part of your intelligence narrative&nbsp;                 | `/assets/cms/wp-content/uploads/2026/02/origen-historia-mwc.jpg.webp`               | /assets/cms/wp-content/uploads/2026/02/origen-historia-mwc.j  | i-7     |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2026/02/MWC24-scaled-1.jpg`                         | /assets/cms/wp-content/uploads/2026/02/MWC24-scaled-1.jpg     | i-8     |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg`                | Exhibition stand construction: from pretty spaces to high‑im | i-9     |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat)       | Exhibition stand construction: from pretty spaces to high‑im | i-10    |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                       | The science behind a brand activation agency playbook         | i-11    |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)              | The science behind a brand activation agency playbook         | i-12    |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`                | International event agency secrets: the psychology of booth   | i-13    |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)       | International event agency secrets: the psychology of booth   | i-14    |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                  | Have an event in mind?                                        | i-15    |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                         | Have an event in mind?                                        | i-16    |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                | Got questions? A wild idea?                                  | i-17    |
+| MWC 2026 is not just a technology showcase. It is a stage for intelligence in ac | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                       | Got questions? A wild idea?                                  | i-18    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg`                                             | icon                                                          | i-19    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-20    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-21    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-22    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                        | footer-certified                                              | i-23    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)               | footer-certified                                              | i-24    |
+| contact                                                                          | `/assets/root/cssda-wotm-white.svg`                                                 | CSSDA WOTM                                                    | i-25    |
 
 ## Page `/insight/starting-every-big-project-with-a-whole-team-brainstorm`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Why we brainstorm first at our event marketing agency | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Why we brainstorm first at our event marketing agency | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` | Why we brainstorm first at our event marketing agency | i-4 |
-| Why we brainstorm first at our event marketing agency | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat) | Why we brainstorm first at our event marketing agency | i-5 |
-| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` | Iventions, but Bolder | i-6 |
-| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat) | Iventions, but Bolder | i-7 |
-| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-8 |
-| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-9 |
-| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-10 |
-| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-11 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-12 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-13 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-14 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-15 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-16 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-17 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-18 |
+| Section                                               | Current file                                                                              | Alt text                                              | Edit ID |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------- | ------- |
+| (top of page)                                         | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                  | logo                                                  | i-1     |
+| (top of page)                                         | `/assets/root/upload/logo-linkedin.svg`                                                 | /assets/root/upload/logo-linkedin.svg                 | i-2     |
+| Why we brainstorm first at our event marketing agency | `/assets/root/upload/logo-linkedin.svg` (repeat)                                        | /assets/root/upload/logo-linkedin.svg                 | i-3     |
+| Why we brainstorm first at our event marketing agency | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg`              | Why we brainstorm first at our event marketing agency | i-4     |
+| Why we brainstorm first at our event marketing agency | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat)     | Why we brainstorm first at our event marketing agency | i-5     |
+| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png`          | Iventions, but Bolder                                 | i-6     |
+| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat) | Iventions, but Bolder                                 | i-7     |
+| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                      | Have an event in mind?                                | i-8     |
+| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                             | Have an event in mind?                                | i-9     |
+| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                    | Got questions? A wild idea?                          | i-10    |
+| Why this matters if you’re choosing an event partner | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                           | Got questions? A wild idea?                          | i-11    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg`                                                 | icon                                                  | i-12    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                        | icon                                                  | i-13    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                        | icon                                                  | i-14    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                        | icon                                                  | i-15    |
+| contact                                               | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                            | footer-certified                                      | i-16    |
+| contact                                               | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                   | footer-certified                                      | i-17    |
+| contact                                               | `/assets/root/cssda-wotm-white.svg`                                                     | CSSDA WOTM                                            | i-18    |
 
 ## Page `/insight/the-exciting-lives-of-americans-a-journey-through-their-adventures-5-ne1`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Event marketing agency insights: event apps attract participants | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Event marketing agency insights: event apps attract participants | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-4 |
-| Event marketing agency insights: event apps attract participants | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-5 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-10-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-10-sca | i-6 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Do you need an international event agency, a local partner,  | i-7 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Do you need an international event agency, a local partner,  | i-8 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-9 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-10 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-11 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-12 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-13 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-14 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-15 |
-| Keep the magic, drop the noise | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-16 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-22 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-23 |
+| Section                                                          | Current file                                                                                               | Alt text                                                     | Edit ID |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                                    | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| Event marketing agency insights: event apps attract participants | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| Event marketing agency insights: event apps attract participants | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-4     |
+| Event marketing agency insights: event apps attract participants | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-5     |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-10-scaled.jpg`                                    | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-10-sca | i-6     |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                                               | Do you need an international event agency, a local partner,  | i-7     |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                      | Do you need an international event agency, a local partner,  | i-8     |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-9     |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-10    |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-11    |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-12    |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-13    |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-14    |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-15    |
+| Keep the magic, drop the noise                                   | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-16    |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-17    |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-18    |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-19    |
+| contact                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-20    |
+| contact                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-21    |
+| contact                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-22    |
+| contact                                                          | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-23    |
 
 ## Page `/insight/the-future-of-virtual-events-in-corporate-environments`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| The future of virtual events in corporate environments | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| The future of virtual events in corporate environments | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | The future of virtual events in corporate environments | i-4 |
-| The future of virtual events in corporate environments | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat) | The future of virtual events in corporate environments | i-5 |
-| Virtual, hybrid and in-person: understanding the formats | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-5.png` | /assets/cms/wp-content/uploads/2025/08/Stanley-Stella-5.png | i-6 |
-| Data, analytics and measurable engagement | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-2.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-7 |
-| Data, analytics and measurable engagement | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-s | i-8 |
-| Technology, production and platform complexity | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-9 |
-| AI, personalisation and richer attendee data | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-3.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-10 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3 | i-11 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-12 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-13 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-14 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-15 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-16 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-17 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-18 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-19 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-20 |
-| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-21 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-22 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-23 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-24 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-25 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-26 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-27 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-28 |
+| Section                                                     | Current file                                                                                               | Alt text                                                     | Edit ID |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                               | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                               | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| The future of virtual events in corporate environments      | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| The future of virtual events in corporate environments      | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`                                | The future of virtual events in corporate environments       | i-4     |
+| The future of virtual events in corporate environments      | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat)                       | The future of virtual events in corporate environments       | i-5     |
+| Virtual, hybrid and in-person: understanding the formats    | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-5.png`                                            | /assets/cms/wp-content/uploads/2025/08/Stanley-Stella-5.png  | i-6     |
+| Data, analytics and measurable engagement                   | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-2.png`                                      | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-7     |
+| Data, analytics and measurable engagement                   | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-scaled.jpg`                                  | /assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-s | i-8     |
+| Technology, production and platform complexity              | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`                                   | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-9     |
+| AI, personalisation and richer attendee data                | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-3.png`                                      | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-10    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg`                                       | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3 | i-11    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-12    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-13    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-14    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-15    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-16    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-17    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-18    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-19    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-20    |
+| Translating proven event expertise into virtual experiences | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-21    |
+| contact                                                     | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-22    |
+| contact                                                     | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-23    |
+| contact                                                     | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-24    |
+| contact                                                     | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-25    |
+| contact                                                     | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-26    |
+| contact                                                     | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-27    |
+| contact                                                     | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-28    |
 
 ## Page `/insight/the-role-of-event-production-in-high-impact-corporate-events`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| The role of event production in high-impact corporate events | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| The role of event production in high-impact corporate events | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | The role of event production in high-impact corporate events | i-4 |
-| The role of event production in high-impact corporate events | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | The role of event production in high-impact corporate events | i-5 |
-| Creating a seamless experience for attendees | `/assets/cms/wp-content/uploads/2026/04/Event-production-scaled.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-production-scal | i-6 |
-| Logistics, timing and on-site event operations | `/assets/cms/wp-content/uploads/2026/04/Event-production-8-scaled.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-production-8-sc | i-7 |
-| Logistics, timing and on-site event operations | `/assets/cms/wp-content/uploads/2026/04/Event-production-2-scaled.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-production-2-sc | i-8 |
-| Reinforcing brand messages through live execution | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4 | i-9 |
-| Reducing risk in complex corporate environments | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-2.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-10 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2026/04/Event-production-6-scaled.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-production-6-sc | i-11 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-12 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-13 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-14 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-15 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-16 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-17 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-18 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-19 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-20 |
-| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-21 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-22 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-23 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-24 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-25 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-26 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-27 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-28 |
+| Section                                                                          | Current file                                                                                               | Alt text                                                     | Edit ID |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                                                    | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| The role of event production in high-impact corporate events                     | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| The role of event production in high-impact corporate events                     | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                                         | The role of event production in high-impact corporate events | i-4     |
+| The role of event production in high-impact corporate events                     | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                                | The role of event production in high-impact corporate events | i-5     |
+| Creating a seamless experience for attendees                                     | `/assets/cms/wp-content/uploads/2026/04/Event-production-scaled.jpg`                                     | /assets/cms/wp-content/uploads/2026/04/Event-production-scal | i-6     |
+| Logistics, timing and on-site event operations                                   | `/assets/cms/wp-content/uploads/2026/04/Event-production-8-scaled.jpg`                                   | /assets/cms/wp-content/uploads/2026/04/Event-production-8-sc | i-7     |
+| Logistics, timing and on-site event operations                                   | `/assets/cms/wp-content/uploads/2026/04/Event-production-2-scaled.jpg`                                   | /assets/cms/wp-content/uploads/2026/04/Event-production-2-sc | i-8     |
+| Reinforcing brand messages through live execution                                | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`                                | /assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4 | i-9     |
+| Reducing risk in complex corporate environments                                  | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-2.png`                                      | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-10    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2026/04/Event-production-6-scaled.jpg`                                   | /assets/cms/wp-content/uploads/2026/04/Event-production-6-sc | i-11    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-12    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-13    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-14    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-15    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-16    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-17    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-18    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-19    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-20    |
+| How Iventions delivers high-impact corporate events through production expertise | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-21    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-22    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-23    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-24    |
+| contact                                                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-25    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-26    |
+| contact                                                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-27    |
+| contact                                                                          | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-28    |
 
 ## Page `/insight/the-science-behind-a-brand-activation-agency-playbook`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| The science behind a brand activation agency playbook | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| The science behind a brand activation agency playbook | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-4 |
-| The science behind a brand activation agency playbook | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-5 |
-| 7) Measurement &amp; ROI → instrument the experience | `/assets/cms/wp-content/uploads/2025/07/ikea-effect.png` | /assets/cms/wp-content/uploads/2025/07/ikea-effect.png | i-6 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-7 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-8 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` | Exhibition stand construction: from pretty spaces to high‑im | i-9 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat) | Exhibition stand construction: from pretty spaces to high‑im | i-10 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | International event agency secrets: the psychology of booth  | i-11 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | International event agency secrets: the psychology of booth  | i-12 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-13 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-14 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-15 |
-| Planning your next activation? | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-16 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-17 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-18 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-19 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-20 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-21 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-22 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-23 |
+| Section                                               | Current file                                                                                               | Alt text                                                      | Edit ID |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                         | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                          | i-1     |
+| (top of page)                                         | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                         | i-2     |
+| The science behind a brand activation agency playbook | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                         | i-3     |
+| The science behind a brand activation agency playbook | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook         | i-4     |
+| The science behind a brand activation agency playbook | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook         | i-5     |
+| 7) Measurement&amp; ROI → instrument the experience  | `/assets/cms/wp-content/uploads/2025/07/ikea-effect.png`                                                 | /assets/cms/wp-content/uploads/2025/07/ikea-effect.png        | i-6     |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green           | i-7     |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green           | i-8     |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg`                                     | Exhibition stand construction: from pretty spaces to high‑im | i-9     |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-7-scaled.jpg` (repeat)                            | Exhibition stand construction: from pretty spaces to high‑im | i-10    |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`                                     | International event agency secrets: the psychology of booth   | i-11    |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)                            | International event agency secrets: the psychology of booth   | i-12    |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                        | i-13    |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                        | i-14    |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                  | i-15    |
+| Planning your next activation?                        | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                  | i-16    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                          | i-17    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-18    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-19    |
+| contact                                               | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-20    |
+| contact                                               | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                              | i-21    |
+| contact                                               | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                              | i-22    |
+| contact                                               | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                    | i-23    |
 
 ## Page `/insight/using-event-photography-to-amplify-post-event-marketing`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/root/upload/logo-linkedin.svg` | /assets/root/upload/logo-linkedin.svg | i-2 |
-| Using event photography to amplify post-event marketing | `/assets/root/upload/logo-linkedin.svg` (repeat) | /assets/root/upload/logo-linkedin.svg | i-3 |
-| Using event photography to amplify post-event marketing | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png` | Using event photography to amplify post-event marketing | i-4 |
-| Using event photography to amplify post-event marketing | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png` (repeat) | Using event photography to amplify post-event marketing | i-5 |
-| Extending the life of a corporate event through visual content | `/assets/cms/wp-content/uploads/2026/04/Event-photography-4.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-photography-4.j | i-6 |
-| Extending the life of a corporate event through visual content | `/assets/cms/wp-content/uploads/2026/04/Event-photography-10.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-photography-10. | i-7 |
-| Supporting brand storytelling with consistent visuals | `/assets/cms/wp-content/uploads/2026/04/Event-photography-1.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-photography-1.j | i-8 |
-| Supporting brand storytelling with consistent visuals | `/assets/cms/wp-content/uploads/2026/04/Event-photography-6.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-photography-6.j | i-9 |
-| Using event highlights to improve audience engagement | `/assets/cms/wp-content/uploads/2026/04/Event-photography-11.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-photography-11. | i-10 |
-| Choosing images that reflect the brand and the experience | `/assets/cms/wp-content/uploads/2026/04/Event-photography-9.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-photography-9.j | i-11 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2026/04/Event-photography.jpg` | /assets/cms/wp-content/uploads/2026/04/Event-photography.jpg | i-12 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-13 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-14 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` | Event marketing agency insights: event apps attract particip | i-15 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat) | Event marketing agency insights: event apps attract particip | i-16 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` | The science behind a brand activation agency playbook | i-17 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat) | The science behind a brand activation agency playbook | i-18 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-19 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-20 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-21 |
-| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-22 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` | icon | i-23 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-24 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-25 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-26 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-27 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-28 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-29 |
+| Section                                                            | Current file                                                                                               | Alt text                                                     | Edit ID |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                                      | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                         | i-1     |
+| (top of page)                                                      | `/assets/root/upload/logo-linkedin.svg`                                                                  | /assets/root/upload/logo-linkedin.svg                        | i-2     |
+| Using event photography to amplify post-event marketing            | `/assets/root/upload/logo-linkedin.svg` (repeat)                                                         | /assets/root/upload/logo-linkedin.svg                        | i-3     |
+| Using event photography to amplify post-event marketing            | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png`                                          | Using event photography to amplify post-event marketing      | i-4     |
+| Using event photography to amplify post-event marketing            | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png` (repeat)                                 | Using event photography to amplify post-event marketing      | i-5     |
+| Extending the life of a corporate event through visual content     | `/assets/cms/wp-content/uploads/2026/04/Event-photography-4.jpg`                                         | /assets/cms/wp-content/uploads/2026/04/Event-photography-4.j | i-6     |
+| Extending the life of a corporate event through visual content     | `/assets/cms/wp-content/uploads/2026/04/Event-photography-10.jpg`                                        | /assets/cms/wp-content/uploads/2026/04/Event-photography-10. | i-7     |
+| Supporting brand storytelling with consistent visuals              | `/assets/cms/wp-content/uploads/2026/04/Event-photography-1.jpg`                                         | /assets/cms/wp-content/uploads/2026/04/Event-photography-1.j | i-8     |
+| Supporting brand storytelling with consistent visuals              | `/assets/cms/wp-content/uploads/2026/04/Event-photography-6.jpg`                                         | /assets/cms/wp-content/uploads/2026/04/Event-photography-6.j | i-9     |
+| Using event highlights to improve audience engagement              | `/assets/cms/wp-content/uploads/2026/04/Event-photography-11.jpg`                                        | /assets/cms/wp-content/uploads/2026/04/Event-photography-11. | i-10    |
+| Choosing images that reflect the brand and the experience          | `/assets/cms/wp-content/uploads/2026/04/Event-photography-9.jpg`                                         | /assets/cms/wp-content/uploads/2026/04/Event-photography-9.j | i-11    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2026/04/Event-photography.jpg`                                           | /assets/cms/wp-content/uploads/2026/04/Event-photography.jpg | i-12    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green          | i-13    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green          | i-14    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg`                     | Event marketing agency insights: event apps attract particip | i-15    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/rob-hampson-cqFKhqv6Ong-unsplash-scaled.jpg` (repeat)            | Event marketing agency insights: event apps attract particip | i-16    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png`                                            | The science behind a brand activation agency playbook        | i-17    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Brand-Activation.png` (repeat)                                   | The science behind a brand activation agency playbook        | i-18    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                       | i-19    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                       | i-20    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                 | i-21    |
+| How Iventions helps brands create marketing value beyond the event | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                 | i-22    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg`                                                                  | icon                                                         | i-23    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-24    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-25    |
+| contact                                                            | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                         | i-26    |
+| contact                                                            | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                             | i-27    |
+| contact                                                            | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                             | i-28    |
+| contact                                                            | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                   | i-29    |
 
 ## Page `/insights`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| Ideas, insights and industry moments that matter | `/assets/cms/wp-content/uploads/2025/08/Insights-1.png` | hero-resources | i-2 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-9-scaled.jpg` | How marketing and events work together to drive brand growth | i-3 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-9-scaled.jpg` (repeat) | How marketing and events work together to drive brand growth | i-4 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | The future of virtual events in corporate environments | i-5 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat) | The future of virtual events in corporate environments | i-6 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | IBC trade show: why the most remembered brands are built lon | i-7 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat) | IBC trade show: why the most remembered brands are built lon | i-8 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg` | CPHI trade show: what experienced exhibitors understand that | i-9 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg` (repeat) | CPHI trade show: what experienced exhibitors understand that | i-10 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` | IFA trade show: how brands stand out at Europe’s leading tec | i-11 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` (repeat) | IFA trade show: how brands stand out at Europe’s leading tec | i-12 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/05/experiential-agency.webp` | Full-service experiential agency vs creative boutique: What’ | i-13 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/05/experiential-agency.webp` (repeat) | Full-service experiential agency vs creative boutique: What’ | i-14 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | The role of event production in high-impact corporate events | i-15 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | The role of event production in high-impact corporate events | i-16 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png` | Using event photography to amplify post-event marketing | i-17 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png` (repeat) | Using event photography to amplify post-event marketing | i-18 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/03/GP12879.jpg.webp` | How do you repeat world-class sports events across cities? L | i-19 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/03/GP12879.jpg.webp` (repeat) | How do you repeat world-class sports events across cities? L | i-20 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-3.jpg` | Iventions London hub: bringing precision, proximity and expe | i-21 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-3.jpg` (repeat) | Iventions London hub: bringing precision, proximity and expe | i-22 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/02/Iventions_MWC2025_0059-scaled.jpg` | MWC 2026: how to align your brand’s physical presence with d | i-23 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/02/Iventions_MWC2025_0059-scaled.jpg` (repeat) | MWC 2026: how to align your brand’s physical presence with d | i-24 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/02/Barcelona-DMC-Event-Destination-1-scaled.jpeg` | Destination management companies explained: from local exper | i-25 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2026/02/Barcelona-DMC-Event-Destination-1-scaled.jpeg` (repeat) | Destination management companies explained: from local exper | i-26 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-1-scaled.jpg` | Choosing an event management company: The questions our clie | i-27 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-1-scaled.jpg` (repeat) | Choosing an event management company: The questions our clie | i-28 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-7.png` | Choosing exhibition builders: The questions our clients alwa | i-29 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-7.png` (repeat) | Choosing exhibition builders: The questions our clients alwa | i-30 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/11/Iventions-Website-scaled.png` | Iventions awarded with “Website of the Month” | i-31 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/11/Iventions-Website-scaled.png` (repeat) | Iventions awarded with “Website of the Month” | i-32 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` | Iventions recognised as a great place to work | i-33 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` (repeat) | Iventions recognised as a great place to work | i-34 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` | Why we brainstorm first at our event marketing agency | i-35 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat) | Why we brainstorm first at our event marketing agency | i-36 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-6.png` | The hottest event tech trends every event marketing agency n | i-37 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-6.png` (repeat) | The hottest event tech trends every event marketing agency n | i-38 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-5.png` | 10 tactics to treat VIP guests right: global event agency pl | i-39 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-5.png` (repeat) | 10 tactics to treat VIP guests right: global event agency pl | i-40 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Do you need an international event agency, a local partner,  | i-41 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Do you need an international event agency, a local partner,  | i-42 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` | Iventions, but Bolder | i-43 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat) | Iventions, but Bolder | i-44 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` | An event management company’s guide to going green | i-45 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green | i-46 |
-| ( 27 ) | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-47 |
-| ( 27 ) | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-48 |
-| ( 27 ) | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-49 |
-| ( 27 ) | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-50 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-51 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-52 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-53 |
-| ( 27 ) | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-54 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-55 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-56 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-57 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-58 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-59 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-60 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-61 |
+| Section                                          | Current file                                                                                               | Alt text                                                      | Edit ID |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                                   | logo                                                          | i-1     |
+| Ideas, insights and industry moments that matter | `/assets/cms/wp-content/uploads/2025/08/Insights-1.png`                                                  | hero-resources                                                | i-2     |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-9-scaled.jpg`                   | How marketing and events work together to drive brand growth  | i-3     |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-9-scaled.jpg` (repeat)          | How marketing and events work together to drive brand growth  | i-4     |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`                                | The future of virtual events in corporate environments        | i-5     |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat)                       | The future of virtual events in corporate environments        | i-6     |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`                                     | IBC trade show: why the most remembered brands are built lon  | i-7     |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat)                            | IBC trade show: why the most remembered brands are built lon  | i-8     |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg`                                      | CPHI trade show: what experienced exhibitors understand that  | i-9     |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/05/CPHI-2026-milan-scaled.jpg` (repeat)                             | CPHI trade show: what experienced exhibitors understand that  | i-10    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg`                                    | IFA trade show: how brands stand out at Europe’s leading tec | i-11    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/05/IBC-2026-Symetrix-scaled.jpg` (repeat)                           | IFA trade show: how brands stand out at Europe’s leading tec | i-12    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/05/experiential-agency.webp`                                        | Full-service experiential agency vs creative boutique: What’ | i-13    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/05/experiential-agency.webp` (repeat)                               | Full-service experiential agency vs creative boutique: What’ | i-14    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                                         | The role of event production in high-impact corporate events  | i-15    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                                | The role of event production in high-impact corporate events  | i-16    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png`                                          | Using event photography to amplify post-event marketing       | i-17    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png` (repeat)                                 | Using event photography to amplify post-event marketing       | i-18    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/03/GP12879.jpg.webp`                                                | How do you repeat world-class sports events across cities? L  | i-19    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/03/GP12879.jpg.webp` (repeat)                                       | How do you repeat world-class sports events across cities? L  | i-20    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-3.jpg`                                         | Iventions London hub: bringing precision, proximity and expe  | i-21    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/03/London-is-calling-3.jpg` (repeat)                                | Iventions London hub: bringing precision, proximity and expe  | i-22    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/02/Iventions_MWC2025_0059-scaled.jpg`                               | MWC 2026: how to align your brand’s physical presence with d | i-23    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/02/Iventions_MWC2025_0059-scaled.jpg` (repeat)                      | MWC 2026: how to align your brand’s physical presence with d | i-24    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/02/Barcelona-DMC-Event-Destination-1-scaled.jpeg`                   | Destination management companies explained: from local exper  | i-25    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2026/02/Barcelona-DMC-Event-Destination-1-scaled.jpeg` (repeat)          | Destination management companies explained: from local exper  | i-26    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-1-scaled.jpg`                            | Choosing an event management company: The questions our clie  | i-27    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-1-scaled.jpg` (repeat)                   | Choosing an event management company: The questions our clie  | i-28    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-7.png`                                               | Choosing exhibition builders: The questions our clients alwa  | i-29    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-7.png` (repeat)                                      | Choosing exhibition builders: The questions our clients alwa  | i-30    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/11/Iventions-Website-scaled.png`                                    | Iventions awarded with “Website of the Month”               | i-31    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/11/Iventions-Website-scaled.png` (repeat)                           | Iventions awarded with “Website of the Month”               | i-32    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg`                 | Iventions recognised as a great place to work                 | i-33    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/09/067a99f8-7474-4344-b8a2-3d4f343bbf3e-scaled.jpg` (repeat)        | Iventions recognised as a great place to work                 | i-34    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg`                               | Why we brainstorm first at our event marketing agency         | i-35    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/09/pexels-fauxels-3183150-scaled.jpg` (repeat)                      | Why we brainstorm first at our event marketing agency         | i-36    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-6.png`                                        | The hottest event tech trends every event marketing agency n  | i-37    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-6.png` (repeat)                               | The hottest event tech trends every event marketing agency n  | i-38    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-5.png`                                  | 10 tactics to treat VIP guests right: global event agency pl  | i-39    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-5.png` (repeat)                         | 10 tactics to treat VIP guests right: global event agency pl  | i-40    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                                               | Do you need an international event agency, a local partner,   | i-41    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                      | Do you need an international event agency, a local partner,   | i-42    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png`                           | Iventions, but Bolder                                         | i-43    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/08/Screenshot-2025-08-27-at-17.20.29.png` (repeat)                  | Iventions, but Bolder                                         | i-44    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg`          | An event management company’s guide to going green           | i-45    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/07/Sustainable_Events_with_Digital_Signage_ae0739bd4e.jpg` (repeat) | An event management company’s guide to going green           | i-46    |
+| ( 27 )                                           | `/assets/root/icons/ic_arrow-left.svg`                                                                   | arrow-left                                                    | i-47    |
+| ( 27 )                                           | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                          | arrow-left                                                    | i-48    |
+| ( 27 )                                           | `/assets/root/icons/ic_arrow-right.svg`                                                                  | arrow-right                                                   | i-49    |
+| ( 27 )                                           | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | arrow-right                                                   | i-50    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                       | Have an event in mind?                                        | i-51    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                              | Have an event in mind?                                        | i-52    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                                     | Got questions? A wild idea?                                  | i-53    |
+| ( 27 )                                           | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                            | Got questions? A wild idea?                                  | i-54    |
+| contact                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-55    |
+| contact                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-56    |
+| contact                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-57    |
+| contact                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                         | icon                                                          | i-58    |
+| contact                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                             | footer-certified                                              | i-59    |
+| contact                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                                    | footer-certified                                              | i-60    |
+| contact                                          | `/assets/root/cssda-wotm-white.svg`                                                                      | CSSDA WOTM                                                    | i-61    |
 
 ## Page `/legal-notice-terms-of-use`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| APPLICABLE LAW AND JURISDICTION | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-2 |
-| APPLICABLE LAW AND JURISDICTION | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-3 |
-| APPLICABLE LAW AND JURISDICTION | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-4 |
+| Section                         | Current file                                                            | Alt text         | Edit ID |
+| ------------------------------- | ----------------------------------------------------------------------- | ---------------- | ------- |
+| (top of page)                   | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                | logo             | i-1     |
+| APPLICABLE LAW AND JURISDICTION | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`          | footer-certified | i-2     |
+| APPLICABLE LAW AND JURISDICTION | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-3     |
+| APPLICABLE LAW AND JURISDICTION | `/assets/root/cssda-wotm-white.svg`                                   | CSSDA WOTM       | i-4     |
 
 ## Page `/privacy-policy`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| CONTACT | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-2 |
-| CONTACT | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-3 |
-| CONTACT | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-4 |
+| Section       | Current file                                                            | Alt text         | Edit ID |
+| ------------- | ----------------------------------------------------------------------- | ---------------- | ------- |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                | logo             | i-1     |
+| CONTACT       | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`          | footer-certified | i-2     |
+| CONTACT       | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-3     |
+| CONTACT       | `/assets/root/cssda-wotm-white.svg`                                   | CSSDA WOTM       | i-4     |
 
 ## Page `/project/adidas-display-wall`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat) | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-3 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-3-scaled.jpg` | The challenge | i-4 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-2-scaled.jpg` | What we did | i-5 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-6-scaled.jpg` | image-0 | i-6 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-4-scaled.jpg` | image-1 | i-7 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-10-scaled.jpg` | image-2 | i-8 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-7-scaled.jpg` | image-3 | i-9 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-6-scaled.jpg` (repeat) | image-4 | i-10 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-4-scaled.jpg` (repeat) | image-5 | i-11 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-10-scaled.jpg` (repeat) | image-6 | i-12 |
-| location | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-7-scaled.jpg` (repeat) | image-7 | i-13 |
-| Key facts | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` | Ribbon at MWC: Where tech takes shape | i-14 |
-| Key facts | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat) | Ribbon at MWC: Where tech takes shape | i-15 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` | UEFA Champions League Final: Hospitality Programme | i-16 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat) | UEFA Champions League Final: Hospitality Programme | i-17 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png` | UEFA Champions Village: Sponsor Hospitality | i-18 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png` (repeat) | UEFA Champions Village: Sponsor Hospitality | i-19 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png` | Rakuten at Davis Cup Finals: Hospitality Lounge | i-20 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png` (repeat) | Rakuten at Davis Cup Finals: Hospitality Lounge | i-21 |
-| Key facts | `/assets/root/icons/ic_arrow-left.svg` | icon | i-22 |
-| Key facts | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-23 |
-| Key facts | `/assets/root/icons/ic_arrow-right.svg` | icon | i-24 |
-| Key facts | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-25 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg` | Let's create your  sports moment | i-26 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg` (repeat) | Let's create your  sports moment | i-27 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` | icon | i-28 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-29 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-30 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-31 |
-| Get a custom quote | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-32 |
+| Section            | Current file                                                                          | Alt text                                                    | Edit ID |
+| ------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------- |
+| (top of page)      | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                              | logo                                                        | i-1     |
+| (top of page)      | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg`                  | Adidas display wall: Celebrating 25 years as UEFA Champions | i-2     |
+| (top of page)      | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat)         | Adidas display wall: Celebrating 25 years as UEFA Champions | i-3     |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-3-scaled.jpg`           | The challenge                                               | i-4     |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-2-scaled.jpg`           | What we did                                                 | i-5     |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-6-scaled.jpg`           | image-0                                                     | i-6     |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-4-scaled.jpg`           | image-1                                                     | i-7     |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-10-scaled.jpg`          | image-2                                                     | i-8     |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-7-scaled.jpg`           | image-3                                                     | i-9     |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-6-scaled.jpg` (repeat)  | image-4                                                     | i-10    |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-4-scaled.jpg` (repeat)  | image-5                                                     | i-11    |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-10-scaled.jpg` (repeat) | image-6                                                     | i-12    |
+| location           | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-7-scaled.jpg` (repeat)  | image-7                                                     | i-13    |
+| Key facts          | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png`                      | Ribbon at MWC: Where tech takes shape                       | i-14    |
+| Key facts          | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat)             | Ribbon at MWC: Where tech takes shape                       | i-15    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg`                     | UEFA Champions League Final: Hospitality Programme          | i-16    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat)            | UEFA Champions League Final: Hospitality Programme          | i-17    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png`                            | UEFA Champions Village: Sponsor Hospitality                 | i-18    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png` (repeat)                   | UEFA Champions Village: Sponsor Hospitality                 | i-19    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png`             | Rakuten at Davis Cup Finals: Hospitality Lounge             | i-20    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png` (repeat)    | Rakuten at Davis Cup Finals: Hospitality Lounge             | i-21    |
+| Key facts          | `/assets/root/icons/ic_arrow-left.svg`                                              | icon                                                        | i-22    |
+| Key facts          | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                     | icon                                                        | i-23    |
+| Key facts          | `/assets/root/icons/ic_arrow-right.svg`                                             | icon                                                        | i-24    |
+| Key facts          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                        | i-25    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg`                              | Let's create your  sports moment                            | i-26    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg` (repeat)                     | Let's create your  sports moment                            | i-27    |
+| Get a custom quote | `/assets/root/upload/icon-arrow.svg`                                                | icon                                                        | i-28    |
+| Get a custom quote | `/assets/root/upload/icon-arrow.svg` (repeat)                                       | icon                                                        | i-29    |
+| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                        | footer-certified                                            | i-30    |
+| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)               | footer-certified                                            | i-31    |
+| Get a custom quote | `/assets/root/cssda-wotm-white.svg`                                                 | CSSDA WOTM                                                  | i-32    |
 
 ## Page `/project/uefa-champions-league-final-2026`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-3 |
-| location | `/assets/root/icons/ic_play.svg` | play | i-4 |
-| location | `/assets/root/icons/ic_pause.svg` | pause | i-5 |
-| location | `/assets/root/icons/ic_play.svg` (repeat) | play | i-6 |
-| location | `/assets/root/icons/ic_pause.svg` (repeat) | pause | i-7 |
-| location | `/assets/root/icons/ic_play.svg` (repeat) | play | i-8 |
-| location | `/assets/root/icons/ic_pause.svg` (repeat) | pause | i-9 |
-| location | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-3-scaled.jpg` | poster-full-layout-1 | i-10 |
-| location | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-11-scaled.jpg` | poster-full-layout-1 | i-11 |
-| location | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-8-scaled.jpg` | poster-full-layout-2 | i-12 |
-| location | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-7-scaled.jpg` | poster-full-layout-2 | i-13 |
-| location | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-10.jpg` | poster-full-layout-2 | i-14 |
-| Key facts | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` | Etihad Euroleague Final Four 2026: From raw venue to premium | i-15 |
-| Key facts | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat) | Etihad Euroleague Final Four 2026: From raw venue to premium | i-16 |
-| Key facts | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-17 |
-| Key facts | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat) | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-18 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` | UEFA Super Cup 2025: Udine Final Experience | i-19 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat) | UEFA Super Cup 2025: Udine Final Experience | i-20 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png` | World Aquatics Championships:  Where sport, culture &amp; br | i-21 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png` (repeat) | World Aquatics Championships:  Where sport, culture &amp; br | i-22 |
-| Key facts | `/assets/root/icons/ic_arrow-left.svg` | icon | i-23 |
-| Key facts | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-24 |
-| Key facts | `/assets/root/icons/ic_arrow-right.svg` | icon | i-25 |
-| Key facts | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-26 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg` | Let's create your  sports moment | i-27 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg` (repeat) | Let's create your  sports moment | i-28 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` | icon | i-29 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-30 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-31 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-32 |
-| Get a custom quote | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-33 |
+| Section            | Current file                                                                                         | Alt text                                                     | Edit ID |
+| ------------------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)      | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                             | logo                                                         | i-1     |
+| (top of page)      | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp`          | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-2     |
+| (top of page)      | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-3     |
+| location           | `/assets/root/icons/ic_play.svg`                                                                   | play                                                         | i-4     |
+| location           | `/assets/root/icons/ic_pause.svg`                                                                  | pause                                                        | i-5     |
+| location           | `/assets/root/icons/ic_play.svg` (repeat)                                                          | play                                                         | i-6     |
+| location           | `/assets/root/icons/ic_pause.svg` (repeat)                                                         | pause                                                        | i-7     |
+| location           | `/assets/root/icons/ic_play.svg` (repeat)                                                          | play                                                         | i-8     |
+| location           | `/assets/root/icons/ic_pause.svg` (repeat)                                                         | pause                                                        | i-9     |
+| location           | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-3-scaled.jpg`             | poster-full-layout-1                                         | i-10    |
+| location           | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-11-scaled.jpg`            | poster-full-layout-1                                         | i-11    |
+| location           | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-8-scaled.jpg`             | poster-full-layout-2                                         | i-12    |
+| location           | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-7-scaled.jpg`             | poster-full-layout-2                                         | i-13    |
+| location           | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-10.jpg`                   | poster-full-layout-2                                         | i-14    |
+| Key facts          | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg`                  | Etihad Euroleague Final Four 2026: From raw venue to premium | i-15    |
+| Key facts          | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat)         | Etihad Euroleague Final Four 2026: From raw venue to premium | i-16    |
+| Key facts          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg`                                 | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-17    |
+| Key facts          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat)                        | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-18    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png`                                      | UEFA Super Cup 2025: Udine Final Experience                  | i-19    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat)                             | UEFA Super Cup 2025: Udine Final Experience                  | i-20    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png`                   | World Aquatics Championships:  Where sport, culture&amp; br  | i-21    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png` (repeat)          | World Aquatics Championships:  Where sport, culture&amp; br  | i-22    |
+| Key facts          | `/assets/root/icons/ic_arrow-left.svg`                                                             | icon                                                         | i-23    |
+| Key facts          | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                                                         | i-24    |
+| Key facts          | `/assets/root/icons/ic_arrow-right.svg`                                                            | icon                                                         | i-25    |
+| Key facts          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-26    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg`                                             | Let's create your  sports moment                             | i-27    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg` (repeat)                                    | Let's create your  sports moment                             | i-28    |
+| Get a custom quote | `/assets/root/upload/icon-arrow.svg`                                                               | icon                                                         | i-29    |
+| Get a custom quote | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                                                         | i-30    |
+| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                       | footer-certified                                             | i-31    |
+| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                              | footer-certified                                             | i-32    |
+| Get a custom quote | `/assets/root/cssda-wotm-white.svg`                                                                | CSSDA WOTM                                                   | i-33    |
 
 ## Page `/project/ypo-global-event`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` | YPO Global Event: Hospitality &amp; experience excellence | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat) | YPO Global Event: Hospitality &amp; experience excellence | i-3 |
-| location | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | The challenge | i-4 |
-| location | `/assets/root/icons/ic_play.svg` | play | i-5 |
-| location | `/assets/root/icons/ic_pause.svg` | pause | i-6 |
-| location | `/assets/root/icons/ic_play.svg` (repeat) | play | i-7 |
-| location | `/assets/root/icons/ic_pause.svg` (repeat) | pause | i-8 |
-| location | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat) | poster-full-layout-0 | i-9 |
-| location | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-4.jpg` | poster-full-layout-1 | i-10 |
-| location | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-2.jpg` | poster-full-layout-1 | i-11 |
-| location | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-5.jpg` | poster-full-layout-2 | i-12 |
-| location | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-13-scaled.jpg` | poster-full-layout-2 | i-13 |
-| location | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-12-scaled.jpg` | poster-full-layout-2 | i-14 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | Adevinta Ignite: Empowering connection &amp; growth | i-15 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat) | Adevinta Ignite: Empowering connection &amp; growth | i-16 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` | Adevinta Ignite: Shaping the future of commerce | i-17 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` (repeat) | Adevinta Ignite: Shaping the future of commerce | i-18 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` | Hackathon: Five days of global innovation | i-19 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` (repeat) | Hackathon: Five days of global innovation | i-20 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` | Axiecon: A vibrant, global gathering of gamers | i-21 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` (repeat) | Axiecon: A vibrant, global gathering of gamers | i-22 |
-| Key facts | `/assets/root/icons/ic_arrow-left.svg` | icon | i-23 |
-| Key facts | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-24 |
-| Key facts | `/assets/root/icons/ic_arrow-right.svg` | icon | i-25 |
-| Key facts | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-26 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/Events-Iventions.jpg` | No Ordinary Events. Only Spotlight Moments. | i-27 |
-| Key facts | `/assets/cms/wp-content/uploads/2025/08/Events-Iventions.jpg` (repeat) | No Ordinary Events. Only Spotlight Moments. | i-28 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` | icon | i-29 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-30 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-31 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-32 |
-| Get a custom quote | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-33 |
+| Section            | Current file                                                                         | Alt text                                                 | Edit ID |
+| ------------------ | ------------------------------------------------------------------------------------ | -------------------------------------------------------- | ------- |
+| (top of page)      | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                             | logo                                                     | i-1     |
+| (top of page)      | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg`                 | YPO Global Event: Hospitality&amp; experience excellence | i-2     |
+| (top of page)      | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat)        | YPO Global Event: Hospitality&amp; experience excellence | i-3     |
+| location           | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                 | The challenge                                            | i-4     |
+| location           | `/assets/root/icons/ic_play.svg`                                                   | play                                                     | i-5     |
+| location           | `/assets/root/icons/ic_pause.svg`                                                  | pause                                                    | i-6     |
+| location           | `/assets/root/icons/ic_play.svg` (repeat)                                          | play                                                     | i-7     |
+| location           | `/assets/root/icons/ic_pause.svg` (repeat)                                         | pause                                                    | i-8     |
+| location           | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat)        | poster-full-layout-0                                     | i-9     |
+| location           | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-4.jpg`                 | poster-full-layout-1                                     | i-10    |
+| location           | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-2.jpg`                 | poster-full-layout-1                                     | i-11    |
+| location           | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-5.jpg`                 | poster-full-layout-2                                     | i-12    |
+| location           | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-13-scaled.jpg`         | poster-full-layout-2                                     | i-13    |
+| location           | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-12-scaled.jpg`         | poster-full-layout-2                                     | i-14    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`          | Adevinta Ignite: Empowering connection&amp; growth       | i-15    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat) | Adevinta Ignite: Empowering connection&amp; growth       | i-16    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg`                       | Adevinta Ignite: Shaping the future of commerce          | i-17    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` (repeat)              | Adevinta Ignite: Shaping the future of commerce          | i-18    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png`               | Hackathon: Five days of global innovation                | i-19    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` (repeat)      | Hackathon: Five days of global innovation                | i-20    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png`                       | Axiecon: A vibrant, global gathering of gamers           | i-21    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` (repeat)              | Axiecon: A vibrant, global gathering of gamers           | i-22    |
+| Key facts          | `/assets/root/icons/ic_arrow-left.svg`                                             | icon                                                     | i-23    |
+| Key facts          | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                    | icon                                                     | i-24    |
+| Key facts          | `/assets/root/icons/ic_arrow-right.svg`                                            | icon                                                     | i-25    |
+| Key facts          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                                                     | i-26    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/Events-Iventions.jpg`                      | No Ordinary Events. Only Spotlight Moments.              | i-27    |
+| Key facts          | `/assets/cms/wp-content/uploads/2025/08/Events-Iventions.jpg` (repeat)             | No Ordinary Events. Only Spotlight Moments.              | i-28    |
+| Get a custom quote | `/assets/root/upload/icon-arrow.svg`                                               | icon                                                     | i-29    |
+| Get a custom quote | `/assets/root/upload/icon-arrow.svg` (repeat)                                      | icon                                                     | i-30    |
+| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                       | footer-certified                                         | i-31    |
+| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)              | footer-certified                                         | i-32    |
+| Get a custom quote | `/assets/root/cssda-wotm-white.svg`                                                | CSSDA WOTM                                               | i-33    |
 
 ## Page `/projects`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` | Etihad Euroleague Final Four 2026: From raw venue to premium | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat) | Etihad Euroleague Final Four 2026: From raw venue to premium | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` | Express Delivery at home in the Champions Village: FedEx 202 | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` (repeat) | Express Delivery at home in the Champions Village: FedEx 202 | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat) | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | Midas at ISE: Where six metres of LED sounds impeccable | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat) | Midas at ISE: Where six metres of LED sounds impeccable | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` | Ribbon at MWC: Where tech takes shape | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat) | Ribbon at MWC: Where tech takes shape | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` | Symetrix at ISE: A brand reborn. A platform launched | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` (repeat) | Symetrix at ISE: A brand reborn. A platform launched | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` | Lindy at ISE: Designed to optimise visitor flow | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` (repeat) | Lindy at ISE: Designed to optimise visitor flow | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` | VIP360 &amp; epayclub at ICE 2026: Two stand concepts. One p | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` (repeat) | VIP360 &amp; epayclub at ICE 2026: Two stand concepts. One p | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` (repeat) | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | Midas ISE: Built to impress, designed to excite | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | Midas ISE: Built to impress, designed to excite | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` | Pfizer CentreOne at CPHI: Minimal design, maximum impact | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` (repeat) | Pfizer CentreOne at CPHI: Minimal design, maximum impact | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` | Corden Pharma at CPHI: When scale meets precision | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` (repeat) | Corden Pharma at CPHI: When scale meets precision | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg` | Behringer &amp; Tannoy at ISE: Designed for product discover | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg` (repeat) | Behringer &amp; Tannoy at ISE: Designed for product discover | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg` | Genelec at ISE: A stand that became a speaker | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg` (repeat) | Genelec at ISE: A stand that became a speaker | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` (repeat) | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` | UEFA Champions League Final: Where football met Turkish Gran | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` (repeat) | UEFA Champions League Final: Where football met Turkish Gran | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` | UEFA Champions League Final: Hospitality Programme | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat) | UEFA Champions League Final: Hospitality Programme | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` | UEFA Super Cup 2025: Udine Final Experience | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat) | UEFA Super Cup 2025: Udine Final Experience | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png` | Williams AV at ISE: Making a large product portfolio easy to | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png` (repeat) | Williams AV at ISE: Making a large product portfolio easy to | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-60 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-61 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-64 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-65 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71 |
-| All projects All projects | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-72 |
-| All projects All projects | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-73 |
-| All projects All projects | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-74 |
-| All projects All projects | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-75 |
-| All projects All projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-76 |
-| All projects All projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-77 |
-| All projects All projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-78 |
-| All projects All projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-79 |
-| All projects All projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-80 |
-| All projects All projects | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-93 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-94 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-95 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-96 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-97 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-98 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-99 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-100 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-101 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-102 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-103 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-104 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-105 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-106 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-107 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-108 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-109 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-110 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-111 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-112 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-113 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-114 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-115 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-116 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-117 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-118 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-119 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-120 |
+| Section                                | Current file                                                                                         | Alt text                                                     | Edit ID |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                             | logo                                                         | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp`          | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg`                  | Etihad Euroleague Final Four 2026: From raw venue to premium | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat)         | Etihad Euroleague Final Four 2026: From raw venue to premium | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg`                 | Express Delivery at home in the Champions Village: FedEx 202 | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` (repeat)        | Express Delivery at home in the Champions Village: FedEx 202 | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg`                                 | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat)                        | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`                               | Midas at ISE: Where six metres of LED sounds impeccable      | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat)                      | Midas at ISE: Where six metres of LED sounds impeccable      | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png`                                     | Ribbon at MWC: Where tech takes shape                        | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat)                            | Ribbon at MWC: Where tech takes shape                        | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png`                                   | Symetrix at ISE: A brand reborn. A platform launched         | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` (repeat)                          | Symetrix at ISE: A brand reborn. A platform launched         | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg`                               | Lindy at ISE: Designed to optimise visitor flow              | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` (repeat)                      | Lindy at ISE: Designed to optimise visitor flow              | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg`                     | VIP360&amp; epayclub at ICE 2026: Two stand concepts. One p  | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` (repeat)            | VIP360&amp; epayclub at ICE 2026: Two stand concepts. One p  | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png`                                    | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` (repeat)                           | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`                               | Midas ISE: Built to impress, designed to excite              | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)                      | Midas ISE: Built to impress, designed to excite              | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png`                                         | Pfizer CentreOne at CPHI: Minimal design, maximum impact     | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` (repeat)                                | Pfizer CentreOne at CPHI: Minimal design, maximum impact     | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png`                                  | Corden Pharma at CPHI: When scale meets precision            | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` (repeat)                         | Corden Pharma at CPHI: When scale meets precision            | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg`                    | Behringer&amp; Tannoy at ISE: Designed for product discover  | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg` (repeat)           | Behringer&amp; Tannoy at ISE: Designed for product discover  | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg`                             | Genelec at ISE: A stand that became a speaker                | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg` (repeat)                    | Genelec at ISE: A stand that became a speaker                | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg`                                            | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` (repeat)                                   | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg`                              | UEFA Champions League Final: Where football met Turkish Gran | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` (repeat)                     | UEFA Champions League Final: Where football met Turkish Gran | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg`                                    | UEFA Champions League Final: Hospitality Programme           | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat)                           | UEFA Champions League Final: Hospitality Programme           | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png`                                      | UEFA Super Cup 2025: Udine Final Experience                  | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat)                             | UEFA Super Cup 2025: Udine Final Experience                  | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png`                                   | Williams AV at ISE: Making a large product portfolio easy to | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png` (repeat)                          | Williams AV at ISE: Making a large product portfolio easy to | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                                     | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                                  | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`                         | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                                | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)                       | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`                             | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)                    | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                                 | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)                        | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                                      | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-60    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)                             | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-61    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                                  | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                                        | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-64    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                               | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-65    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                                     | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`                              | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)                     | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`                           | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71    |
+| All projects All projects              | `/assets/root/icons/ic_chevron-down.svg`                                                           | chevron                                                      | i-72    |
+| All projects All projects              | `/assets/root/icons/ic_arrow-left.svg`                                                             | arrow-left                                                   | i-73    |
+| All projects All projects              | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | arrow-left                                                   | i-74    |
+| All projects All projects              | `/assets/root/icons/ic_arrow-right.svg`                                                            | arrow-right                                                  | i-75    |
+| All projects All projects              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow-right                                                  | i-76    |
+| All projects All projects              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-77    |
+| All projects All projects              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-78    |
+| All projects All projects              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-79    |
+| All projects All projects              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-80    |
+| All projects All projects              | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                                         | Branding                                                     | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                                | Branding                                                     | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                                        | Complex Logistics                                            | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                               | Complex Logistics                                            | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                                       | Concept&amp; Design                                          | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Concept&amp; Design                                          | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                                   | Technical Production                                         | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                          | Technical Production                                         | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                                        | Hybrid&amp; Digital Content                                  | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                               | Hybrid&amp; Digital Content                                  | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                                         | Guest Experience&amp; Activations                            | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                | Guest Experience&amp; Activations                            | i-93    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                                         | Construction                                                 | i-94    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                                | Construction                                                 | i-95    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                                | Branding                                                     | i-96    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                                | Branding                                                     | i-97    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                               | Complex Logistics                                            | i-98    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                               | Complex Logistics                                            | i-99    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Concept&amp; Design                                          | i-100   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Concept&amp; Design                                          | i-101   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                          | Technical Production                                         | i-102   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                          | Technical Production                                         | i-103   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                               | Hybrid&amp; Digital Content                                  | i-104   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                               | Hybrid&amp; Digital Content                                  | i-105   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                | Guest Experience&amp; Activations                            | i-106   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                | Guest Experience&amp; Activations                            | i-107   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                                | Construction                                                 | i-108   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                                | Construction                                                 | i-109   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                 | Have an event in mind?                                       | i-110   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                        | Have an event in mind?                                       | i-111   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                               | Got questions? A wild idea?                                 | i-112   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                      | Got questions? A wild idea?                                 | i-113   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-114   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-115   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-116   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-117   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                       | footer-certified                                             | i-118   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                              | footer-certified                                             | i-119   |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                                | CSSDA WOTM                                                   | i-120   |
 
 ## Page `/projects/all`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| This page could not be found. | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-2 |
-| This page could not be found. | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-3 |
-| This page could not be found. | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-4 |
+| Section                       | Current file                                                            | Alt text         | Edit ID |
+| ----------------------------- | ----------------------------------------------------------------------- | ---------------- | ------- |
+| (top of page)                 | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                | logo             | i-1     |
+| This page could not be found. | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`          | footer-certified | i-2     |
+| This page could not be found. | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-3     |
+| This page could not be found. | `/assets/root/cssda-wotm-white.svg`                                   | CSSDA WOTM       | i-4     |
 
 ## Page `/projects/congresses`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` | YPO Global Event: Hospitality &amp;#038; experience excellen | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat) | YPO Global Event: Hospitality &amp;#038; experience excellen | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` | Menzies Congress: Shaping leadership experiences | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` (repeat) | Menzies Congress: Shaping leadership experiences | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg` | ISE: Elevating the global stage for AV and systems integrati | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg` (repeat) | ISE: Elevating the global stage for AV and systems integrati | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png` | US Law University: Vienna reimagined for America’s legal eli | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png` (repeat) | US Law University: Vienna reimagined for America’s legal eli | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png` | DIA Amsterdam: Global Insurtech x Innovation | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png` (repeat) | DIA Amsterdam: Global Insurtech x Innovation | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png` | Integrated Systems Europe ISE 2021: Show Leadership | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png` (repeat) | Integrated Systems Europe ISE 2021: Show Leadership | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png` | US Law University: Barcelona VIP Week | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png` (repeat) | US Law University: Barcelona VIP Week | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png` | US Law University: Lisbon VIP Week | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png` (repeat) | US Law University: Lisbon VIP Week | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png` | US Law University: Edinburgh explored | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png` (repeat) | US Law University: Edinburgh explored | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png` | DIA Munich: Shaping the future of global insurtech innovatio | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png` (repeat) | DIA Munich: Shaping the future of global insurtech innovatio | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-51 |
-| Congresses Congresses | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-52 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-53 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-54 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-55 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-56 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-57 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-58 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-59 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-60 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-61 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-62 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-63 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-64 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-65 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-66 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-67 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-68 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-69 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-70 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-71 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-72 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-73 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-74 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-75 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-76 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-77 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-78 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-79 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-80 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-93 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-94 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-95 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-96 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-97 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-98 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-99 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-100 |
+| Section                                | Current file                                                                          | Alt text                                                      | Edit ID |
+| -------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                              | logo                                                          | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg`                  | YPO Global Event: Hospitality&amp;#038; experience excellen   | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat)         | YPO Global Event: Hospitality&amp;#038; experience excellen   | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg`                         | Menzies Congress: Shaping leadership experiences              | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` (repeat)                | Menzies Congress: Shaping leadership experiences              | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg`                    | ISE: Elevating the global stage for AV and systems integrati  | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg` (repeat)           | ISE: Elevating the global stage for AV and systems integrati  | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png`             | US Law University: Vienna reimagined for America’s legal eli | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png` (repeat)    | US Law University: Vienna reimagined for America’s legal eli | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png`                   | DIA Amsterdam: Global Insurtech x Innovation                  | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png` (repeat)          | DIA Amsterdam: Global Insurtech x Innovation                  | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png`                             | Integrated Systems Europe ISE 2021: Show Leadership           | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png` (repeat)                    | Integrated Systems Europe ISE 2021: Show Leadership           | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png`          | US Law University: Barcelona VIP Week                         | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png` (repeat) | US Law University: Barcelona VIP Week                         | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png`            | US Law University: Lisbon VIP Week                            | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png` (repeat)   | US Law University: Lisbon VIP Week                            | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png`          | US Law University: Edinburgh explored                         | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png` (repeat) | US Law University: Edinburgh explored                         | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png`                      | DIA Munich: Shaping the future of global insurtech innovatio  | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png` (repeat)             | DIA Munich: Shaping the future of global insurtech innovatio  | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                      | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                   | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`          | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                 | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-  | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)        | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-  | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`              | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc  | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)     | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc  | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                  | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8  | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)         | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8  | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                       | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png   | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)              | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png   | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                   | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.  | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.  | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                         | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png     | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png     | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                      | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png  | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png  | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`               | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca  | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)      | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca  | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`            | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-  | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)   | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-  | i-51    |
+| Congresses Congresses                  | `/assets/root/icons/ic_chevron-down.svg`                                            | chevron                                                       | i-52    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-left.svg`                                              | arrow-left                                                    | i-53    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                     | arrow-left                                                    | i-54    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg`                                             | arrow-right                                                   | i-55    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow-right                                                   | i-56    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-57    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-58    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-59    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-60    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-61    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                          | Branding                                                      | i-62    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                 | Branding                                                      | i-63    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                         | Complex Logistics                                             | i-64    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                | Complex Logistics                                             | i-65    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                        | Concept&amp; Design                                           | i-66    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)               | Concept&amp; Design                                           | i-67    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                    | Technical Production                                          | i-68    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Technical Production                                          | i-69    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                         | Hybrid&amp; Digital Content                                   | i-70    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                | Hybrid&amp; Digital Content                                   | i-71    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                          | Guest Experience&amp; Activations                             | i-72    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                 | Guest Experience&amp; Activations                             | i-73    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                          | Construction                                                  | i-74    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                 | Construction                                                  | i-75    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                 | Branding                                                      | i-76    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                 | Branding                                                      | i-77    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                | Complex Logistics                                             | i-78    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                | Complex Logistics                                             | i-79    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)               | Concept&amp; Design                                           | i-80    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)               | Concept&amp; Design                                           | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Technical Production                                          | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Technical Production                                          | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                | Hybrid&amp; Digital Content                                   | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                | Hybrid&amp; Digital Content                                   | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                 | Guest Experience&amp; Activations                             | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                 | Guest Experience&amp; Activations                             | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                 | Construction                                                  | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                 | Construction                                                  | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                  | Have an event in mind?                                        | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                         | Have an event in mind?                                        | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                | Got questions? A wild idea?                                  | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                       | Got questions? A wild idea?                                  | i-93    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-94    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-95    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-96    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-97    |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                        | footer-certified                                              | i-98    |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)               | footer-certified                                              | i-99    |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                 | CSSDA WOTM                                                    | i-100   |
 
 ## Page `/projects/congresses/page/1`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` | YPO Global Event: Hospitality &amp;#038; experience excellen | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat) | YPO Global Event: Hospitality &amp;#038; experience excellen | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` | Menzies Congress: Shaping leadership experiences | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` (repeat) | Menzies Congress: Shaping leadership experiences | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg` | ISE: Elevating the global stage for AV and systems integrati | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg` (repeat) | ISE: Elevating the global stage for AV and systems integrati | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png` | US Law University: Vienna reimagined for America’s legal eli | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png` (repeat) | US Law University: Vienna reimagined for America’s legal eli | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png` | DIA Amsterdam: Global Insurtech x Innovation | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png` (repeat) | DIA Amsterdam: Global Insurtech x Innovation | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png` | Integrated Systems Europe ISE 2021: Show Leadership | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png` (repeat) | Integrated Systems Europe ISE 2021: Show Leadership | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png` | US Law University: Barcelona VIP Week | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png` (repeat) | US Law University: Barcelona VIP Week | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png` | US Law University: Lisbon VIP Week | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png` (repeat) | US Law University: Lisbon VIP Week | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png` | US Law University: Edinburgh explored | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png` (repeat) | US Law University: Edinburgh explored | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png` | DIA Munich: Shaping the future of global insurtech innovatio | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png` (repeat) | DIA Munich: Shaping the future of global insurtech innovatio | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-51 |
-| Congresses Congresses | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-52 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-53 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-54 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-55 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-56 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-57 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-58 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-59 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-60 |
-| Congresses Congresses | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-61 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-62 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-63 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-64 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-65 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-66 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-67 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-68 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-69 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-70 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-71 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-72 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-73 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-74 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-75 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-76 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-77 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-78 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-79 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-80 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-93 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-94 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-95 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-96 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-97 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-98 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-99 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-100 |
+| Section                                | Current file                                                                          | Alt text                                                      | Edit ID |
+| -------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                              | logo                                                          | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg`                  | YPO Global Event: Hospitality&amp;#038; experience excellen   | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat)         | YPO Global Event: Hospitality&amp;#038; experience excellen   | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg`                         | Menzies Congress: Shaping leadership experiences              | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` (repeat)                | Menzies Congress: Shaping leadership experiences              | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg`                    | ISE: Elevating the global stage for AV and systems integrati  | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg` (repeat)           | ISE: Elevating the global stage for AV and systems integrati  | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png`             | US Law University: Vienna reimagined for America’s legal eli | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png` (repeat)    | US Law University: Vienna reimagined for America’s legal eli | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png`                   | DIA Amsterdam: Global Insurtech x Innovation                  | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png` (repeat)          | DIA Amsterdam: Global Insurtech x Innovation                  | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png`                             | Integrated Systems Europe ISE 2021: Show Leadership           | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png` (repeat)                    | Integrated Systems Europe ISE 2021: Show Leadership           | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png`          | US Law University: Barcelona VIP Week                         | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png` (repeat) | US Law University: Barcelona VIP Week                         | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png`            | US Law University: Lisbon VIP Week                            | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png` (repeat)   | US Law University: Lisbon VIP Week                            | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png`          | US Law University: Edinburgh explored                         | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png` (repeat) | US Law University: Edinburgh explored                         | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png`                      | DIA Munich: Shaping the future of global insurtech innovatio  | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png` (repeat)             | DIA Munich: Shaping the future of global insurtech innovatio  | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                      | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                   | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`          | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                 | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-  | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)        | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-  | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`              | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc  | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)     | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc  | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                  | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8  | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)         | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8  | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                       | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png   | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)              | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png   | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                   | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.  | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.  | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                         | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png     | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png     | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                      | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png  | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png  | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`               | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca  | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)      | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca  | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`            | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-  | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)   | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-  | i-51    |
+| Congresses Congresses                  | `/assets/root/icons/ic_chevron-down.svg`                                            | chevron                                                       | i-52    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-left.svg`                                              | arrow-left                                                    | i-53    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                     | arrow-left                                                    | i-54    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg`                                             | arrow-right                                                   | i-55    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow-right                                                   | i-56    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-57    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-58    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-59    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-60    |
+| Congresses Congresses                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                   | i-61    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                          | Branding                                                      | i-62    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                 | Branding                                                      | i-63    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                         | Complex Logistics                                             | i-64    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                | Complex Logistics                                             | i-65    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                        | Concept&amp; Design                                           | i-66    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)               | Concept&amp; Design                                           | i-67    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                    | Technical Production                                          | i-68    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Technical Production                                          | i-69    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                         | Hybrid&amp; Digital Content                                   | i-70    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                | Hybrid&amp; Digital Content                                   | i-71    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                          | Guest Experience&amp; Activations                             | i-72    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                 | Guest Experience&amp; Activations                             | i-73    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                          | Construction                                                  | i-74    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                 | Construction                                                  | i-75    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                 | Branding                                                      | i-76    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                 | Branding                                                      | i-77    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                | Complex Logistics                                             | i-78    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                | Complex Logistics                                             | i-79    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)               | Concept&amp; Design                                           | i-80    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)               | Concept&amp; Design                                           | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Technical Production                                          | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Technical Production                                          | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                | Hybrid&amp; Digital Content                                   | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                | Hybrid&amp; Digital Content                                   | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                 | Guest Experience&amp; Activations                             | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                 | Guest Experience&amp; Activations                             | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                 | Construction                                                  | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                 | Construction                                                  | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                  | Have an event in mind?                                        | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                         | Have an event in mind?                                        | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                | Got questions? A wild idea?                                  | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                       | Got questions? A wild idea?                                  | i-93    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-94    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-95    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-96    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-97    |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                        | footer-certified                                              | i-98    |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)               | footer-certified                                              | i-99    |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                 | CSSDA WOTM                                                    | i-100   |
 
 ## Page `/projects/events`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` | YPO Global Event: Hospitality &amp;#038; experience excellen | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat) | YPO Global Event: Hospitality &amp;#038; experience excellen | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | Adevinta Ignite: Empowering connection &amp;#038; growth | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat) | Adevinta Ignite: Empowering connection &amp;#038; growth | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png` | Amazfit: An experiential product launch | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png` (repeat) | Amazfit: An experiential product launch | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png` | Adevinta End of the Year Event: Five cities, five events, on | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png` (repeat) | Adevinta End of the Year Event: Five cities, five events, on | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg` | NOVOMATIC: from ICE floor to a corporate event | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg` (repeat) | NOVOMATIC: from ICE floor to a corporate event | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` | Adevinta Ignite: Shaping the future of commerce | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` (repeat) | Adevinta Ignite: Shaping the future of commerce | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png` | Stanley Stella New Collection Event: Reinventing fashion for | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png` (repeat) | Stanley Stella New Collection Event: Reinventing fashion for | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` | Hackathon: Five days of global innovation | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` (repeat) | Hackathon: Five days of global innovation | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png` | VEEAM: A corporate event turned into an exclusive dinner | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png` (repeat) | VEEAM: A corporate event turned into an exclusive dinner | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` | Axiecon: A vibrant, global gathering of gamers | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` (repeat) | Axiecon: A vibrant, global gathering of gamers | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-2-scaled.jpg` | VEEAM: The experiental event that lit up Barcelona | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-2-scaled.jpg` (repeat) | VEEAM: The experiental event that lit up Barcelona | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-51 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-52 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-53 |
-| Events Events | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-54 |
-| Events Events | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-55 |
-| Events Events | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-56 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-57 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-58 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-59 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-60 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-61 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-62 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-63 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-64 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-65 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-66 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-67 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-68 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-69 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-70 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-71 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-72 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-73 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-74 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-75 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-76 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-77 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-78 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-79 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-80 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-93 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-94 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-95 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-96 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-97 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-98 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-99 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-100 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-101 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-102 |
+| Section                                | Current file                                                                             | Alt text                                                      | Edit ID |
+| -------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                 | logo                                                          | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg`                     | YPO Global Event: Hospitality&amp;#038; experience excellen   | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat)            | YPO Global Event: Hospitality&amp;#038; experience excellen   | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`              | Adevinta Ignite: Empowering connection&amp;#038; growth       | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat)     | Adevinta Ignite: Empowering connection&amp;#038; growth       | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png`                            | Amazfit: An experiential product launch                       | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png` (repeat)                   | Amazfit: An experiential product launch                       | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png`                            | Adevinta End of the Year Event: Five cities, five events, on  | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png` (repeat)                   | Adevinta End of the Year Event: Five cities, five events, on  | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg`                               | NOVOMATIC: from ICE floor to a corporate event                | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg` (repeat)                      | NOVOMATIC: from ICE floor to a corporate event                | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg`                           | Adevinta Ignite: Shaping the future of commerce               | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` (repeat)                  | Adevinta Ignite: Shaping the future of commerce               | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png`                         | Stanley Stella New Collection Event: Reinventing fashion for | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png` (repeat)                | Stanley Stella New Collection Event: Reinventing fashion for | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png`                   | Hackathon: Five days of global innovation                     | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` (repeat)          | Hackathon: Five days of global innovation                     | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png`                                | VEEAM: A corporate event turned into an exclusive dinner      | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png` (repeat)                       | VEEAM: A corporate event turned into an exclusive dinner      | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png`                           | Axiecon: A vibrant, global gathering of gamers                | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` (repeat)                  | Axiecon: A vibrant, global gathering of gamers                | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-2-scaled.jpg`          | VEEAM: The experiental event that lit up Barcelona            | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-2-scaled.jpg` (repeat) | VEEAM: The experiental event that lit up Barcelona            | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                         | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                      | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`             | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)    | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)    | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)    | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                    | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-  | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)           | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-  | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`                 | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc  | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)        | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc  | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                     | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8  | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)            | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8  | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                          | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png   | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)                 | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png   | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                      | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.  | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.  | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                            | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png     | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                   | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png     | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                         | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png  | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png  | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`                  | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca  | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)         | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca  | i-51    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`               | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-  | i-52    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)      | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-  | i-53    |
+| Events Events                          | `/assets/root/icons/ic_chevron-down.svg`                                               | chevron                                                       | i-54    |
+| Events Events                          | `/assets/root/icons/ic_arrow-left.svg`                                                 | arrow-left                                                    | i-55    |
+| Events Events                          | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                        | arrow-left                                                    | i-56    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg`                                                | arrow-right                                                   | i-57    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow-right                                                   | i-58    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-59    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-60    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-61    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-62    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-63    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                             | Branding                                                      | i-64    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                    | Branding                                                      | i-65    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                            | Complex Logistics                                             | i-66    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                   | Complex Logistics                                             | i-67    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                           | Concept&amp; Design                                           | i-68    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                  | Concept&amp; Design                                           | i-69    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                       | Technical Production                                          | i-70    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)              | Technical Production                                          | i-71    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                            | Hybrid&amp; Digital Content                                   | i-72    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                   | Hybrid&amp; Digital Content                                   | i-73    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                             | Guest Experience&amp; Activations                             | i-74    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                    | Guest Experience&amp; Activations                             | i-75    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                             | Construction                                                  | i-76    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                    | Construction                                                  | i-77    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                    | Branding                                                      | i-78    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                    | Branding                                                      | i-79    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                   | Complex Logistics                                             | i-80    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                   | Complex Logistics                                             | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                  | Concept&amp; Design                                           | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                  | Concept&amp; Design                                           | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)              | Technical Production                                          | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)              | Technical Production                                          | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                   | Hybrid&amp; Digital Content                                   | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                   | Hybrid&amp; Digital Content                                   | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                    | Guest Experience&amp; Activations                             | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                    | Guest Experience&amp; Activations                             | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                    | Construction                                                  | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                    | Construction                                                  | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                     | Have an event in mind?                                        | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                            | Have an event in mind?                                        | i-93    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                   | Got questions? A wild idea?                                  | i-94    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                          | Got questions? A wild idea?                                  | i-95    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | icon                                                          | i-96    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | icon                                                          | i-97    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | icon                                                          | i-98    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | icon                                                          | i-99    |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                           | footer-certified                                              | i-100   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                  | footer-certified                                              | i-101   |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                    | CSSDA WOTM                                                    | i-102   |
 
 ## Page `/projects/events/page/1`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` | YPO Global Event: Hospitality &amp;#038; experience excellen | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat) | YPO Global Event: Hospitality &amp;#038; experience excellen | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | Adevinta Ignite: Empowering connection &amp;#038; growth | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat) | Adevinta Ignite: Empowering connection &amp;#038; growth | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png` | Amazfit: An experiential product launch | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png` (repeat) | Amazfit: An experiential product launch | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png` | Adevinta End of the Year Event: Five cities, five events, on | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png` (repeat) | Adevinta End of the Year Event: Five cities, five events, on | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg` | NOVOMATIC: from ICE floor to a corporate event | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg` (repeat) | NOVOMATIC: from ICE floor to a corporate event | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` | Adevinta Ignite: Shaping the future of commerce | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` (repeat) | Adevinta Ignite: Shaping the future of commerce | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png` | Stanley Stella New Collection Event: Reinventing fashion for | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png` (repeat) | Stanley Stella New Collection Event: Reinventing fashion for | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` | Hackathon: Five days of global innovation | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` (repeat) | Hackathon: Five days of global innovation | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png` | VEEAM: A corporate event turned into an exclusive dinner | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png` (repeat) | VEEAM: A corporate event turned into an exclusive dinner | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` | Axiecon: A vibrant, global gathering of gamers | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` (repeat) | Axiecon: A vibrant, global gathering of gamers | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-2-scaled.jpg` | VEEAM: The experiental event that lit up Barcelona | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-2-scaled.jpg` (repeat) | VEEAM: The experiental event that lit up Barcelona | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-51 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-52 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-53 |
-| Events Events | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-54 |
-| Events Events | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-55 |
-| Events Events | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-56 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-57 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-58 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-59 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-60 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-61 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-62 |
-| Events Events | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-63 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-64 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-65 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-66 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-67 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-68 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-69 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-70 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-71 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-72 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-73 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-74 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-75 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-76 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-77 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-78 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-79 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-80 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-93 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-94 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-95 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-96 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-97 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-98 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-99 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-100 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-101 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-102 |
+| Section                                | Current file                                                                             | Alt text                                                      | Edit ID |
+| -------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                 | logo                                                          | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg`                     | YPO Global Event: Hospitality&amp;#038; experience excellen   | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat)            | YPO Global Event: Hospitality&amp;#038; experience excellen   | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`              | Adevinta Ignite: Empowering connection&amp;#038; growth       | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat)     | Adevinta Ignite: Empowering connection&amp;#038; growth       | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png`                            | Amazfit: An experiential product launch                       | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png` (repeat)                   | Amazfit: An experiential product launch                       | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png`                            | Adevinta End of the Year Event: Five cities, five events, on  | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png` (repeat)                   | Adevinta End of the Year Event: Five cities, five events, on  | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg`                               | NOVOMATIC: from ICE floor to a corporate event                | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg` (repeat)                      | NOVOMATIC: from ICE floor to a corporate event                | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg`                           | Adevinta Ignite: Shaping the future of commerce               | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` (repeat)                  | Adevinta Ignite: Shaping the future of commerce               | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png`                         | Stanley Stella New Collection Event: Reinventing fashion for | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png` (repeat)                | Stanley Stella New Collection Event: Reinventing fashion for | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png`                   | Hackathon: Five days of global innovation                     | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` (repeat)          | Hackathon: Five days of global innovation                     | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png`                                | VEEAM: A corporate event turned into an exclusive dinner      | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png` (repeat)                       | VEEAM: A corporate event turned into an exclusive dinner      | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png`                           | Axiecon: A vibrant, global gathering of gamers                | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` (repeat)                  | Axiecon: A vibrant, global gathering of gamers                | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-2-scaled.jpg`          | VEEAM: The experiental event that lit up Barcelona            | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/VEEAM-experiental-event-2-scaled.jpg` (repeat) | VEEAM: The experiental event that lit up Barcelona            | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                         | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                      | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`             | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)    | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png  | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.  | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)    | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)    | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi  | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                    | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-  | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)           | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-  | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`                 | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc  | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)        | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc  | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                     | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8  | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)            | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8  | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                          | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png   | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)                 | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png   | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                      | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.  | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.  | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                            | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png     | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                   | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png     | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                         | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png  | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png  | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`                  | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca  | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)         | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca  | i-51    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`               | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-  | i-52    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)      | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-  | i-53    |
+| Events Events                          | `/assets/root/icons/ic_chevron-down.svg`                                               | chevron                                                       | i-54    |
+| Events Events                          | `/assets/root/icons/ic_arrow-left.svg`                                                 | arrow-left                                                    | i-55    |
+| Events Events                          | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                        | arrow-left                                                    | i-56    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg`                                                | arrow-right                                                   | i-57    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow-right                                                   | i-58    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-59    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-60    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-61    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-62    |
+| Events Events                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | arrow right                                                   | i-63    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                             | Branding                                                      | i-64    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                    | Branding                                                      | i-65    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                            | Complex Logistics                                             | i-66    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                   | Complex Logistics                                             | i-67    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                           | Concept&amp; Design                                           | i-68    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                  | Concept&amp; Design                                           | i-69    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                       | Technical Production                                          | i-70    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)              | Technical Production                                          | i-71    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                            | Hybrid&amp; Digital Content                                   | i-72    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                   | Hybrid&amp; Digital Content                                   | i-73    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                             | Guest Experience&amp; Activations                             | i-74    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                    | Guest Experience&amp; Activations                             | i-75    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                             | Construction                                                  | i-76    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                    | Construction                                                  | i-77    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                    | Branding                                                      | i-78    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                    | Branding                                                      | i-79    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                   | Complex Logistics                                             | i-80    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                   | Complex Logistics                                             | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                  | Concept&amp; Design                                           | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                  | Concept&amp; Design                                           | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)              | Technical Production                                          | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)              | Technical Production                                          | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                   | Hybrid&amp; Digital Content                                   | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                   | Hybrid&amp; Digital Content                                   | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                    | Guest Experience&amp; Activations                             | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                    | Guest Experience&amp; Activations                             | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                    | Construction                                                  | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                    | Construction                                                  | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                     | Have an event in mind?                                        | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                            | Have an event in mind?                                        | i-93    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                   | Got questions? A wild idea?                                  | i-94    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                          | Got questions? A wild idea?                                  | i-95    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | icon                                                          | i-96    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | icon                                                          | i-97    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | icon                                                          | i-98    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                       | icon                                                          | i-99    |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                           | footer-certified                                              | i-100   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                  | footer-certified                                              | i-101   |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                    | CSSDA WOTM                                                    | i-102   |
 
 ## Page `/projects/exhibits`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat) | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | Midas at ISE: Where six metres of LED sounds impeccable | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat) | Midas at ISE: Where six metres of LED sounds impeccable | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` | Ribbon at MWC: Where tech takes shape | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat) | Ribbon at MWC: Where tech takes shape | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` | Symetrix at ISE: A brand reborn. A platform launched | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` (repeat) | Symetrix at ISE: A brand reborn. A platform launched | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` | Lindy at ISE: Designed to optimise visitor flow | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` (repeat) | Lindy at ISE: Designed to optimise visitor flow | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` | VIP360 &amp;#038; epayclub at ICE 2026: Two stand concepts.  | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` (repeat) | VIP360 &amp;#038; epayclub at ICE 2026: Two stand concepts.  | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` (repeat) | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | Midas ISE: Built to impress, designed to excite | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | Midas ISE: Built to impress, designed to excite | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` | Pfizer CentreOne at CPHI: Minimal design, maximum impact | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` (repeat) | Pfizer CentreOne at CPHI: Minimal design, maximum impact | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` | Corden Pharma at CPHI: When scale meets precision | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` (repeat) | Corden Pharma at CPHI: When scale meets precision | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg` | Behringer &amp;#038; Tannoy at ISE: Designed for product dis | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg` (repeat) | Behringer &amp;#038; Tannoy at ISE: Designed for product dis | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg` | Genelec at ISE: A stand that became a speaker | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg` (repeat) | Genelec at ISE: A stand that became a speaker | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png` | Williams AV at ISE: Making a large product portfolio easy to | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png` (repeat) | Williams AV at ISE: Making a large product portfolio easy to | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Arbor-ISE-2026-3.png` | Arbor at ISE 2026: Where brand visibility meets everyday fun | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Arbor-ISE-2026-3.png` (repeat) | Arbor at ISE 2026: Where brand visibility meets everyday fun | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-11.png` | Powersoft at ISE: Celebrating 30 years of leading sound ampl | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-11.png` (repeat) | Powersoft at ISE: Celebrating 30 years of leading sound ampl | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Listen-ISE-2026-2.png` | Listen Technologies at ISE: Engineering engagement | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Listen-ISE-2026-2.png` (repeat) | Listen Technologies at ISE: Engineering engagement | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Navori-ISE-1.png` | Navori at ISE: AV in motion | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Navori-ISE-1.png` (repeat) | Navori at ISE: AV in motion | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Yodeck-ISE-2026-4.png` | Yodeck at ISE: Built for performance | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Yodeck-ISE-2026-4.png` (repeat) | Yodeck at ISE: Built for performance | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/UK-Smart-City-Expo-6.png` | UK Pavilion at Smart City Expo: Connecting smart solutions | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/UK-Smart-City-Expo-6.png` (repeat) | UK Pavilion at Smart City Expo: Connecting smart solutions | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/09/Ribbon-MWC-2025-4.jpg` | Ribbon at MWC: Networking stand for networking solutions exp | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/09/Ribbon-MWC-2025-4.jpg` (repeat) | Ribbon at MWC: Networking stand for networking solutions exp | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-60 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-61 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-64 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-65 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71 |
-| Exhibits Exhibits | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-72 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-73 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-74 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-75 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-76 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-77 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-78 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-79 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-80 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-93 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-94 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-95 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-96 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-97 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-98 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-99 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-100 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-101 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-102 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-103 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-104 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-105 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-106 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-107 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-108 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-109 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-110 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-111 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-112 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-113 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-114 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-115 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-116 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-117 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-118 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-119 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-120 |
+| Section                                | Current file                                                                               | Alt text                                                     | Edit ID |
+| -------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------ | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                   | logo                                                         | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg`                       | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat)              | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`                     | Midas at ISE: Where six metres of LED sounds impeccable      | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat)            | Midas at ISE: Where six metres of LED sounds impeccable      | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png`                           | Ribbon at MWC: Where tech takes shape                        | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat)                  | Ribbon at MWC: Where tech takes shape                        | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png`                         | Symetrix at ISE: A brand reborn. A platform launched         | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` (repeat)                | Symetrix at ISE: A brand reborn. A platform launched         | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg`                     | Lindy at ISE: Designed to optimise visitor flow              | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` (repeat)            | Lindy at ISE: Designed to optimise visitor flow              | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg`           | VIP360&amp;#038; epayclub at ICE 2026: Two stand concepts.   | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` (repeat)  | VIP360&amp;#038; epayclub at ICE 2026: Two stand concepts.   | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png`                          | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` (repeat)                 | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`                     | Midas ISE: Built to impress, designed to excite              | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)            | Midas ISE: Built to impress, designed to excite              | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png`                               | Pfizer CentreOne at CPHI: Minimal design, maximum impact     | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` (repeat)                      | Pfizer CentreOne at CPHI: Minimal design, maximum impact     | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png`                        | Corden Pharma at CPHI: When scale meets precision            | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` (repeat)               | Corden Pharma at CPHI: When scale meets precision            | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg`          | Behringer&amp;#038; Tannoy at ISE: Designed for product dis  | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg` (repeat) | Behringer&amp;#038; Tannoy at ISE: Designed for product dis  | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg`                   | Genelec at ISE: A stand that became a speaker                | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg` (repeat)          | Genelec at ISE: A stand that became a speaker                | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png`                         | Williams AV at ISE: Making a large product portfolio easy to | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png` (repeat)                | Williams AV at ISE: Making a large product portfolio easy to | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Arbor-ISE-2026-3.png`                            | Arbor at ISE 2026: Where brand visibility meets everyday fun | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Arbor-ISE-2026-3.png` (repeat)                   | Arbor at ISE 2026: Where brand visibility meets everyday fun | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-11.png`                       | Powersoft at ISE: Celebrating 30 years of leading sound ampl | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-11.png` (repeat)              | Powersoft at ISE: Celebrating 30 years of leading sound ampl | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Listen-ISE-2026-2.png`                           | Listen Technologies at ISE: Engineering engagement           | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Listen-ISE-2026-2.png` (repeat)                  | Listen Technologies at ISE: Engineering engagement           | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Navori-ISE-1.png`                                | Navori at ISE: AV in motion                                  | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Navori-ISE-1.png` (repeat)                       | Navori at ISE: AV in motion                                  | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Yodeck-ISE-2026-4.png`                           | Yodeck at ISE: Built for performance                         | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Yodeck-ISE-2026-4.png` (repeat)                  | Yodeck at ISE: Built for performance                         | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/UK-Smart-City-Expo-6.png`                        | UK Pavilion at Smart City Expo: Connecting smart solutions   | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/UK-Smart-City-Expo-6.png` (repeat)               | UK Pavilion at Smart City Expo: Connecting smart solutions   | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/09/Ribbon-MWC-2025-4.jpg`                           | Ribbon at MWC: Networking stand for networking solutions exp | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/09/Ribbon-MWC-2025-4.jpg` (repeat)                  | Ribbon at MWC: Networking stand for networking solutions exp | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                           | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                        | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)               | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`               | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)      | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)               | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)               | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)      | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)      | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                      | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`                   | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)          | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                       | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)              | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                            | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-60    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)                   | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-61    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                        | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)               | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                              | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-64    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                     | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-65    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                           | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`                    | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)           | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`                 | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)        | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_chevron-down.svg`                                                 | chevron                                                      | i-72    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-left.svg`                                                   | arrow-left                                                   | i-73    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                          | arrow-left                                                   | i-74    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg`                                                  | arrow-right                                                  | i-75    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow-right                                                  | i-76    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-77    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-78    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-79    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-80    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                               | Branding                                                     | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                      | Branding                                                     | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                              | Complex Logistics                                            | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                     | Complex Logistics                                            | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                             | Concept&amp; Design                                          | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                    | Concept&amp; Design                                          | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                         | Technical Production                                         | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                | Technical Production                                         | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                              | Hybrid&amp; Digital Content                                  | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                     | Hybrid&amp; Digital Content                                  | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                               | Guest Experience&amp; Activations                            | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                      | Guest Experience&amp; Activations                            | i-93    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                               | Construction                                                 | i-94    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                      | Construction                                                 | i-95    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                      | Branding                                                     | i-96    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                      | Branding                                                     | i-97    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                     | Complex Logistics                                            | i-98    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                     | Complex Logistics                                            | i-99    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                    | Concept&amp; Design                                          | i-100   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                    | Concept&amp; Design                                          | i-101   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                | Technical Production                                         | i-102   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                | Technical Production                                         | i-103   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                     | Hybrid&amp; Digital Content                                  | i-104   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                     | Hybrid&amp; Digital Content                                  | i-105   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                      | Guest Experience&amp; Activations                            | i-106   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                      | Guest Experience&amp; Activations                            | i-107   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                      | Construction                                                 | i-108   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                      | Construction                                                 | i-109   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                       | Have an event in mind?                                       | i-110   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                              | Have an event in mind?                                       | i-111   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                     | Got questions? A wild idea?                                 | i-112   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                            | Got questions? A wild idea?                                 | i-113   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | icon                                                         | i-114   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | icon                                                         | i-115   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | icon                                                         | i-116   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | icon                                                         | i-117   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                             | footer-certified                                             | i-118   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                    | footer-certified                                             | i-119   |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                      | CSSDA WOTM                                                   | i-120   |
 
 ## Page `/projects/exhibits/page/1`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat) | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | Midas at ISE: Where six metres of LED sounds impeccable | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat) | Midas at ISE: Where six metres of LED sounds impeccable | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` | Ribbon at MWC: Where tech takes shape | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat) | Ribbon at MWC: Where tech takes shape | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` | Symetrix at ISE: A brand reborn. A platform launched | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` (repeat) | Symetrix at ISE: A brand reborn. A platform launched | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` | Lindy at ISE: Designed to optimise visitor flow | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` (repeat) | Lindy at ISE: Designed to optimise visitor flow | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` | VIP360 &amp;#038; epayclub at ICE 2026: Two stand concepts.  | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` (repeat) | VIP360 &amp;#038; epayclub at ICE 2026: Two stand concepts.  | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` (repeat) | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | Midas ISE: Built to impress, designed to excite | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | Midas ISE: Built to impress, designed to excite | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` | Pfizer CentreOne at CPHI: Minimal design, maximum impact | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` (repeat) | Pfizer CentreOne at CPHI: Minimal design, maximum impact | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` | Corden Pharma at CPHI: When scale meets precision | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` (repeat) | Corden Pharma at CPHI: When scale meets precision | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg` | Behringer &amp;#038; Tannoy at ISE: Designed for product dis | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg` (repeat) | Behringer &amp;#038; Tannoy at ISE: Designed for product dis | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg` | Genelec at ISE: A stand that became a speaker | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg` (repeat) | Genelec at ISE: A stand that became a speaker | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png` | Williams AV at ISE: Making a large product portfolio easy to | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png` (repeat) | Williams AV at ISE: Making a large product portfolio easy to | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Arbor-ISE-2026-3.png` | Arbor at ISE 2026: Where brand visibility meets everyday fun | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Arbor-ISE-2026-3.png` (repeat) | Arbor at ISE 2026: Where brand visibility meets everyday fun | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-11.png` | Powersoft at ISE: Celebrating 30 years of leading sound ampl | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-11.png` (repeat) | Powersoft at ISE: Celebrating 30 years of leading sound ampl | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Listen-ISE-2026-2.png` | Listen Technologies at ISE: Engineering engagement | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Listen-ISE-2026-2.png` (repeat) | Listen Technologies at ISE: Engineering engagement | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Navori-ISE-1.png` | Navori at ISE: AV in motion | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Navori-ISE-1.png` (repeat) | Navori at ISE: AV in motion | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Yodeck-ISE-2026-4.png` | Yodeck at ISE: Built for performance | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/Yodeck-ISE-2026-4.png` (repeat) | Yodeck at ISE: Built for performance | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/UK-Smart-City-Expo-6.png` | UK Pavilion at Smart City Expo: Connecting smart solutions | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/03/UK-Smart-City-Expo-6.png` (repeat) | UK Pavilion at Smart City Expo: Connecting smart solutions | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/09/Ribbon-MWC-2025-4.jpg` | Ribbon at MWC: Networking stand for networking solutions exp | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/09/Ribbon-MWC-2025-4.jpg` (repeat) | Ribbon at MWC: Networking stand for networking solutions exp | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-60 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-61 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-64 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-65 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71 |
-| Exhibits Exhibits | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-72 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-73 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-74 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-75 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-76 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-77 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-78 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-79 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-80 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-93 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-94 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-95 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-96 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-97 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-98 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-99 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-100 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-101 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-102 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-103 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-104 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-105 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-106 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-107 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-108 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-109 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-110 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-111 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-112 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-113 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-114 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-115 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-116 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-117 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-118 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-119 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-120 |
+| Section                                | Current file                                                                               | Alt text                                                     | Edit ID |
+| -------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------ | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                   | logo                                                         | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg`                       | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat)              | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`                     | Midas at ISE: Where six metres of LED sounds impeccable      | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat)            | Midas at ISE: Where six metres of LED sounds impeccable      | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png`                           | Ribbon at MWC: Where tech takes shape                        | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat)                  | Ribbon at MWC: Where tech takes shape                        | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png`                         | Symetrix at ISE: A brand reborn. A platform launched         | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` (repeat)                | Symetrix at ISE: A brand reborn. A platform launched         | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg`                     | Lindy at ISE: Designed to optimise visitor flow              | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` (repeat)            | Lindy at ISE: Designed to optimise visitor flow              | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg`           | VIP360&amp;#038; epayclub at ICE 2026: Two stand concepts.   | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` (repeat)  | VIP360&amp;#038; epayclub at ICE 2026: Two stand concepts.   | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png`                          | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` (repeat)                 | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`                     | Midas ISE: Built to impress, designed to excite              | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)            | Midas ISE: Built to impress, designed to excite              | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png`                               | Pfizer CentreOne at CPHI: Minimal design, maximum impact     | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` (repeat)                      | Pfizer CentreOne at CPHI: Minimal design, maximum impact     | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png`                        | Corden Pharma at CPHI: When scale meets precision            | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` (repeat)               | Corden Pharma at CPHI: When scale meets precision            | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg`          | Behringer&amp;#038; Tannoy at ISE: Designed for product dis  | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Behringer-Tannoy-ISE-2026-3-scaled.jpg` (repeat) | Behringer&amp;#038; Tannoy at ISE: Designed for product dis  | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg`                   | Genelec at ISE: A stand that became a speaker                | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Genelec-ISE-2026-2-scaled.jpg` (repeat)          | Genelec at ISE: A stand that became a speaker                | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png`                         | Williams AV at ISE: Making a large product portfolio easy to | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Williams-ISE-2026-1.png` (repeat)                | Williams AV at ISE: Making a large product portfolio easy to | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Arbor-ISE-2026-3.png`                            | Arbor at ISE 2026: Where brand visibility meets everyday fun | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Arbor-ISE-2026-3.png` (repeat)                   | Arbor at ISE 2026: Where brand visibility meets everyday fun | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-11.png`                       | Powersoft at ISE: Celebrating 30 years of leading sound ampl | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2025-11.png` (repeat)              | Powersoft at ISE: Celebrating 30 years of leading sound ampl | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Listen-ISE-2026-2.png`                           | Listen Technologies at ISE: Engineering engagement           | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Listen-ISE-2026-2.png` (repeat)                  | Listen Technologies at ISE: Engineering engagement           | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Navori-ISE-1.png`                                | Navori at ISE: AV in motion                                  | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Navori-ISE-1.png` (repeat)                       | Navori at ISE: AV in motion                                  | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Yodeck-ISE-2026-4.png`                           | Yodeck at ISE: Built for performance                         | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/Yodeck-ISE-2026-4.png` (repeat)                  | Yodeck at ISE: Built for performance                         | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/UK-Smart-City-Expo-6.png`                        | UK Pavilion at Smart City Expo: Connecting smart solutions   | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/03/UK-Smart-City-Expo-6.png` (repeat)               | UK Pavilion at Smart City Expo: Connecting smart solutions   | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/09/Ribbon-MWC-2025-4.jpg`                           | Ribbon at MWC: Networking stand for networking solutions exp | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/09/Ribbon-MWC-2025-4.jpg` (repeat)                  | Ribbon at MWC: Networking stand for networking solutions exp | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                           | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                        | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)               | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`               | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)      | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)               | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)               | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)      | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)      | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                      | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`                   | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)          | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                       | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)              | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                            | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-60    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)                   | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-61    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                        | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)               | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                              | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-64    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                     | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-65    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                           | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`                    | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)           | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`                 | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)        | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_chevron-down.svg`                                                 | chevron                                                      | i-72    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-left.svg`                                                   | arrow-left                                                   | i-73    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                          | arrow-left                                                   | i-74    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg`                                                  | arrow-right                                                  | i-75    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow-right                                                  | i-76    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-77    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-78    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-79    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-80    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | arrow right                                                  | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                               | Branding                                                     | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                      | Branding                                                     | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                              | Complex Logistics                                            | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                     | Complex Logistics                                            | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                             | Concept&amp; Design                                          | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                    | Concept&amp; Design                                          | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                         | Technical Production                                         | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                | Technical Production                                         | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                              | Hybrid&amp; Digital Content                                  | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                     | Hybrid&amp; Digital Content                                  | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                               | Guest Experience&amp; Activations                            | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                      | Guest Experience&amp; Activations                            | i-93    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                               | Construction                                                 | i-94    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                      | Construction                                                 | i-95    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                      | Branding                                                     | i-96    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                      | Branding                                                     | i-97    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                     | Complex Logistics                                            | i-98    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                     | Complex Logistics                                            | i-99    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                    | Concept&amp; Design                                          | i-100   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                    | Concept&amp; Design                                          | i-101   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                | Technical Production                                         | i-102   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                | Technical Production                                         | i-103   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                     | Hybrid&amp; Digital Content                                  | i-104   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                     | Hybrid&amp; Digital Content                                  | i-105   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                      | Guest Experience&amp; Activations                            | i-106   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                      | Guest Experience&amp; Activations                            | i-107   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                      | Construction                                                 | i-108   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                      | Construction                                                 | i-109   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                       | Have an event in mind?                                       | i-110   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                              | Have an event in mind?                                       | i-111   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                     | Got questions? A wild idea?                                 | i-112   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                            | Got questions? A wild idea?                                 | i-113   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | icon                                                         | i-114   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | icon                                                         | i-115   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | icon                                                         | i-116   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                         | icon                                                         | i-117   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                             | footer-certified                                             | i-118   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                    | footer-certified                                             | i-119   |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                      | CSSDA WOTM                                                   | i-120   |
 
 ## Page `/projects/exhibits/page/2`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Adragos-CPHI-3.png` | Adragos Pharma at CPHI: Where precision meets presence | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Adragos-CPHI-3.png` (repeat) | Adragos Pharma at CPHI: Where precision meets presence | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Gclub-ICE-2025-3-scaled.jpg` | G-Club at ICE: A VIP stand for connection and conversation | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Gclub-ICE-2025-3-scaled.jpg` (repeat) | G-Club at ICE: A VIP stand for connection and conversation | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Rhei-Life_-CPHI-2024-6.png` | Rhei Life at CPHI: A stand where innovation flows | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Rhei-Life_-CPHI-2024-6.png` (repeat) | Rhei Life at CPHI: A stand where innovation flows | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Centrient_CPHI-2024-3.png` | Centrient at CPHI: A warm welcome for a returning client | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Centrient_CPHI-2024-3.png` (repeat) | Centrient at CPHI: A warm welcome for a returning client | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Radisys-MWC-2024.png` | Radisys at MWC: Smart design for a growing partner | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Radisys-MWC-2024.png` (repeat) | Radisys at MWC: Smart design for a growing partner | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024.png` | Midas at ISE: Five brands, one voice | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024.png` (repeat) | Midas at ISE: Five brands, one voice | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/NEXTPHARMA-CPHI-2023-scaled.jpg` | NextPharma at CPHI: A refined stand for a global CDMO | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/NEXTPHARMA-CPHI-2023-scaled.jpg` (repeat) | NextPharma at CPHI: A refined stand for a global CDMO | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Ami-Organics-CPHI-2024-2.png` | Ami Organics at CPHI: Sustainability takes centre stage | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Ami-Organics-CPHI-2024-2.png` (repeat) | Ami Organics at CPHI: Sustainability takes centre stage | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | Pexip at ISE: A double-decker stand that spoke volumes | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | Pexip at ISE: A double-decker stand that spoke volumes | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/GEN-CPHI-2023-6.png` | GEN at CPHI:  A Stand that speaks global science with local  | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/GEN-CPHI-2023-6.png` (repeat) | GEN at CPHI:  A Stand that speaks global science with local  | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | Powersoft at ISE: Eco-design in the spotlight | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | Powersoft at ISE: Eco-design in the spotlight | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-6.png` | FIAT 500X Roadshow: Turning cities into stages | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-6.png` (repeat) | FIAT 500X Roadshow: Turning cities into stages | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-51 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-52 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-53 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-54 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-55 |
-| Exhibits Exhibits | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-56 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-57 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-58 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-59 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-60 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-61 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-62 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-63 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-64 |
-| Exhibits Exhibits | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-65 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-66 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-67 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-68 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-69 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-70 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-71 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-72 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-73 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-74 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-75 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-76 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-77 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-78 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-79 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-80 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-93 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-94 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-95 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-96 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-97 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-98 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-99 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-100 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-101 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-102 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-103 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-104 |
+| Section                                | Current file                                                                          | Alt text                                                     | Edit ID |
+| -------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                              | logo                                                         | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Adragos-CPHI-3.png`                         | Adragos Pharma at CPHI: Where precision meets presence       | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Adragos-CPHI-3.png` (repeat)                | Adragos Pharma at CPHI: Where precision meets presence       | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Gclub-ICE-2025-3-scaled.jpg`                | G-Club at ICE: A VIP stand for connection and conversation   | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Gclub-ICE-2025-3-scaled.jpg` (repeat)       | G-Club at ICE: A VIP stand for connection and conversation   | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Rhei-Life_-CPHI-2024-6.png`                 | Rhei Life at CPHI: A stand where innovation flows            | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Rhei-Life_-CPHI-2024-6.png` (repeat)        | Rhei Life at CPHI: A stand where innovation flows            | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Centrient_CPHI-2024-3.png`                  | Centrient at CPHI: A warm welcome for a returning client     | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Centrient_CPHI-2024-3.png` (repeat)         | Centrient at CPHI: A warm welcome for a returning client     | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Radisys-MWC-2024.png`                       | Radisys at MWC: Smart design for a growing partner           | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Radisys-MWC-2024.png` (repeat)              | Radisys at MWC: Smart design for a growing partner           | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024.png`                         | Midas at ISE: Five brands, one voice                         | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024.png` (repeat)                | Midas at ISE: Five brands, one voice                         | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/NEXTPHARMA-CPHI-2023-scaled.jpg`            | NextPharma at CPHI: A refined stand for a global CDMO        | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/NEXTPHARMA-CPHI-2023-scaled.jpg` (repeat)   | NextPharma at CPHI: A refined stand for a global CDMO        | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Ami-Organics-CPHI-2024-2.png`               | Ami Organics at CPHI: Sustainability takes centre stage      | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Ami-Organics-CPHI-2024-2.png` (repeat)      | Ami Organics at CPHI: Sustainability takes centre stage      | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                         | Pexip at ISE: A double-decker stand that spoke volumes       | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                | Pexip at ISE: A double-decker stand that spoke volumes       | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/GEN-CPHI-2023-6.png`                        | GEN at CPHI:  A Stand that speaks global science with local  | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/GEN-CPHI-2023-6.png` (repeat)               | GEN at CPHI:  A Stand that speaks global science with local  | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                   | Powersoft at ISE: Eco-design in the spotlight                | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)          | Powersoft at ISE: Eco-design in the spotlight                | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-6.png`                   | FIAT 500X Roadshow: Turning cities into stages               | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/09/FIAT-500X-Roadshow-6.png` (repeat)          | FIAT 500X Roadshow: Turning cities into stages               | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                      | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                   | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`          | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                 | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)        | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`              | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)     | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                  | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)         | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                       | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)              | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                      | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-51    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`               | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-52    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)      | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-53    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`            | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-54    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)   | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-55    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_chevron-down.svg`                                            | chevron                                                      | i-56    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-left.svg`                                              | arrow-left                                                   | i-57    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                     | arrow-left                                                   | i-58    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg`                                             | arrow-right                                                  | i-59    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow-right                                                  | i-60    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                  | i-61    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                  | i-62    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                  | i-63    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                  | i-64    |
+| Exhibits Exhibits                      | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                  | i-65    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                          | Branding                                                     | i-66    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                 | Branding                                                     | i-67    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                         | Complex Logistics                                            | i-68    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                | Complex Logistics                                            | i-69    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                        | Concept&amp; Design                                          | i-70    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)               | Concept&amp; Design                                          | i-71    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                    | Technical Production                                         | i-72    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Technical Production                                         | i-73    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                         | Hybrid&amp; Digital Content                                  | i-74    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                | Hybrid&amp; Digital Content                                  | i-75    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                          | Guest Experience&amp; Activations                            | i-76    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                 | Guest Experience&amp; Activations                            | i-77    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                          | Construction                                                 | i-78    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                 | Construction                                                 | i-79    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                 | Branding                                                     | i-80    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                 | Branding                                                     | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                | Complex Logistics                                            | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                | Complex Logistics                                            | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)               | Concept&amp; Design                                          | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)               | Concept&amp; Design                                          | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Technical Production                                         | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Technical Production                                         | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                | Hybrid&amp; Digital Content                                  | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                | Hybrid&amp; Digital Content                                  | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                 | Guest Experience&amp; Activations                            | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                 | Guest Experience&amp; Activations                            | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                 | Construction                                                 | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                 | Construction                                                 | i-93    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                  | Have an event in mind?                                       | i-94    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                         | Have an event in mind?                                       | i-95    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                | Got questions? A wild idea?                                 | i-96    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                       | Got questions? A wild idea?                                 | i-97    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                         | i-98    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                         | i-99    |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                         | i-100   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                         | i-101   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                        | footer-certified                                             | i-102   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)               | footer-certified                                             | i-103   |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                 | CSSDA WOTM                                                   | i-104   |
 
 ## Page `/projects/filter`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-31 |
-| (top of page) | `/assets/root/icons/ic_arrow-right.svg` | arrow right | i-32 |
-| (top of page) | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-33 |
-| (top of page) | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-34 |
-| (top of page) | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-35 |
-| (top of page) | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-40 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-41 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-42 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-43 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-44 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-45 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-46 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-47 |
+| Section       | Current file                                                                          | Alt text                                                     | Edit ID |
+| ------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                              | logo                                                         | i-1     |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                      | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-2     |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-3     |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                   | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-4     |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-5     |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`          | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-6     |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-7     |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-8     |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-9     |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-10    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-11    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-12    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-13    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                 | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-14    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)        | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-15    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`              | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-16    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)     | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-17    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                  | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-18    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)         | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-19    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                       | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-20    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)              | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-21    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                   | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-22    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)          | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-23    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                         | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-24    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-25    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                      | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-26    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)             | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-27    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`               | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-28    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)      | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-29    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`            | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-30    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)   | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-31    |
+| (top of page) | `/assets/root/icons/ic_arrow-right.svg`                                             | arrow right                                                  | i-32    |
+| (top of page) | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                  | i-33    |
+| (top of page) | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                  | i-34    |
+| (top of page) | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                  | i-35    |
+| (top of page) | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | arrow right                                                  | i-36    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                  | Have an event in mind?                                       | i-37    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                         | Have an event in mind?                                       | i-38    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                | Got questions? A wild idea?                                 | i-39    |
+| (top of page) | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                       | Got questions? A wild idea?                                 | i-40    |
+| contact       | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                         | i-41    |
+| contact       | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                         | i-42    |
+| contact       | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                         | i-43    |
+| contact       | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                         | i-44    |
+| contact       | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                        | footer-certified                                             | i-45    |
+| contact       | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)               | footer-certified                                             | i-46    |
+| contact       | `/assets/root/cssda-wotm-white.svg`                                                 | CSSDA WOTM                                                   | i-47    |
 
 ## Page `/projects/sports`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` | Etihad Euroleague Final Four 2026: From raw venue to premium | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat) | Etihad Euroleague Final Four 2026: From raw venue to premium | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` | Express Delivery at home in the Champions Village: FedEx 202 | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` (repeat) | Express Delivery at home in the Champions Village: FedEx 202 | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat) | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` (repeat) | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` | UEFA Champions League Final: Where football met Turkish Gran | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` (repeat) | UEFA Champions League Final: Where football met Turkish Gran | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` | UEFA Champions League Final: Hospitality Programme | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat) | UEFA Champions League Final: Hospitality Programme | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` | UEFA Super Cup 2025: Udine Final Experience | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat) | UEFA Super Cup 2025: Udine Final Experience | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png` | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png` (repeat) | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png` | UEFA Season Kick-Off: Celebrating the start of the season wi | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png` (repeat) | UEFA Season Kick-Off: Celebrating the start of the season wi | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2024-10-scaled.png` | Turkish Airlines Euroleague Final Four: Elite sports hospita | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2024-10-scaled.png` (repeat) | Turkish Airlines Euroleague Final Four: Elite sports hospita | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png` | UEFA Champions Village: Sponsor Hospitality | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png` (repeat) | UEFA Champions Village: Sponsor Hospitality | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2019-3.png` | Turkish Airlines Euroleague Final Four: Sports Hospitality i | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2019-3.png` (repeat) | Turkish Airlines Euroleague Final Four: Sports Hospitality i | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2018-13.png` | EuroLeague Final Four: VIP Hospitality at Belgrade | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2018-13.png` (repeat) | EuroLeague Final Four: VIP Hospitality at Belgrade | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/05/Fedex-scaled.jpg` | FedEx at UCLF: Special moments for a global leader | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/05/Fedex-scaled.jpg` (repeat) | FedEx at UCLF: Special moments for a global leader | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Toyota-Paralympics-2.png` | Toyota Paris Paralympics: Making waves at the Paralympics | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Toyota-Paralympics-2.png` (repeat) | Toyota Paris Paralympics: Making waves at the Paralympics | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/E1-Champions-of-the-Water-2024-3.png` | E1 Champions of the Water: VIP Hospitality on a Venetian Lag | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/E1-Champions-of-the-Water-2024-3.png` (repeat) | E1 Champions of the Water: VIP Hospitality on a Venetian Lag | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Godo-2022-6.png` | Banc Sabadell Barcelona Open &amp;#8211; Godó:  Transforming | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Godo-2022-6.png` (repeat) | Banc Sabadell Barcelona Open &amp;#8211; Godó:  Transforming | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png` | Rakuten at Davis Cup Finals: Hospitality Lounge | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png` (repeat) | Rakuten at Davis Cup Finals: Hospitality Lounge | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png` | World Aquatics Championships:  Where sport, culture &amp;#03 | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png` (repeat) | World Aquatics Championships:  Where sport, culture &amp;#03 | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-60 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-61 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-64 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-65 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71 |
-| Sports Sports | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-72 |
-| Sports Sports | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-73 |
-| Sports Sports | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-74 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-75 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-76 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-77 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-78 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-79 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-80 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-93 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-94 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-95 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-96 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-97 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-98 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-99 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-100 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-101 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-102 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-103 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-104 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-105 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-106 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-107 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-108 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-109 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-110 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-111 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-112 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-113 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-114 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-115 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-116 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-117 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-118 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-119 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-120 |
+| Section                                | Current file                                                                                         | Alt text                                                     | Edit ID |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                             | logo                                                         | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp`          | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg`                  | Etihad Euroleague Final Four 2026: From raw venue to premium | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat)         | Etihad Euroleague Final Four 2026: From raw venue to premium | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg`                 | Express Delivery at home in the Champions Village: FedEx 202 | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` (repeat)        | Express Delivery at home in the Champions Village: FedEx 202 | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg`                                 | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat)                        | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg`                                            | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` (repeat)                                   | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg`                              | UEFA Champions League Final: Where football met Turkish Gran | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` (repeat)                     | UEFA Champions League Final: Where football met Turkish Gran | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg`                                    | UEFA Champions League Final: Hospitality Programme           | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat)                           | UEFA Champions League Final: Hospitality Programme           | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png`                                      | UEFA Super Cup 2025: Udine Final Experience                  | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat)                             | UEFA Super Cup 2025: Udine Final Experience                  | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png`                                    | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png` (repeat)                           | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png`                           | UEFA Season Kick-Off: Celebrating the start of the season wi | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png` (repeat)                  | UEFA Season Kick-Off: Celebrating the start of the season wi | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2024-10-scaled.png`                             | Turkish Airlines Euroleague Final Four: Elite sports hospita | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2024-10-scaled.png` (repeat)                    | Turkish Airlines Euroleague Final Four: Elite sports hospita | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png`                                           | UEFA Champions Village: Sponsor Hospitality                  | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png` (repeat)                                  | UEFA Champions Village: Sponsor Hospitality                  | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2019-3.png`                                     | Turkish Airlines Euroleague Final Four: Sports Hospitality i | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2019-3.png` (repeat)                            | Turkish Airlines Euroleague Final Four: Sports Hospitality i | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2018-13.png`                                    | EuroLeague Final Four: VIP Hospitality at Belgrade           | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2018-13.png` (repeat)                           | EuroLeague Final Four: VIP Hospitality at Belgrade           | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/05/Fedex-scaled.jpg`                                          | FedEx at UCLF: Special moments for a global leader           | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/05/Fedex-scaled.jpg` (repeat)                                 | FedEx at UCLF: Special moments for a global leader           | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Toyota-Paralympics-2.png`                                  | Toyota Paris Paralympics: Making waves at the Paralympics    | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Toyota-Paralympics-2.png` (repeat)                         | Toyota Paris Paralympics: Making waves at the Paralympics    | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/E1-Champions-of-the-Water-2024-3.png`                      | E1 Champions of the Water: VIP Hospitality on a Venetian Lag | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/E1-Champions-of-the-Water-2024-3.png` (repeat)             | E1 Champions of the Water: VIP Hospitality on a Venetian Lag | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Godo-2022-6.png`                                           | Banc Sabadell Barcelona Open&amp;#8211; Godó:  Transforming | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Godo-2022-6.png` (repeat)                                  | Banc Sabadell Barcelona Open&amp;#8211; Godó:  Transforming | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png`                            | Rakuten at Davis Cup Finals: Hospitality Lounge              | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png` (repeat)                   | Rakuten at Davis Cup Finals: Hospitality Lounge              | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png`                   | World Aquatics Championships:  Where sport, culture&amp;#03  | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png` (repeat)          | World Aquatics Championships:  Where sport, culture&amp;#03  | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                                     | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                                  | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`                         | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                                | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)                       | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`                             | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)                    | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                                 | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)                        | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                                      | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-60    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)                             | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-61    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                                  | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                                        | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-64    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                               | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-65    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                                     | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`                              | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)                     | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`                           | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71    |
+| Sports Sports                          | `/assets/root/icons/ic_chevron-down.svg`                                                           | chevron                                                      | i-72    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-left.svg`                                                             | arrow-left                                                   | i-73    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | arrow-left                                                   | i-74    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg`                                                            | arrow-right                                                  | i-75    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow-right                                                  | i-76    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-77    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-78    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-79    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-80    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                                         | Branding                                                     | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                                | Branding                                                     | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                                        | Complex Logistics                                            | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                               | Complex Logistics                                            | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                                       | Concept&amp; Design                                          | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Concept&amp; Design                                          | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                                   | Technical Production                                         | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                          | Technical Production                                         | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                                        | Hybrid&amp; Digital Content                                  | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                               | Hybrid&amp; Digital Content                                  | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                                         | Guest Experience&amp; Activations                            | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                | Guest Experience&amp; Activations                            | i-93    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                                         | Construction                                                 | i-94    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                                | Construction                                                 | i-95    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                                | Branding                                                     | i-96    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                                | Branding                                                     | i-97    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                               | Complex Logistics                                            | i-98    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                               | Complex Logistics                                            | i-99    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Concept&amp; Design                                          | i-100   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Concept&amp; Design                                          | i-101   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                          | Technical Production                                         | i-102   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                          | Technical Production                                         | i-103   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                               | Hybrid&amp; Digital Content                                  | i-104   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                               | Hybrid&amp; Digital Content                                  | i-105   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                | Guest Experience&amp; Activations                            | i-106   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                | Guest Experience&amp; Activations                            | i-107   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                                | Construction                                                 | i-108   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                                | Construction                                                 | i-109   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                 | Have an event in mind?                                       | i-110   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                        | Have an event in mind?                                       | i-111   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                               | Got questions? A wild idea?                                 | i-112   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                      | Got questions? A wild idea?                                 | i-113   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-114   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-115   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-116   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-117   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                       | footer-certified                                             | i-118   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                              | footer-certified                                             | i-119   |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                                | CSSDA WOTM                                                   | i-120   |
 
 ## Page `/projects/sports/page/1`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-2 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-3 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` | Etihad Euroleague Final Four 2026: From raw venue to premium | i-4 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat) | Etihad Euroleague Final Four 2026: From raw venue to premium | i-5 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` | Express Delivery at home in the Champions Village: FedEx 202 | i-6 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` (repeat) | Express Delivery at home in the Champions Village: FedEx 202 | i-7 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-8 |
-| (top of page) | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat) | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-9 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-10 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` (repeat) | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-11 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` | UEFA Champions League Final: Where football met Turkish Gran | i-12 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` (repeat) | UEFA Champions League Final: Where football met Turkish Gran | i-13 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` | UEFA Champions League Final: Hospitality Programme | i-14 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat) | UEFA Champions League Final: Hospitality Programme | i-15 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` | UEFA Super Cup 2025: Udine Final Experience | i-16 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat) | UEFA Super Cup 2025: Udine Final Experience | i-17 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png` | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-18 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png` (repeat) | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-19 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png` | UEFA Season Kick-Off: Celebrating the start of the season wi | i-20 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png` (repeat) | UEFA Season Kick-Off: Celebrating the start of the season wi | i-21 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2024-10-scaled.png` | Turkish Airlines Euroleague Final Four: Elite sports hospita | i-22 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2024-10-scaled.png` (repeat) | Turkish Airlines Euroleague Final Four: Elite sports hospita | i-23 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png` | UEFA Champions Village: Sponsor Hospitality | i-24 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png` (repeat) | UEFA Champions Village: Sponsor Hospitality | i-25 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2019-3.png` | Turkish Airlines Euroleague Final Four: Sports Hospitality i | i-26 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2019-3.png` (repeat) | Turkish Airlines Euroleague Final Four: Sports Hospitality i | i-27 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2018-13.png` | EuroLeague Final Four: VIP Hospitality at Belgrade | i-28 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2018-13.png` (repeat) | EuroLeague Final Four: VIP Hospitality at Belgrade | i-29 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/05/Fedex-scaled.jpg` | FedEx at UCLF: Special moments for a global leader | i-30 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/05/Fedex-scaled.jpg` (repeat) | FedEx at UCLF: Special moments for a global leader | i-31 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Toyota-Paralympics-2.png` | Toyota Paris Paralympics: Making waves at the Paralympics | i-32 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Toyota-Paralympics-2.png` (repeat) | Toyota Paris Paralympics: Making waves at the Paralympics | i-33 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/E1-Champions-of-the-Water-2024-3.png` | E1 Champions of the Water: VIP Hospitality on a Venetian Lag | i-34 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/E1-Champions-of-the-Water-2024-3.png` (repeat) | E1 Champions of the Water: VIP Hospitality on a Venetian Lag | i-35 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Godo-2022-6.png` | Banc Sabadell Barcelona Open &amp;#8211; Godó:  Transforming | i-36 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Godo-2022-6.png` (repeat) | Banc Sabadell Barcelona Open &amp;#8211; Godó:  Transforming | i-37 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png` | Rakuten at Davis Cup Finals: Hospitality Lounge | i-38 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png` (repeat) | Rakuten at Davis Cup Finals: Hospitality Lounge | i-39 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png` | World Aquatics Championships:  Where sport, culture &amp;#03 | i-40 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png` (repeat) | World Aquatics Championships:  Where sport, culture &amp;#03 | i-41 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-60 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png | i-61 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-64 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png | i-65 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat) | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70 |
-| (top of page) | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat) | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71 |
-| Sports Sports | `/assets/root/icons/ic_chevron-down.svg` | chevron | i-72 |
-| Sports Sports | `/assets/root/icons/ic_arrow-left.svg` | arrow-left | i-73 |
-| Sports Sports | `/assets/root/icons/ic_arrow-left.svg` (repeat) | arrow-left | i-74 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` | arrow-right | i-75 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow-right | i-76 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-77 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-78 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-79 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-80 |
-| Sports Sports | `/assets/root/icons/ic_arrow-right.svg` (repeat) | arrow right | i-81 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` | Branding | i-82 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-83 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-84 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-85 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Concept &amp; Design | i-86 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-87 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Technical Production | i-88 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-89 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-90 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-91 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` | Guest Experience &amp; Activations | i-92 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-93 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` | Construction | i-94 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-95 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-96 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat) | Branding | i-97 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-98 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-99 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-100 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Concept &amp; Design | i-101 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-102 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Technical Production | i-103 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-104 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-105 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-106 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat) | Guest Experience &amp; Activations | i-107 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-108 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat) | Construction | i-109 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` | Have an event in mind? | i-110 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat) | Have an event in mind? | i-111 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` | Got questions? A wild idea? | i-112 |
-| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat) | Got questions? A wild idea? | i-113 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-114 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-115 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-116 |
-| contact | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-117 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-118 |
-| contact | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-119 |
-| contact | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-120 |
+| Section                                | Current file                                                                                         | Alt text                                                     | Edit ID |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                             | logo                                                         | i-1     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp`          | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-2     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-3     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg`                  | Etihad Euroleague Final Four 2026: From raw venue to premium | i-4     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat)         | Etihad Euroleague Final Four 2026: From raw venue to premium | i-5     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg`                 | Express Delivery at home in the Champions Village: FedEx 202 | i-6     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` (repeat)        | Express Delivery at home in the Champions Village: FedEx 202 | i-7     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg`                                 | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-8     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat)                        | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-9     |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg`                                            | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-10    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` (repeat)                                   | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-11    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg`                              | UEFA Champions League Final: Where football met Turkish Gran | i-12    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` (repeat)                     | UEFA Champions League Final: Where football met Turkish Gran | i-13    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg`                                    | UEFA Champions League Final: Hospitality Programme           | i-14    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat)                           | UEFA Champions League Final: Hospitality Programme           | i-15    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png`                                      | UEFA Super Cup 2025: Udine Final Experience                  | i-16    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat)                             | UEFA Super Cup 2025: Udine Final Experience                  | i-17    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png`                                    | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-18    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png` (repeat)                           | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-19    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png`                           | UEFA Season Kick-Off: Celebrating the start of the season wi | i-20    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png` (repeat)                  | UEFA Season Kick-Off: Celebrating the start of the season wi | i-21    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2024-10-scaled.png`                             | Turkish Airlines Euroleague Final Four: Elite sports hospita | i-22    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2024-10-scaled.png` (repeat)                    | Turkish Airlines Euroleague Final Four: Elite sports hospita | i-23    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png`                                           | UEFA Champions Village: Sponsor Hospitality                  | i-24    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-7.png` (repeat)                                  | UEFA Champions Village: Sponsor Hospitality                  | i-25    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2019-3.png`                                     | Turkish Airlines Euroleague Final Four: Sports Hospitality i | i-26    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2019-3.png` (repeat)                            | Turkish Airlines Euroleague Final Four: Sports Hospitality i | i-27    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2018-13.png`                                    | EuroLeague Final Four: VIP Hospitality at Belgrade           | i-28    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Final-Four-2018-13.png` (repeat)                           | EuroLeague Final Four: VIP Hospitality at Belgrade           | i-29    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/05/Fedex-scaled.jpg`                                          | FedEx at UCLF: Special moments for a global leader           | i-30    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/05/Fedex-scaled.jpg` (repeat)                                 | FedEx at UCLF: Special moments for a global leader           | i-31    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Toyota-Paralympics-2.png`                                  | Toyota Paris Paralympics: Making waves at the Paralympics    | i-32    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Toyota-Paralympics-2.png` (repeat)                         | Toyota Paris Paralympics: Making waves at the Paralympics    | i-33    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/E1-Champions-of-the-Water-2024-3.png`                      | E1 Champions of the Water: VIP Hospitality on a Venetian Lag | i-34    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/E1-Champions-of-the-Water-2024-3.png` (repeat)             | E1 Champions of the Water: VIP Hospitality on a Venetian Lag | i-35    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Godo-2022-6.png`                                           | Banc Sabadell Barcelona Open&amp;#8211; Godó:  Transforming | i-36    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Godo-2022-6.png` (repeat)                                  | Banc Sabadell Barcelona Open&amp;#8211; Godó:  Transforming | i-37    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png`                            | Rakuten at Davis Cup Finals: Hospitality Lounge              | i-38    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/11/Rakuten-Davis-Cup-Finals-9.png` (repeat)                   | Rakuten at Davis Cup Finals: Hospitality Lounge              | i-39    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png`                   | World Aquatics Championships:  Where sport, culture&amp;#03  | i-40    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/World-Aquatics-Championships-2022-2.png` (repeat)          | World Aquatics Championships:  Where sport, culture&amp;#03  | i-41    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png`                                     | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-42    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-43    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png`                                  | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-44    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-45    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png`                         | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-46    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-47    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-48    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-3.png | i-49    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-50    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-3. | i-51    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-52    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-3.png` (repeat)                | /assets/cms/wp-content/uploads/2025/08/US-Law-University-Edi | i-53    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png`                                | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-54    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023-6.png` (repeat)                       | /assets/cms/wp-content/uploads/2025/08/Adevinta-Ignite-2023- | i-55    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg`                             | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-56    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-scaled.jpg` (repeat)                    | /assets/cms/wp-content/uploads/2025/08/Veeam-BCN-2023-182-sc | i-57    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg`                                 | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-58    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8.jpg` (repeat)                        | /assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-8 | i-59    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png`                                      | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-60    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png` (repeat)                             | /assets/cms/wp-content/uploads/2025/08/Midas-ISE-2024-7.png  | i-61    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png`                                  | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-62    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3.png` (repeat)                         | /assets/cms/wp-content/uploads/2025/08/Powersoft-ISE-2024-3. | i-63    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png`                                        | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-64    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png` (repeat)                               | /assets/cms/wp-content/uploads/2025/08/Pexip-ISE-2022.png    | i-65    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png`                                     | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-66    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png` (repeat)                            | /assets/cms/wp-content/uploads/2025/08/Final-Four-2023-4.png | i-67    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg`                              | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-68    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-scaled.jpg` (repeat)                     | /assets/cms/wp-content/uploads/2025/08/Final-Four-2025-7-sca | i-69    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png`                           | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-70    |
+| (top of page)                          | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-2.png` (repeat)                  | /assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off- | i-71    |
+| Sports Sports                          | `/assets/root/icons/ic_chevron-down.svg`                                                           | chevron                                                      | i-72    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-left.svg`                                                             | arrow-left                                                   | i-73    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | arrow-left                                                   | i-74    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg`                                                            | arrow-right                                                  | i-75    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow-right                                                  | i-76    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-77    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-78    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-79    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-80    |
+| Sports Sports                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | arrow right                                                  | i-81    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg`                                         | Branding                                                     | i-82    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                                | Branding                                                     | i-83    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                                        | Complex Logistics                                            | i-84    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                               | Complex Logistics                                            | i-85    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                                       | Concept&amp; Design                                          | i-86    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Concept&amp; Design                                          | i-87    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                                   | Technical Production                                         | i-88    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                          | Technical Production                                         | i-89    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                                        | Hybrid&amp; Digital Content                                  | i-90    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                               | Hybrid&amp; Digital Content                                  | i-91    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg`                                         | Guest Experience&amp; Activations                            | i-92    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                | Guest Experience&amp; Activations                            | i-93    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg`                                         | Construction                                                 | i-94    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                                | Construction                                                 | i-95    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                                | Branding                                                     | i-96    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service1.jpg` (repeat)                                | Branding                                                     | i-97    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                               | Complex Logistics                                            | i-98    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)                               | Complex Logistics                                            | i-99    |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Concept&amp; Design                                          | i-100   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Concept&amp; Design                                          | i-101   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                          | Technical Production                                         | i-102   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)                          | Technical Production                                         | i-103   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                               | Hybrid&amp; Digital Content                                  | i-104   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)                               | Hybrid&amp; Digital Content                                  | i-105   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                | Guest Experience&amp; Activations                            | i-106   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service2.jpg` (repeat)                                | Guest Experience&amp; Activations                            | i-107   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                                | Construction                                                 | i-108   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/08/Work_service3.jpg` (repeat)                                | Construction                                                 | i-109   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg`                                                 | Have an event in mind?                                       | i-110   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Quote.jpg` (repeat)                                        | Have an event in mind?                                       | i-111   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg`                                               | Got questions? A wild idea?                                 | i-112   |
+| Not just events. Immersive dimentions. | `/assets/cms/wp-content/uploads/2025/07/Contact.jpg` (repeat)                                      | Got questions? A wild idea?                                 | i-113   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-114   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-115   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-116   |
+| contact                                | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-117   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                       | footer-certified                                             | i-118   |
+| contact                                | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                              | footer-certified                                             | i-119   |
+| contact                                | `/assets/root/cssda-wotm-white.svg`                                                                | CSSDA WOTM                                                   | i-120   |
 
 ## Page `/service/congresses`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| High-stakes spaces. Engineered for impact. | `/assets/cms/wp-content/uploads/2025/06/CongressesCover_V2.jpg` | Congresses | i-2 |
-| High-stakes spaces. Engineered for impact. | `/assets/cms/wp-content/uploads/2025/06/CongressesCover_V2.jpg` (repeat) | Congresses | i-3 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service3.jpg` | Concept &amp; Design | i-4 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service3.jpg` (repeat) | Concept &amp; Design | i-5 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service1.jpg` | Branding | i-6 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service1.jpg` (repeat) | Branding | i-7 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` | Hybrid &amp; Digital Content | i-8 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-9 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service7.jpg` | Construction | i-10 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service7.jpg` (repeat) | Construction | i-11 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service4.jpg` | Technical Production | i-12 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service4.jpg` (repeat) | Technical Production | i-13 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service2.jpg` | Complex Logistics | i-14 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service2.jpg` (repeat) | Complex Logistics | i-15 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service6.jpg` | Guest Experience &amp; Activations | i-16 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-17 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service3.jpg` (repeat) | Concept &amp; Design | i-18 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service3.jpg` (repeat) | Concept &amp; Design | i-19 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service1.jpg` (repeat) | Branding | i-20 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service1.jpg` (repeat) | Branding | i-21 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-22 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-23 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service7.jpg` (repeat) | Construction | i-24 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service7.jpg` (repeat) | Construction | i-25 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service4.jpg` (repeat) | Technical Production | i-26 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service4.jpg` (repeat) | Technical Production | i-27 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service2.jpg` (repeat) | Complex Logistics | i-28 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service2.jpg` (repeat) | Complex Logistics | i-29 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-30 |
-| We design congress spaces that command attention | `/assets/cms/wp-content/uploads/2025/08/Congresses_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-31 |
-| Have a project in mind? | `/assets/root/upload/icon-arrow-down.svg` | arrow | i-32 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` | YPO Global Event: Hospitality &amp; experience excellence | i-33 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat) | YPO Global Event: Hospitality &amp; experience excellence | i-34 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` | Menzies Congress: Shaping leadership experiences | i-35 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` (repeat) | Menzies Congress: Shaping leadership experiences | i-36 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg` | ISE: Elevating the global stage for AV and systems integrati | i-37 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg` (repeat) | ISE: Elevating the global stage for AV and systems integrati | i-38 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png` | US Law University: Vienna reimagined for America’s legal eli | i-39 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png` (repeat) | US Law University: Vienna reimagined for America’s legal eli | i-40 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png` | DIA Amsterdam: Global Insurtech x Innovation | i-41 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png` (repeat) | DIA Amsterdam: Global Insurtech x Innovation | i-42 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png` | Integrated Systems Europe ISE 2021: Show Leadership | i-43 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png` (repeat) | Integrated Systems Europe ISE 2021: Show Leadership | i-44 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png` | US Law University: Barcelona VIP Week | i-45 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png` (repeat) | US Law University: Barcelona VIP Week | i-46 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png` | US Law University: Lisbon VIP Week | i-47 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png` (repeat) | US Law University: Lisbon VIP Week | i-48 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png` | US Law University: Edinburgh explored | i-49 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png` (repeat) | US Law University: Edinburgh explored | i-50 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png` | DIA Munich: Shaping the future of global insurtech innovatio | i-51 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png` (repeat) | DIA Munich: Shaping the future of global insurtech innovatio | i-52 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` | icon | i-53 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-54 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` | icon | i-55 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-56 |
-| Why choose Iventions for corporate conference planning services? | `/assets/cms/wp-content/uploads/2025/06/CongressesCTA.jpg` | Let's create your congress moment | i-57 |
-| Why choose Iventions for corporate conference planning services? | `/assets/cms/wp-content/uploads/2025/06/CongressesCTA.jpg` (repeat) | Let's create your congress moment | i-58 |
-| Plan your next congress | `/assets/root/upload/icon-arrow.svg` | icon | i-59 |
-| Plan your next congress | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-60 |
-| Plan your next congress | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-61 |
-| Plan your next congress | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-62 |
-| Plan your next congress | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-63 |
+| Section                                                          | Current file                                                                          | Alt text                                                      | Edit ID |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| (top of page)                                                    | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                              | logo                                                          | i-1     |
+| High-stakes spaces. Engineered for impact.                       | `/assets/cms/wp-content/uploads/2025/06/CongressesCover_V2.jpg`                     | Congresses                                                    | i-2     |
+| High-stakes spaces. Engineered for impact.                       | `/assets/cms/wp-content/uploads/2025/06/CongressesCover_V2.jpg` (repeat)            | Congresses                                                    | i-3     |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service3.jpg`                    | Concept&amp; Design                                           | i-4     |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service3.jpg` (repeat)           | Concept&amp; Design                                           | i-5     |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service1.jpg`                    | Branding                                                      | i-6     |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service1.jpg` (repeat)           | Branding                                                      | i-7     |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg`                    | Hybrid&amp; Digital Content                                   | i-8     |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Hybrid&amp; Digital Content                                   | i-9     |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service7.jpg`                    | Construction                                                  | i-10    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service7.jpg` (repeat)           | Construction                                                  | i-11    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service4.jpg`                    | Technical Production                                          | i-12    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service4.jpg` (repeat)           | Technical Production                                          | i-13    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service2.jpg`                    | Complex Logistics                                             | i-14    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service2.jpg` (repeat)           | Complex Logistics                                             | i-15    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service6.jpg`                    | Guest Experience&amp; Activations                             | i-16    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service6.jpg` (repeat)           | Guest Experience&amp; Activations                             | i-17    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service3.jpg` (repeat)           | Concept&amp; Design                                           | i-18    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service3.jpg` (repeat)           | Concept&amp; Design                                           | i-19    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service1.jpg` (repeat)           | Branding                                                      | i-20    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service1.jpg` (repeat)           | Branding                                                      | i-21    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Hybrid&amp; Digital Content                                   | i-22    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service5.jpg` (repeat)           | Hybrid&amp; Digital Content                                   | i-23    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service7.jpg` (repeat)           | Construction                                                  | i-24    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service7.jpg` (repeat)           | Construction                                                  | i-25    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service4.jpg` (repeat)           | Technical Production                                          | i-26    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service4.jpg` (repeat)           | Technical Production                                          | i-27    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service2.jpg` (repeat)           | Complex Logistics                                             | i-28    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service2.jpg` (repeat)           | Complex Logistics                                             | i-29    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service6.jpg` (repeat)           | Guest Experience&amp; Activations                             | i-30    |
+| We design congress spaces that command attention                 | `/assets/cms/wp-content/uploads/2025/08/Congresses_service6.jpg` (repeat)           | Guest Experience&amp; Activations                             | i-31    |
+| Have a project in mind?                                          | `/assets/root/upload/icon-arrow-down.svg`                                           | arrow                                                         | i-32    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg`                  | YPO Global Event: Hospitality&amp; experience excellence      | i-33    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat)         | YPO Global Event: Hospitality&amp; experience excellence      | i-34    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg`                         | Menzies Congress: Shaping leadership experiences              | i-35    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` (repeat)                | Menzies Congress: Shaping leadership experiences              | i-36    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg`                    | ISE: Elevating the global stage for AV and systems integrati  | i-37    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/ISE2022-0664-scaled.jpg` (repeat)           | ISE: Elevating the global stage for AV and systems integrati  | i-38    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png`             | US Law University: Vienna reimagined for America’s legal eli | i-39    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Vienna-8.png` (repeat)    | US Law University: Vienna reimagined for America’s legal eli | i-40    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png`                   | DIA Amsterdam: Global Insurtech x Innovation                  | i-41    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Amsterdam-2022-7.png` (repeat)          | DIA Amsterdam: Global Insurtech x Innovation                  | i-42    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png`                             | Integrated Systems Europe ISE 2021: Show Leadership           | i-43    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/10/ISE-2021-6.png` (repeat)                    | Integrated Systems Europe ISE 2021: Show Leadership           | i-44    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png`          | US Law University: Barcelona VIP Week                         | i-45    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Barcelona-4.png` (repeat) | US Law University: Barcelona VIP Week                         | i-46    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png`            | US Law University: Lisbon VIP Week                            | i-47    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/10/US-Law-University-Lisbon-14.png` (repeat)   | US Law University: Lisbon VIP Week                            | i-48    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png`          | US Law University: Edinburgh explored                         | i-49    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/US-Law-University-Edinburgh-8.png` (repeat) | US Law University: Edinburgh explored                         | i-50    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png`                      | DIA Munich: Shaping the future of global insurtech innovatio  | i-51    |
+| Have a project in mind?                                          | `/assets/cms/wp-content/uploads/2025/08/DIA-Munich-2022-2.png` (repeat)             | DIA Munich: Shaping the future of global insurtech innovatio  | i-52    |
+| Have a project in mind?                                          | `/assets/root/icons/ic_arrow-left.svg`                                              | icon                                                          | i-53    |
+| Have a project in mind?                                          | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                     | icon                                                          | i-54    |
+| Have a project in mind?                                          | `/assets/root/icons/ic_arrow-right.svg`                                             | icon                                                          | i-55    |
+| Have a project in mind?                                          | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                    | icon                                                          | i-56    |
+| Why choose Iventions for corporate conference planning services? | `/assets/cms/wp-content/uploads/2025/06/CongressesCTA.jpg`                          | Let's create your congress moment                             | i-57    |
+| Why choose Iventions for corporate conference planning services? | `/assets/cms/wp-content/uploads/2025/06/CongressesCTA.jpg` (repeat)                 | Let's create your congress moment                             | i-58    |
+| Plan your next congress                                          | `/assets/root/upload/icon-arrow.svg`                                                | icon                                                          | i-59    |
+| Plan your next congress                                          | `/assets/root/upload/icon-arrow.svg` (repeat)                                       | icon                                                          | i-60    |
+| Plan your next congress                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                        | footer-certified                                              | i-61    |
+| Plan your next congress                                          | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)               | footer-certified                                              | i-62    |
+| Plan your next congress                                          | `/assets/root/cssda-wotm-white.svg`                                                 | CSSDA WOTM                                                    | i-63    |
 
 ## Page `/service/events`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| Moments made for the stage. Built to be remembered. | `/assets/cms/wp-content/uploads/2025/06/Eventcover.jpg` | Events | i-2 |
-| Moments made for the stage. Built to be remembered. | `/assets/cms/wp-content/uploads/2025/06/Eventcover.jpg` (repeat) | Events | i-3 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service3.jpg` | Concept &amp; Design | i-4 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service3.jpg` (repeat) | Concept &amp; Design | i-5 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service1.jpg` | Branding | i-6 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service1.jpg` (repeat) | Branding | i-7 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` | Hybrid &amp; Digital Content | i-8 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-9 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service7.jpg` | Construction | i-10 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service7.jpg` (repeat) | Construction | i-11 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service4.jpg` | Technical Production | i-12 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service4.jpg` (repeat) | Technical Production | i-13 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` | Complex Logistics | i-14 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-15 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service6.jpg` | Guest Experience &amp; Activations | i-16 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-17 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service3.jpg` (repeat) | Concept &amp; Design | i-18 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service3.jpg` (repeat) | Concept &amp; Design | i-19 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service1.jpg` (repeat) | Branding | i-20 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service1.jpg` (repeat) | Branding | i-21 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-22 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-23 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service7.jpg` (repeat) | Construction | i-24 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service7.jpg` (repeat) | Construction | i-25 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service4.jpg` (repeat) | Technical Production | i-26 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service4.jpg` (repeat) | Technical Production | i-27 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-28 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat) | Complex Logistics | i-29 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-30 |
-| We design event spaces that hit every beat | `/assets/cms/wp-content/uploads/2025/08/Event_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-31 |
-| Have a project in mind? | `/assets/root/upload/icon-arrow-down.svg` | arrow | i-32 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` | YPO Global Event: Hospitality &amp; experience excellence | i-33 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat) | YPO Global Event: Hospitality &amp; experience excellence | i-34 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | Adevinta Ignite: Empowering connection &amp; growth | i-35 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat) | Adevinta Ignite: Empowering connection &amp; growth | i-36 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png` | Amazfit: An experiential product launch | i-37 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png` (repeat) | Amazfit: An experiential product launch | i-38 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png` | Adevinta End of the Year Event: Five cities, five events, on | i-39 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png` (repeat) | Adevinta End of the Year Event: Five cities, five events, on | i-40 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg` | NOVOMATIC: from ICE floor to a corporate event | i-41 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg` (repeat) | NOVOMATIC: from ICE floor to a corporate event | i-42 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` | Adevinta Ignite: Shaping the future of commerce | i-43 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` (repeat) | Adevinta Ignite: Shaping the future of commerce | i-44 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png` | Stanley Stella New Collection Event: Reinventing fashion for | i-45 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png` (repeat) | Stanley Stella New Collection Event: Reinventing fashion for | i-46 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` | Hackathon: Five days of global innovation | i-47 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` (repeat) | Hackathon: Five days of global innovation | i-48 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png` | VEEAM: A corporate event turned into an exclusive dinner | i-49 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png` (repeat) | VEEAM: A corporate event turned into an exclusive dinner | i-50 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` | Axiecon: A vibrant, global gathering of gamers | i-51 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` (repeat) | Axiecon: A vibrant, global gathering of gamers | i-52 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` | icon | i-53 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-54 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` | icon | i-55 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-56 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png` | Logo | i-57 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png` (repeat) | Logo | i-58 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg` | Logo | i-59 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg` (repeat) | Logo | i-60 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Euroleague.svg` | Logo | i-61 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Euroleague.svg` (repeat) | Logo | i-62 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` | Leader | i-63 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat) | Leader | i-64 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` | Leader | i-65 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat) | Leader | i-66 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Leonardo-Mantovani.jpg` | Leader | i-67 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Leonardo-Mantovani.jpg` (repeat) | Leader | i-68 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-69 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-70 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-71 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-72 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat) | Leader | i-73 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat) | Leader | i-74 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat) | Leader | i-75 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat) | Leader | i-76 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Leonardo-Mantovani.jpg` (repeat) | Leader | i-77 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Leonardo-Mantovani.jpg` (repeat) | Leader | i-78 |
-| Why choose Iventions as an event marketing agency? | `/assets/cms/wp-content/uploads/2025/06/EventsCTA.jpg` | No ordinary events. Only spotlight moments. | i-79 |
-| Why choose Iventions as an event marketing agency? | `/assets/cms/wp-content/uploads/2025/06/EventsCTA.jpg` (repeat) | No ordinary events. Only spotlight moments. | i-80 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` | icon | i-81 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-82 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-83 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-84 |
-| Get a custom quote | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-85 |
+| Section                                             | Current file                                                                         | Alt text                                                      | Edit ID |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------- | ------- |
+| (top of page)                                       | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                             | logo                                                          | i-1     |
+| Moments made for the stage. Built to be remembered. | `/assets/cms/wp-content/uploads/2025/06/Eventcover.jpg`                            | Events                                                        | i-2     |
+| Moments made for the stage. Built to be remembered. | `/assets/cms/wp-content/uploads/2025/06/Eventcover.jpg` (repeat)                   | Events                                                        | i-3     |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service3.jpg`                        | Concept&amp; Design                                           | i-4     |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service3.jpg` (repeat)               | Concept&amp; Design                                           | i-5     |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service1.jpg`                        | Branding                                                      | i-6     |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service1.jpg` (repeat)               | Branding                                                      | i-7     |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg`                        | Hybrid&amp; Digital Content                                   | i-8     |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)               | Hybrid&amp; Digital Content                                   | i-9     |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service7.jpg`                        | Construction                                                  | i-10    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service7.jpg` (repeat)               | Construction                                                  | i-11    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service4.jpg`                        | Technical Production                                          | i-12    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service4.jpg` (repeat)               | Technical Production                                          | i-13    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg`                        | Complex Logistics                                             | i-14    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)               | Complex Logistics                                             | i-15    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service6.jpg`                        | Guest Experience&amp; Activations                             | i-16    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service6.jpg` (repeat)               | Guest Experience&amp; Activations                             | i-17    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service3.jpg` (repeat)               | Concept&amp; Design                                           | i-18    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service3.jpg` (repeat)               | Concept&amp; Design                                           | i-19    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service1.jpg` (repeat)               | Branding                                                      | i-20    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service1.jpg` (repeat)               | Branding                                                      | i-21    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)               | Hybrid&amp; Digital Content                                   | i-22    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service5.jpg` (repeat)               | Hybrid&amp; Digital Content                                   | i-23    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service7.jpg` (repeat)               | Construction                                                  | i-24    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service7.jpg` (repeat)               | Construction                                                  | i-25    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service4.jpg` (repeat)               | Technical Production                                          | i-26    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service4.jpg` (repeat)               | Technical Production                                          | i-27    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)               | Complex Logistics                                             | i-28    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service2.jpg` (repeat)               | Complex Logistics                                             | i-29    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service6.jpg` (repeat)               | Guest Experience&amp; Activations                             | i-30    |
+| We design event spaces that hit every beat          | `/assets/cms/wp-content/uploads/2025/08/Event_service6.jpg` (repeat)               | Guest Experience&amp; Activations                             | i-31    |
+| Have a project in mind?                             | `/assets/root/upload/icon-arrow-down.svg`                                          | arrow                                                         | i-32    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg`                 | YPO Global Event: Hospitality&amp; experience excellence      | i-33    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/YPO-2025-Congresses-3.jpg` (repeat)        | YPO Global Event: Hospitality&amp; experience excellence      | i-34    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`          | Adevinta Ignite: Empowering connection&amp; growth            | i-35    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` (repeat) | Adevinta Ignite: Empowering connection&amp; growth            | i-36    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png`                        | Amazfit: An experiential product launch                       | i-37    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Amazfit-2025-3.png` (repeat)               | Amazfit: An experiential product launch                       | i-38    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png`                        | Adevinta End of the Year Event: Five cities, five events, on  | i-39    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Adevinta-EOY-5.png` (repeat)               | Adevinta End of the Year Event: Five cities, five events, on  | i-40    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg`                           | NOVOMATIC: from ICE floor to a corporate event                | i-41    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2026/08/Novomatic-2.jpg` (repeat)                  | NOVOMATIC: from ICE floor to a corporate event                | i-42    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg`                       | Adevinta Ignite: Shaping the future of commerce               | i-43    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` (repeat)              | Adevinta Ignite: Shaping the future of commerce               | i-44    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png`                     | Stanley Stella New Collection Event: Reinventing fashion for | i-45    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Stanley-Stella-10.png` (repeat)            | Stanley Stella New Collection Event: Reinventing fashion for | i-46    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png`               | Hackathon: Five days of global innovation                     | i-47    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Hackathon-2022-5-scaled.png` (repeat)      | Hackathon: Five days of global innovation                     | i-48    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png`                            | VEEAM: A corporate event turned into an exclusive dinner      | i-49    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/VEEAM-2023.png` (repeat)                   | VEEAM: A corporate event turned into an exclusive dinner      | i-50    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png`                       | Axiecon: A vibrant, global gathering of gamers                | i-51    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Axiecon-2022-10.png` (repeat)              | Axiecon: A vibrant, global gathering of gamers                | i-52    |
+| Have a project in mind?                             | `/assets/root/icons/ic_arrow-left.svg`                                             | icon                                                          | i-53    |
+| Have a project in mind?                             | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                    | icon                                                          | i-54    |
+| Have a project in mind?                             | `/assets/root/icons/ic_arrow-right.svg`                                            | icon                                                          | i-55    |
+| Have a project in mind?                             | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                                                          | i-56    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png`                             | Logo                                                          | i-57    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png` (repeat)                    | Logo                                                          | i-58    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg`          | Logo                                                          | i-59    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg` (repeat) | Logo                                                          | i-60    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/06/Euroleague.svg`                            | Logo                                                          | i-61    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/06/Euroleague.svg` (repeat)                   | Logo                                                          | i-62    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg`                     | Leader                                                        | i-63    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat)            | Leader                                                        | i-64    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg`                         | Leader                                                        | i-65    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat)                | Leader                                                        | i-66    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/06/Leonardo-Mantovani.jpg`                    | Leader                                                        | i-67    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/06/Leonardo-Mantovani.jpg` (repeat)           | Leader                                                        | i-68    |
+| Have a project in mind?                             | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                    | icon                                                          | i-69    |
+| Have a project in mind?                             | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                    | icon                                                          | i-70    |
+| Have a project in mind?                             | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                                                          | i-71    |
+| Have a project in mind?                             | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                   | icon                                                          | i-72    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat)            | Leader                                                        | i-73    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/11/Adel-Kertesz-UEFA.jpg` (repeat)            | Leader                                                        | i-74    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat)                | Leader                                                        | i-75    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` (repeat)                | Leader                                                        | i-76    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/06/Leonardo-Mantovani.jpg` (repeat)           | Leader                                                        | i-77    |
+| Have a project in mind?                             | `/assets/cms/wp-content/uploads/2025/06/Leonardo-Mantovani.jpg` (repeat)           | Leader                                                        | i-78    |
+| Why choose Iventions as an event marketing agency?  | `/assets/cms/wp-content/uploads/2025/06/EventsCTA.jpg`                             | No ordinary events. Only spotlight moments.                   | i-79    |
+| Why choose Iventions as an event marketing agency?  | `/assets/cms/wp-content/uploads/2025/06/EventsCTA.jpg` (repeat)                    | No ordinary events. Only spotlight moments.                   | i-80    |
+| Get a custom quote                                  | `/assets/root/upload/icon-arrow.svg`                                               | icon                                                          | i-81    |
+| Get a custom quote                                  | `/assets/root/upload/icon-arrow.svg` (repeat)                                      | icon                                                          | i-82    |
+| Get a custom quote                                  | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                       | footer-certified                                              | i-83    |
+| Get a custom quote                                  | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)              | footer-certified                                              | i-84    |
+| Get a custom quote                                  | `/assets/root/cssda-wotm-white.svg`                                                | CSSDA WOTM                                                    | i-85    |
 
 ## Page `/service/exhibits`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| Signature spaces. Built to turn heads. | `/assets/cms/wp-content/uploads/2025/06/Cover.jpg` | Exhibits | i-2 |
-| Signature spaces. Built to turn heads. | `/assets/cms/wp-content/uploads/2025/06/Cover.jpg` (repeat) | Exhibits | i-3 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service1.jpg` | Branding | i-4 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service1.jpg` (repeat) | Branding | i-5 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service3.jpg` | Concept &amp; Design | i-6 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service3.jpg` (repeat) | Concept &amp; Design | i-7 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service2.jpg` | Complex Logistics | i-8 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service2.jpg` (repeat) | Complex Logistics | i-9 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service5.jpg` | Hybrid &amp; Digital Content | i-10 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-11 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service7.jpg` | Construction | i-12 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service7.jpg` (repeat) | Construction | i-13 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service4.jpg` | Technical Production | i-14 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service4.jpg` (repeat) | Technical Production | i-15 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service6.jpg` | Guest Experience &amp; Activations | i-16 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-17 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service1.jpg` (repeat) | Branding | i-18 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service1.jpg` (repeat) | Branding | i-19 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service3.jpg` (repeat) | Concept &amp; Design | i-20 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service3.jpg` (repeat) | Concept &amp; Design | i-21 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service2.jpg` (repeat) | Complex Logistics | i-22 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service2.jpg` (repeat) | Complex Logistics | i-23 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-24 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-25 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service7.jpg` (repeat) | Construction | i-26 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service7.jpg` (repeat) | Construction | i-27 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service4.jpg` (repeat) | Technical Production | i-28 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service4.jpg` (repeat) | Technical Production | i-29 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-30 |
-| We design exhibit spaces that perform | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-31 |
-| Have a project in mind? | `/assets/root/upload/icon-arrow-down.svg` | arrow | i-32 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-33 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat) | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-34 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | Midas at ISE: Where six metres of LED sounds impeccable | i-35 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat) | Midas at ISE: Where six metres of LED sounds impeccable | i-36 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` | Ribbon at MWC: Where tech takes shape | i-37 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat) | Ribbon at MWC: Where tech takes shape | i-38 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` | Symetrix at ISE: A brand reborn. A platform launched | i-39 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` (repeat) | Symetrix at ISE: A brand reborn. A platform launched | i-40 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` | Lindy at ISE: Designed to optimise visitor flow | i-41 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` (repeat) | Lindy at ISE: Designed to optimise visitor flow | i-42 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` | VIP360 &amp; epayclub at ICE 2026: Two stand concepts. One p | i-43 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` (repeat) | VIP360 &amp; epayclub at ICE 2026: Two stand concepts. One p | i-44 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-45 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` (repeat) | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-46 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` | Midas ISE: Built to impress, designed to excite | i-47 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat) | Midas ISE: Built to impress, designed to excite | i-48 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` | Pfizer CentreOne at CPHI: Minimal design, maximum impact | i-49 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` (repeat) | Pfizer CentreOne at CPHI: Minimal design, maximum impact | i-50 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` | Corden Pharma at CPHI: When scale meets precision | i-51 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` (repeat) | Corden Pharma at CPHI: When scale meets precision | i-52 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` | icon | i-53 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-54 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` | icon | i-55 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-56 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` | Logo | i-57 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` (repeat) | Logo | i-58 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Radisys.svg` | Logo | i-59 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Radisys.svg` (repeat) | Logo | i-60 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Ampetronic.svg` | Logo | i-61 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Ampetronic.svg` (repeat) | Logo | i-62 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png` | Logo | i-63 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png` (repeat) | Logo | i-64 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` | Leader | i-65 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat) | Leader | i-66 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/1517441658058.jpg` | Leader | i-67 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/1517441658058.jpg` (repeat) | Leader | i-68 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Marco-Leira.jpg` | Leader | i-69 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Marco-Leira.jpg` (repeat) | Leader | i-70 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` | Leader | i-71 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat) | Leader | i-72 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-73 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-74 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-75 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-76 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat) | Leader | i-77 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat) | Leader | i-78 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/1517441658058.jpg` (repeat) | Leader | i-79 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/1517441658058.jpg` (repeat) | Leader | i-80 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Marco-Leira.jpg` (repeat) | Leader | i-81 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/06/Marco-Leira.jpg` (repeat) | Leader | i-82 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat) | Leader | i-83 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat) | Leader | i-84 |
-| Why choose Iventions as a trade show marketing company? | `/assets/cms/wp-content/uploads/2025/06/CTA.jpg` | Let’s build your brand’s next showstopper | i-85 |
-| Why choose Iventions as a trade show marketing company? | `/assets/cms/wp-content/uploads/2025/06/CTA.jpg` (repeat) | Let’s build your brand’s next showstopper | i-86 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` | icon | i-87 |
-| Get a custom quote | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-88 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-89 |
-| Get a custom quote | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-90 |
-| Get a custom quote | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-91 |
+| Section                                                 | Current file                                                                              | Alt text                                                     | Edit ID |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                           | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                  | logo                                                         | i-1     |
+| Signature spaces. Built to turn heads.                  | `/assets/cms/wp-content/uploads/2025/06/Cover.jpg`                                      | Exhibits                                                     | i-2     |
+| Signature spaces. Built to turn heads.                  | `/assets/cms/wp-content/uploads/2025/06/Cover.jpg` (repeat)                             | Exhibits                                                     | i-3     |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service1.jpg`                           | Branding                                                     | i-4     |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service1.jpg` (repeat)                  | Branding                                                     | i-5     |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service3.jpg`                           | Concept&amp; Design                                          | i-6     |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service3.jpg` (repeat)                  | Concept&amp; Design                                          | i-7     |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service2.jpg`                           | Complex Logistics                                            | i-8     |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service2.jpg` (repeat)                  | Complex Logistics                                            | i-9     |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service5.jpg`                           | Hybrid&amp; Digital Content                                  | i-10    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service5.jpg` (repeat)                  | Hybrid&amp; Digital Content                                  | i-11    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service7.jpg`                           | Construction                                                 | i-12    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service7.jpg` (repeat)                  | Construction                                                 | i-13    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service4.jpg`                           | Technical Production                                         | i-14    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service4.jpg` (repeat)                  | Technical Production                                         | i-15    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service6.jpg`                           | Guest Experience&amp; Activations                            | i-16    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service6.jpg` (repeat)                  | Guest Experience&amp; Activations                            | i-17    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service1.jpg` (repeat)                  | Branding                                                     | i-18    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service1.jpg` (repeat)                  | Branding                                                     | i-19    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service3.jpg` (repeat)                  | Concept&amp; Design                                          | i-20    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service3.jpg` (repeat)                  | Concept&amp; Design                                          | i-21    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service2.jpg` (repeat)                  | Complex Logistics                                            | i-22    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service2.jpg` (repeat)                  | Complex Logistics                                            | i-23    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service5.jpg` (repeat)                  | Hybrid&amp; Digital Content                                  | i-24    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service5.jpg` (repeat)                  | Hybrid&amp; Digital Content                                  | i-25    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service7.jpg` (repeat)                  | Construction                                                 | i-26    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service7.jpg` (repeat)                  | Construction                                                 | i-27    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service4.jpg` (repeat)                  | Technical Production                                         | i-28    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service4.jpg` (repeat)                  | Technical Production                                         | i-29    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service6.jpg` (repeat)                  | Guest Experience&amp; Activations                            | i-30    |
+| We design exhibit spaces that perform                   | `/assets/cms/wp-content/uploads/2025/08/Exhibit_service6.jpg` (repeat)                  | Guest Experience&amp; Activations                            | i-31    |
+| Have a project in mind?                                 | `/assets/root/upload/icon-arrow-down.svg`                                               | arrow                                                        | i-32    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg`                      | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-33    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat)             | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-34    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`                    | Midas at ISE: Where six metres of LED sounds impeccable      | i-35    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` (repeat)           | Midas at ISE: Where six metres of LED sounds impeccable      | i-36    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png`                          | Ribbon at MWC: Where tech takes shape                        | i-37    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/07/Ribbon-MWC-2026-8.png` (repeat)                 | Ribbon at MWC: Where tech takes shape                        | i-38    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png`                        | Symetrix at ISE: A brand reborn. A platform launched         | i-39    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/06/Symetrix-ISE-2026-1.png` (repeat)               | Symetrix at ISE: A brand reborn. A platform launched         | i-40    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg`                    | Lindy at ISE: Designed to optimise visitor flow              | i-41    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/07/Lindy-ISE-2026-1-scaled.jpg` (repeat)           | Lindy at ISE: Designed to optimise visitor flow              | i-42    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg`          | VIP360&amp; epayclub at ICE 2026: Two stand concepts. One p  | i-43    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/07/VIP360-epayclub-ICE-2026-6-scaled.jpg` (repeat) | VIP360&amp; epayclub at ICE 2026: Two stand concepts. One p  | i-44    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png`                         | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-45    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/07/Nagarro-MWC-2026-1.png` (repeat)                | Nagarro at MWC: Unlocking intelligence, elevating performanc | i-46    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg`                    | Midas ISE: Built to impress, designed to excite              | i-47    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/Midas-ISE-2025-2-scaled.jpg` (repeat)           | Midas ISE: Built to impress, designed to excite              | i-48    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png`                              | Pfizer CentreOne at CPHI: Minimal design, maximum impact     | i-49    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/11/Pfizer-CPHI-4.png` (repeat)                     | Pfizer CentreOne at CPHI: Minimal design, maximum impact     | i-50    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png`                       | Corden Pharma at CPHI: When scale meets precision            | i-51    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2026/01/Corden-Pharma-CPHI-5.png` (repeat)              | Corden Pharma at CPHI: When scale meets precision            | i-52    |
+| Have a project in mind?                                 | `/assets/root/icons/ic_arrow-left.svg`                                                  | icon                                                         | i-53    |
+| Have a project in mind?                                 | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                         | icon                                                         | i-54    |
+| Have a project in mind?                                 | `/assets/root/icons/ic_arrow-right.svg`                                                 | icon                                                         | i-55    |
+| Have a project in mind?                                 | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                        | icon                                                         | i-56    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg`                 | Logo                                                         | i-57    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` (repeat)        | Logo                                                         | i-58    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Radisys.svg`                       | Logo                                                         | i-59    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Radisys.svg` (repeat)              | Logo                                                         | i-60    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Ampetronic.svg`                    | Logo                                                         | i-61    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Ampetronic.svg` (repeat)           | Logo                                                         | i-62    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png`                          | Logo                                                         | i-63    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png` (repeat)                 | Logo                                                         | i-64    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg`                           | Leader                                                       | i-65    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat)                  | Leader                                                       | i-66    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/1517441658058.jpg`                              | Leader                                                       | i-67    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/1517441658058.jpg` (repeat)                     | Leader                                                       | i-68    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/06/Marco-Leira.jpg`                                | Leader                                                       | i-69    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/06/Marco-Leira.jpg` (repeat)                       | Leader                                                       | i-70    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg`                            | Leader                                                       | i-71    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat)                   | Leader                                                       | i-72    |
+| Have a project in mind?                                 | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                         | icon                                                         | i-73    |
+| Have a project in mind?                                 | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                         | icon                                                         | i-74    |
+| Have a project in mind?                                 | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                        | icon                                                         | i-75    |
+| Have a project in mind?                                 | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                        | icon                                                         | i-76    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat)                  | Leader                                                       | i-77    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` (repeat)                  | Leader                                                       | i-78    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/1517441658058.jpg` (repeat)                     | Leader                                                       | i-79    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/08/1517441658058.jpg` (repeat)                     | Leader                                                       | i-80    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/06/Marco-Leira.jpg` (repeat)                       | Leader                                                       | i-81    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/06/Marco-Leira.jpg` (repeat)                       | Leader                                                       | i-82    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat)                   | Leader                                                       | i-83    |
+| Have a project in mind?                                 | `/assets/cms/wp-content/uploads/2025/11/Bruno-Sciamanna.jpg` (repeat)                   | Leader                                                       | i-84    |
+| Why choose Iventions as a trade show marketing company? | `/assets/cms/wp-content/uploads/2025/06/CTA.jpg`                                        | Let’s build your brand’s next showstopper                  | i-85    |
+| Why choose Iventions as a trade show marketing company? | `/assets/cms/wp-content/uploads/2025/06/CTA.jpg` (repeat)                               | Let’s build your brand’s next showstopper                  | i-86    |
+| Get a custom quote                                      | `/assets/root/upload/icon-arrow.svg`                                                    | icon                                                         | i-87    |
+| Get a custom quote                                      | `/assets/root/upload/icon-arrow.svg` (repeat)                                           | icon                                                         | i-88    |
+| Get a custom quote                                      | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                            | footer-certified                                             | i-89    |
+| Get a custom quote                                      | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                   | footer-certified                                             | i-90    |
+| Get a custom quote                                      | `/assets/root/cssda-wotm-white.svg`                                                     | CSSDA WOTM                                                   | i-91    |
 
 ## Page `/service/sports`
 
-| Section | Current file | Alt text | Edit ID |
-|---|---|---|---|
-| (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | logo | i-1 |
-| Fueling every moment of the game. | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png` | Sports | i-2 |
-| Fueling every moment of the game. | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png` (repeat) | Sports | i-3 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service3.jpg` | Concept &amp; Design | i-4 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service3.jpg` (repeat) | Concept &amp; Design | i-5 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service1.jpg` | Branding | i-6 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service1.jpg` (repeat) | Branding | i-7 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/06/Sports_service5.jpg` | Hybrid &amp; Digital Content | i-8 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/06/Sports_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-9 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` | Construction | i-10 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Construction | i-11 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service4.jpg` | Technical Production | i-12 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service4.jpg` (repeat) | Technical Production | i-13 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service2.jpg` | Complex Logistics | i-14 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service2.jpg` (repeat) | Complex Logistics | i-15 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service6.jpg` | Guest Experience &amp; Activations | i-16 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-17 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service3.jpg` (repeat) | Concept &amp; Design | i-18 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service3.jpg` (repeat) | Concept &amp; Design | i-19 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service1.jpg` (repeat) | Branding | i-20 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service1.jpg` (repeat) | Branding | i-21 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/06/Sports_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-22 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/06/Sports_service5.jpg` (repeat) | Hybrid &amp; Digital Content | i-23 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Construction | i-24 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat) | Construction | i-25 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service4.jpg` (repeat) | Technical Production | i-26 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service4.jpg` (repeat) | Technical Production | i-27 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service2.jpg` (repeat) | Complex Logistics | i-28 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service2.jpg` (repeat) | Complex Logistics | i-29 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-30 |
-| We design sports spaces that electrify | `/assets/cms/wp-content/uploads/2025/08/Sports_service6.jpg` (repeat) | Guest Experience &amp; Activations | i-31 |
-| Have a project in mind? | `/assets/root/upload/icon-arrow-down.svg` | arrow | i-32 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-33 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-34 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` | Etihad Euroleague Final Four 2026: From raw venue to premium | i-35 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat) | Etihad Euroleague Final Four 2026: From raw venue to premium | i-36 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` | Express Delivery at home in the Champions Village: FedEx 202 | i-37 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` (repeat) | Express Delivery at home in the Champions Village: FedEx 202 | i-38 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-39 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat) | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-40 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-41 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` (repeat) | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-42 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` | UEFA Champions League Final: Where football met Turkish Gran | i-43 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` (repeat) | UEFA Champions League Final: Where football met Turkish Gran | i-44 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` | UEFA Champions League Final: Hospitality Programme | i-45 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat) | UEFA Champions League Final: Hospitality Programme | i-46 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` | UEFA Super Cup 2025: Udine Final Experience | i-47 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat) | UEFA Super Cup 2025: Udine Final Experience | i-48 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png` | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-49 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png` (repeat) | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-50 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png` | UEFA Season Kick-Off: Celebrating the start of the season wi | i-51 |
-| Have a project in mind? | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png` (repeat) | UEFA Season Kick-Off: Celebrating the start of the season wi | i-52 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` | icon | i-53 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-left.svg` (repeat) | icon | i-54 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` | icon | i-55 |
-| Have a project in mind? | `/assets/root/icons/ic_arrow-right.svg` (repeat) | icon | i-56 |
-| Why choose Iventions for sports hospitality experiences? | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg` | Let's create your sports moment | i-57 |
-| Why choose Iventions for sports hospitality experiences? | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg` (repeat) | Let's create your sports moment | i-58 |
-| Let's partner together | `/assets/root/upload/icon-arrow.svg` | icon | i-59 |
-| Let's partner together | `/assets/root/upload/icon-arrow.svg` (repeat) | icon | i-60 |
-| Let's partner together | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | footer-certified | i-61 |
-| Let's partner together | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat) | footer-certified | i-62 |
-| Let's partner together | `/assets/root/cssda-wotm-white.svg` | CSSDA WOTM | i-63 |
-
+| Section                                                  | Current file                                                                                         | Alt text                                                     | Edit ID |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- |
+| (top of page)                                            | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                             | logo                                                         | i-1     |
+| Fueling every moment of the game.                        | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png`                                    | Sports                                                       | i-2     |
+| Fueling every moment of the game.                        | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-12.png` (repeat)                           | Sports                                                       | i-3     |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service3.jpg`                                       | Concept&amp; Design                                          | i-4     |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service3.jpg` (repeat)                              | Concept&amp; Design                                          | i-5     |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service1.jpg`                                       | Branding                                                     | i-6     |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service1.jpg` (repeat)                              | Branding                                                     | i-7     |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/06/Sports_service5.jpg`                                       | Hybrid&amp; Digital Content                                  | i-8     |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/06/Sports_service5.jpg` (repeat)                              | Hybrid&amp; Digital Content                                  | i-9     |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg`                                       | Construction                                                 | i-10    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Construction                                                 | i-11    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service4.jpg`                                       | Technical Production                                         | i-12    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service4.jpg` (repeat)                              | Technical Production                                         | i-13    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service2.jpg`                                       | Complex Logistics                                            | i-14    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service2.jpg` (repeat)                              | Complex Logistics                                            | i-15    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service6.jpg`                                       | Guest Experience&amp; Activations                            | i-16    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service6.jpg` (repeat)                              | Guest Experience&amp; Activations                            | i-17    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service3.jpg` (repeat)                              | Concept&amp; Design                                          | i-18    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service3.jpg` (repeat)                              | Concept&amp; Design                                          | i-19    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service1.jpg` (repeat)                              | Branding                                                     | i-20    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service1.jpg` (repeat)                              | Branding                                                     | i-21    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/06/Sports_service5.jpg` (repeat)                              | Hybrid&amp; Digital Content                                  | i-22    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/06/Sports_service5.jpg` (repeat)                              | Hybrid&amp; Digital Content                                  | i-23    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Construction                                                 | i-24    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service7.jpg` (repeat)                              | Construction                                                 | i-25    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service4.jpg` (repeat)                              | Technical Production                                         | i-26    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service4.jpg` (repeat)                              | Technical Production                                         | i-27    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service2.jpg` (repeat)                              | Complex Logistics                                            | i-28    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service2.jpg` (repeat)                              | Complex Logistics                                            | i-29    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service6.jpg` (repeat)                              | Guest Experience&amp; Activations                            | i-30    |
+| We design sports spaces that electrify                   | `/assets/cms/wp-content/uploads/2025/08/Sports_service6.jpg` (repeat)                              | Guest Experience&amp; Activations                            | i-31    |
+| Have a project in mind?                                  | `/assets/root/upload/icon-arrow-down.svg`                                                          | arrow                                                        | i-32    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp`          | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-33    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` (repeat) | UEFA Champions League Final 2026: Budapest. Nine spaces. One | i-34    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg`                  | Etihad Euroleague Final Four 2026: From raw venue to premium | i-35    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` (repeat)         | Etihad Euroleague Final Four 2026: From raw venue to premium | i-36    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg`                 | Express Delivery at home in the Champions Village: FedEx 202 | i-37    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2026/09/FedEx-Champions-League-Final-8-scaled.jpg` (repeat)        | Express Delivery at home in the Champions Village: FedEx 202 | i-38    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg`                                 | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-39    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2026/08/Adidas-display-wall-1.jpg` (repeat)                        | Adidas display wall: Celebrating 25 years as UEFA Champions  | i-40    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg`                                            | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-41    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/08/Basketball.jpg` (repeat)                                   | Turkish Airlines Euroleague Final Four: Bespoke sports exper | i-42    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg`                              | UEFA Champions League Final: Where football met Turkish Gran | i-43    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/08/UEFA-UCLF-2023-21-scaled.jpg` (repeat)                     | UEFA Champions League Final: Where football met Turkish Gran | i-44    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg`                                    | UEFA Champions League Final: Hospitality Programme           | i-45    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/11/UEFA-2022-9-scaled.jpg` (repeat)                           | UEFA Champions League Final: Hospitality Programme           | i-46    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png`                                      | UEFA Super Cup 2025: Udine Final Experience                  | i-47    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/11/UEFA-Super-Cup-8.png` (repeat)                             | UEFA Super Cup 2025: Udine Final Experience                  | i-48    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png`                                    | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-49    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/08/Final-Four-2023-13.png` (repeat)                           | Turkish Airlines EuroLeague Final Four: Bespoke sports hospi | i-50    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png`                           | UEFA Season Kick-Off: Celebrating the start of the season wi | i-51    |
+| Have a project in mind?                                  | `/assets/cms/wp-content/uploads/2025/08/UEFA-Season-Kick-Off-2021-7.png` (repeat)                  | UEFA Season Kick-Off: Celebrating the start of the season wi | i-52    |
+| Have a project in mind?                                  | `/assets/root/icons/ic_arrow-left.svg`                                                             | icon                                                         | i-53    |
+| Have a project in mind?                                  | `/assets/root/icons/ic_arrow-left.svg` (repeat)                                                    | icon                                                         | i-54    |
+| Have a project in mind?                                  | `/assets/root/icons/ic_arrow-right.svg`                                                            | icon                                                         | i-55    |
+| Have a project in mind?                                  | `/assets/root/icons/ic_arrow-right.svg` (repeat)                                                   | icon                                                         | i-56    |
+| Why choose Iventions for sports hospitality experiences? | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg`                                             | Let's create your sports moment                              | i-57    |
+| Why choose Iventions for sports hospitality experiences? | `/assets/cms/wp-content/uploads/2025/06/SportsCTA.jpg` (repeat)                                    | Let's create your sports moment                              | i-58    |
+| Let's partner together                                   | `/assets/root/upload/icon-arrow.svg`                                                               | icon                                                         | i-59    |
+| Let's partner together                                   | `/assets/root/upload/icon-arrow.svg` (repeat)                                                      | icon                                                         | i-60    |
+| Let's partner together                                   | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png`                                       | footer-certified                                             | i-61    |
+| Let's partner together                                   | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` (repeat)                              | footer-certified                                             | i-62    |
+| Let's partner together                                   | `/assets/root/cssda-wotm-white.svg`                                                                | CSSDA WOTM                                                   | i-63    |

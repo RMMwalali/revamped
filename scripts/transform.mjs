@@ -1,6 +1,6 @@
 // StillCraft page transforms shared by the dev server and Vercel functions.
-// Pure string ops over served HTML (+ brand data via pool). No http, no fs writes.
-import { pool } from './db.mjs';
+// Pure string ops over served HTML (+ brand data). No http, no fs writes.
+import { readStore, writeStore } from './storage.mjs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { FLIGHT as FILE_FLIGHT } from './stillcraft-content.mjs';
@@ -61,11 +61,18 @@ function bustBrand() { brandAt = 0; }
 async function getBrand() {
   if (brandCache && Date.now() - brandAt < 60000) return brandCache;
   try {
-    const r = await pool.query('SELECT key, value FROM brand_settings');
-    brandCache = { ...BRAND_DEFAULTS, ...Object.fromEntries(r.rows.map((x) => [x.key, x.value])) };
+    const data = await readStore('brand.json');
+    brandCache = { ...BRAND_DEFAULTS, ...data };
   } catch { brandCache = { ...BRAND_DEFAULTS, ...brandCache }; }
   brandAt = Date.now();
   return brandCache;
+}
+
+export async function saveBrand(updates) {
+  const data = await readStore('brand.json') || {};
+  Object.assign(data, updates);
+  await writeStore('brand.json', data);
+  bustBrand();
 }
 
 const DEFAULT_TAGLINE = 'Step into the Spotlight';
@@ -2856,7 +2863,7 @@ function sniffImage(data, ext) {
   return ext === 'jpeg' ? 'jpg' : ext;
 }
 export {
-  IMAGE_EXTS, IMAGE_EXT_LIST, IMAGE_MAX, getBrand, bustBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,
+  IMAGE_EXTS, IMAGE_EXT_LIST, IMAGE_MAX, getBrand, bustBrand, saveBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,
   stripThirdParty, flightReplace, applyFlightIA, applyContentFlight, applyLinks,
   applyGlobalSwaps, applyFooterAddresses, applyHeroVideo, mobileFor, posterFor, parseUpload, sniffImage, sniffMedia, FILE_FLIGHT,
   TITLE_MAP, NAV_LABELS, NAV_DROP_HREFS, MENU_ORDER, DEFAULT_TAGLINE,

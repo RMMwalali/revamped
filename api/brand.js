@@ -1,7 +1,7 @@
 ﻿// GET /api/brand (public) + PUT /api/brand (admin).
-import { pool } from '../scripts/db.mjs';
+import { readStore, writeStore } from '../scripts/storage.mjs';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
-import { getBrand, bustBrand } from '../scripts/transform.mjs';
+import { getBrand, bustBrand, saveBrand } from '../scripts/transform.mjs';
 import { bustOverrides } from '../scripts/overrides.mjs';
 import { bustCMS } from '../scripts/cms.mjs';
 
@@ -17,15 +17,11 @@ export default async function handler(req, res) {
   if (!s) { res.status(401).json({ error: 'unauthorized' }); return; }
   const body = req.body && typeof req.body === 'object' ? req.body : {};
   const allowed = ['site_name', 'tagline', 'logo_src', 'primary_color', 'accent_color', 'hero_video_src'];
+  const updates = {};
   for (const k of allowed) {
-    if (typeof body[k] === 'string') {
-      await pool.query(
-        'INSERT INTO brand_settings (key, value, updated_at) VALUES ($1, $2, now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()',
-        [k, body[k].slice(0, 500)]
-      );
-    }
+    if (typeof body[k] === 'string') updates[k] = body[k].slice(0, 500);
   }
-  bustBrand();
+  await saveBrand(updates);
   bustOverrides();
   bustCMS();
   res.status(200).json(await getBrand());
