@@ -2,7 +2,7 @@
 // ID rows (t-/i-) target baked data-sc-id attributes (see scripts/tag.mjs).
 // Anchor rows (el_id starting with 'a') match by exact content + occurrence
 // index, so they keep working after React hydration re-renders the tree.
-import { pool } from './db.mjs';
+import { readStore, writeStore } from './storage.mjs';
 import { safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs } from './flight.mjs';
 
 const cache = new Map(); // page -> { at, items }
@@ -13,14 +13,25 @@ export async function getOverrides(page) {
   if (c && Date.now() - c.at < TTL) return c.items;
   let items = [];
   try {
-    const r = await pool.query(
-      'SELECT el_id, kind, value, orig_html, idx, tag FROM content_overrides WHERE page = $1',
-      [page]
-    );
-    items = r.rows;
+    const data = await readStore('overrides.json');
+    items = data?.[page] || [];
   } catch {}
   cache.set(page, { at: Date.now(), items });
   return items;
+}
+
+export async function saveOverrides(page, items) {
+  const data = await readStore('overrides.json') || {};
+  data[page] = items.map((it) => ({
+    el_id: it.el_id,
+    kind: it.kind,
+    value: it.value,
+    orig_html: it.orig_html,
+    idx: it.idx,
+    tag: it.tag,
+  }));
+  await writeStore('overrides.json', data);
+  bustOverrides();
 }
 
 export function bustOverrides() { cache.clear(); }

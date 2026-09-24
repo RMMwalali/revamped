@@ -8,11 +8,12 @@ import http from 'node:http';
 import crypto from 'node:crypto';
 import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
-import { pool } from './db.mjs';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
 import { saveLead } from '../api/lead.js';
-import { getOverrides, applyOverrides, bustOverrides, maskT } from './overrides.mjs';import {
-  getBrand, bustBrand, applyBrand, applyNav, applyTheme, stripThirdParty, removeBadges,
+import { readStore } from './storage.mjs';
+import { getOverrides, applyOverrides, bustOverrides, saveOverrides, maskT } from './overrides.mjs';
+import {
+  getBrand, bustBrand, saveBrand, applyBrand, applyNav, applyTheme, stripThirdParty, removeBadges,
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
   applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash, applyStyleBlocks,
@@ -136,45 +137,24 @@ function pageKey(pathname) {
   return p || '/';
 }
 
-// Login rate limit: DB-backed (login_attempts table, scripts/schema.mjs) so
-// it matches api/login.js — Vercel runs that behind several instances, each
-// with its own memory, so an in-memory counter there barely slows a real
-// attempt. Kept DB-backed here too rather than a separate in-memory version,
-// so local dev actually exercises the same behavior production ships.
+// Login rate limit: in-memory (same pattern as api/login.js). On Vercel the
+// serverless function restarts can reset it, but it still deters naive brute
+// force against the env-var admin credentials.
 const LOCK_MINUTES = 5;
 const MAX_FAILS = 5;
-async function rateLimited(ip) {
-  try {
-    const r = await pool.query('SELECT locked_until FROM login_attempts WHERE ip = $1', [ip]);
-    const row = r.rows[0];
-    return !!(row && row.locked_until && new Date(row.locked_until) > new Date());
-  } catch {
-    return false; // table not migrated yet, or DB unreachable: fail open
-  }
+const attempts = new Map();
+
+function rateLimited(ip) {
+  const a = attempts.get(ip);
+  return !!(a && a.lockedUntil > Date.now());
 }
-async function rateFail(ip) {
-  try {
-    const r = await pool.query('SELECT fails FROM login_attempts WHERE ip = $1', [ip]);
-    const fails = (r.rows[0]?.fails || 0) + 1;
-    if (fails >= MAX_FAILS) {
-      const lockedUntil = new Date(Date.now() + LOCK_MINUTES * 60 * 1000).toISOString();
-      await pool.query(
-        `INSERT INTO login_attempts (ip, fails, locked_until, updated_at) VALUES ($1, 0, $2, now())
-         ON CONFLICT (ip) DO UPDATE SET fails = 0, locked_until = $2, updated_at = now()`,
-        [ip, lockedUntil]
-      );
-    } else {
-      await pool.query(
-        `INSERT INTO login_attempts (ip, fails, updated_at) VALUES ($1, $2, now())
-         ON CONFLICT (ip) DO UPDATE SET fails = $2, updated_at = now()`,
-        [ip, fails]
-      );
-    }
-  } catch {}
+function rateFail(ip) {
+  const a = attempts.get(ip) || { fails: 0, lockedUntil: 0 };
+  a.fails++;
+  if (a.fails >= MAX_FAILS) { a.lockedUntil = Date.now() + LOCK_MINUTES * 60 * 1000; a.fails = 0; }
+  attempts.set(ip, a);
 }
-async function rateClear(ip) {
-  try { await pool.query('DELETE FROM login_attempts WHERE ip = $1', [ip]); } catch {}
-}
+function rateClear(ip) { attempts.delete(ip); }
 
 
 const server = http.createServer(async (req, res) => {
@@ -187,13 +167,13 @@ const server = http.createServer(async (req, res) => {
     // ----- API -----
     if (pathname === '/api/login' && method === 'POST') {
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'x';
-      if (await rateLimited(ip)) return json(res, 429, { error: 'too many attempts, try later' });
+      if (rateLimited(ip)) return json(res, 429, { error: 'too many attempts, try later' });
       let body;
       try { body = JSON.parse((await readBody(req)).toString('utf8')); }
       catch { return json(res, 400, { error: 'bad request' }); }
       const sess = await login(String(body.email || ''), String(body.password || '')).catch(() => null);
-      if (!sess) { await rateFail(ip); return json(res, 401, { error: 'invalid credentials' }); }
-      await rateClear(ip);
+      if (!sess) { rateFail(ip); return json(res, 401, { error: 'invalid credentials' }); }
+      rateClear(ip);
       return json(res, 200, { email: sess.email }, sessionCookie(sess.token, sess.expires));
     }
     if (pathname === '/api/logout' && method === 'POST') {
@@ -207,8 +187,8 @@ const server = http.createServer(async (req, res) => {
     }
     if (pathname === '/api/content' && method === 'GET') {
       const page = String(u.searchParams.get('page') || '/');
-      const r = await pool.query('SELECT el_id, kind, value, orig_html, idx, tag FROM content_overrides WHERE page = $1', [page]).catch(() => null);
-      return json(res, 200, { page, items: r ? r.rows : [] });
+      const items = await getOverrides(page);
+      return json(res, 200, { page, items });
     }
     if (pathname === '/api/content' && method === 'PUT') {
       const s = await verifySession(cookies.sc_admin).catch(() => null);
@@ -218,23 +198,20 @@ const server = http.createServer(async (req, res) => {
       catch { return json(res, 400, { error: 'bad request' }); }
       const page = String(body.page || '/');
       const items = Array.isArray(body.items) ? body.items.slice(0, 500) : [];
-      for (const it of items) {
-        if (!it || typeof it.el_id !== 'string' || !['text', 'image', 'media'].includes(it.kind)) continue;
-        const value = String(it.value || '').slice(0, 50000);
-        const orig = typeof it.orig === 'string' ? it.orig.slice(0, 50000) : null;
-        const idx = Math.max(0, Math.min(99, parseInt(it.idx, 10) || 0));
-        const tag = typeof it.tag === 'string' ? it.tag.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 10) : '';
-        await pool.query(
-          `INSERT INTO content_overrides (page, el_id, kind, value, orig_html, idx, tag, updated_at)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, now())
-           ON CONFLICT (page, el_id) DO UPDATE SET kind = EXCLUDED.kind, value = EXCLUDED.value, orig_html = EXCLUDED.orig_html, idx = EXCLUDED.idx, tag = EXCLUDED.tag, updated_at = now()`,
-          [page, it.el_id.slice(0, 200), it.kind, value, orig, idx, tag]
-        );
-      }
-      bustBrand();
+      const clean = items.map((it) => {
+        if (!it || typeof it.el_id !== 'string' || !['text', 'image', 'media'].includes(it.kind)) return null;
+        return {
+          el_id: it.el_id.slice(0, 200),
+          kind: it.kind,
+          value: String(it.value || '').slice(0, 50000),
+          orig_html: typeof it.orig === 'string' ? it.orig.slice(0, 50000) : null,
+          idx: Math.max(0, Math.min(99, parseInt(it.idx, 10) || 0)),
+          tag: typeof it.tag === 'string' ? it.tag.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 10) : '',
+        };
+      }).filter(Boolean);
+      await saveOverrides(page, clean);
       bustOverrides();
-      bustCMS();
-      return json(res, 200, { ok: true, saved: items.length });
+      return json(res, 200, { ok: true, saved: clean.length });
     }
     if (pathname === '/api/cms' && method === 'GET') {
       const only = String(u.searchParams.get('section') || '');
@@ -274,15 +251,11 @@ const server = http.createServer(async (req, res) => {
       try { body = JSON.parse((await readBody(req)).toString('utf8')); }
       catch { return json(res, 400, { error: 'bad request' }); }
       const allowed = ['site_name', 'tagline', 'logo_src', 'primary_color', 'accent_color', 'hero_video_src'];
+      const updates = {};
       for (const k of allowed) {
-        if (typeof body[k] === 'string') {
-          await pool.query(
-            'INSERT INTO brand_settings (key, value, updated_at) VALUES ($1, $2, now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()',
-            [k, body[k].slice(0, 500)]
-          );
-        }
+        if (typeof body[k] === 'string') updates[k] = body[k].slice(0, 500);
       }
-      bustBrand();
+      await saveBrand(updates);
       bustOverrides();
       bustCMS();
       return json(res, 200, await getBrand());
@@ -311,12 +284,10 @@ const server = http.createServer(async (req, res) => {
       const s = await verifySession(cookies.sc_admin).catch(() => null);
       if (!s) return json(res, 401, { error: 'unauthorized' });
       const limit = Math.min(500, Math.max(1, parseInt(u.searchParams.get('limit') || '100', 10) || 100));
-      const r = await pool.query(
-        `SELECT id, created_at, kind, name, email, phone, company, message, source_page, handled
-         FROM leads ORDER BY created_at DESC LIMIT $1`,
-        [limit]
-      );
-      return json(res, 200, { leads: r.rows });
+      const leads = await readStore('leads.json') || [];
+      const rows = leads.slice().sort((a, b) => b.created_at - a.created_at).slice(0, limit)
+        .map((r) => ({ ...r, created_at: new Date(r.created_at).toISOString() }));
+      return json(res, 200, { leads: rows });
     }
     if (pathname === '/api/upload' && method === 'POST') {
       const s = await verifySession(cookies.sc_admin).catch(() => null);

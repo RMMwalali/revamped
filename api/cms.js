@@ -2,7 +2,6 @@
 // PUT /api/cms (admin: { section, data }).
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { pool } from '../scripts/db.mjs';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getCMS, saveCMSSection, liveSnapshot, CMS_SECTIONS } from '../scripts/cms.mjs';
 import { bustBrand } from '../scripts/transform.mjs';
