@@ -28,9 +28,15 @@ export async function verifySession(token) {
 export async function login(email, password) {
   const r = await pool.query('SELECT id, email, password_hash FROM admins WHERE email = $1', [email.toLowerCase()]);
   const admin = r.rows[0];
-  if (!admin) return null;
+  if (!admin) {
+    console.error('[login] no admin row for email:', email.toLowerCase());
+    return null;
+  }
   const ok = await bcrypt.compare(password, admin.password_hash);
-  if (!ok) return null;
+  if (!ok) {
+    console.error('[login] password mismatch for email:', email.toLowerCase());
+    return null;
+  }
   const token = crypto.randomBytes(32).toString('hex');
   const expires = new Date(Date.now() + TTL_HOURS * 3600 * 1000);
   await pool.query('INSERT INTO sessions (token, admin_id, expires_at) VALUES ($1, $2, $3)', [token, admin.id, expires.toISOString()]);

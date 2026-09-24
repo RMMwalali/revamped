@@ -212,14 +212,14 @@
     "api/page.js": { "includeFiles": "dist/**" },
     "api/cms.js": { "includeFiles": "dist/**/*.html" },
     "api/img.js": { "includeFiles": "dist/assets/**" },
-    "api/login.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/logout.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/me.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/brand.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/content.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/upload.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/lead.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/leads.js": { "includeFiles": "scripts/auth.mjs" }
+    "api/login.js": { "includeFiles": ["scripts/auth.mjs", "scripts/db.mjs"] },
+    "api/logout.js": { "includeFiles": ["scripts/auth.mjs", "scripts/db.mjs"] },
+    "api/me.js": { "includeFiles": ["scripts/auth.mjs", "scripts/db.mjs"] },
+    "api/brand.js": { "includeFiles": ["scripts/auth.mjs", "scripts/db.mjs"] },
+    "api/content.js": { "includeFiles": ["scripts/auth.mjs", "scripts/db.mjs"] },
+    "api/upload.js": { "includeFiles": ["scripts/auth.mjs", "scripts/db.mjs", "scripts/transform.mjs"] },
+    "api/lead.js": { "includeFiles": ["scripts/db.mjs"] },
+    "api/leads.js": { "includeFiles": ["scripts/auth.mjs", "scripts/db.mjs"] }
   },
   "headers": [
     {

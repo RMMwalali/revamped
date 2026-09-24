@@ -52,7 +52,10 @@ export default async function handler(req, res) {
   let sess = null;
   try {
     sess = await login(String(body.email || ''), String(body.password || ''));
-  } catch { sess = null; }
+  } catch (err) {
+    console.error('[login] auth error:', err.code || err.message);
+    sess = null;
+  }
   if (!sess) { await recordFailure(ip); res.status(401).json({ error: 'invalid credentials' }); return; }
   await clearFailures(ip);
   res.setHeader('Set-Cookie', sessionCookie(sess.token, sess.expires));
