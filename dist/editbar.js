@@ -66,26 +66,50 @@
   // inline styles, so the recorded orig/value stay stable between sessions and
   // match the static markup the server/guard re-finds.
   function cleanTextHTML(el) {
+    // clean() returns an HTML string at every branch. It used to return a Node
+    // from some branches and a String from others, which meant
+    // appendChild(string) threw "parameter 1 is not of type 'Node'" the moment
+    // a node contained an unwrapped chrome span - and the string branch
+    // concatenated Nodes into "[object HTMLDivElement]". Since nearly every
+    // heading and paragraph on this site is wrapped in css-3w1c3c spans, that
+    // exception fired on almost any text click and killed text editing.
+    function esc(v) {
+      return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
     function clean(node) {
-      if (node.nodeType !== 1) return node.cloneNode(true);
+      if (node.nodeType === 3) return esc(node.nodeValue || '');
+      if (node.nodeType !== 1) return '';
       var tag = node.tagName;
       var cls = String(node.className || '');
       var st = String(node.getAttribute ? node.getAttribute('style') || '' : '');
       var chrome = /line-mask|fix-mask|fix-clip|will-change|css-3w1c3c|css-1lpdf6v/.test(cls) ||
                    /transform|translate|rotate|scale|--r[XY]|animation/i.test(st);
-      if (/^(DIV|SPAN)$/.test(tag) && chrome) {
-        var out = '';
-        for (var c = 0; c < node.childNodes.length; c++) out += clean(node.childNodes[c]);
-        return out;
-      }
+      var inner = '';
+      for (var c = 0; c < node.childNodes.length; c++) inner += clean(node.childNodes[c]);
+      if (/^(DIV|SPAN)$/.test(tag) && chrome) return inner;
       var clone = node.cloneNode(false);
-      if (node.getAttribute) clone.removeAttribute('style');
-      for (var c2 = 0; c2 < node.childNodes.length; c2++) clone.appendChild(clean(node.childNodes[c2]));
-      return clone;
+      if (clone.removeAttribute) {
+        clone.removeAttribute('style');
+        // Strip what the editor itself added, or it gets baked into the saved
+        // value: contenteditable would ship to visitors, and the sc-* classes
+        // make orig and value differ on every pass so nothing ever matches.
+        clone.removeAttribute('contenteditable');
+        var kept = String(clone.className || '')
+          .split(/\s+/).filter(function (c) { return c && c !== 'sc-cand' && c !== 'sc-editing'; })
+          .join(' ');
+        if (kept) clone.setAttribute('class', kept); else clone.removeAttribute('class');
+      }
+      clone.innerHTML = inner;
+      return clone.outerHTML;
     }
-    var out = clean(el);
-    var s = typeof out === 'string' ? out : (out.nodeType === 1 ? out.outerHTML : String(out));
-    return s.replace(/\s+/g, ' ').replace(/ >/g, '>').replace(/> </g, '><').trim();
+    // Serialize the element's CONTENT, not the element itself. The server
+    // matches a text override by this string: replaceElInner swaps inner HTML,
+    // and patchFlight looks for it inside the flight payload, which carries
+    // text without the surrounding tag. Emitting outerHTML made both lookups
+    // miss, so edits saved but never reached a visitor.
+    var inner = '';
+    for (var i = 0; i < el.childNodes.length; i++) inner += clean(el.childNodes[i]);
+    return inner.replace(/\s+/g, ' ').replace(/ >/g, '>').replace(/> </g, '><').trim();
   }
 
   // nth occurrence of the same content among same-tag peers (for duplicates)

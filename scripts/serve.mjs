@@ -7,6 +7,7 @@
 import http from 'node:http';
 import crypto from 'node:crypto';
 import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
+import { statSync } from 'node:fs';
 import path from 'node:path';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
 import { saveLead } from '../api/lead.js';
@@ -21,6 +22,17 @@ import {
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, normalizeChunkRefs,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
+// Cache-bust the edit bar: it is served from dist with a normal cache header,
+// so without a version an admin keeps a stale copy after a fix ships. Uses the
+// file's mtime, which is the deploy time on Vercel.
+function editbarVersion() {
+  try {
+    return Math.floor(statSync(path.join(process.cwd(), 'dist', 'editbar.js')).mtimeMs).toString(36);
+  } catch {
+    return '0';
+  }
+}
+const EDITBAR_V = editbarVersion();
 const ROOT = path.resolve('dist');
 const PORT = Number(process.argv[2] || process.env.PORT || 3000);
 
@@ -526,7 +538,7 @@ const server = http.createServer(async (req, res) => {
         // Boot via inline script: React hydration can wipe deferred tags before
         // they run, but an inline script executes during parse, so its loader survives.
         html = html.replace(/(<\/body>)/i,
-          `<script>window.__SC_PAGE__=${JSON.stringify(key)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js';s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
+          `<script>window.__SC_PAGE__=${JSON.stringify(key)};var EDITBAR_V=${JSON.stringify(EDITBAR_V)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js?v='+EDITBAR_V;s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
       }
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache', 'Access-Control-Allow-Origin': '*' });
       res.end(html);

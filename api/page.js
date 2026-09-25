@@ -11,6 +11,20 @@ import {
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
 import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
+import { statSync } from 'node:fs';
+import nodePath from 'node:path';
+// Cache-bust the edit bar: it is served from dist with a normal cache header,
+// so without a version an admin keeps a stale copy after a fix ships. Uses the
+// file's mtime, which is the deploy time on Vercel.
+function editbarVersion() {
+  try {
+    return Math.floor(statSync(nodePath.join(process.cwd(), 'dist', 'editbar.js')).mtimeMs).toString(36);
+  } catch {
+    return '0';
+  }
+}
+const EDITBAR_V = editbarVersion();
+
 
 const ROOT = path.join(process.cwd(), 'dist');
 const NO_FP = new Set(['/cookie-policy', '/privacy-policy', '/legal-notice-terms-of-use']);
@@ -114,7 +128,7 @@ async function serveHtml(pathname, cookies, host) {
     // never inject the floating inline edit bar there.
     if (isAdmin && key !== '/insider') {
       html = html.replace(/(<\/body>)/i,
-        `<script>window.__SC_PAGE__=${JSON.stringify(key)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js';s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
+        `<script>window.__SC_PAGE__=${JSON.stringify(key)};var EDITBAR_V=${JSON.stringify(EDITBAR_V)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js?v='+EDITBAR_V;s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
     }
     return { key, html, isAdmin };
   }
