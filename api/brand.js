@@ -21,8 +21,13 @@ export default async function handler(req, res) {
   for (const k of allowed) {
     if (typeof body[k] === 'string') updates[k] = body[k].slice(0, 500);
   }
-  await saveBrand(updates);
-  bustOverrides();
-  bustCMS();
-  res.status(200).json(await getBrand());
+  try {
+    await saveBrand(updates);
+    bustOverrides();
+    bustCMS();
+    res.status(200).json(await getBrand());
+  } catch (e) {
+    console.error('[brand] save error:', e?.message || e);
+    res.status(500).json({ error: 'save failed', detail: String(e?.message || e).slice(0, 200) });
+  }
 }

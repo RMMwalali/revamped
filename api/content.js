@@ -30,8 +30,13 @@ export default async function handler(req, res) {
       tag: typeof it.tag === 'string' ? it.tag.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 10) : '',
     };
   }).filter(Boolean);
-  await saveOverrides(page, clean);
-  bustBrand();
-  bustCMS();
-  res.status(200).json({ ok: true, saved: clean.length });
+  try {
+    await saveOverrides(page, clean);
+    bustBrand();
+    bustCMS();
+    res.status(200).json({ ok: true, saved: clean.length });
+  } catch (e) {
+    console.error('[content] save error:', e?.message || e);
+    res.status(500).json({ error: 'save failed', detail: String(e?.message || e).slice(0, 200) });
+  }
 }

@@ -46,9 +46,14 @@ export default async function handler(req, res) {
   const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
     crypto.randomBytes(4).toString('hex') + '.' + ext;
   if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const { put } = await import('@vercel/blob');
-    const blob = await put('custom/' + name, part.data, { access: 'public', contentType: part.type || undefined });
-    res.status(200).json({ src: blob.url, kind: isBig ? 'media' : 'image' });
+    try {
+      const { put } = await import('@vercel/blob');
+      const blob = await put('custom/' + name, part.data, { access: 'public', contentType: part.type || undefined, allowOverwrite: true });
+      res.status(200).json({ src: blob.url, kind: isBig ? 'media' : 'image' });
+    } catch (e) {
+      console.error('[upload] blob error:', e?.message || e);
+      res.status(500).json({ error: 'upload failed', detail: String(e?.message || e).slice(0, 200) });
+    }
     return;
   }
   if (process.env.VERCEL) {

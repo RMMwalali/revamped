@@ -29,7 +29,7 @@ export async function writeStore(name, data) {
   const json = JSON.stringify(data, null, 2);
   if (IS_BLOB) {
     const { put } = await import('@vercel/blob');
-    await put(name, json, { access: 'public', cacheControl: 'no-cache' });
+    await put(name, json, { access: 'public', cacheControl: 'no-cache', allowOverwrite: true });
   } else {
     await mkdir(DATA_DIR, { recursive: true });
     await writeFile(path.join(DATA_DIR, name), json, 'utf8');
