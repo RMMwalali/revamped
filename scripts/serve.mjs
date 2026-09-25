@@ -546,11 +546,11 @@ const server = http.createServer(async (req, res) => {
     }
     if (lookup.endsWith('.html') || path.extname(lookup) === '') {
       for (const f of resolveFile(lookup.endsWith('.html') ? lookup : lookup + '.html')) {
-        try { if (await serveHtml(f)) return; } catch (e) { console.error('[serve] serveHtml failed for ' + f + ':', (e && e.message) || e); }
+        try { if (await serveHtml(f)) return; } catch (e) { if (e && e.code !== 'ENOENT') console.error('[serve] serveHtml failed for ' + f + ':', (e && e.message) || e); }
       }
       // directory index fallback
       for (const f of resolveFile(lookup)) {
-        try { if (await serveHtml(path.join(f, 'index.html'))) return; } catch (e) { console.error('[serve] serveHtml failed for ' + f + '/index.html:', (e && e.message) || e); }
+        try { if (await serveHtml(path.join(f, 'index.html'))) return; } catch (e) { if (e && e.code !== 'ENOENT') console.error('[serve] serveHtml failed for ' + f + '/index.html:', (e && e.message) || e); }
       }
     }
     res.writeHead(404, { 'Access-Control-Allow-Origin': '*' });
