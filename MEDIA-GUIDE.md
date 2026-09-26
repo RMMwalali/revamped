@@ -1,6 +1,6 @@
 # StillCraft Events — Media Replacement Guide
 
-Every photo/logo/media slot on the site, grouped by page and section. Replace any of them without touching code: log in at `/insider`, open the page of choice, click the image, upload the new file.
+Every photo/logo/media slot on the site, grouped by page and section. Replace any of them without touching code: log in at `/insider`, open the page of choice, click the image, upload the new image.
 
 ## Page `/about`
 
