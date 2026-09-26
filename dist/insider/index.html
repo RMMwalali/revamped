@@ -240,7 +240,16 @@
     o = o || {};
     // Never serve editors a cached copy: saved values must be visible instantly.
     o.cache = 'no-store';
-    return fetch(p, o).then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); });
+    return fetch(p, o).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok) {
+          var e = new Error((d && (d.detail || d.error)) || ('http ' + r.status));
+          e.status = r.status;
+          throw e;
+        }
+        return d;
+      });
+    });
   }
   function st(sec, m) { var e = document.querySelector('[data-st="' + sec + '"]'); if (e) e.textContent = m || ''; }
 
@@ -575,7 +584,7 @@
           }
         })
         .then(function () { st(sec, 'Saved — live now.'); toast('Saved — live now'); S.saved[sec] = payload; })
-        .catch(function () { st(sec, 'Save failed.'); toast('Save failed'); })
+        .catch(function (e) { st(sec, 'Save failed.'); toast('Save failed: ' + (e && e.message ? e.message : '')); })
         .then(function () { sv.disabled = false; });
       return;
     }
@@ -588,7 +597,7 @@
         if (logoSrc) payload.logo_src = logoSrc;
         api('/api/brand', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
           .then(function (r) { S.brand = r || payload; st('brand', 'Saved — live now.'); toast('Brand saved'); })
-          .catch(function () { st('brand', 'Save failed.'); })
+          .catch(function (e) { var m = (e && e.message) || 'unknown error'; st('brand', 'Save failed: ' + m); toast('Brand save failed: ' + m); })
           .then(function () { b.disabled = false; });
       };
       if (lf) {

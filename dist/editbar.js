@@ -24,8 +24,14 @@
 
   function api(path, opts) {
     return fetch(path, opts).then(function (r) {
-      if (!r.ok) throw new Error('http ' + r.status);
-      return r.json();
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok) {
+          var e = new Error((d && (d.detail || d.error)) || ('http ' + r.status));
+          e.status = r.status;
+          throw e;
+        }
+        return d;
+      });
     });
   }
 
@@ -441,8 +447,8 @@
       dirty = {};
       updateSave();
       loadOverrides();
-    }).catch(function () {
-      toast('Save failed', true);
+    }).catch(function (e) {
+      toast('Save failed: ' + (e && e.message ? e.message : ''), true);
       updateSave();
     });
   }

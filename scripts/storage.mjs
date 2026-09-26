@@ -13,10 +13,23 @@ const DATA_DIR = process.env.VERCEL
 
 export async function readStore(name) {
   if (IS_BLOB) {
-    const { get } = await import('@vercel/blob');
-    const blob = await get(name);
-    if (!blob) return null;
-    return JSON.parse(await blob.text());
+    // @vercel/blob has no `get()` export (head/list/put/del only) — importing
+    // it threw "does not provide an export named 'get'", which broke EVERY
+    // save (brand/overrides/cms all read the store before writing). Resolve the
+    // download URL with head(), then fetch the body ourselves.
+    const { head, BlobNotFoundError } = await import('@vercel/blob');
+    let url;
+    try {
+      const meta = await head(name);
+      url = meta.downloadUrl || meta.url;
+    } catch (e) {
+      if (e instanceof BlobNotFoundError) return null;
+      throw e;
+    }
+    if (!url) return null;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    return JSON.parse(await res.text());
   }
   try {
     return JSON.parse(await readFile(path.join(DATA_DIR, name), 'utf8'));
