@@ -2,7 +2,7 @@
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
-import { getOverrides, applyOverrides, bustOverrides } from '../scripts/overrides.mjs';
+import { getOverrides, applyOverrides, applyAssetOverrides, bustOverrides } from '../scripts/overrides.mjs';
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash,
@@ -100,6 +100,9 @@ async function serveHtml(pathname, cookies, host) {
     html = applyCaseMetaFix(html, key);
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
+    // Admin asset swaps target flight payload the content fixes above rewrite,
+    // so re-assert them here or hydration re-renders the original file.
+    if (!noFP) html = applyAssetOverrides(html, __overrides);
     html = applyLinks(html, host, key);
     html = applyAboutTeamRemove(html);
     html = applyRevealFailsafe(html);

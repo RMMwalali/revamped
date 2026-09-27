@@ -431,10 +431,38 @@
     input.click();
   }
 
-  function save() {
-    var items = Object.keys(dirty).map(function (k) {
-      return { el_id: k, kind: dirty[k].kind, value: dirty[k].value, orig: dirty[k].orig, idx: dirty[k].idx || 0, tag: dirty[k].tag || '' };
+  function rowOf(o) {
+    return {
+      el_id: o.el_id, kind: o.kind, value: o.value,
+      orig: o.orig_html != null ? o.orig_html : o.orig,
+      idx: o.idx || 0, tag: o.tag || ''
+    };
+  }
+
+  // A save replaces the page's whole override list server-side, so the rows
+  // already stored have to travel with the new ones - sending only the fresh
+  // edits silently dropped everything saved before. A new edit supersedes the
+  // stored row for the same target (same kind + recorded original), so
+  // re-editing one element never leaves two rows fighting over it.
+  function pendingItems() {
+    var out = [];
+    (overrides || []).forEach(function (o) {
+      for (var k in dirty) {
+        var d = dirty[k];
+        if (d.kind === o.kind && String(d.orig == null ? '' : d.orig) === String(o.orig_html == null ? '' : o.orig_html)) return;
+      }
+      out.push(rowOf(o));
     });
+    Object.keys(dirty).forEach(function (k) {
+      var d = dirty[k];
+      out.push({ el_id: k, kind: d.kind, value: d.value, orig: d.orig, idx: d.idx || 0, tag: d.tag || '' });
+    });
+    return out;
+  }
+
+  function save() {
+    var items = pendingItems();
+    var fresh = Object.keys(dirty).length;
     if (!items.length) return;
     var b = $('#sc-save');
     b.disabled = true; b.textContent = 'Saving…';
@@ -443,7 +471,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ page: PAGE, items: items })
     }).then(function (d) {
-      toast('Saved ' + d.saved + ' change(s) — live now');
+      toast('Saved ' + fresh + ' change(s) — live now');
       dirty = {};
       updateSave();
       loadOverrides();
