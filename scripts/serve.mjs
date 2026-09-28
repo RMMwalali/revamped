@@ -11,7 +11,7 @@ import path from 'node:path';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
 import { saveLead } from '../api/lead.js';
 import { readStore } from './storage.mjs';
-import { getOverrides, applyOverrides, bustOverrides, saveOverrides, maskT } from './overrides.mjs';
+import { getOverrides, applyOverrides, applyAssetOverrides, bustOverrides, saveOverrides, maskT } from './overrides.mjs';
 import {
   getBrand, bustBrand, saveBrand, applyBrand, applyNav, applyTheme, stripThirdParty, removeBadges,
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
@@ -451,7 +451,8 @@ const server = http.createServer(async (req, res) => {
       const fileItems = [...(FILE_CONTENT[key] || []),
         ...((LOGO_ROWS[key] || []).filter(r => !/Testimonial/i.test(r.orig_html))),
         ...((LOGO_NAMES[key] || []).map(n => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
-      html = applyOverrides(html, [...await getOverrides(key), ...fileItems], { noFlightPatch: noFP });
+      const __dbItems = await getOverrides(key);
+      html = applyOverrides(html, [...__dbItems, ...fileItems], { noFlightPatch: noFP });
       __dbg_step('overrides');
       html = applyGlobalSwaps(html, key);
       __dbg_step('globalSwaps');
@@ -499,6 +500,12 @@ const server = http.createServer(async (req, res) => {
       __dbg_step('footerAddresses');
       html = applyContentFlight(html, key);
       __dbg_step('contentFlight');
+      // Admin asset swaps target flight payload the content fixes above rewrite,
+      // so re-assert them here or hydration re-renders the original file. URL
+      // swaps are payload-safe and the pass self-verifies, so the legal pages
+      // (which only skip the text flight patches) keep their image edits too.
+      html = applyAssetOverrides(html, __dbItems);
+      __dbg_step('assetOverrides');
       html = applyLinks(html, req.headers.host, key);
       __dbg_step('links');
       html = applyAboutTeamRemove(html);

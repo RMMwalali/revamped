@@ -3,7 +3,7 @@
 // Anchor rows (el_id starting with 'a') match by exact content + occurrence
 // index, so they keep working after React hydration re-renders the tree.
 import { readStore, writeStore } from './storage.mjs';
-import { safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs } from './flight.mjs';
+import { safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs, verifyFlight } from './flight.mjs';
 
 const cache = new Map(); // page -> { at, items }
 const TTL = 15000;
@@ -357,10 +357,16 @@ export function imageOverrideScript(items) {
     + 'if(!from||from===to)continue;'
     + 'var els=document.querySelectorAll(\'img[src="\'+from+\'"]\');'
     + 'for(var j=0;j<els.length;j++){var el=els[j];'
+    // Re-setting an unchanged src would feed the observer below forever.
+    + 'if(el.getAttribute("src")===to)continue;'
     + 'el.setAttribute("src",to);el.removeAttribute("srcset");el.removeAttribute("sizes");}}}'
     + 'function run(){try{swap();}catch(e){}}'
     + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
-    + '[200,600,1200,2500,4000,6000,9000].forEach(function(t){setTimeout(run,t);});'
+    // Hydration rebuilds image nodes from the flight payload, so re-assert on
+    // every DOM change the way the text guard does - timers alone lose the
+    // race whenever React re-renders late.
+    + 'try{new MutationObserver(function(){run();}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:["src"]});}catch(e){}'
+    + '[200,600,1200,2500,4000,6000,9000,14000].forEach(function(t){setTimeout(run,t);});'
     + '})();<\/script>';
 }
 
@@ -411,6 +417,47 @@ export function textOverrideScript(items) {
     + 'try{new MutationObserver(function(){run();}).observe(document.body,{childList:true,subtree:true});}catch(e){}'
     + '[200,600,1200,2500,4000,6000,9000,14000].forEach(function(t){setTimeout(run,t);});'
     + '})();<\/script>';
+}
+
+// Asset URLs (images, video src/poster) live in the flight payload too, as
+// "sourceUrl":"…", and hydration re-renders those nodes from it. A swap that
+// only rewrites the served markup is therefore undone the moment React takes
+// over: the admin still saw the new asset (their edit bar keeps re-applying
+// it) while every visitor got the old one back. Patch the push strings as
+// well so React itself renders the new asset from the first paint - every
+// recorded spelling is replaced, which is exactly the swap the client guard
+// below already performs after hydration.
+function patchAssetFlight(html, it) {
+  if (!it.orig_html || !it.value || it.value === it.orig_html) return html;
+  for (const cand of imgOrigCandidates(it.orig_html)) {
+    if (!cand || cand === it.value) continue;
+    html = safeReplacePushes(html, cand, it.value);
+  }
+  return html;
+}
+
+// Same swap, re-applied after the built-in content fixes have run. Those
+// fixes (highlight images, CMS cards, flight patches) rewrite both the markup
+// and the very push strings the swap targets, so an early pass gets silently
+// reverted: hydration re-renders the original asset and the served HTML goes
+// back to the stock file. Admin edits win - they are applied last.
+export function applyAssetOverrides(html, items) {
+  for (const it of items || []) {
+    if (it.kind !== 'image' && it.kind !== 'media') continue;
+    if (it.orig_html) html = applyAnchor(html, it);
+    // One URL for another in the same payload slot: the row structure cannot
+    // change, so this stays safe on the legal pages too (they skip the text
+    // flight patches, where multi-line values really can break the parser).
+    // The verifier is the belt to that braces - never ship a worse payload.
+    const before = flightBad(html);
+    const next = patchAssetFlight(html, it);
+    if (next !== html && flightBad(next) > before) continue;
+    html = next;
+  }
+  return html;
+}
+function flightBad(html) {
+  try { return verifyFlight(html).bad; } catch { return 0; }
 }
 
 export function applyOverrides(html, items, opts) {
@@ -502,26 +549,51 @@ function applyAnchor(html, it) {
       // reached an anonymous visitor. Try every known spelling, including the
       // pre-rewrite optimizer URL ("/_next/image?url=...") recorded by older DOMs.
       let hit = null;
+      let everyHit = null;
       for (const cand of imgOrigCandidates(it.orig_html)) {
         for (const spelling of imgSrcCandidates(cand)) {
           const re = new RegExp(`<img\\b[^<>]*src="${escapeRegExp(spelling)}"`, 'gi');
           let m;
           const hits = [];
-          while ((m = re.exec(html)) && hits.length <= (it.idx || 0)) hits.push(m);
-          hit = hits[it.idx || 0];
-          if (hit) break;
+          while ((m = re.exec(html)) && hits.length < 200) hits.push(m);
+          hit = hits[it.idx || 0] || null;
+          // The recorded index is a position in the hydrated DOM, which holds
+          // more nodes of the same image than the served markup (responsive
+          // placeholders, cloned slides). When that position is gone, patch
+          // every match instead of dropping the edit: this is the same swap
+          // the post-hydration guard performs, and it keeps the served HTML
+          // correct for visitors with JavaScript disabled.
+          if (!hit) everyHit = hits.length ? hits : null;
+          if (hit || everyHit) break;
         }
-        if (hit) break;
+        if (hit || everyHit) break;
       }
-      if (!hit) return html;
-      const tagStart = hit.index;
-      const tagEnd = html.indexOf('>', tagStart);
-      if (tagEnd < 0) return html;
-      const tag = (html.slice(tagStart, tagEnd + 1))
-        .replace(/\ssrc\s*=\s*"[^"]*"/i, ` src="${it.value}"`)
-        .replace(/\ssrcset\s*=\s*"[^"]*"/i, '')
-        .replace(/\ssizes\s*=\s*"[^"]*"/i, '');
-      return html.slice(0, tagStart) + tag + html.slice(tagEnd + 1);
+      const swapTag = (h) => {
+        const tagStart = h.index;
+        const tagEnd = html.indexOf('>', tagStart);
+        if (tagEnd < 0) return null;
+        return (html.slice(tagStart, tagEnd + 1))
+          .replace(/\ssrc\s*=\s*"[^"]*"/i, ` src="${it.value}"`)
+          .replace(/\ssrcset\s*=\s*"[^"]*"/i, '')
+          .replace(/\ssizes\s*=\s*"[^"]*"/i, '');
+      };
+      if (hit) {
+        const tag = swapTag(hit);
+        if (!tag) return html;
+        return html.slice(0, hit.index) + tag + html.slice(html.indexOf('>', hit.index) + 1);
+      }
+      if (everyHit) {
+        let out = '';
+        let last = 0;
+        for (const h of everyHit) {
+          const tag = swapTag(h);
+          if (!tag) continue;
+          out += html.slice(last, h.index) + tag;
+          last = html.indexOf('>', h.index) + 1;
+        }
+        return out ? out + html.slice(last) : html;
+      }
+      return html;
     }
     // media: swap video/source/poster URLs at the nth exact match of the URL text
     // (trying every known spelling of a recorded optimizer URL first).

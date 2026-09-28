@@ -513,8 +513,8 @@ function applyTestimonials(html, items) {
     if (it.org) html = swapText(html, cur.org, it.org);
     if (it.location) html = swapText(html, cur.location, it.location);
     if (it.industry) html = swapText(html, cur.industry, it.industry);
-    if (it.photo) html = swapUrl(html, cur.photo, it.photo);
-    if (it.logo) html = swapUrl(html, cur.logo, it.logo);
+    // Photos and organisation logos are deliberately NOT swapped: the band is
+    // the template carousel again, and it keeps its own slide imagery.
   });
   return html;
 }

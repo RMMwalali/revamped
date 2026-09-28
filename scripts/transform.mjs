@@ -3425,29 +3425,21 @@ export function applyTeamSectionFix(html, cms) {
   if (/<\/body>/i.test(html)) html = html.replace(/<\/body>/i, js + '\n$&');
   return html;
 }
-// Homepage client-voice band: rebuild it as the testimonial voices section from
-// real CMS data. Runs AFTER applySliderFix (flight testimonial arrays already
-// emptied, template band gutted). Keeps the css-0/css-5ohagv wrappers intact so
-// React's mount point survives, then re-injects post-hydration when wiped.
+// Homepage client-voice band: the TEMPLATE carousel owns this band.
+//
+// It used to be replaced wholesale by a card grid built from the CMS, with a
+// post-hydration script re-injecting that grid over the band. Two renderers
+// then fought for the same mount point: React re-rendered the carousel from
+// the flight payload while the script kept writing the grid over it, and in
+// the window between them every org logo sat stacked in one slot instead of
+// one testimonial at a time.
+//
+// The band is now left exactly as the template ships it - slides, org logos,
+// leader photos and arrows - and the CMS copy is applied into it by
+// applyTestimonials (names, quotes, roles, organisations, locations,
+// industries), positionally, per slide. The carousel's own images are
+// deliberately left untampered.
 export function applyHomeVoices(html, page, cms) {
-  if (page === '/insider') return html;
-  if (page !== '/' && page !== '/home') return html;
-  const items = cms && Array.isArray(cms.testimonials.items) ? cms.testimonials.items : (cms && Array.isArray(cms.testimonials) ? cms.testimonials : []);
-  if (!items.length) return html;
-  const bandOpen = '<div class="css-0"><div class="css-5ohagv">';
-  const statsOpen = '<div class="css-0"><div class="css-4ysux8">';
-  const bi = html.indexOf(bandOpen);
-  if (bi < 0) return html;
-  const si = html.indexOf(statsOpen);
-  if (si <= bi) return html;
-  if (!html.slice(bi, si).includes('css-5ohagv')) return html;
-  const section = '<section class="sc-voices"><header class="sc-voices-head"><span class="sc-voices-kicker">CLIENT VOICES</span><h2 class="sc-voices-title">What our clients say</h2></header>'
-    + voicesGrid(items, 'testimonial') + '</section>';
-  html = html.slice(0, bi) + '<div class="css-0"><div class="css-5ohagv">' + section + '</div></div>' + html.slice(si);
-  const sec = JSON.stringify(section);
-  const js = '<script>(function(){var sec=' + sec + ';var inject=function(){try{var els=document.querySelectorAll(\'[class*="css-5ohagv"]\');for(var i=0;i<els.length;i++){var el=els[i];if(el.querySelector(\'.sc-voices\'))continue;el.innerHTML=sec;}}catch(e){}};window.addEventListener(\'load\',function(){setTimeout(inject,900);setTimeout(inject,2500);});setTimeout(inject,1200);setTimeout(inject,3200);setTimeout(inject,6000);if(document.readyState!==\'loading\'){setTimeout(inject,600);}})();</script>';
-  if (/<\/head>/i.test(html)) html = html.replace(/<\/head>/i, VOICES_CSS + '\n$&');
-  if (/<\/body>/i.test(html)) html = html.replace(/<\/body>/i, js + '\n$&');
   return html;
 }
 export function applySplash(html, page) {  if (page === '/insider') return html;
