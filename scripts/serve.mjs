@@ -501,8 +501,10 @@ const server = http.createServer(async (req, res) => {
       html = applyContentFlight(html, key);
       __dbg_step('contentFlight');
       // Admin asset swaps target flight payload the content fixes above rewrite,
-      // so re-assert them here or hydration re-renders the original file.
-      if (!noFP) html = applyAssetOverrides(html, __dbItems);
+      // so re-assert them here or hydration re-renders the original file. URL
+      // swaps are payload-safe and the pass self-verifies, so the legal pages
+      // (which only skip the text flight patches) keep their image edits too.
+      html = applyAssetOverrides(html, __dbItems);
       __dbg_step('assetOverrides');
       html = applyLinks(html, req.headers.host, key);
       __dbg_step('links');

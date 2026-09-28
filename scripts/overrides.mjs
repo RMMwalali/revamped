@@ -3,7 +3,7 @@
 // Anchor rows (el_id starting with 'a') match by exact content + occurrence
 // index, so they keep working after React hydration re-renders the tree.
 import { readStore, writeStore } from './storage.mjs';
-import { safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs } from './flight.mjs';
+import { safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs, verifyFlight } from './flight.mjs';
 
 const cache = new Map(); // page -> { at, items }
 const TTL = 15000;
@@ -445,9 +445,19 @@ export function applyAssetOverrides(html, items) {
   for (const it of items || []) {
     if (it.kind !== 'image' && it.kind !== 'media') continue;
     if (it.orig_html) html = applyAnchor(html, it);
-    html = patchAssetFlight(html, it);
+    // One URL for another in the same payload slot: the row structure cannot
+    // change, so this stays safe on the legal pages too (they skip the text
+    // flight patches, where multi-line values really can break the parser).
+    // The verifier is the belt to that braces - never ship a worse payload.
+    const before = flightBad(html);
+    const next = patchAssetFlight(html, it);
+    if (next !== html && flightBad(next) > before) continue;
+    html = next;
   }
   return html;
+}
+function flightBad(html) {
+  try { return verifyFlight(html).bad; } catch { return 0; }
 }
 
 export function applyOverrides(html, items, opts) {

@@ -101,8 +101,10 @@ async function serveHtml(pathname, cookies, host) {
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
     // Admin asset swaps target flight payload the content fixes above rewrite,
-    // so re-assert them here or hydration re-renders the original file.
-    if (!noFP) html = applyAssetOverrides(html, __overrides);
+    // so re-assert them here or hydration re-renders the original file. URL
+    // swaps are payload-safe and the pass self-verifies, so the legal pages
+    // (which only skip the text flight patches) keep their image edits too.
+    html = applyAssetOverrides(html, __overrides);
     html = applyLinks(html, host, key);
     html = applyAboutTeamRemove(html);
     html = applyRevealFailsafe(html);
