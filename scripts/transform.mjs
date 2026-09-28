@@ -3480,3 +3480,56 @@ window.addEventListener('error',function(){setTimeout(function(){if(!done)reveal
 })();</script>`;
   return html.replace(/<body[^>]*>/i, (m) => m + '\n' + js);
 }
+
+// Event/testimonial carousel: one slide at a time.
+//
+// The band's markup is Emotion-generated (css-xxxxxx class names) and every one
+// of those rules is inserted through the CSSOM at runtime, so a serialized
+// document keeps the class names but loses the declarations. What is left are
+// the SSR inline states the carousel animates from: the non-first leader lines
+// sit at `transform: translate(0%, 150%)` and the logo/cover boxes carry no
+// size or resting state at all. With the layout CSS absent, those slides simply
+// stack in normal flow - the "role + organisation" pairs and the client logos
+// print as a long column instead of one entry per scroll step.
+//
+// The component source (chunks/3930) states the intended geometry, and this
+// reproduces only that resting layout:
+//
+//   * leader info (z): Grid 1fr/1fr with `& *: grid-column/row 1 / span 1`,
+//     i.e. every slide shares ONE cell, and each text box is a clipping window
+//     (overflow:hidden) around a span that slides in from +150%.
+//   * org logos (I): the same single-cell grid inside a 15.9rem square, and the
+//     non-active items hidden.
+//   * cover boxes (q): 15.7rem desktop / 6.2rem mobile square, one per
+//     breakpoint, also single-cell.
+//
+// Nothing here animates and nothing overrides GSAP: the carousel drives opacity,
+// yPercent and zIndex through runtime INLINE styles, which outrank this sheet,
+// so when the real carousel does mount it still owns the transitions. This only
+// removes the stacking that is visible when it does not.
+const EVENT_SLIDER_CSS = `
+.css-5ohagv .css-1d0e0s1{display:grid;grid-template-columns:1fr;grid-template-rows:1fr;width:100%;align-self:center}
+.css-5ohagv .css-1d0e0s1>*{grid-area:1 / 1;width:100%;min-width:0}
+.css-5ohagv .css-1sgk2yo{display:flex;flex-direction:column;gap:.8rem;width:100%}
+.css-5ohagv .css-1sgk2yo>p{height:max-content;overflow:hidden;clip-path:inset(.1em 0 0 0);margin:-.1em 0 0;padding:0 0 .1em}
+.css-5ohagv .css-1sgk2yo>p>span{display:inline-block}
+.css-5ohagv .css-1ojo9iv{display:grid;grid-template-columns:1fr;grid-template-rows:1fr;width:15.9rem;height:15.9rem;max-width:100%}
+.css-5ohagv .css-1ojo9iv>*{grid-area:1 / 1;width:100%;height:100%;min-width:0;display:flex;align-items:center;justify-content:center}
+.css-5ohagv .css-1ojo9iv>*:not(:first-child){opacity:0}
+.css-5ohagv .css-41c6dw{display:grid;grid-template-columns:1fr;grid-template-rows:1fr;width:15.7rem;height:15.7rem;max-width:100%;margin-left:auto;overflow:hidden;border-radius:1.6rem}
+.css-5ohagv .css-41c6dw>*{grid-area:1 / 1;width:100%;height:100%;min-width:0;display:flex;align-items:center;justify-content:center}
+.css-5ohagv .css-ufa12r{display:grid;grid-template-columns:1fr;grid-template-rows:1fr;width:6.2rem;height:6.2rem;margin:.8rem auto 0;overflow:hidden;border-radius:.4rem}
+.css-5ohagv .css-ufa12r>*{grid-area:1 / 1;width:100%;height:100%;min-width:0;display:flex;align-items:center;justify-content:center}
+@media (min-width:768px){.css-5ohagv .css-ufa12r{display:none}}
+@media (max-width:767.98px){.css-5ohagv .css-41c6dw{display:none}}
+`;
+// Presence-guarded on the band itself, and skipped when the document already
+// carries the Emotion rules (a real runtime render) so this never doubles up
+// on a page that styles itself.
+export function applyEventSliderCss(html, page) {
+  if (page !== '/' && page !== '/home') return html;
+  if (!/class="[^"]*css-1d0e0s1/.test(html)) return html;
+  if (/\.css-1d0e0s1\s*\{/.test(html)) return html;
+  if (!/<\/head>/i.test(html)) return html;
+  return html.replace(/<\/head>/i, `<style id="sc-event-slider-css">${EVENT_SLIDER_CSS}</style>\n$&`);
+}
