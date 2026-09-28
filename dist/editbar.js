@@ -66,11 +66,27 @@
     return top;
   }
 
-  // Serialize content without presentation chrome: unwrap div/span wrappers
-  // that only carry animation/positioning (line-mask, fix-clip, css-hashed
-  // classes, live transform/animation styles) and drop framework-mutated
-  // inline styles, so the recorded orig/value stay stable between sessions and
-  // match the static markup the server/guard re-finds.
+  // Serialize an element's INNER html, without presentation or editing chrome:
+  // unwrap div/span wrappers that only carry animation/positioning (line-mask,
+  // fix-clip, css-hashed classes, live transform/animation styles), drop
+  // framework-mutated inline styles and this bar's own editing attributes, and
+  // record the children - not the element itself.
+  //
+  // The server re-finds a row with `<TAG ...>orig_html</TAG>`, so orig_html has
+  // to be the element's inner html: recording the outer html produced rows that
+  // could never match the served markup, which is why saved text edits showed up
+  // in the editor (the client guard strips tags before comparing) and nowhere
+  // else. Editor classes were recorded too (markCandidates tags every candidate
+  // with sc-cand before an edit starts), so they are stripped here.
+  var EDIT_ATTRS = ['contenteditable', 'spellcheck', 'draggable'];
+  function stripEditChrome(node) {
+    if (node.nodeType !== 1) return;
+    for (var i = 0; i < EDIT_ATTRS.length; i++) node.removeAttribute(EDIT_ATTRS[i]);
+    var keep = String(node.className || '').split(/\s+/).filter(function (c) {
+      return c && c !== 'sc-cand' && c !== 'sc-editing';
+    });
+    if (keep.length) node.className = keep.join(' '); else node.removeAttribute('class');
+  }
   function cleanTextHTML(el) {
     function clean(node) {
       if (node.nodeType !== 1) return node.cloneNode(true);
@@ -85,12 +101,16 @@
         return out;
       }
       var clone = node.cloneNode(false);
-      if (node.getAttribute) clone.removeAttribute('style');
+      if (clone.getAttribute) clone.removeAttribute('style');
+      stripEditChrome(clone);
       for (var c2 = 0; c2 < node.childNodes.length; c2++) clone.appendChild(clean(node.childNodes[c2]));
       return clone;
     }
-    var out = clean(el);
-    var s = typeof out === 'string' ? out : (out.nodeType === 1 ? out.outerHTML : String(out));
+    var frag = document.createDocumentFragment();
+    for (var k = 0; k < el.childNodes.length; k++) frag.appendChild(clean(el.childNodes[k]).cloneNode(true));
+    var box = document.createElement('div');
+    box.appendChild(frag);
+    var s = box.innerHTML.replace(/\u00a0/g, ' ');
     return s.replace(/\s+/g, ' ').replace(/ >/g, '>').replace(/> </g, '><').trim();
   }
 

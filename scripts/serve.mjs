@@ -11,7 +11,7 @@ import path from 'node:path';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
 import { saveLead } from '../api/lead.js';
 import { readStore } from './storage.mjs';
-import { getOverrides, applyOverrides, applyAssetOverrides, bustOverrides, saveOverrides, maskT } from './overrides.mjs';
+import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, bustOverrides, saveOverrides, maskT } from './overrides.mjs';
 import {
   getBrand, bustBrand, saveBrand, applyBrand, applyNav, applyTheme, stripThirdParty, removeBadges,
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
@@ -526,6 +526,11 @@ const server = http.createServer(async (req, res) => {
       __dbg_step('splash');
       html = applyFooterFix(html, key);
       __dbg_step('footerFix');
+      // Saved copy, applied after every built-in fix: the database is the last
+      // word, so a deploy that re-runs this pipeline can no longer revert an
+      // edit the moment it is saved.
+      html = applyTextOverrides(html, __dbItems);
+      __dbg_step('textOverrides');
       const sess = await verifySession(cookies.sc_admin).catch(() => null);
       // /insider hosts the standalone mini-CMS dashboard (own auth UI):
       // never inject the floating inline edit bar there.

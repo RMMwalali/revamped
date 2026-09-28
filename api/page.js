@@ -2,7 +2,7 @@
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
-import { getOverrides, applyOverrides, applyAssetOverrides, bustOverrides } from '../scripts/overrides.mjs';
+import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, bustOverrides } from '../scripts/overrides.mjs';
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash,
@@ -115,6 +115,10 @@ async function serveHtml(pathname, cookies, host) {
     html = removeStaleProjectCards(html);
     html = applySplash(html, key);
     html = applyFooterFix(html, key);
+    // Saved copy, applied after every built-in fix: the database is the last
+    // word, so a deploy that re-runs this pipeline can no longer revert an
+    // edit the moment it is saved.
+    html = applyTextOverrides(html, __overrides);
     // /insider hosts the standalone mini-CMS dashboard (own auth UI):
     // never inject the floating inline edit bar there.
     if (isAdmin && key !== '/insider') {
