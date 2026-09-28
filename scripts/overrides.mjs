@@ -8,13 +8,54 @@ import { safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs, v
 const cache = new Map(); // page -> { at, items }
 const TTL = 15000;
 
+// Text rows have to survive the round trip through the edit bar, and older rows
+// were stored in a shape the server can never re-find:
+//   - orig_html/value held the element's OUTER html, but the anchor matcher
+//     looks for `<TAG ...>orig_html</TAG>` (inner html).
+//   - the bar's own editing chrome leaked in: markCandidates tags every
+//     candidate with `sc-cand` before an edit starts, and the blur handler
+//     leaves `contenteditable="false"` behind.
+// Rows still carrying either are rewritten to the inner, chrome-free form on
+// read, so previously saved edits start applying without touching the store.
+const EDIT_CHROME = /\s(?:contenteditable|spellcheck|draggable)(?:="[^"]*")?/gi;
+const OUTER = /^\s*<([a-zA-Z][a-zA-Z0-9-]*)\b[^<>]*>([\s\S]*)<\/\1>\s*$/;
+function cleanFragment(s) {
+  if (typeof s !== 'string') return s;
+  return s
+    .replace(EDIT_CHROME, '')
+    .replace(/ class="([^"]*)"/g, (m, cls) => {
+      const keep = cls.split(/\s+/).filter((c) => c && c !== 'sc-cand' && c !== 'sc-editing');
+      return keep.length ? ' class="' + keep.join(' ') + '"' : '';
+    })
+    // The bar used to record non-breaking spaces, which the served markup
+    // never carries - a trailing &nbsp; would keep the row from matching.
+    .replace(/&nbsp;|\u00a0/g, ' ');
+}
+function sanitizeRow(it) {
+  if (!it || typeof it !== 'object') return it;
+  const row = { ...it };
+  if (row.kind === 'text') {
+    for (const f of ['orig_html', 'value']) {
+      if (typeof row[f] !== 'string') continue;
+      let v = cleanFragment(row[f]);
+      const m = OUTER.exec(v);
+      if (m) v = m[2];
+      row[f] = v.trim();
+    }
+  }
+  return row;
+}
+function sanitizeRows(items) {
+  return (Array.isArray(items) ? items : []).map(sanitizeRow);
+}
+
 export async function getOverrides(page) {
   const c = cache.get(page);
   if (c && Date.now() - c.at < TTL) return c.items;
   let items = [];
   try {
     const data = await readStore('overrides.json');
-    items = data?.[page] || [];
+    items = sanitizeRows(data?.[page] || []);
   } catch {}
   cache.set(page, { at: Date.now(), items });
   return items;
@@ -22,7 +63,7 @@ export async function getOverrides(page) {
 
 export async function saveOverrides(page, items) {
   const data = await readStore('overrides.json') || {};
-  data[page] = items.map((it) => ({
+  data[page] = sanitizeRows(items).map((it) => ({
     el_id: it.el_id,
     kind: it.kind,
     value: it.value,
@@ -441,6 +482,27 @@ function patchAssetFlight(html, it) {
 // and the very push strings the swap targets, so an early pass gets silently
 // reverted: hydration re-renders the original asset and the served HTML goes
 // back to the stock file. Admin edits win - they are applied last.
+// Saved rows applied LAST, after every built-in content fix.
+//
+// The page is largely re-derived on each request: nav renames, service cards,
+// highlights, CMS passes and the file-content flight swaps all rewrite copy
+// from constants baked into the code. Anything an admin saves used to be
+// applied early and then overwritten by those passes, so a saved edit survived
+// only until the next deploy re-ran the pipeline - which is exactly when it
+// appeared to "revert". Re-applying the stored rows here makes the database the
+// last word: whatever the generators produced, the saved value wins.
+export function applyTextOverrides(html, items) {
+  for (const it of items || []) {
+    if (it.kind !== 'text' || !it.value) continue;
+    // Pinned id first: it survives a built-in pass rewriting the same copy,
+    // which is what would otherwise orphan a text-matched row.
+    if (it.pinned_id) html = replaceElInner(html, it.pinned_id, it.value);
+    else if (it.el_id && it.el_id.charAt(0) !== 'a') html = replaceElInner(html, it.el_id, it.value);
+    else if (it.orig_html) html = applyAnchor(html, it);
+  }
+  return html;
+}
+
 export function applyAssetOverrides(html, items) {
   for (const it of items || []) {
     if (it.kind !== 'image' && it.kind !== 'media') continue;
@@ -625,6 +687,11 @@ function applyAnchor(html, it) {
   while ((m = re.exec(html)) && hits.length <= (it.idx || 0)) hits.push(m);
   const hit = hits[it.idx || 0];
   if (!hit) return html;
+  // Pin the element's stable id while its text still matches, so the late pass
+  // can re-apply the row by id even after a later pass rewrites that copy.
+  const open = hit[0].slice(0, hit[0].indexOf('>') + 1);
+  const idm = /\sdata-sc-id="([^"]*)"/.exec(open);
+  if (idm) it.pinned_id = idm[1];
   const absStart = hit.index + hit[0].indexOf('>') + 1;
   return html.slice(0, absStart) + it.value + html.slice(absStart + it.orig_html.length);
 }

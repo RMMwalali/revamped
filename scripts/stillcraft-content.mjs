@@ -8,7 +8,7 @@ const T = (el_id, value, orig_html) => ({ el_id, kind: 'text', value, orig_html 
 // (short origs like "Branding" never pass patchFlight's uniqueness gate, so they need this).
 export const FLIGHT = {
   '/service/exhibits': [
-    [`Exhibits`, `Mall and Retail`],
+    [`Exhibits`, `Mall Calendar Programming`],
     [`Branding`, `Eight Years Running Calendars`],
     [`Concept & Design`, `One Team From Planning To The Floor`],
     [`Complex Logistics`, `Built Around Your Tenant Mix`],
@@ -62,7 +62,7 @@ export const CONTENT = {
     // template element; the story is carried by header/values/team/stats.
   ],
   '/service/exhibits': [
-    T('t-21', `Mall and Retail`, `Exhibits`),
+    T('t-21', `Mall Calendar Programming`, `Exhibits`),
     T('t-24', `One calendar, run for you.`, `We make exhibits`),
     T('t-25', `Not just`, `impossible to`),
     T('t-26', `planned.`, `ignore.`),
