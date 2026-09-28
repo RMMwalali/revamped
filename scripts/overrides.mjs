@@ -451,8 +451,22 @@ export function textOverrideScript(items) {
     + 'if(e.closest&&e.closest(\'#sc-bar,#sc-brand-panel\'))continue;'
     + 'if(N(e.textContent)===nn)out.push(e);}return out;}'
     + 'function swap(){for(var i=0;i<O.length;i++){var o=O[i];'
-    + 'var ps=peers(o.t,o.o);var el=ps[o.i]||ps[0];'
-    + 'if(el&&el.innerHTML!==o.v)el.innerHTML=o.v;}}'
+    + 'var ps=peers(o.t,o.o),el=ps[o.i]||ps[0];'
+    + 'if(el)setText(el,o.v);}}'
+    // A rename recorded against a plain-text element (a client name in the
+    // partners wall) matches, by normalized text, the SAME word somewhere it
+    // is animated copy: the carousel's leader lines, whose <span> carries the
+    // inline transform GSAP slides and clips. Writing innerHTML there deleted
+    // that span, so the line could never be offset again and stayed painted on
+    // top of whichever slide was animating. When the value lives in a single
+    // text node, rewrite the node and leave every wrapper (and its transform)
+    // alone; multi-node values still fall back to innerHTML, as before.
+    + 'function setText(el,v){if(el.innerHTML===v)return;'
+    + 'if(v.indexOf("<")<0&&document.createTreeWalker){'
+    + 'var w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null),n,nodes=[];'
+    + 'while((n=w.nextNode()))nodes.push(n);'
+    + 'if(nodes.length===1){if(nodes[0].data!==v)nodes[0].data=v;return;}}'
+    + 'el.innerHTML=v;}'
     + 'function run(){try{swap();}catch(e){}}'
     + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
     + 'try{new MutationObserver(function(){run();}).observe(document.body,{childList:true,subtree:true});}catch(e){}'

@@ -6,7 +6,7 @@ import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, 
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applySplash,
-  applyStyleBlocks, applyFooterFix, applyHomeVoices, applyEventSliderCss, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
+  applyStyleBlocks, applyFooterFix, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
@@ -89,7 +89,6 @@ async function serveHtml(pathname, cookies, host) {
     html = applyHighlightsFix(html, key);
     html = applySliderFix(html, key);
     html = applyHomeVoices(html, key, __cms);
-    html = applyEventSliderCss(html, key);
     html = applyShareImage(html);
     html = applyMetaFix(html, key);
     html = applyValuesFix(html, key);
