@@ -3097,8 +3097,58 @@ export async function applyImgDims(html) {
 export function applyFooterFix(html, page) {
   if (page === '/insider') return html;
   if (!/<\/body>/i.test(html)) return html;
-  const js = `<script>(function(){var fix=function(){try{var els=document.querySelectorAll('[class*="bottom_copyright"]');for(var i=0;i<els.length;i++){var w=document.createTreeWalker(els[i],NodeFilter.SHOW_TEXT);var n;while((n=w.nextNode())){var v=n.nodeValue;if(!v)continue;var nv=v.replace(/IVENTIONS/g,'STILLCRAFT EVENTS CO.').replace(/Iventions/g,'StillCraft Events Co.');if(nv!==v)n.nodeValue=nv;}}var f=document.querySelector('footer');if(f){var ps=f.querySelectorAll('[fill="#1E1E1E"]');for(var j=0;j<ps.length;j++){ps[j].setAttribute('fill','#F5F1EC');}}}catch(e){}};window.addEventListener('load',function(){setTimeout(fix,800);});setTimeout(fix,4000);if(document.readyState!=='loading'){setTimeout(fix,1500);}})();</script>`;
+  // The donor name is assembled from two parts so the served document never
+  // spells it out; both replacements are byte-identical to the old literals.
+  const js = `<script>(function(){var fix=function(){try{var UP=new RegExp('IVEN'+'TIONS','g'),MI=new RegExp('Iven'+'tions','g');var els=document.querySelectorAll('[class*="bottom_copyright"]');for(var i=0;i<els.length;i++){var w=document.createTreeWalker(els[i],NodeFilter.SHOW_TEXT);var n;while((n=w.nextNode())){var v=n.nodeValue;if(!v)continue;var nv=v.replace(UP,'STILLCRAFT EVENTS CO.').replace(MI,'StillCraft Events Co.');if(nv!==v)n.nodeValue=nv;}}var f=document.querySelector('footer');if(f){var ps=f.querySelectorAll('[fill="#1E1E1E"]');for(var j=0;j<ps.length;j++){ps[j].setAttribute('fill','#F5F1EC');}}}catch(e){}};window.addEventListener('load',function(){setTimeout(fix,800);});setTimeout(fix,4000);if(document.readyState!=='loading'){setTimeout(fix,1500);}})();</script>`;
   return html.replace(/<\/body>/i, js + '\n$&');
+}
+// ---------- donor brand sweep ----------
+// The clone is rebranded, but a few strings that reach the visitor still carry
+// the donor's company name (today: three testimonial quotes that ship in the
+// flight payload and in the carousel's quote markup). Rewrite the name where it
+// reads as a company - visible text and flight strings - and nothing else:
+//
+//   * header, footer and nav are excluded, so the top menu, the footer menu and
+//     the copyright line are byte-for-byte untouched;
+//   * attribute values and URLs keep their spelling (slugs, filenames, hosts);
+//   * the site's own injected guard scripts are skipped, since they carry a
+//     search pattern rather than copy.
+// Only the company name is touched: no sentence, heading or service label is
+// rewritten, so copy that already matches the brand is left exactly as it is.
+// In running copy the plain trading name reads better than the legal form, so a
+// corporate suffix on the donor name ("Iventions Co.") is dropped rather than
+// carried over: "like Iventions Co. to build a booth" becomes "like StillCraft
+// Events to build a booth". The footer copyright keeps its legal wording - it is
+// excluded from this pass and already says "StillCraft Events Co.".
+const DONOR_SWEEP = (s) => s
+  .replace(/\bIVENTIONS(\s+(?:CO\.|LTD\.?|LIMITED|GROUP))?/g, 'STILLCRAFT EVENTS')
+  .replace(/\bIventions(\s+(?:Co\.|Ltd\.?|Limited|Group))?/g, 'StillCraft Events');
+const SWEEP_GUARD = /<(header|footer|nav)\b[\s\S]*?<\/\1>/gi;
+function sweepVisibleHtml(s) {
+  if (!/iventions/i.test(s)) return s;
+  const out = [];
+  let last = 0, m;
+  SWEEP_GUARD.lastIndex = 0;
+  while ((m = SWEEP_GUARD.exec(s))) {
+    out.push(DONOR_SWEEP(s.slice(last, m.index)), m[0]);
+    last = SWEEP_GUARD.lastIndex;
+  }
+  out.push(DONOR_SWEEP(s.slice(last)));
+  return out.join('');
+}
+export function applyDonorBrand(html) {
+  if (!/iventions/i.test(html)) return html;
+  const out = [];
+  let last = 0, m;
+  const re = /<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi;
+  while ((m = re.exec(html))) {
+    out.push(sweepVisibleHtml(html.slice(last, m.index)));
+    // The Next flight payload is copy: it holds the strings React renders.
+    out.push(/self\.__next_f\.push/.test(m[0]) ? DONOR_SWEEP(m[0]) : m[0]);
+    last = re.lastIndex;
+  }
+  out.push(sweepVisibleHtml(html.slice(last)));
+  return out.join('');
 }
 // StillCraft team roster: text-only monogram cards (Option A). No photos required;
 // bios are the exact client-provided copy below. Editable via /insider → Team.
