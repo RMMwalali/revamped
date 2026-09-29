@@ -501,21 +501,138 @@ function applyStats(html, cfg) {
   });
   return html;
 }
+// ---------------------------------------------------------------------------
+// Testimonial editing
+// ---------------------------------------------------------------------------
+// The donor slider repeats values across slides ("UEFA" is two different
+// people's employer) and the same strings appear elsewhere on the page (the
+// "UEFA Champions League Final" highlight card, template link titles). A
+// page-wide text swap therefore rewrites far more than the one field an admin
+// is editing. Every edit is scoped to a single testimonial instead:
+//
+//   * flight payload - inside that testimonial's own edge node;
+//   * static markup  - inside that slide's own EventSliderLeaderInfo block,
+//     addressed by its data-sc-id span.
+//
+// A field the admin leaves empty is a real instruction to clear it, which is
+// what makes donor copy removable. Absent keys are left alone.
+const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+// End offset of the element whose opening tag starts at `start`.
+function matchTag(html, start) {
+  const re = /<(\/?)([a-z]+)\b[^>]*>/gi;
+  re.lastIndex = start;
+  const first = re.exec(html);
+  if (!first || first[1] === '/') return -1;
+  const name = first[2].toLowerCase();
+  let depth = 1;
+  let m;
+  while ((m = re.exec(html))) {
+    if (m[2].toLowerCase() !== name) continue;
+    if (m[1] === '/') {
+      depth--;
+      if (depth === 0) return re.lastIndex;
+    } else {
+      const gt = html.indexOf('>', m.index);
+      if (gt > 0 && html[gt - 1] !== '/') depth++;
+    }
+  }
+  return -1;
+}
+// Ranges of each EventSliderLeaderInfo block, in slide order.
+function leaderInfoBlocks(html) {
+  const re = /<div class="EventSliderLeaderInfo_content__[^"]*"/g;
+  const out = [];
+  let m;
+  while ((m = re.exec(html))) {
+    const end = matchTag(html, m.index);
+    if (end > m.index) out.push({ start: m.index, end });
+  }
+  return out;
+}
+// Set the text of the nth data-sc-id span within [start,end). An empty value
+// clears it, so removed copy leaves no stale donor words behind.
+function setSpanText(html, start, end, n, value) {
+  const seg = html.slice(start, end);
+  const re = /(<(?:span|div)[^>]*\bdata-sc-id="[^"]+"[^>]*>)([\s\S]*?)(<\/(?:span|div)>)/gi;
+  let m, seen = -1;
+  while ((m = re.exec(seg))) {
+    seen++;
+    if (seen !== n) continue;
+    const inner = value === '' ? '' : escHtml(value);
+    return html.slice(0, start) + seg.slice(0, m.index) + m[1] + inner + m[3]
+      + seg.slice(m.index + m[0].length) + html.slice(end);
+  }
+  return html;
+}
+// Offsets of each testimonial edge node inside the flight payload.
+function testimonialNodes(html) {
+  const reg = arrayRegion(html, FQ + 'testimonials' + FQ);
+  if (!reg) return [];
+  const nodeOpen = FQ + 'node' + FQ + ':{' + FQ + 'title' + FQ;
+  const out = [];
+  let at = reg.start;
+  for (;;) {
+    const i = html.indexOf(nodeOpen, at);
+    if (i < 0 || i > reg.end) break;
+    const objStart = html.lastIndexOf('{', i);
+    const objEnd = matchBracket(html, objStart);
+    if (!objEnd || objEnd[1] > reg.end) break;
+    out.push({ start: objStart, end: objEnd[1] });
+    at = objEnd[1];
+  }
+  return out;
+}
+// Replace `oldV` with `newV` only inside [start,end), across the static and
+// flight spellings of the same string. An empty newV clears the value.
+function swapInRange(html, start, end, oldV, newV) {
+  if (!oldV || oldV === newV) return html;
+  const seg = html.slice(start, end);
+  if (!seg.includes(oldV) && !seg.includes(flightEncRow(oldV))) return html;
+  let out = seg.split(oldV).join(escHtml(newV));
+  const eo = flightEncRow(oldV), ev = flightEncRow(newV);
+  if (eo !== oldV) out = out.split(eo).join(ev);
+  out = safeReplaceVerified(out, oldV, newV) || out;
+  return html.slice(0, start) + out + html.slice(end);
+}
 function applyTestimonials(html, items) {
   if (!Array.isArray(items) || !items.length) return html;
   const live = extractTestimonials(html);
-  items.forEach((it, i) => {
-    if (!it || typeof it !== 'object' || !live[i]) return;
+  if (!live.length) return html;
+  const nodes = () => testimonialNodes(html);
+  const blocks = () => leaderInfoBlocks(html);
+  // extractTestimonials() returns the same field names the admin form posts,
+  // so a field name doubles as the lookup key on the live testimonial.
+  const FIELDS = ['name', 'quote', 'location', 'industry', 'role', 'org'];
+  // Offsets are re-read for every slide. Each edit changes the document length,
+  // and the leader blocks sit ahead of the flight payload, so editing a slide
+  // moves the regions still to be processed. Walking backwards keeps this
+  // bounded, but re-reading is what actually keeps every range correct.
+  for (let i = items.length - 1; i >= 0; i--) {
+    const it = items[i];
+    if (!it || typeof it !== 'object') continue;
     const cur = live[i];
-    if (it.name) html = swapText(html, cur.name, it.name);
-    if (it.quote) html = swapText(html, cur.quote, it.quote);
-    if (it.role) html = swapText(html, cur.role, it.role);
-    if (it.org) html = swapText(html, cur.org, it.org);
-    if (it.location) html = swapText(html, cur.location, it.location);
-    if (it.industry) html = swapText(html, cur.industry, it.industry);
-    // Photos and organisation logos are deliberately NOT swapped: the band is
-    // the template carousel again, and it keeps its own slide imagery.
-  });
+    if (!cur) continue;
+    // Flight payload: confine the swap to this testimonial's own node.
+    const node = nodes()[i];
+    if (node) {
+      for (const field of FIELDS) {
+        if (!has(it, field) || it[field] == null) continue;
+        const oldV = String(cur[field] == null ? '' : cur[field]);
+        if (oldV) html = swapInRange(html, node.start, node.end, oldV, String(it[field]));
+      }
+    }
+    // Static markup: one leader block per slide, role span then org span.
+    if (!has(it, 'role') && !has(it, 'org')) continue;
+    const b = blocks()[i];
+    if (!b) continue;
+    if (has(it, 'role') && it.role != null) {
+      html = setSpanText(html, b.start, b.end, 0, String(it.role));
+    }
+    if (has(it, 'org') && it.org != null) {
+      const nb = blocks()[i];
+      if (nb) html = setSpanText(html, nb.start, nb.end, 1, String(it.org));
+    }
+  }
   return html;
 }
 function applyCities(html, cfg) {
