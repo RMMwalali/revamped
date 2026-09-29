@@ -11,7 +11,7 @@ import { readStore, writeStore } from './storage.mjs';
 import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
-import { PARTNER_LOGOS, allCases } from './stillcraft-cases.mjs';
+import { PARTNER_LOGOS, PLACEHOLDER_TESTIMONIALS, allCases } from './stillcraft-cases.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
 import { safeReplace, safeReplaceVerified, boundedSplitJoin, findEdgesArrays, splitTopObjects, splitTopArrays, matchBracketRaw, verifyFlight } from './flight.mjs';
 
@@ -569,17 +569,22 @@ function setSpanText(html, start, end, n, value) {
 // one line-mask/line pair per visual line, so the text is only recoverable by
 // joining the line divs.
 //
-// Detection is structural, not by class: on the home page the only <p> elements
-// whose content is a run of split lines are the eight carousel quotes (the
-// split-text headings are h1/h2, and the other paragraphs hold plain spans).
-// The caller checks the count against the number of testimonials and does
-// nothing if they disagree, so a donor redesign fails safe rather than
+// Detection is structural, not by class: the eight carousel quotes are the only
+// split-line <p> elements that sit immediately before the first
+// EventSliderLeaderInfo block, each quote directly followed by its attribution.
+// The insight and article bodies later on the page also use split lines, so
+// `before` bounds the scan to the carousel rather than trusting a class name.
+// The caller still checks the count against the number of testimonials and
+// does nothing if they disagree, so a donor redesign fails safe rather than
 // rewriting the wrong paragraphs.
 function quoteBlocks(html) {
+  const firstLeader = leaderInfoBlocks(html)[0];
+  const before = firstLeader ? firstLeader.start : html.length;
   const out = [];
   const re = /<p\b[^>]*>/g;
   let m;
   while ((m = re.exec(html))) {
+    if (m.index >= before) break;
     const end = matchTag(html, m.index);
     if (end < 0) { re.lastIndex = m.index + 2; continue; }
     const seg = html.slice(m.index, end);
@@ -730,25 +735,37 @@ function clearDonorLogoPairs(html) {
     (m, o, v, t, i) => (o === v ? m : '{"o":"' + v + '","v":"' + v + '"' + (t || '') + (i || '') + '}')
   );
 }
-// An all-empty testimonial list, one entry per slide on the page.
-function clearedTestimonials(html) {
-  return extractTestimonials(html).map(() => ({
-    name: '', quote: '', role: '', org: '', location: '', industry: '',
-  }));
+// The band's default copy: one StillCraft-written placeholder line per slide,
+// taken from the matching case study (see PLACEHOLDER_TESTIMONIALS). Not the
+// donor's quotes - those are removed. Each placeholder is marked as one,
+// because no confirmed client quote exists yet and an unmarked invented
+// endorsement would read as a real testimonial.
+function defaultTestimonials(html) {
+  return extractTestimonials(html).map((_, i) => {
+    const d = PLACEHOLDER_TESTIMONIALS[i] || {};
+    return {
+      name: d.name || '', quote: d.quote || '', role: d.role || '',
+      org: d.org || '', location: '', industry: '',
+    };
+  });
 }
 function applyTestimonials(html, items) {
   const live = extractTestimonials(html);
   if (!live.length) return html;
-  // The CMS is the whole source of truth for this band. A slide the admin did
-  // not fill in is empty, not the donor's - otherwise saving one new quote
-  // would leave the other seven donor quotes standing. Every field is filled
-  // in here, so "absent key means leave it alone" no longer applies.
+  // Per slide, the admin entry wins and any field it leaves null falls back to
+  // that slide's StillCraft placeholder rather than to the donor's copy. The
+  // fallback is never donor text, so saving one real quote does not have to
+  // blank the other seven slides - and an admin who genuinely wants a slide
+  // empty saves an empty string, which is a value, not a missing key.
   const FIELDS = ['name', 'quote', 'role', 'org', 'location', 'industry'];
   const given = Array.isArray(items) ? items : [];
   const want = live.map((_, i) => {
     const it = given[i];
+    const d = PLACEHOLDER_TESTIMONIALS[i] || {};
     const row = {};
-    for (const f of FIELDS) row[f] = (it && it[f] != null) ? String(it[f]) : '';
+    for (const f of FIELDS) {
+      row[f] = (it && it[f] != null) ? String(it[f]) : (d[f] || '');
+    }
     // Images are optional: empty means "fall back to the partner logo".
     for (const f of ['logo', 'photo']) row[f] = (it && it[f]) ? String(it[f]) : '';
     return row;
@@ -1673,10 +1690,10 @@ export async function applyStructuredCMS(html, cms, page) {
       if (cms.stats && (cms.stats.label || (Array.isArray(cms.stats.items) && cms.stats.items.length))) html = applyStats(html, cms.stats);
       // Always run. The CMS store is not in version control - Vercel Blob in
       // production, an ephemeral /tmp on deploys - so it cannot carry a record
-      // saying "the donor's testimonials are removed". That decision lives in
-      // the code: with no items configured the band is emptied rather than
-      // falling back to the donor's copy, and admin-entered quotes take over
-      // as soon as they are saved.
+      // saying "the donor's testimonials are replaced". That decision lives in
+      // the code: applyTestimonials falls back to StillCraft's own placeholder
+      // lines for any slide the admin has not filled in, so the band never
+      // falls back to the donor's copy.
       html = applyTestimonials(html, cms.testimonials && cms.testimonials.items);
       // Runs whether or not testimonials are configured: the donor client list
       // in the logo-wall pairing array ships on every home render.
@@ -1708,14 +1725,19 @@ export async function liveSnapshot(pristineHtml) {
       highlights: extractHighlights(pristineHtml),
       logos: { label: 'We are proud to have worked with', items: liveLogos() },
       stats: { label: 'Where passion meets precision ', items: extractStats(pristineHtml) },
-      // Blank, not the donor's: the page serves no testimonial copy by default
-      // (see applyStructuredCMS), so prefilling the donor quotes here would
-      // show the admin content that is not on the site and let a plain save
-      // put it back.
-      testimonials: extractTestimonials(pristineHtml).map((t) => ({
-        name: '', quote: '', role: '', org: '', location: '', industry: '',
-        logo: t.logo, photo: t.photo, participants: t.participants,
-      })),
+      // What the site actually serves, not the donor's: with no items saved the
+      // page shows the StillCraft placeholder lines, so prefilling the donor
+      // quotes here would show the admin copy that is not on the site and let a
+      // plain save put it back.
+      testimonials: (() => {
+        const live = extractTestimonials(pristineHtml);
+        return defaultTestimonials(pristineHtml).map((t, i) => ({
+          ...t,
+          logo: (live[i] || {}).logo || '',
+          photo: (live[i] || {}).photo || '',
+          participants: (live[i] || {}).participants || '',
+        }));
+      })(),
       cities: { items: extractCities(pristineHtml).slice(0, 45), addresses: extractAddresses(pristineHtml) },
       insights: extractInsights(pristineHtml),
       insightManifest: await getInsightManifest().catch(() => []),

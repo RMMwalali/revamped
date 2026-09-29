@@ -279,6 +279,25 @@ export function caseBySlug(slug) {
   return CASE.find((c) => c.slug === slug);
 }
 
+// One StillCraft-written placeholder line per case, in CASE order. Each is
+// condensed from that case's "The Result" section, deliberately qualitative:
+// the 33% footfall and 21% dwell figures are programme-wide averages, so
+// putting a number on an individual campaign here would claim a result the
+// case does not support.
+const PLACEHOLDER_QUOTES = [
+  'Placeholder: the Easter activation gave Galleria a holiday reason to visit, and families a reason to stay past the shops.',
+  'Placeholder: the Mother’s Day programme gave Galleria a gifting moment to build on, through one of the year’s highest-value retail weekends.',
+  'Placeholder: the watch party gave Galleria a communal night beyond its usual seasonal programming.',
+  'Placeholder: the Christmas campaign gave Westgate a festive identity for the season, not just seasonal décor.',
+  'Placeholder: the Valentine’s programme gave Sarit a reason to be remembered on one of the shortest shopping windows of the year.',
+  'Placeholder: the Easter activation gave Sarit a full-day destination for families looking for more than an errand.',
+  'Placeholder: the Valentine’s programme gave Southfield an experience layer on a short, competitive retail day.',
+  'Placeholder: the Easter activation drew families through the holiday period, making Southfield a place to spend a day.',
+  'Placeholder: the Mother’s Day programme gave Southfield a visible presence across its biggest gifting weekend.',
+  'Placeholder: the Father’s Day activation gave Southfield coverage across both family gifting days, not just one.',
+  'Placeholder: the Christmas campaign gave Southfield a festive identity at the end of a year of seasonal programming.',
+];
+
 // StillCraft partner logos, in the order the client logo wall shows them.
 // The same set stands in for the donor's testimonial organisation logos, so a
 // client quote carries a real client mark instead of the donor's. Ordered, so
@@ -296,6 +315,27 @@ export const PARTNER_LOGOS = [
   { name: 'Two Rivers Mall', src: '/assets/custom/TWO%20RIVERS%20MALL.png' },
   { name: 'Westgate Shopping Mall', src: '/assets/custom/WESTGATE%20SHOPPING%20MALL.png' },
 ];
+
+// Testimonial band copy, one entry per carousel slide, in the same order as
+// CASE: slide N's "see full case study" link points at CASE[N], so the quote on
+// a slide describes the case that link opens.
+//
+// These are placeholders, not client quotes. The case write-ups carry no
+// confirmed "In Their Words" line yet, so the band would otherwise render eight
+// empty slides. Every quote is therefore StillCraft's own description of the
+// work, written from the case result and marked "Placeholder" so it is never
+// read as a real client endorsement. Swapping in a genuine quote means editing
+// this entry, or saving one through the CMS admin, which takes precedence.
+//
+// Keep the quote text inside the carousel's per-slide line budget: the static
+// markup splits each donor quote across a fixed set of line divs, and a longer
+// replacement overflows the last line instead of wrapping onto a new one.
+export const PLACEHOLDER_TESTIMONIALS = CASE.map((c, i) => ({
+  org: c.location.replace(/,.*$/, ''),
+  role: 'Marketing lead',
+  name: 'Client name to confirm',
+  quote: PLACEHOLDER_QUOTES[i],
+}));
 
 export function allCases() {
   return CASE.map((c) => ({ ...c }));
