@@ -796,11 +796,16 @@ function applyTestimonials(html, items) {
       // The donor's organisation logos and the headshots of the people who
       // gave the quotes are donor assets, so they are replaced with the
       // StillCraft partner logo for this slide whether or not the admin set
-      // one. An admin-supplied logo or photo still wins.
+      // one. An admin-supplied logo or photo still wins - unless it is itself
+      // donor artwork, which happens when an old record is re-saved verbatim:
+      // the CMS store is not in version control, so a record saved before the
+      // donor's assets were purged still names them, and re-saving that record
+      // would otherwise put a donor photograph back on the page.
       for (const field of ['logo', 'photo']) {
         const oldV = String(cur[field] == null ? '' : cur[field]);
         if (!oldV) continue;
-        const target = it[field] || partnerLogoAt(i);
+        const given = isDonorAsset(it[field]) ? '' : it[field];
+        const target = given || partnerLogoAt(i);
         if (target !== oldV) html = swapUrlInRange(html, node.start, node.end, oldV, target);
       }
       // "See full case study": the donor links each quote at one of its own
@@ -817,7 +822,7 @@ function applyTestimonials(html, items) {
     // Static markup: the leader headshot sits in the slide's own <img>. The
     // partner logo stands in for it so no donor photograph is served.
     if (cur.photo) {
-      const target = it.photo || partnerLogoAt(i);
+      const target = (isDonorAsset(it.photo) ? '' : it.photo) || partnerLogoAt(i);
       if (target !== cur.photo) html = swapUrlInRange(html, 0, html.length, cur.photo, target);
     }
     // The slide's event logo is donor artwork on one slide and a StillCraft
@@ -1725,16 +1730,18 @@ export async function liveSnapshot(pristineHtml) {
       highlights: extractHighlights(pristineHtml),
       logos: { label: 'We are proud to have worked with', items: liveLogos() },
       stats: { label: 'Where passion meets precision ', items: extractStats(pristineHtml) },
-      // What the site actually serves, not the donor's: with no items saved the
-      // page shows the StillCraft placeholder lines, so prefilling the donor
-      // quotes here would show the admin copy that is not on the site and let a
-      // plain save put it back.
+      // What the site actually serves, not the donor's. The image fields are
+      // the partner logo rather than the live value, because the live value is
+      // the donor's own artwork: prefilling it and pressing Save would pin
+      // those donor paths into the CMS as a deliberate, admin-edited setting.
+      // Offering the StillCraft logo makes the prefill and the page agree, and
+      // leaves a real upload to replace it.
       testimonials: (() => {
         const live = extractTestimonials(pristineHtml);
         return defaultTestimonials(pristineHtml).map((t, i) => ({
           ...t,
-          logo: (live[i] || {}).logo || '',
-          photo: (live[i] || {}).photo || '',
+          logo: partnerLogoAt(i) || (live[i] || {}).logo || '',
+          photo: '',
           participants: (live[i] || {}).participants || '',
         }));
       })(),

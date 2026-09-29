@@ -153,7 +153,7 @@
     <section class="pane" data-pane="testimonials">
       <div class="paneHead"><h2>Testimonials</h2><p>Client quotes in the home-page slider. Edit names, roles, organisations, quotes, locations and swap photos/logos.</p></div>
       <div id="tmList"></div>
-      <div class="savebar"><button class="primary" data-save="testimonials">Save testimonials</button><span class="st" data-st="testimonials"></span></div>
+      <div class="savebar"><button class="primary" data-save="testimonials">Save testimonials</button><button class="gold" data-tm-reset>Reset to StillCraft defaults</button><span class="st" data-st="testimonials"></span></div>
     </section>
 
     <section class="pane" data-pane="team">
@@ -233,6 +233,14 @@
   var S = { saved: {}, live: {}, brand: {} };
   function $(s, el) { return (el || document).querySelector(s); }
   function $all(s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); }
+  // In-flight uploads. A Save clicked while one is running would otherwise read
+  // the field before its new path is written and store the previous value, so
+  // the image looks like it did not save.
+  var PENDING = { uploads: 0, waiters: [], resolve: function () { this.waiters.splice(0).forEach(function (fn) { fn(); }); } };
+  function waitUploads() {
+    if (!PENDING.uploads) return Promise.resolve();
+    return new Promise(function (res) { PENDING.waiters.push(res); });
+  }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function pick(a, b) { return (a !== undefined && a !== null && String(a) !== '') ? a : (b == null ? '' : b); }
   function toast(m) { var t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(t._h); t._h = setTimeout(function(){ t.style.display='none'; }, 2600); }
@@ -570,22 +578,29 @@
     var sv = e.target.closest('[data-save]');
     if (sv) {
       var sec = sv.getAttribute('data-save');
-      st(sec, 'Saving…'); sv.disabled = true;
-      var payload = collect(sec);
-      api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ section: sec, data: payload }) })
-        .then(function () {
-          // insights tab absorbs the legacy articles tab: clear it so the two
-          // can never fight over the same post.
-          if (sec === 'insights' && S.saved.articles && S.saved.articles.items && S.saved.articles.items.length) {
-            return api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ section: 'articles', data: { items: [] } }) })
-              .then(function () { S.saved.articles = { items: [] }; });
-          }
-        })
-        .then(function () { st(sec, 'Saved — live now.'); toast('Saved — live now'); S.saved[sec] = payload; })
-        .catch(function (e) { st(sec, 'Save failed.'); toast('Save failed: ' + (e && e.message ? e.message : '')); })
-        .then(function () { sv.disabled = false; });
+      // Wait for any upload in flight first, then read the fields. Collecting
+      // before the upload resolves is what made a freshly chosen image
+      // "not save" - the field still held the old path at click time.
+      var uploading = PENDING.uploads > 0;
+      if (uploading) { st(sec, 'Waiting for upload…'); toast('Waiting for upload to finish…'); }
+      waitUploads().then(function () {
+        st(sec, 'Saving…'); sv.disabled = true;
+        var payload = collect(sec);
+        return api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ section: sec, data: payload }) })
+          .then(function () {
+            // insights tab absorbs the legacy articles tab: clear it so the two
+            // can never fight over the same post.
+            if (sec === 'insights' && S.saved.articles && S.saved.articles.items && S.saved.articles.items.length) {
+              return api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ section: 'articles', data: { items: [] } }) })
+                .then(function () { S.saved.articles = { items: [] }; });
+            }
+          })
+          .then(function () { st(sec, 'Saved — live now.'); toast('Saved — live now'); S.saved[sec] = payload; })
+          .catch(function (e) { st(sec, 'Save failed.'); toast('Save failed: ' + (e && e.message ? e.message : '')); })
+          .then(function () { sv.disabled = false; });
+      });
       return;
     }
     if (e.target.closest('[data-save-brand]')) {
@@ -608,6 +623,19 @@
       } else done($('#bLogo').value || null);
       return;
     }
+    if (e.target.closest('[data-tm-reset]')) {
+      // Clears the saved record rather than saving the prefill: the site falls
+      // back to the StillCraft placeholder copy the moment no items are stored,
+      // and saving the prefill instead would pin today's placeholder wording
+      // into the CMS where it would never track a code change again.
+      st('testimonials', 'Resetting…');
+      api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ section: 'testimonials', data: { items: [] } }) })
+        .then(function () { S.saved.testimonials = { items: [] }; S.live = { testimonials: [] }; return loadAll(); })
+        .then(function () { st('testimonials', 'Reset to StillCraft defaults'); toast('Testimonials reset'); })
+        .catch(function (e) { st('testimonials', 'Reset failed: ' + ((e && e.message) || 'unknown')); });
+      return;
+    }
     if (e.target.closest('[data-reset-video]')) { $('#heroUrl').value = CLOUD; updHeroPrev(); return; }
     if (e.target.closest('[data-add-city]')) {
       var d = document.createElement('div'); d.className = 'cityrow';
@@ -621,6 +649,11 @@
     if (f && f.files[0]) {
       var target = document.getElementById(f.getAttribute('data-up'));
       toast('Uploading…');
+      // Tracked so Save cannot read the field mid-upload. The path is only
+      // written to the input when the response arrives, so clicking Save while
+      // the request is in flight stored the previous value and the new image
+      // silently never appeared.
+      var uploading = (PENDING.uploads += 1);
       var fd = new FormData(); fd.append('image', f.files[0]);
       fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function (d) {
@@ -633,7 +666,10 @@
           }
           toast('Uploaded — press Save');
         })
-        .catch(function () { toast('Upload failed'); });
+        .catch(function () { toast('Upload failed'); })
+        .then(function () {
+          if (--PENDING.uploads === 0) PENDING.resolve();
+        });
       f.value = '';
     }
   });
