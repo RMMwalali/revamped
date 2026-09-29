@@ -516,8 +516,7 @@ function applyStats(html, cfg) {
 //     addressed by its data-sc-id span.
 //
 // A field the admin leaves empty is a real instruction to clear it, which is
-// what makes donor copy removable. Absent keys are left alone.
-const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+// what makes donor copy removable.
 // End offset of the element whose opening tag starts at `start`.
 function matchTag(html, start) {
   const re = /<(\/?)([a-z]+)\b[^>]*>/gi;
@@ -731,10 +730,30 @@ function clearDonorLogoPairs(html) {
     (m, o, v, t, i) => (o === v ? m : '{"o":"' + v + '","v":"' + v + '"' + (t || '') + (i || '') + '}')
   );
 }
+// An all-empty testimonial list, one entry per slide on the page.
+function clearedTestimonials(html) {
+  return extractTestimonials(html).map(() => ({
+    name: '', quote: '', role: '', org: '', location: '', industry: '',
+  }));
+}
 function applyTestimonials(html, items) {
-  if (!Array.isArray(items) || !items.length) return html;
   const live = extractTestimonials(html);
   if (!live.length) return html;
+  // The CMS is the whole source of truth for this band. A slide the admin did
+  // not fill in is empty, not the donor's - otherwise saving one new quote
+  // would leave the other seven donor quotes standing. Every field is filled
+  // in here, so "absent key means leave it alone" no longer applies.
+  const FIELDS = ['name', 'quote', 'role', 'org', 'location', 'industry'];
+  const given = Array.isArray(items) ? items : [];
+  const want = live.map((_, i) => {
+    const it = given[i];
+    const row = {};
+    for (const f of FIELDS) row[f] = (it && it[f] != null) ? String(it[f]) : '';
+    // Images are optional: empty means "fall back to the partner logo".
+    for (const f of ['logo', 'photo']) row[f] = (it && it[f]) ? String(it[f]) : '';
+    return row;
+  });
+  if (!want.length) return html;
   const nodes = () => testimonialNodes(html);
   const blocks = () => leaderInfoBlocks(html);
   // One quote paragraph per slide, or the split-line scan has found something
@@ -742,9 +761,6 @@ function applyTestimonials(html, items) {
   // outcome: the flight payload edits still apply.
   const qbs = quoteBlocks(html);
   const quotes = () => (qbs.length === live.length ? qbs : []);
-  // extractTestimonials() returns the same field names the admin form posts,
-  // so a field name doubles as the lookup key on the live testimonial.
-  const FIELDS = ['name', 'quote', 'location', 'industry', 'role', 'org'];
   // Two passes, and the order is load-bearing. Donor file names carry the donor
   // company (".../UEFA-logo.png"), so a text swap for that company name also
   // rewrites the URL and leaves a broken path behind. Every URL is therefore
@@ -754,9 +770,8 @@ function applyTestimonials(html, items) {
   // and the leader blocks sit ahead of the flight payload, so editing a slide
   // moves the regions still to be processed. Walking backwards keeps this
   // bounded, but re-reading is what keeps every range correct.
-  for (let i = items.length - 1; i >= 0; i--) {
-    const it = items[i];
-    if (!it || typeof it !== 'object') continue;
+  for (let i = want.length - 1; i >= 0; i--) {
+    const it = want[i];
     const cur = live[i];
     if (!cur) continue;
     const node = nodes()[i];
@@ -768,8 +783,8 @@ function applyTestimonials(html, items) {
       for (const field of ['logo', 'photo']) {
         const oldV = String(cur[field] == null ? '' : cur[field]);
         if (!oldV) continue;
-        const want = (has(it, field) && it[field]) ? String(it[field]) : partnerLogoAt(i);
-        if (want && want !== oldV) html = swapUrlInRange(html, node.start, node.end, oldV, want);
+        const target = it[field] || partnerLogoAt(i);
+        if (target !== oldV) html = swapUrlInRange(html, node.start, node.end, oldV, target);
       }
       // "See full case study": the donor links each quote at one of its own
       // projects. Repointed at a StillCraft case so no donor slug ships.
@@ -785,8 +800,8 @@ function applyTestimonials(html, items) {
     // Static markup: the leader headshot sits in the slide's own <img>. The
     // partner logo stands in for it so no donor photograph is served.
     if (cur.photo) {
-      const want = (has(it, 'photo') && it.photo) ? String(it.photo) : partnerLogoAt(i);
-      if (want && want !== cur.photo) html = swapUrlInRange(html, 0, html.length, cur.photo, want);
+      const target = it.photo || partnerLogoAt(i);
+      if (target !== cur.photo) html = swapUrlInRange(html, 0, html.length, cur.photo, target);
     }
     // The slide's event logo is donor artwork on one slide and a StillCraft
     // case cover on the rest; replace only the donor ones.
@@ -796,37 +811,29 @@ function applyTestimonials(html, items) {
     }
   }
   // Text pass: safe now that no donor-named URL is left to be mangled.
-  for (let i = items.length - 1; i >= 0; i--) {
-    const it = items[i];
-    if (!it || typeof it !== 'object') continue;
+  for (let i = want.length - 1; i >= 0; i--) {
+    const it = want[i];
     const cur = live[i];
     if (!cur) continue;
     const node = nodes()[i];
     if (node) {
       for (const field of FIELDS) {
-        if (!has(it, field) || it[field] == null) continue;
         const oldV = String(cur[field] == null ? '' : cur[field]);
-        if (oldV) html = swapInRange(html, node.start, node.end, oldV, String(it[field]));
+        if (oldV && oldV !== it[field]) html = swapInRange(html, node.start, node.end, oldV, it[field]);
       }
     }
     // Static markup: one leader block per slide, role span then org span.
     const b = blocks()[i];
     if (b) {
-      if (has(it, 'role') && it.role != null) {
-        html = setSpanText(html, b.start, b.end, 0, String(it.role));
-      }
-      if (has(it, 'org') && it.org != null) {
-        const nb = blocks()[i];
-        if (nb) html = setSpanText(html, nb.start, nb.end, 1, String(it.org));
-      }
+      html = setSpanText(html, b.start, b.end, 0, it.role);
+      const nb = blocks()[i];
+      if (nb) html = setSpanText(html, nb.start, nb.end, 1, it.org);
     }
     // Static markup: the quote is split across per-line divs, so the words are
     // rewritten in place rather than swapped. Without this the initial paint
     // still shows the donor quote even after the CMS clears it.
-    if (has(it, 'quote') && it.quote != null) {
-      const qb = quotes()[i];
-      if (qb) html = setQuoteLines(html, qb, String(it.quote));
-    }
+    const qb = quotes()[i];
+    if (qb) html = setQuoteLines(html, qb, it.quote);
   }
   return html;
 }
@@ -1664,7 +1671,13 @@ export async function applyStructuredCMS(html, cms, page) {
       if (cms.highlights && Array.isArray(cms.highlights.items)) html = applyHighlights(html, cms.highlights.items);
       if (cms.logos && (cms.logos.label || (Array.isArray(cms.logos.items) && cms.logos.items.length))) html = applyLogos(html, cms.logos);
       if (cms.stats && (cms.stats.label || (Array.isArray(cms.stats.items) && cms.stats.items.length))) html = applyStats(html, cms.stats);
-      if (cms.testimonials && Array.isArray(cms.testimonials.items)) html = applyTestimonials(html, cms.testimonials.items);
+      // Always run. The CMS store is not in version control - Vercel Blob in
+      // production, an ephemeral /tmp on deploys - so it cannot carry a record
+      // saying "the donor's testimonials are removed". That decision lives in
+      // the code: with no items configured the band is emptied rather than
+      // falling back to the donor's copy, and admin-entered quotes take over
+      // as soon as they are saved.
+      html = applyTestimonials(html, cms.testimonials && cms.testimonials.items);
       // Runs whether or not testimonials are configured: the donor client list
       // in the logo-wall pairing array ships on every home render.
       html = clearDonorLogoPairs(html);
@@ -1695,7 +1708,14 @@ export async function liveSnapshot(pristineHtml) {
       highlights: extractHighlights(pristineHtml),
       logos: { label: 'We are proud to have worked with', items: liveLogos() },
       stats: { label: 'Where passion meets precision ', items: extractStats(pristineHtml) },
-      testimonials: extractTestimonials(pristineHtml),
+      // Blank, not the donor's: the page serves no testimonial copy by default
+      // (see applyStructuredCMS), so prefilling the donor quotes here would
+      // show the admin content that is not on the site and let a plain save
+      // put it back.
+      testimonials: extractTestimonials(pristineHtml).map((t) => ({
+        name: '', quote: '', role: '', org: '', location: '', industry: '',
+        logo: t.logo, photo: t.photo, participants: t.participants,
+      })),
       cities: { items: extractCities(pristineHtml).slice(0, 45), addresses: extractAddresses(pristineHtml) },
       insights: extractInsights(pristineHtml),
       insightManifest: await getInsightManifest().catch(() => []),
