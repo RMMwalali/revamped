@@ -564,6 +564,77 @@ function setSpanText(html, start, end, n, value) {
   }
   return html;
 }
+
+// Static quote paragraphs, in slide order. The donor splits each quote across
+// one line-mask/line pair per visual line, so the text is only recoverable by
+// joining the line divs.
+//
+// Detection is structural, not by class: on the home page the only <p> elements
+// whose content is a run of split lines are the eight carousel quotes (the
+// split-text headings are h1/h2, and the other paragraphs hold plain spans).
+// The caller checks the count against the number of testimonials and does
+// nothing if they disagree, so a donor redesign fails safe rather than
+// rewriting the wrong paragraphs.
+function quoteBlocks(html) {
+  const out = [];
+  const re = /<p\b[^>]*>/g;
+  let m;
+  while ((m = re.exec(html))) {
+    const end = matchTag(html, m.index);
+    if (end < 0) { re.lastIndex = m.index + 2; continue; }
+    const seg = html.slice(m.index, end);
+    if (!seg.includes('line fix-clip')) { re.lastIndex = end; continue; }
+    out.push({ start: m.index, end, lines: lineSlots(html, m.index, end) });
+    re.lastIndex = end;
+  }
+  return out;
+}
+// Each split line inside [start,end), as the tags and text it carries.
+function lineSlots(html, start, end) {
+  const seg = html.slice(start, end);
+  const re = /(<div class="line fix-clip"[^>]*>)([\s\S]*?)(<\/div>)/g;
+  const out = [];
+  let m;
+  while ((m = re.exec(seg))) {
+    out.push({ at: start + m.index, len: m[0].length, open: m[1], close: m[3], text: m[2] });
+  }
+  return out;
+}
+// Rewrite the words of a split quote, keeping every line element (and its
+// baked animation transform) exactly where it is. The replacement is wrapped
+// onto the original per-line character budgets, so the block keeps its shape;
+// lines left over run empty, which is what clears a removed quote completely.
+function setQuoteLines(html, block, newText) {
+  if (!block || !block.lines.length) return html;
+  const budgets = block.lines.map((l) => l.text.length);
+  const words = String(newText == null ? '' : newText).split(/\s+/).filter(Boolean);
+  const chunks = budgets.map(() => []);
+  let w = 0;
+  for (let i = 0; i < chunks.length && w < words.length; i++) {
+    let used = 0;
+    while (w < words.length) {
+      const need = words[w].length + (chunks[i].length ? 1 : 0);
+      // Always place at least one word per line, then respect the budget.
+      if (chunks[i].length && used + need > budgets[i]) break;
+      chunks[i].push(words[w]);
+      used += need;
+      w++;
+    }
+  }
+  // Any words left over (text longer than the original block) go on the last
+  // line rather than being dropped.
+  if (w < words.length && chunks.length) {
+    chunks[chunks.length - 1] = chunks[chunks.length - 1].concat(words.slice(w));
+  }
+  // Rebuild back to front so the offsets of the earlier lines stay valid.
+  let out = html;
+  for (let i = block.lines.length - 1; i >= 0; i--) {
+    const slot = block.lines[i];
+    const text = (chunks[i] || []).join(' ');
+    out = out.slice(0, slot.at) + slot.open + escHtml(text) + slot.close + out.slice(slot.at + slot.len);
+  }
+  return out;
+}
 // Offsets of each testimonial edge node inside the flight payload.
 function testimonialNodes(html) {
   const reg = arrayRegion(html, FQ + 'testimonials' + FQ);
@@ -600,6 +671,11 @@ function applyTestimonials(html, items) {
   if (!live.length) return html;
   const nodes = () => testimonialNodes(html);
   const blocks = () => leaderInfoBlocks(html);
+  // One quote paragraph per slide, or the split-line scan has found something
+  // that is not the carousel. Leaving the static copy alone is the safe
+  // outcome: the flight payload edits still apply.
+  const qbs = quoteBlocks(html);
+  const quotes = () => (qbs.length === live.length ? qbs : []);
   // extractTestimonials() returns the same field names the admin form posts,
   // so a field name doubles as the lookup key on the live testimonial.
   const FIELDS = ['name', 'quote', 'location', 'industry', 'role', 'org'];
@@ -622,15 +698,22 @@ function applyTestimonials(html, items) {
       }
     }
     // Static markup: one leader block per slide, role span then org span.
-    if (!has(it, 'role') && !has(it, 'org')) continue;
     const b = blocks()[i];
-    if (!b) continue;
-    if (has(it, 'role') && it.role != null) {
-      html = setSpanText(html, b.start, b.end, 0, String(it.role));
+    if (b) {
+      if (has(it, 'role') && it.role != null) {
+        html = setSpanText(html, b.start, b.end, 0, String(it.role));
+      }
+      if (has(it, 'org') && it.org != null) {
+        const nb = blocks()[i];
+        if (nb) html = setSpanText(html, nb.start, nb.end, 1, String(it.org));
+      }
     }
-    if (has(it, 'org') && it.org != null) {
-      const nb = blocks()[i];
-      if (nb) html = setSpanText(html, nb.start, nb.end, 1, String(it.org));
+    // Static markup: the quote is split across per-line divs, so the words are
+    // rewritten in place rather than swapped. Without this the initial paint
+    // still shows the donor quote even after the CMS clears it.
+    if (has(it, 'quote') && it.quote != null) {
+      const qb = quotes()[i];
+      if (qb) html = setQuoteLines(html, qb, String(it.quote));
     }
   }
   return html;
@@ -1063,7 +1146,7 @@ export function applyInsights(html, cfg, page, manifest) {
               const abs = f.nodeStart + ci + m.index + (m[0].length - m[1].length - 2);
               const enc = flightEnc(data.category);
               html = guardedFlight(html, (h) => h.slice(0, abs) + enc + h.slice(abs + m[1].length));
-            }
+}
           }
         }
       }
@@ -1481,7 +1564,11 @@ export async function applyStructuredCMS(html, cms, page) {
     }
     if (cms.team && typeof cms.team === 'object') html = applyTeam(html, cms.team);
     if (cms.projects && typeof cms.projects === 'object') html = applyProjects(html, cms.projects, page);
-  } catch {}
+    // A silent catch here hides every CMS edit that throws partway through, so
+    // the admin sees "saved" and the page quietly ignores it. Opt-in logging.
+  } catch (e) {
+    if (process.env.SC_DEBUG) console.error('[cms] applyStructuredCMS:', (e && e.stack) || e);
+  }
   return html;
 }
 
