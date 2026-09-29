@@ -36,7 +36,12 @@ function verifyToken(token) {
   const payload = token.slice(0, dot);
   const sig = token.slice(dot + 1);
   const expected = crypto.createHmac('sha256', APP_SECRET).update(payload).digest('base64url');
-  if (sig !== expected) return null;
+  // Constant-time compare. A plain !== bails on the first differing byte, so
+  // response timing reveals how much of a forged signature was correct —
+  // enough, given enough samples, to recover the rest and forge a session.
+  const a = Buffer.from(sig);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
   try {
     const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString());
     if (!decoded.exp || decoded.exp < Date.now()) return null;
@@ -56,12 +61,15 @@ export async function login(email, password) {
     return null;
   }
   if (email.toLowerCase() !== ADMIN_EMAIL) {
-    console.error('[login] no admin configured for email:', email.toLowerCase());
+    // No address in the log line: these land in platform logs, and writing
+    // the admin's own address (or a probe's guess) there tells anyone with
+    // log access which account is worth attacking.
+    console.error('[login] rejected: unknown account');
     return null;
   }
   const ok = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
   if (!ok) {
-    console.error('[login] password mismatch for email:', email.toLowerCase());
+    console.error('[login] rejected: password mismatch');
     return null;
   }
   const token = signToken(email);
