@@ -491,7 +491,23 @@ function applyLinks(html, host, page) {
   P.push(['https://stillcraft.com', `https://${fullHost}`]);
   P.push(['https%3A%2F%2Fstillcraft.com', `https%3A%2F%2F${encHost}`]);
   P.push(['http%3A%2F%2Fstillcraft.com', `https%3A%2F%2F${encHost}`]);
-  return safeReplacePairs(html, P);
+  html = safeReplacePairs(html, P);
+  return applyCanonical(html, fullHost, page);
+}
+// rel=canonical states which URL is the real one for a page, so neither the
+// donor's canonical nor the stillcraft.com stand-in this file rewrites above
+// can be inherited. Injected here because applyLinks is the only pass that
+// knows the real host and path. /insider is excluded: it is the private CMS,
+// and asking a search engine to index a login page is wrong.
+function applyCanonical(html, host, page) {
+  if (page === '/insider' || page === '/insider/') return html;
+  if (/<link[^>]+rel="canonical"/i.test(html)) return html;
+  // Static <head> only. Flight rows are length-prefixed, so a tag injected
+  // into the payload would desync the stream; the static copy is what
+  // crawlers actually read.
+  if (!/<\/head>/i.test(html)) return html;
+  const path = page === '/' || !page ? '/' : page;
+  return html.replace(/<\/head>/i, `<link rel="canonical" href="https://${host}${path}">\n$&`);
 }
 const MENU_DROP_URLS = ['/service/sports/', '/insights/', '/projects/'];
 const MENU_DROP_TITLES = { '/service/sports/': 'Sports', '/insights/': 'Insights', '/projects/': 'Projects' };

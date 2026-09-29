@@ -11,6 +11,7 @@ import {
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
 import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
+import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
 
 const ROOT = path.join(process.cwd(), 'dist');
 const NO_FP = new Set(['/cookie-policy', '/privacy-policy', '/legal-notice-terms-of-use']);
@@ -143,6 +144,17 @@ export default async function handler(req, res) {
     if (pathname.startsWith('/cdn-cgi/')) {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.status(204).end();
+      return;
+    }
+    // SEO files, generated from the same route list the redirects use so the
+    // sitemap can never advertise a URL that 404s or 302s.
+    if (pathname === '/sitemap.xml' || pathname === '/robots.txt') {
+      const isXml = pathname === '/sitemap.xml';
+      res.writeHead(200, {
+        'Content-Type': isXml ? 'application/xml; charset=utf-8' : 'text/plain; charset=utf-8',
+        'Cache-Control': 'public, max-age=3600',
+      });
+      res.end(isXml ? buildSitemap(req.headers.host) : buildRobots(req.headers.host));
       return;
     }
     if (pathname === '/_next/image') {

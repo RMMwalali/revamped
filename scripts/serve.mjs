@@ -12,6 +12,7 @@ import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie 
 import { saveLead } from '../api/lead.js';
 import { readStore } from './storage.mjs';
 import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, bustOverrides, saveOverrides, maskT } from './overrides.mjs';
+import { buildSitemap, buildRobots } from './sitemap.mjs';
 import {
   getBrand, bustBrand, saveBrand, applyBrand, applyNav, applyTheme, stripThirdParty, removeBadges,
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
@@ -163,6 +164,18 @@ const server = http.createServer(async (req, res) => {
     let pathname = u.pathname;
     const method = req.method;
     const cookies = parseCookies(req);
+
+    // ----- SEO files, generated so the route list can never drift -----
+    if ((pathname === '/sitemap.xml' || pathname === '/robots.txt') && (method === 'GET' || method === 'HEAD')) {
+      const isXml = pathname === '/sitemap.xml';
+      const body = isXml ? buildSitemap(req.headers.host) : buildRobots(req.headers.host);
+      res.writeHead(200, {
+        'Content-Type': isXml ? 'application/xml; charset=utf-8' : 'text/plain; charset=utf-8',
+        'Cache-Control': 'public, max-age=3600',
+      });
+      res.end(method === 'HEAD' ? '' : body);
+      return;
+    }
 
     // ----- API -----
     if (pathname === '/api/login' && method === 'POST') {
