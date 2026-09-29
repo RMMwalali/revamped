@@ -11,6 +11,7 @@ import { readStore, writeStore } from './storage.mjs';
 import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
+import { PARTNER_LOGOS, allCases } from './stillcraft-cases.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
 import { safeReplace, safeReplaceVerified, boundedSplitJoin, findEdgesArrays, splitTopObjects, splitTopArrays, matchBracketRaw, verifyFlight } from './flight.mjs';
 
@@ -665,6 +666,71 @@ function swapInRange(html, start, end, oldV, newV) {
   out = safeReplaceVerified(out, oldV, newV) || out;
   return html.slice(0, start) + out + html.slice(end);
 }
+// Swap an asset URL inside [start,end). URLs reach the page spelled several
+// ways - raw, slash-escaped for the flight stream, and fully flight-encoded -
+// so all three are replaced, or the browser would 404 on the old path.
+function swapUrlInRange(html, start, end, oldUrl, newUrl) {
+  if (!oldUrl || !newUrl || oldUrl === newUrl) return html;
+  const seg = html.slice(start, end);
+  const variants = (u) => {
+    const set = [u, flightEncRow(u), u.split('/').join(BS + '/'), flightEnc(u)];
+    return [...new Set(set)];
+  };
+  let touched = false;
+  let out = seg;
+  for (const from of variants(oldUrl)) {
+    for (const to of variants(newUrl)) {
+      if (from === to || !out.includes(from)) continue;
+      out = out.split(from).join(to);
+      touched = true;
+    }
+  }
+  if (!touched) return html;
+  out = safeReplaceVerified(out, oldUrl, newUrl) || out;
+  return html.slice(0, start) + out + html.slice(end);
+}
+// The partner logo that stands in for slide `i`. Slides cycle the list, so a
+// page with more slides than logos still gets a real client mark.
+function partnerLogoAt(i) {
+  if (!PARTNER_LOGOS.length) return '';
+  return PARTNER_LOGOS[((i % PARTNER_LOGOS.length) + PARTNER_LOGOS.length) % PARTNER_LOGOS.length].src;
+}
+// Each slide's "see full case study" link. The donor's point at donor project
+// slugs, so they are repointed at a real StillCraft case, cycling in the same
+// order as the event logos the slides already show.
+function caseLinkAt(i) {
+  const cases = allCases();
+  if (!cases.length) return null;
+  const c = cases[((i % cases.length) + cases.length) % cases.length];
+  return { title: c.title, url: '/project/' + c.slug + '/' };
+}
+// The carousel's per-slide event logo, in slide order. Each slide renders the
+// same image twice (an eager and a lazy <img>), so repeats collapse to one.
+function eventLogoSrcs(html) {
+  const re = /<img[^>]*\bclass="[^"]*EventSliderEventLogo_image__[^"]*"[^>]*\bsrc="([^"]+)"/g;
+  const out = [];
+  let m;
+  while ((m = re.exec(html))) if (out[out.length - 1] !== m[1]) out.push(m[1]);
+  return out;
+}
+// Anything under the donor's own uploads tree is donor artwork; StillCraft's
+// generated case covers and client logos are not.
+function isDonorAsset(src) {
+  return typeof src === 'string' && src.indexOf('/assets/cms/') === 0;
+}
+// The logo-wall pairing array the donor's bundle ships inline: one entry per
+// partner slot, "o" the company's own name and "v" the name to show. The
+// static labels already carry the StillCraft names, so the "o" values match
+// nothing and only serve to put the donor's client list back into the served
+// HTML. Each "o" is set to its own "v", which removes the donor string and
+// leaves the bundle's peers() helper matching a name it would set to itself.
+function clearDonorLogoPairs(html) {
+  if (!html || html.indexOf('"o":') < 0) return html;
+  return html.replace(
+    /\{"o":"([^"\\]*)","v":"([^"\\]*)"(,"t":"[^"\\]*")?(\,"i":\d+)?\}/g,
+    (m, o, v, t, i) => (o === v ? m : '{"o":"' + v + '","v":"' + v + '"' + (t || '') + (i || '') + '}')
+  );
+}
 function applyTestimonials(html, items) {
   if (!Array.isArray(items) || !items.length) return html;
   const live = extractTestimonials(html);
@@ -679,16 +745,62 @@ function applyTestimonials(html, items) {
   // extractTestimonials() returns the same field names the admin form posts,
   // so a field name doubles as the lookup key on the live testimonial.
   const FIELDS = ['name', 'quote', 'location', 'industry', 'role', 'org'];
-  // Offsets are re-read for every slide. Each edit changes the document length,
+  // Two passes, and the order is load-bearing. Donor file names carry the donor
+  // company (".../UEFA-logo.png"), so a text swap for that company name also
+  // rewrites the URL and leaves a broken path behind. Every URL is therefore
+  // replaced first, while the donor text is still intact to match on.
+  //
+  // Offsets are re-read on every step. Each edit changes the document length,
   // and the leader blocks sit ahead of the flight payload, so editing a slide
   // moves the regions still to be processed. Walking backwards keeps this
-  // bounded, but re-reading is what actually keeps every range correct.
+  // bounded, but re-reading is what keeps every range correct.
   for (let i = items.length - 1; i >= 0; i--) {
     const it = items[i];
     if (!it || typeof it !== 'object') continue;
     const cur = live[i];
     if (!cur) continue;
-    // Flight payload: confine the swap to this testimonial's own node.
+    const node = nodes()[i];
+    if (node) {
+      // The donor's organisation logos and the headshots of the people who
+      // gave the quotes are donor assets, so they are replaced with the
+      // StillCraft partner logo for this slide whether or not the admin set
+      // one. An admin-supplied logo or photo still wins.
+      for (const field of ['logo', 'photo']) {
+        const oldV = String(cur[field] == null ? '' : cur[field]);
+        if (!oldV) continue;
+        const want = (has(it, field) && it[field]) ? String(it[field]) : partnerLogoAt(i);
+        if (want && want !== oldV) html = swapUrlInRange(html, node.start, node.end, oldV, want);
+      }
+      // "See full case study": the donor links each quote at one of its own
+      // projects. Repointed at a StillCraft case so no donor slug ships.
+      const link = caseLinkAt(i);
+      if (link) {
+        const nodeHtml = html.slice(node.start, node.end);
+        const title = decodeFlight(rawVal(nodeHtml, 'link') ? rawVal(nodeHtml, 'title') : '');
+        const url = decodeFlight(rawVal(nodeHtml, 'url'));
+        if (title) html = swapInRange(html, node.start, node.end, title, link.title);
+        if (url) html = swapInRange(html, node.start, node.end, url, link.url);
+      }
+    }
+    // Static markup: the leader headshot sits in the slide's own <img>. The
+    // partner logo stands in for it so no donor photograph is served.
+    if (cur.photo) {
+      const want = (has(it, 'photo') && it.photo) ? String(it.photo) : partnerLogoAt(i);
+      if (want && want !== cur.photo) html = swapUrlInRange(html, 0, html.length, cur.photo, want);
+    }
+    // The slide's event logo is donor artwork on one slide and a StillCraft
+    // case cover on the rest; replace only the donor ones.
+    const slideLogo = eventLogoSrcs(html)[i];
+    if (isDonorAsset(slideLogo)) {
+      html = swapUrlInRange(html, 0, html.length, slideLogo, partnerLogoAt(i));
+    }
+  }
+  // Text pass: safe now that no donor-named URL is left to be mangled.
+  for (let i = items.length - 1; i >= 0; i--) {
+    const it = items[i];
+    if (!it || typeof it !== 'object') continue;
+    const cur = live[i];
+    if (!cur) continue;
     const node = nodes()[i];
     if (node) {
       for (const field of FIELDS) {
@@ -1553,6 +1665,9 @@ export async function applyStructuredCMS(html, cms, page) {
       if (cms.logos && (cms.logos.label || (Array.isArray(cms.logos.items) && cms.logos.items.length))) html = applyLogos(html, cms.logos);
       if (cms.stats && (cms.stats.label || (Array.isArray(cms.stats.items) && cms.stats.items.length))) html = applyStats(html, cms.stats);
       if (cms.testimonials && Array.isArray(cms.testimonials.items)) html = applyTestimonials(html, cms.testimonials.items);
+      // Runs whether or not testimonials are configured: the donor client list
+      // in the logo-wall pairing array ships on every home render.
+      html = clearDonorLogoPairs(html);
       if (cms.cities && (cms.cities.label || cms.cities.description || (Array.isArray(cms.cities.items) && cms.cities.items.length) || (Array.isArray(cms.cities.addresses) && cms.cities.addresses.length))) html = applyCities(html, cms.cities);
     } else if (cms.cities && Array.isArray(cms.cities.addresses) && cms.cities.addresses.length) {
       html = applyCities(html, { addresses: cms.cities.addresses });

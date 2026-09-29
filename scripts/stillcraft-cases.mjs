@@ -279,6 +279,24 @@ export function caseBySlug(slug) {
   return CASE.find((c) => c.slug === slug);
 }
 
+// StillCraft partner logos, in the order the client logo wall shows them.
+// The same set stands in for the donor's testimonial organisation logos, so a
+// client quote carries a real client mark instead of the donor's. Ordered, so
+// slide N always gets logo N and the carousel does not reshuffle between
+// renders. Spacing is URL-encoded: the file names contain spaces.
+export const PARTNER_LOGOS = [
+  { name: 'Carrefour', src: '/assets/custom/CARREFOUR.png' },
+  { name: 'Galleria Shopping Mall', src: '/assets/custom/GALLERIA%20SHOPPING%20MALL.png' },
+  { name: 'Kenya Flower Festival', src: '/assets/custom/KENYA%20FLOWER%20FESTIVAL.png' },
+  { name: 'Radio Africa Group', src: '/assets/custom/RADIO%20AFRICA%20GROUP.jpg' },
+  { name: 'Sarit Centre', src: '/assets/custom/SARIT%20CENTER.png' },
+  { name: 'The Imaara Mall', src: '/assets/custom/THE%20IMAARA%20MALL.png' },
+  { name: 'The Junction Mall', src: '/assets/custom/THE%20JUNCTION%20MALL.jpg' },
+  { name: 'The Village Market', src: '/assets/custom/THE%20VILLAGE%20MARKET.jpg' },
+  { name: 'Two Rivers Mall', src: '/assets/custom/TWO%20RIVERS%20MALL.png' },
+  { name: 'Westgate Shopping Mall', src: '/assets/custom/WESTGATE%20SHOPPING%20MALL.png' },
+];
+
 export function allCases() {
   return CASE.map((c) => ({ ...c }));
 }
