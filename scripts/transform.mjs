@@ -6,6 +6,7 @@ import path from 'node:path';
 import { FLIGHT as FILE_FLIGHT } from './stillcraft-content.mjs';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
 import { CONGRESS_PRECISION_SECTION } from './congress-precision.mjs';
+import { OVERVIEW_STATS } from './stillcraft-cases.mjs';
 export { LOGO_ROWS };
 export { CONTENT as FILE_CONTENT } from './stillcraft-content.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
@@ -3064,8 +3065,172 @@ function removeFlightSlugNode(html, slug) {
   } catch { return html; }
   return out;
 }
+// The donor's listing has more card slots than there are cases, so the
+// flight edges array repeats several slugs. Keep the first occurrence of each
+// slug and drop the rest. Rewriting the array is only safe if the flight
+// stream still verifies afterwards, so the whole thing is abandoned on any
+// inconsistency rather than shipping a payload React cannot parse.
+function dedupeFlightProjects(html) {
+  if (!html) return html;
+  const keys = ['"slug":"', '\\"slug\\":\\"'];
+  if (!keys.some((k) => html.includes(k))) return html;
+  let before;
+  try { before = verifyFlight(html); } catch { return html; }
+  let out = html;
+  for (const a of findEdgesArrays(out)) {
+    const inner = out.slice(a.start + 1, a.end - 1);
+    const nodes = splitTopObjects(inner);
+    if (nodes.length < 2) continue;
+    const kept = [];
+    const seen = new Set();
+    let dropped = false;
+    for (const nd of nodes) {
+      const ns = inner.slice(nd.start, nd.end);
+      const m = ns.match(/"slug":"([^"]{1,80})"/);
+      const slug = m ? m[1] : null;
+      if (slug) {
+        if (seen.has(slug)) { dropped = true; continue; }
+        seen.add(slug);
+      }
+      kept.push(ns);
+    }
+    if (dropped) out = out.slice(0, a.start + 1) + kept.join(',') + out.slice(a.end - 1);
+  }
+  if (out === html) return html;
+  try {
+    const after = verifyFlight(out);
+    if (after.bad !== 0) return html;
+  } catch { return html; }
+  return out;
+}
+// Static listing cards are plain <a href="/project/<slug>">…</a> elements.
+// Walk them in document order and drop any whose slug was already seen, so the
+// rendered grid matches the deduplicated payload instead of leading hydration
+// to re-insert the repeats.
+function dedupeStaticProjectCards(html) {
+  if (!html || html.indexOf('/project/') < 0) return html;
+  // Cards live in a per-card wrapper div; cutting only the <a> would leave the
+  // wrapper behind as an empty grid cell. Walk wrappers, not anchors, so each
+  // card is removed or kept whole.
+  const WRAP = 'ProjectListSection_project__76n_c';
+  const cards = [];
+  let w = 0;
+  while (true) {
+    const i = html.indexOf(WRAP, w);
+    if (i < 0) break;
+    const start = html.lastIndexOf('<div', i);
+    const end = cutBalancedDiv(html, start);
+    if (start < 0 || end <= start) { w = i + WRAP.length; continue; }
+    const seg = html.slice(start, end);
+    const m = seg.match(/href="\/project\/([a-z0-9][a-z0-9-]*)"/);
+    if (m) cards.push({ start, end, slug: m[1] });
+    w = end;
+  }
+  if (cards.length < 2) return html;
+  const seen = new Set();
+  const keep = [];
+  for (const c of cards) {
+    if (seen.has(c.slug)) continue;
+    seen.add(c.slug);
+    keep.push(c);
+  }
+  if (keep.length === cards.length) return html;
+  // Walk every card in document order, copying the ones we keep and skipping
+  // over the repeats. The cursor always advances to each card's end, kept or
+  // not — advancing only on kept cards would re-include any repeat sitting
+  // between two survivors.
+  const keepSet = new Set(keep);
+  let out = '';
+  let at = 0;
+  for (const c of cards) {
+    if (keepSet.has(c)) out += html.slice(at, c.end);
+    at = c.end;
+  }
+  out += html.slice(at);
+  return out;
+}
+// One entry point for the listing: drop the dead pagination, dedupe the static
+// grid and the flight payload together so the two cannot disagree after
+// hydration, then add the programme-wide overview above the grid.
+export function applyProjectCardDedup(html) {
+  if (!html) return html;
+  return dedupeFlightProjects(removeStaleListingPagination(dedupeStaticProjectCards(html)));
+}
+
+// The listing ships a pagination control sized for the donor's larger
+// catalogue. With 11 cases on one page it navigates nowhere, so it is cut.
+// Guarded on the exact class and a small size, so a future redesign that
+// reintroduces real pagination is left alone.
+function removeStaleListingPagination(html) {
+  const CLS = 'css-ykm4op';
+  const at = html.indexOf('<div class="' + CLS + '">');
+  if (at < 0) return html;
+  const end = cutBalancedDiv(html, at);
+  if (end <= at || end - at > 20000) return html;
+  return html.slice(0, at) + html.slice(end);
+}
+
+// Programme-wide footfall and dwell averages, shown once above the case grid.
+// These numbers describe StillCraft's seasonal mall programming as a whole, so
+// they belong here and not on an individual case page (see applyCaseFactsFix).
+// Injected once, guarded by a marker attribute.
+export function applyProjectsOverviewFix(html, page) {
+  if (page !== '/projects' && page !== '/projects/') return html;
+  if (html.indexOf('data-sc-overview') >= 0) return html;
+  const s = OVERVIEW_STATS[0];
+  const d = OVERVIEW_STATS[1];
+  if (!s || !d) return html;
+  const block =
+    '<div class="sc-overview" data-sc-overview="1" ' +
+    'style="margin:0 0 3rem;display:flex;flex-wrap:wrap;gap:2rem;align-items:flex-end;">' +
+    '<div><div style="font-size:3.5rem;line-height:1;">' + s.value + '</div>' +
+    '<div>' + s.label + '</div></div>' +
+    '<div><div style="font-size:3.5rem;line-height:1;">' + d.value + '</div>' +
+    '<div>' + d.label + '</div></div>' +
+    '<div style="flex-basis:100%;">' + OVERVIEW_STATS[2].note + '</div>' +
+    '</div>';
+  // Mount immediately before the first case card so the stat reads as the
+  // summary of the grid that follows it.
+  const anchor = html.indexOf('<a href="/project/');
+  if (anchor < 0) return html;
+  return html.slice(0, anchor) + block + html.slice(anchor);
+}
+
+// "33% / 21%" is a programme-wide average across all StillCraft seasonal mall
+// programming, so it is wrong to present it as any single campaign's result on
+// a case page. It belongs on the /projects overview (applyProjectsOverviewFix).
+// The value is baked into dist/ by scripts/gen-cases.mjs and the flight
+// payload, so this replaces both, and is a no-op on any other page.
+export function applyCaseFactsFix(html, page) {
+  if (!page || !html) return html;
+  if (page.indexOf('/project/') !== 0) return html;
+  if (html.indexOf('33%') < 0) return html;
+  // The donor's stat block is presented as this campaign's own result. Drop the
+  // borrowed numbers and say plainly that they are programme-wide, so no
+  // individual case inherits a figure that was never measured for it.
+  const NOTE = 'Measured';
+  const SUB = ' across StillCraft programmes, not this campaign';
+  // Longest pattern first: the caption pair starts with the same text as the
+  // bare figure, so applying the short one first would leave the caption tail
+  // stranded and produce "Measuredprogramme-wide ...".
+  const pairs = [
+    ['33% / 21%programme-wide footfall and dwell averages', NOTE + SUB],
+    ['33% / 21%', NOTE],
+  ];
+  let out = html;
+  for (const [from, to] of pairs) {
+    // safeReplace verifies the flight payload still parses and refuses the edit
+    // if it does not, leaving the page untouched rather than half-rewritten.
+    out = safeReplace(out, from, to, true) || out;
+    const enc = flightEnc(from);
+    if (enc !== from) out = safeReplace(out, enc, flightEnc(to), true) || out;
+  }
+  return out;
+}
+
 export function removeStaleProjectCards(html) {
-  if (!html || !STALE_PROJECT_SLUGS.some((s) => html.indexOf(s) >= 0)) return html;
+  if (!html) return html;
+  if (!STALE_PROJECT_SLUGS.some((s) => html.indexOf(s) >= 0)) return html;
   let out = html;
   for (const slug of STALE_PROJECT_SLUGS) {
     // static cards: <a .../project/<slug>...>...</a> (anchors never nest)
