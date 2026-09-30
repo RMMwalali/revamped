@@ -86,13 +86,16 @@ async function serveHtml(pathname, cookies, host) {
     const __heroPos = posterFor(__heroUrl) || HERO_POSTER_URL;
     html = applyHeroVideo(html, __heroUrl, __heroMob, __heroPos);
     html = applyCaseNarrative(html, key);
+    // Donor scrub runs before applyStructuredCMS so a testimonial the client
+    // saved in the admin is not overwritten by the case-list restatement.
+    // Mirrors scripts/serve.mjs.
+    html = applyTestimonialBandFix(html);
+    html = applyTestimonialFlightFix(html);
     if (__cms) html = await applyStructuredCMS(html, __cms, key);
     html = applyStatsFix(html);
     html = applyCitiesFix(html);
     html = applyServiceCitiesFix(html);
     html = applyAboutCrewRemove(html);
-    html = applyTestimonialBandFix(html);
-    html = applyTestimonialFlightFix(html);
     html = applyLogosFix(html, __cms && __cms.logos && Array.isArray(__cms.logos.items) ? __cms.logos.items : []);
     html = applyFooterSingleOffice(html);
     html = applyHighlightsFix(html, key);

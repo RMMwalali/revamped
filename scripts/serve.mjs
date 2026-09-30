@@ -505,6 +505,16 @@ const server = http.createServer(async (req, res) => {
       __dbg_step('heroVideo');
       html = applyCaseNarrative(html, key);
       __dbg_step('caseNarrative');
+      // Donor scrub for the testimonial band runs BEFORE applyStructuredCMS.
+      // These passes restate the band from the case list, so running them
+      // afterwards silently overwrote a testimonial the client had just saved
+      // in the admin - the saved location came back as the case location the
+      // moment the page was requested. Scrubbing first keeps the established
+      // rule that saved copy is the last word; with no saved testimonials the
+      // structured pass is a no-op and the scrub still stands.
+      html = applyTestimonialBandFix(html);
+      html = applyTestimonialFlightFix(html);
+      __dbg_step('testimonialBandFix');
       if (__cms) html = await applyStructuredCMS(html, __cms, key);
       __dbg_step('cms');
       html = applyStatsFix(html);
@@ -513,9 +523,6 @@ const server = http.createServer(async (req, res) => {
       html = applyServiceCitiesFix(html);
       html = applyAboutCrewRemove(html);
       __dbg_step('citiesFix');
-      html = applyTestimonialBandFix(html);
-      html = applyTestimonialFlightFix(html);
-      __dbg_step('testimonialBandFix');
       html = applyLogosFix(html, __cms && __cms.logos && Array.isArray(__cms.logos.items) ? __cms.logos.items : []);
       __dbg_step('logosFix');
       html = applyFooterSingleOffice(html);
