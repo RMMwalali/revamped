@@ -670,6 +670,98 @@ function testimonialNodes(html) {
 }
 // Replace `oldV` with `newV` only inside [start,end), across the static and
 // flight spellings of the same string. An empty newV clears the value.
+// The participant count is an UNQUOTED number in the flight payload, so
+// pfkey() (which appends the opening quote for string values) would not match
+// it. This is the exact token shape: \"participants\":<n>.
+const pNum = (v) => FQ + 'participants' + FQ + ':' + String(v);
+
+// Restate the participant count inside each slide's own template object.
+//
+// The count is NOT inside the testimonial node that testimonialNodes() returns:
+// `testimonialTemplate` is a SIBLING of that node in the edges array, which is
+// why a node-scoped swap silently did nothing. So this walks the template
+// objects in document order - the same order, and the same slide-to-case
+// pairing, that the donor scrub and caseLinkAt() already use - and rewrites the
+// number in each. Values are applied back to front because each edit changes
+// the document length.
+function setTemplateParticipants(html, values) {
+  if (!values || !values.length) return html;
+  const KEY = /\\"testimonialTemplate\\":\{/g;
+  const spots = [];
+  for (const m of html.matchAll(KEY)) {
+    // Brace-balanced, string-aware: the object nests link/client/logo objects.
+    let depth = 0, j = m.index + m[0].length - 1, inStr = false;
+    for (; j < html.length; j++) {
+      const ch = html[j];
+      if (ch === BS) { j++; continue; }
+      if (ch === '"') { inStr = !inStr; continue; }
+      if (inStr) continue;
+      if (ch === '{') depth++;
+      else if (ch === '}' && --depth === 0) break;
+    }
+    if (j >= html.length) continue;
+    const pm = new RegExp(BS + BS + '"participants' + BS + BS + '":\\d+').exec(html.slice(m.index, j));
+    if (!pm) continue;
+    spots.push({ start: m.index + pm.index, len: pm[0].length, text: pm[0] });
+  }
+  if (!spots.length) return html;
+  let out = html;
+  for (let i = spots.length - 1; i >= 0; i--) {
+    const v = values[i];
+    if (v == null || v === '') continue;
+    const sp = spots[i];
+    if (out.slice(sp.start, sp.start + sp.len) !== sp.text) continue;
+    const to = pNum(v);
+    out = out.slice(0, sp.start) + to + out.slice(sp.start + sp.len);
+  }
+  return out;
+}
+
+// The visible band prints the same count as a chip, one column per slide, under
+// the "participants" label. The payload swap above cannot reach static markup,
+// so this walks the same label/value pairs the donor scrub uses and rewrites
+// column N of that group. Edits are collected first and applied back to front,
+// because each one changes the document length.
+function setBandParticipants(html, values) {
+  if (!values || !values.length) return html;
+  const LABEL = /class="css-qg5m4o">([^<]+)</g;
+  const VALUE = /class="css-1kjo4sp"[^>]*>([^<]+)</g;
+  const marks = [];
+  let m;
+  while ((m = LABEL.exec(html))) marks.push({ i: m.index, label: m[1].trim().toLowerCase() });
+  while ((m = VALUE.exec(html))) marks.push({ i: m.index, value: m[1] });
+  marks.sort((a, b) => a.i - b.i);
+  const edits = [];
+  let group = '', col = 0;
+  for (const k of marks) {
+    if (k.label != null) { group = k.label; col = 0; continue; }
+    if (group !== 'participants') continue;
+    const v = values[col];
+    col++;
+    if (v == null || v === '') continue;
+    // The chip is display text, so a count is grouped the way the rest of the
+    // band is ("3,200", not "3200"). The payload keeps the bare number; only
+    // the visible chip is formatted.
+    const shown = /^\d+$/.test(String(v)) ? Number(v).toLocaleString('en-US') : String(v);
+    if (k.value === shown) continue;
+    edits.push([k.i, k.value, escHtml(shown)]);
+  }
+  if (!edits.length) return html;
+  edits.sort((a, b) => b[0] - a[0]);
+  let out = html;
+  for (const [near, from, to] of edits) {
+    // Locate the value text from the element's own offset instead of deriving
+    // it from the match length: the chip markup carries a data-sc-id and a
+    // style attribute, and arithmetic over the match landed one byte off the
+    // text - which fails the equality guard and silently skips every chip.
+    // Back-to-front means nothing below `near` has moved yet, so the first hit
+    // after it is this chip's own.
+    const at = out.indexOf(from, near);
+    if (at < 0 || at > near + 240) continue;
+    out = out.slice(0, at) + to + out.slice(at + from.length);
+  }
+  return out;
+}
 function swapInRange(html, start, end, oldV, newV) {
   if (!oldV || oldV === newV) return html;
   const seg = html.slice(start, end);
@@ -774,15 +866,32 @@ function applyTestimonials(html, items) {
   // empty saves an empty string, which is a value, not a missing key.
   const FIELDS = ['name', 'quote', 'role', 'org', 'location', 'industry'];
   const given = Array.isArray(items) ? items : [];
+  // Slide i is the i-th case: the donor scrub restates the band from the case
+  // list in that same order, and caseLinkAt() already pairs them this way.
+  const CASES = allCases();
+  const caseAt = (i) => CASES[((i % CASES.length) + CASES.length) % CASES.length] || {};
   const want = live.map((_, i) => {
     const it = given[i];
     const d = PLACEHOLDER_TESTIMONIALS[i] || {};
+    const c = caseAt(i);
     const row = {};
     for (const f of FIELDS) {
-      row[f] = (it && it[f] != null) ? String(it[f]) : (d[f] || '');
+      // Fallback for the two fields the placeholders do not carry. They used to
+      // fall back to '', which blanked the payload's industry and location
+      // whenever no testimonial was saved: the scrub that fills those from the
+      // case list runs BEFORE this, so an empty fallback overwrote good values
+      // with nothing. An explicit '' from the admin is still respected - it is
+      // a value, not a missing key.
+      const fb = (d[f] || (f === 'location' ? c.location : f === 'industry' ? c.industry : '')) || '';
+      row[f] = (it && it[f] != null) ? String(it[f]) : fb;
     }
     // Images are optional: empty means "fall back to the partner logo".
     for (const f of ['logo', 'photo']) row[f] = (it && it[f]) ? String(it[f]) : '';
+    // A number in the payload, not a string, so it cannot ride the FIELDS text
+    // swap. The admin exposes it, so it has to be honoured here.
+    row.participants = (it && it.participants != null && it.participants !== '')
+      ? String(it.participants)
+      : (c.participants != null ? String(c.participants) : '');
     return row;
   });
   if (!want.length) return html;
@@ -879,6 +988,10 @@ function applyTestimonials(html, items) {
         const oldV = String(cur[field] == null ? '' : cur[field]);
         if (oldV && oldV !== it[field]) html = swapInRange(html, node.start, node.end, oldV, it[field]);
       }
+      // participants is an unquoted number in the payload and sits in the
+      // slide's template object, a sibling of this node - handled by
+      // setTemplateParticipants() below, which walks those objects directly.
+      // A swap scoped to this node silently matched nothing.
     }
     // Static markup: one leader block per slide, role span then org span.
     const b = blocks()[i];
@@ -901,6 +1014,13 @@ function applyTestimonials(html, items) {
   // OWN "see full case study" link is immune to that, because the case slug
   // only ever appears inside its own slide. An admin-supplied logo still wins.
   html = applyClientLogosByCase(html, want);
+  // Participant counts last, and through their own walk: the count lives in the
+  // slide's template object and in a static band chip, neither of which the
+  // node-scoped text swap above can reach.
+  const counts = want.map((w) => w.participants);
+  html = setTemplateParticipants(html, counts);
+  // Static band chips: the visible numbers, one column per slide.
+  html = setBandParticipants(html, counts);
   return html;
 }
 
