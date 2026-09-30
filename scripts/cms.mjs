@@ -1038,9 +1038,34 @@ function parseInsightNode(ns) {
   };
 }
 
-// All dist posts (parsed from the /insights listing flight + detail metas).
+// Editable entries behind the admin insights pane. The donor blog is retired
+// and /insights now redirects to /case-studies, so the manifest is built from
+// the StillCraft case library rather than parsed out of the donor listing.
+// Each entry carries the same shape the pane expects (slug, title, image,
+// date, category), sourced from the case detail pages so the admin prefill
+// matches what the public site actually renders.
 export async function getInsightManifest() {
   if (manifestCache && Date.now() - manifestAt < 60000) return manifestCache;
+  const out = allCases().map((c) => ({
+    slug: c.slug,
+    title: c.title,
+    image: `/assets/stillcraft/mall-case/${c.slug}/cover.svg`,
+    date: '',
+    category: c.industry,
+    databaseId: c.databaseId,
+    dotColor: '',
+    backgroundColor: '',
+    excerpt: c.excerpt,
+  }));
+  manifestCache = out;
+  manifestAt = Date.now();
+  return out;
+}
+
+// Legacy donor-post listing parser. Kept because the detail pages under
+// dist/insight/ still exist and back the /insight/* redirects; nothing in the
+// admin pane reads this any more.
+async function getDonorPostManifest() {
   const out = [];
   try {
     const listing = await readFile(path.join(DIST_ROOT, 'insights', 'index.html'), 'utf8');
@@ -1801,6 +1826,9 @@ export async function applyStructuredCMS(html, cms, page) {
 // Live snapshot for the Insider dashboard prefill (pristine dist + file wall).
 export async function liveSnapshot(pristineHtml) {
   try {
+    // Saved CMS, so the prefill can show what is actually live. See the
+    // testimonials branch below for why prefilling placeholders is harmful.
+    const cmsSaved = await getCMS().catch(() => ({}));
     return {
       hero: extractHero(pristineHtml),
       highlights: extractHighlights(pristineHtml),
@@ -1812,14 +1840,31 @@ export async function liveSnapshot(pristineHtml) {
       // those donor paths into the CMS as a deliberate, admin-edited setting.
       // Offering the StillCraft logo makes the prefill and the page agree, and
       // leaves a real upload to replace it.
+      // Prefill each slide with what the page actually serves: the saved CMS
+      // entry when there is one, otherwise the StillCraft placeholder. The
+      // admin form submits every field back on save, so prefilling a
+      // placeholder for a slide that already has saved content silently
+      // reverted that slide - including a logo the admin had uploaded.
       testimonials: (() => {
         const live = extractTestimonials(pristineHtml);
-        return defaultTestimonials(pristineHtml).map((t, i) => ({
-          ...t,
-          logo: partnerLogoAt(i) || (live[i] || {}).logo || '',
-          photo: '',
-          participants: (live[i] || {}).participants || '',
-        }));
+        const given = Array.isArray(cmsSaved && cmsSaved.testimonials
+          && cmsSaved.testimonials.items) ? cmsSaved.testimonials.items : [];
+        return defaultTestimonials(pristineHtml).map((t, i) => {
+          const it = given[i] || {};
+          const FIELDS = ['name', 'quote', 'role', 'org', 'location', 'industry'];
+          const row = { ...t };
+          for (const f of FIELDS) {
+            if (it[f] != null) row[f] = String(it[f]);
+          }
+          return {
+            ...row,
+            logo: it.logo || partnerLogoAt(i) || (live[i] || {}).logo || '',
+            photo: it.photo || '',
+            participants: it.participants != null && it.participants !== ''
+              ? String(it.participants)
+              : ((live[i] || {}).participants || ''),
+          };
+        });
       })(),
       cities: { items: extractCities(pristineHtml).slice(0, 45), addresses: extractAddresses(pristineHtml) },
       insights: extractInsights(pristineHtml),

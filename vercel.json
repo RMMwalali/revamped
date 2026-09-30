@@ -4,33 +4,43 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/projects/:path*",
+      "destination": "/case-studies",
+      "statusCode": 302
+    },
+    {
+      "source": "/projects",
+      "destination": "/case-studies",
+      "statusCode": 302
+    },
+    {
       "source": "/projects/page/:n",
-      "destination": "/projects",
+      "destination": "/case-studies",
       "statusCode": 302
     },
     {
       "source": "/project/mothers-day-brunch-at-southfield-mall",
-      "destination": "/projects",
+      "destination": "/case-studies",
       "statusCode": 302
     },
     {
       "source": "/project/adidas-display-wall",
-      "destination": "/projects",
+      "destination": "/case-studies",
       "statusCode": 302
     },
     {
       "source": "/project/uefa-champions-league-final-2026",
-      "destination": "/projects",
+      "destination": "/case-studies",
       "statusCode": 302
     },
     {
       "source": "/project/ypo-global-event",
-      "destination": "/projects",
+      "destination": "/case-studies",
       "statusCode": 302
     },
     {
       "source": "/service/sports",
-      "destination": "/projects",
+      "destination": "/case-studies",
       "statusCode": 302
     },
     {
@@ -112,10 +122,6 @@
       "destination": "/api/page?path=/project/adidas-display-wall"
     },
     {
-      "source": "/projects/congresses/page/1",
-      "destination": "/api/page?path=/projects/congresses/page/1"
-    },
-    {
       "source": "/legal-notice-terms-of-use",
       "destination": "/api/page?path=/legal-notice-terms-of-use"
     },
@@ -124,48 +130,12 @@
       "destination": "/api/page?path=/project/ypo-global-event"
     },
     {
-      "source": "/projects/exhibits/page/1",
-      "destination": "/api/page?path=/projects/exhibits/page/1"
-    },
-    {
-      "source": "/projects/exhibits/page/2",
-      "destination": "/api/page?path=/projects/exhibits/page/2"
-    },
-    {
-      "source": "/projects/events/page/1",
-      "destination": "/api/page?path=/projects/events/page/1"
-    },
-    {
-      "source": "/projects/sports/page/1",
-      "destination": "/api/page?path=/projects/sports/page/1"
-    },
-    {
-      "source": "/projects/congresses",
-      "destination": "/api/page?path=/projects/congresses"
-    },
-    {
       "source": "/service/congresses",
       "destination": "/api/page?path=/service/congresses"
     },
     {
-      "source": "/projects/exhibits",
-      "destination": "/api/page?path=/projects/exhibits"
-    },
-    {
       "source": "/service/exhibits",
       "destination": "/api/page?path=/service/exhibits"
-    },
-    {
-      "source": "/projects/events",
-      "destination": "/api/page?path=/projects/events"
-    },
-    {
-      "source": "/projects/filter",
-      "destination": "/api/page?path=/projects"
-    },
-    {
-      "source": "/projects/sports",
-      "destination": "/api/page?path=/projects/sports"
     },
     {
       "source": "/privacy-policy",
@@ -182,14 +152,6 @@
     {
       "source": "/cookie-policy",
       "destination": "/api/page?path=/cookie-policy"
-    },
-    {
-      "source": "/projects/all",
-      "destination": "/api/page?path=/projects/all"
-    },
-    {
-      "source": "/projects",
-      "destination": "/api/page?path=/projects"
     },
     {
       "source": "/contact",
@@ -209,17 +171,39 @@
     }
   ],
   "functions": {
-    "api/page.js": { "includeFiles": "dist/**" },
-    "api/cms.js": { "includeFiles": "dist/**/*.html" },
-    "api/img.js": { "includeFiles": "dist/assets/**" },
-    "api/login.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/logout.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/me.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/brand.js": { "includeFiles": "scripts/*.mjs" },
-    "api/content.js": { "includeFiles": "scripts/*.mjs" },
-    "api/upload.js": { "includeFiles": "scripts/*.mjs" },
-    "api/lead.js": { "includeFiles": "scripts/*.mjs" },
-    "api/leads.js": { "includeFiles": "scripts/*.mjs" }
+    "api/page.js": {
+      "includeFiles": "dist/**"
+    },
+    "api/cms.js": {
+      "includeFiles": "dist/**/*.html"
+    },
+    "api/img.js": {
+      "includeFiles": "dist/assets/**"
+    },
+    "api/login.js": {
+      "includeFiles": "scripts/auth.mjs"
+    },
+    "api/logout.js": {
+      "includeFiles": "scripts/auth.mjs"
+    },
+    "api/me.js": {
+      "includeFiles": "scripts/auth.mjs"
+    },
+    "api/brand.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/content.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/upload.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/lead.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/leads.js": {
+      "includeFiles": "scripts/*.mjs"
+    }
   },
   "headers": [
     {

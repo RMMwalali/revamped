@@ -6,12 +6,12 @@ import path from 'node:path';
 import { FLIGHT as FILE_FLIGHT } from './stillcraft-content.mjs';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
 import { CONGRESS_PRECISION_SECTION } from './congress-precision.mjs';
-import { OVERVIEW_STATS } from './stillcraft-cases.mjs';
+import { OVERVIEW_STATS, caseBySlug, default as CASE } from './stillcraft-cases.mjs';
 export { LOGO_ROWS };
 export { CONTENT as FILE_CONTENT } from './stillcraft-content.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
 export { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
-import { safeReplace, safeReplacePairs, verifyFlight, findEdgesArrays, splitTopObjects } from './flight.mjs';
+import { safeReplace, safeReplacePairs, safeReplaceVerified, verifyFlight, findEdgesArrays, splitTopObjects } from './flight.mjs';
 
 // Page-scoped whole-value flight swaps (short labels patchFlight can't gate).
 // Testimonial slider logos stay per-case for the edit bar (quotes name old clients).
@@ -616,13 +616,14 @@ function cutFlightTuple(html, open) {
   // open at '[' of ["$",type,key,props]; string-aware bracket balance.
   let depth = 0;
   let inStr = false;
-  let esc = false;
+  // Flight tuples live inside a push-string, so every quote is written as \".
+  // A backslash escapes the next character whether or not we are inside a
+  // string; without that, each \" flips inStr and the bracket count drifts.
   for (let i = open; i < html.length; i++) {
     const c = html[i];
+    if (c === '\\') { i++; continue; }
     if (inStr) {
-      if (esc) esc = false;
-      else if (c === '\\') esc = true;
-      else if (c === '"') inStr = false;
+      if (c === '"') inStr = false;
     } else if (c === '"') {
       inStr = true;
     } else if (c === '[') {
@@ -634,6 +635,373 @@ function cutFlightTuple(html, open) {
   }
   return -1;
 }
+// The donor homepage "Inside Iventions" band is a 3-card insights carousel.
+// The blog is retired, so the band becomes a case-study teaser: the same
+// heading/CTA/card DOM is reused and only the copy changes. Reusing the DOM
+// (rather than injecting a new subtree) is what keeps the static HTML and the
+// RSC flight rows describing the same tree, so hydration stays clean.
+//
+// Every replacement below is a whole visible string, and each donor string
+// occurs in both the static markup and the flight payload, so one blind
+// split/join per pair covers both surfaces. Guards abort the whole pass if a
+// donor string is missing or ambiguous, so a donor copy change can never leave
+// a half-rewritten band behind.
+const TEASER_CASES = ['easter-at-galleria-mall', 'mothers-day-at-galleria-mall', 'christmas-at-westgate-mall'];
+
+// The testimonial carousel prints a detail grid under every quote
+// (participants / industry / event type / location). Those four fields came
+// straight from the donor's own testimonials, so the strip under each quote
+// still advertised donor sectors and donor cities - "Football",
+// "Pharmaceutical", "Udine", "Istanbul, Turkey" - next to StillCraft quotes.
+//
+// Each slide maps to one case in the library (PLACEHOLDER_TESTIMONIALS is
+// built by indexing CASE, so slide n is CASE[n]), so the grid is rewritten
+// from the case data. The pass is scoped to the grid's own value list
+// (css-h3wi0l) so it cannot touch the quote, the name, or the role, which
+// share the same value styling one section further down.
+function applyTestimonialBandFix(html) {
+  if (html.indexOf('css-1kjo4sp') < 0) return html;
+  const pairs = [];
+  // The donor published this band as four label groups, each holding one value
+  // per slide in slide order - so value N of every group belongs to the same
+  // slide. Rewrite column-wise against the case list.
+  const LABEL = /class="css-qg5m4o">([^<]+)</g;
+  const VALUE = /class="css-1kjo4sp"[^>]*>([^<]+)</g;
+  const marks = [];
+  let m;
+  while ((m = LABEL.exec(html))) marks.push({ i: m.index, end: LABEL.lastIndex, label: m[1].trim().toLowerCase() });
+  while ((m = VALUE.exec(html))) marks.push({ i: m.index, value: m[1] });
+  marks.sort((a, b) => a.i - b.i);
+
+  // The four published groups run first; the name/role/company chips that
+  // follow share the same value styling and must be left untouched.
+  const GROUPS = ['participants', 'industry', 'event type', 'location'];
+  const columns = new Map();
+  let group = '';
+  let col = 0;
+  for (const k of marks) {
+    if (k.label != null) {
+      group = k.label;
+      col = 0;
+      continue;
+    }
+    const at = GROUPS.indexOf(group);
+    if (at === -1) continue;
+    const c = CASE[col];
+    col++;
+    if (!c) continue;
+    const value = {
+      participants: c.participants.toLocaleString('en-US'),
+      industry: c.industry,
+      'event type': c.eventType,
+      location: c.location,
+    }[group];
+    if (!value || k.value === value) continue;
+    pairs.push([k.i, k.value, value]);
+  }
+
+  if (!pairs.length) return html;
+  // Only the static markup is rewritten. These chips also appear inside the
+  // RSC payload, where a changed length would invalidate the row's length
+  // prefix, so the pass is confined to the part of the document before the
+  // first flight push and the flight is checked afterwards.
+  const flightAt = html.indexOf('self.__next_f.push(');
+  let out = html;
+  for (let i = pairs.length - 1; i >= 0; i--) {
+    const [pos, from, to] = pairs[i];
+    if (flightAt >= 0 && pos > flightAt) continue;
+    const start = out.indexOf(from, pos);
+    if (start < 0) continue;
+    out = out.slice(0, start) + teaserEscape(to) + out.slice(start + from.length);
+  }
+  return out;
+}
+
+// Split a heading into exactly n lines, so the existing line-div count (and
+// therefore the DOM shape) is preserved. Short text is padded with empty lines
+// rather than returning fewer entries, so callers can index blindly.
+function teaserLines(text, n) {
+  const words = String(text).split(' ').filter(Boolean);
+  if (n <= 1 || words.length <= 1) return Array(n).fill('').map((_, i) => (i === 0 ? String(text) : ''));
+  const per = Math.ceil(words.length / n);
+  const out = [];
+  for (let i = 0; i < words.length; i += per) out.push(words.slice(i, i + per).join(' '));
+  // Merge the tail so we never exceed the donor's line count.
+  while (out.length > n) {
+    out[n - 2] += ' ' + out.pop();
+  }
+  while (out.length < n) out.push('');
+  // Trailing spaces on all but the last line mirror the donor's line divs.
+  return out.map((l, i) => (i < out.length - 1 && l ? l + ' ' : l));
+}
+
+function teaserEscape(s) {
+  return String(s).split('&').join('&amp;');
+}
+
+// Encode a short HTML fragment the way the RSC payload stores one: the tag
+// delimiters and the ampersand are \u-escaped, quotes are backslash-escaped,
+// and newlines are the two-character sequence \n. Writing it by hand is how a
+// replacement ends up as malformed JSON that React drops on hydration.
+function flightHtmlString(text) {
+  return '<p>' + teaserEscape(text) + '</p>'
+    .split('&').join('\\u0026')
+    .split('<').join('\\u003c')
+    .split('>').join('\\u003e')
+    .split('"').join('\\"');
+}
+
+function applyCaseTeaser(html) {
+  if (html.indexOf('styles_invention__bakTB') < 0) return html;
+  const P = [];
+  // Pairs whose `from` must exist for the pass to be considered current. If
+  // any is gone the donor copy changed and the whole pass is skipped.
+  const REQ = [];
+  const add = (from, to) => {
+    if (!from || from === to) return;
+    P.push([from, to]);
+    REQ.push(from);
+  };
+  // Best-effort pair: applied only when the form is present. Used for strings
+  // that appear in some surfaces (flight props) and not others.
+  const addIf = (from, to) => {
+    if (!from || from === to) return;
+    P.push([from, to]);
+  };
+
+  // --- standfirst + CTA ---
+  add(
+    'Get insider tips, bold ideas, and future-forward trends, straight from the frontlines of unforgettable events.',
+    'Mall programmes, holiday activations and brand experiences delivered by one team. A few of the recent ones.'
+  );
+  // The band's two CTA buttons both pointed at the retired blog listing. The
+  // label appears as `>text<` in the static markup and as a bare string in
+  // flight `children`/`title` props, so pair every form. /insights is also
+  // still a plain href string in flight props (not just an attribute), written
+  // there with escaped quotes, so both quote styles are paired.
+  const EQ = String.fromCharCode(92) + '"'; // \" as it appears inside flight
+  for (let i = 0; i < 4; i++) {
+    addIf('>Explore our insights<', '>View all case studies<');
+    addIf('"Explore our insights"', '"View all case studies"');
+    addIf(`${EQ}Explore our insights${EQ}`, `${EQ}View all case studies${EQ}`);
+    addIf('href="/insights"', 'href="/case-studies"');
+    addIf(`${EQ}href${EQ}:${EQ}/insights${EQ}`, `${EQ}href${EQ}:${EQ}/case-studies${EQ}`);
+    addIf('"url":"https://iventions.com/insights"', '"url":"/case-studies"');
+    addIf('"url":"https://iventions.com/insights/"', '"url":"/case-studies"');
+  }
+
+  // --- one case per donor card ---
+  //
+  // The donor strings are read back out of the band rather than hardcoded:
+  // the live pipeline rebrands the page (donor "Iventions" becomes
+  // "StillCraft Events") before this pass runs, so literal donor copy would
+  // no longer match. Reading the rendered band keeps this correct across both
+  // the raw build input and the rebranded served output.
+  const sOpen = html.indexOf('<div class="styles_invention__bakTB');
+  if (sOpen < 0) return html;
+  const sEnd = cutBalancedDiv(html, sOpen);
+  if (sEnd < 0) return html;
+  const band = html.slice(sOpen, sEnd);
+
+  // Band heading: the donor's two span halves become "Case" / "Studies". The
+  // second half is read from the band (not hardcoded) because the live
+  // pipeline has already rebranded the donor brand name by this point.
+  //
+  // The pair is anchored on the heading's own tag so it can only ever match
+  // the heading. A bare brand-name pair would also match the same word where
+  // it appears inside a card body, and replace it with "Studies" there.
+  const head = band.slice(0, band.indexOf('styles_item__OXawi') < 0 ? band.length : band.indexOf('styles_item__OXawi'));
+  const headSpans = [...head.matchAll(/>([^<>{}]{2,})</g)].map(m => m[1])
+    .filter(t => t.trim() && t !== '&nbsp;' && !/insider tips/i.test(t) && !/^Explore our insights$/.test(t));
+  const h2 = /<h2\b[^>]*>([\s\S]*?)<\/h2>/.exec(head);
+  if (headSpans.length >= 2 && h2) {
+    add(`>${headSpans[0]}</span>`, '>Case</span>');
+    add(`>${headSpans[1]}</span>`, '>Studies</span>');
+  }
+
+  // Card boundaries: each donor card is a styles_item__OXawi block. Slice the
+  // band from the first card marker to the end of the cards.
+  const firstCard = band.indexOf('styles_item__OXawi');
+  if (firstCard < 0) return html;
+  const cards = band.slice(firstCard).split('styles_item__OXawi').slice(1);
+  if (cards.length !== 3) return html;
+
+  // Matching flight view of the same band. The RSC payload keeps the three
+  // card bodies as escaped HTML (\u003c for <) inside a single T row, and that
+  // row is a pre-rebrand copy of the donor copy, so its wording can differ
+  // from the static HTML. Decode the row, split it per card on the donor date
+  // labels, and pair each card's prose with that card's excerpt.
+  //
+  // Reading the row (rather than scanning a window around it) is what keeps
+  // this exact: a window picks up unrelated paragraphs, and a card body that
+  // only partly matches leaves donor copy behind in the row that hydration
+  // then re-renders.
+  // The card bodies live in a T row that is emitted *before* the band's own
+  // flight tuple, so the window has to start before the band marker. The row
+  // holds only the bodies (no date labels), so each card is located by the
+  // opening words of its first paragraph.
+  const fIdx = html.indexOf(`${EQ}styles_invention__bakTB${EQ}`);
+  const flightCardHtml = [];
+  {
+    const from = Math.max(0, fIdx - 80000);
+    const win = html.slice(from, fIdx + 60000)
+      .split('\\u003c').join('<').split('\\u003e').join('>')
+      .split('\\u0026').join('&');
+    // First words of each card's opening body paragraph, read from the static
+    // markup. Long enough to be unambiguous, short enough to survive the
+    // rebrand (which only touches brand names, not sentence openings).
+    const marks = cards.map(cardHtml => {
+      const ps = [...cardHtml.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)];
+      for (const p of ps) {
+        const words = [...p[1].matchAll(/>([^<>{}]{4,})</g)].map(x => x[1])
+          .filter(t => t.trim() && !/^&nbsp;$/.test(t)).join(' ');
+        if (words.length >= 40) return words.slice(0, 40);
+      }
+      return null;
+    });
+    if (marks.every(Boolean)) {
+      const at = marks.map(s => win.indexOf(s));
+      if (at.every(i => i >= 0) && at[0] < at[1] && at[1] < at[2]) {
+        for (let k = 0; k < 3; k++) {
+          flightCardHtml.push(win.slice(at[k], k + 1 < 3 ? at[k + 1] : at[k] + 8000));
+        }
+      }
+    }
+  }
+
+  cards.forEach((cardHtml, i) => {
+    const c = caseBySlug(TEASER_CASES[i]);
+    if (!c) return;
+    // Every visible text leaf in this card, in document order: the date
+    // label, the wrapped title lines, then the body lines.
+    const leaves = [...cardHtml.matchAll(/>([^<>{}]{2,})</g)]
+      .map(m => m[1])
+      .filter(t => t.trim() && t !== '&nbsp;');
+    if (leaves.length < 3) return;
+
+    const [date, ...rest] = leaves;
+    // Title lines are the ones inside the heading's line divs.
+    const titleCount = [...cardHtml.matchAll(/<div class="styles_line__Ausrd"[^>]*>([^<]*)<\/div>/g)].length;
+    const bodyCount = rest.length - titleCount;
+    if (titleCount < 1 || bodyCount < 1) return;
+
+    // Date label -> the case's type and venue, so the slot still reads as a
+    // label above the title.
+    add(date, teaserEscape(c.eventType + ' · ' + c.location));
+    // Card link -> the case detail page that already exists. Static markup
+    // carries it as an href attribute; flight props carry it as a URL string,
+    // sometimes escaped, sometimes absolute. The donor slug is read from the
+    // card so a rebrand or path change cannot desync it.
+    const href = /href="(\/insight\/[^"]+)"/.exec(cardHtml);
+    if (href) {
+      for (let k = 0; k < 3; k++) {
+        addIf(`href="${href[1]}"`, `href="/project/${c.slug}"`);
+        addIf(`${EQ}url${EQ}:${EQ}https://iventions.com${href[1]}${EQ}`, `${EQ}url${EQ}:${EQ}/project/${c.slug}${EQ}`);
+        addIf(`${EQ}url${EQ}:${EQ}https://iventions.com${href[1]}/${EQ}`, `${EQ}url${EQ}:${EQ}/project/${c.slug}${EQ}`);
+        addIf(`"url":"https://iventions.com${href[1]}"`, `"url":"/project/${c.slug}"`);
+        addIf(`"url":"https://iventions.com${href[1]}/"`, `"url":"/project/${c.slug}"`);
+      }
+    }
+    // Title: keep the donor's line count so the DOM shape is unchanged.
+    const tLines = teaserLines(c.title, titleCount);
+    for (let k = 0; k < titleCount; k++) add(rest[k], teaserEscape(tLines[k]));
+    // Body: the excerpt wrapped to the donor's line count. Surplus donor
+    // lines collapse to empty, which renders as blank lines rather than
+    // overflowing the card.
+    const bLines = teaserLines(c.excerpt, bodyCount);
+    for (let k = 0; k < bodyCount; k++) {
+      add(rest[titleCount + k], k < bLines.length ? teaserEscape(bLines[k]) : '');
+    }
+
+    // The flight stores this card's body as whole paragraphs rather than
+    // line-break divs, so the per-line pairs above never match there. Pair
+    // the flight copy's own paragraphs with the excerpt, so the RSC row
+    // renders the same copy the static markup shows. These pairs are built
+    // from the row's own text, which may still carry the donor brand name.
+    const fCard = flightCardHtml[i] || '';
+    for (const p of fCard.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)) {
+      const text = [...p[1].matchAll(/>([^<>{}]{4,})</g)].map(x => x[1])
+        .filter(t => t.trim() && !/^&nbsp;$/.test(t)).join(' ');
+      if (text.length >= 12) addIf(text, teaserEscape(c.excerpt));
+    }
+
+    // Card heading carries an aria-label with the donor title as one string,
+    // and the card's own link/href slug in several shapes. The label and slug
+    // are not in the leaf list above, so pair them explicitly or the donor
+    // title and /insight/ URL survive in the served markup.
+    const aria = /aria-label="([^"]*)"/.exec(cardHtml);
+    if (aria) addIf(`aria-label="${aria[1]}"`, `aria-label="${teaserEscape(c.title)}"`);
+  });
+
+  // The band's insights edges array still carries the three donor posts as
+  // CMS nodes (slug, title, a whole donor article as body copy, and a
+  // template). Nothing renders them now that the band is a case teaser, but
+  // they still ship to the client and feed the admin manifest, so each node is
+  // repointed at the teaser case in the same position.
+  //
+  // Each node is rewritten as ONE whole-node pair rather than as separate
+  // field pairs. The body is a full article in escaped HTML, so a per-field
+  // pair for it either matches nothing (leaving the article in place) or
+  // matches after another pair has already mangled part of it, which is how
+  // the excerpt ended up spliced into the middle of a donor sentence. Working
+  // on the node as a unit means the replacement is exact or it does not
+  // happen at all.
+  try {
+    for (const a of findEdgesArrays(html)) {
+      const inner = html.slice(a.start + 1, a.end - 1);
+      const nodes = splitTopObjects(inner);
+      if (!nodes.length) continue;
+      const first = inner.slice(nodes[0].start, nodes[0].end);
+      if (!first.includes('insightTemplate')) continue;
+      let ci = -1;
+      for (const nd of nodes) {
+        const nodeHtml = inner.slice(nd.start, nd.end);
+        const sm = /\\"slug\\":\\"([^\\]*)\\"/.exec(nodeHtml);
+        if (!sm) continue;
+        ci++;
+        const target = caseBySlug(TEASER_CASES[ci]);
+        if (!target) continue;
+        let next = nodeHtml;
+        // Replace the body first, while every offset below still refers to
+        // nodeHtml. The slug and title edits change the string length, and
+        // slicing the body afterwards with stale offsets spliced the new copy
+        // in without removing the old article.
+        // The value runs to the comma that starts the next key, and that slice
+        // also picks up the escaped quote that terminates the JSON string, so
+        // drop it or the row stops parsing.
+        const cm = /\\"content\\":\\"/.exec(nodeHtml);
+        const tail = cm && /,\\?"insightTemplate\\?"/.exec(nodeHtml.slice(cm.index));
+        if (cm && tail) {
+          const valStart = cm.index + cm[0].length;
+          const valEnd = cm.index + tail.index;
+          if (valEnd > valStart) {
+            next = next.slice(0, valStart) + flightHtmlString(target.excerpt) + next.slice(valEnd);
+          }
+        }
+        next = next.split(`\\"slug\\":\\"${sm[1]}\\"`).join(`\\"slug\\":\\"${target.slug}\\"`);
+        const tm = /\\"title\\":\\"((?:[^\\"]|\\[^"])*)\\"/.exec(nodeHtml);
+        if (tm) {
+          next = next.split(`\\"title\\":\\"${tm[1]}\\"`).join(`\\"title\\":\\"${target.title}\\"`);
+        }
+        if (next !== nodeHtml) addIf(nodeHtml, next);
+      }
+    }
+  } catch { /* leave the edges array untouched if its shape ever changes */ }
+  // Guard: every required donor string must still be present, else the donor
+  // copy changed and this pass is stale. Best-effort pairs are simply skipped
+  // by the replace when their form is absent.
+  for (const from of REQ) {
+    if (!html.includes(from)) return html;
+  }
+  // Pairs are applied one after another, so a short `from` that is a prefix of
+  // a longer one (a band heading word vs. a card title that opens with it)
+  // would rewrite the longer one first and leave a half-swapped string behind.
+  // Ordering the longest `from` first makes the rewrite single-pass: every
+  // match is consumed whole before any shorter key can reach into it.
+  P.sort((a, b) => b[0].length - a[0].length);
+  return safeReplacePairs(html, P);
+}
+
 function removeInsightSection(html) {
   if (html.indexOf('styles_invention__bakTB') < 0) return html;
   const pairs = [];
@@ -739,6 +1107,24 @@ function applyFooterMenuOrder(html) {
 // swaps (so template "Barcelona" is already "Nairobi" and is left alone).
 const FOOTPRINT = ['Galleria Mall', 'Sarit Centre', 'Westgate Mall', 'Two Rivers Mall', 'Village Market', 'Junction Mall', 'Imaara Mall', 'Southfield Mall', 'Westlands', 'Kilimani', 'South C', 'Ngong Road', 'Upperhill', 'Karen', 'Eastleigh'];
 const MARQUEE_ORDER = ['Toulouse', 'Glasgow', 'Copenhagen', 'Rome', 'Birmingham', 'Brussels', 'Manchester', 'Edinburgh', 'Dublin', 'Luxembourg', 'Venice', 'London', 'Amsterdam', 'Madrid', 'Berlin', 'Vienna', 'Lisbon', 'Paris', 'Munich', 'Milan', 'Cardiff', 'Newcastle', 'Rotterdam', 'Vitoria', 'Riga', 'Sofia', 'Bratislava', 'Ljubljana', 'Bucharest', 'Helsinki', 'Athens', 'Kaunas', 'Prague', 'Budapest', 'Stockholm', 'Belgrade', 'Nicosia', 'Tallinn', 'Valletta', 'Vilnius', 'Warsaw', 'Abu Dhabi', 'Istanbul', 'Shanghai'];
+// Service pages list each offering with the city it ran in, and those cities
+// were the donor's ("Budapest", "Frankfurt"). applyCitiesFix bails on these
+// pages - it is scoped to the homepage marquee - so the service listings kept
+// advertising European hosts. StillCraft delivers in Nairobi, so the city line
+// under each service is restated. The line count is untouched: only the text
+// node inside the existing line-mask/line pair changes, which keeps the
+// reveal animation's DOM shape intact.
+const DONOR_SERVICE_CITIES = ['Budapest', 'Frankfurt', 'Barcelona', 'Udine', 'Istanbul, Turkey', 'Amsterdam', 'Paris', 'London', 'Milan', 'Vienna', 'Munich', 'Berlin', 'Madrid', 'Lisbon', 'Brussels', 'Athens', 'Dubai', 'Abu Dhabi'];
+export function applyServiceCitiesFix(html) {
+  try {
+    if (html.indexOf('css-928hs6') < 0) return html;
+    return html.replace(/(<p class="css-928hs6[^"]*">[\s\S]*?<div class="line fix-clip"[^>]*>)([^<]*)(<\/div>)/g, (full, a, city, c) => {
+      const t = city.trim();
+      if (!DONOR_SERVICE_CITIES.includes(t)) return full;
+      return a + 'Nairobi' + c;
+    });
+  } catch { return html; }
+}
 export function applyCitiesFix(html) {
   if (html.indexOf('css-o2o1k2') < 0 && html.indexOf('producedBlock') < 0) return html;
   // heading (static spans + flight label share these substrings)
@@ -2107,6 +2493,171 @@ export function applyCardTitlesFix(html) {
     return html;
   } catch { return html; }
 }
+// Project listing cards: <a href="/project/<slug>">title, event type, location.
+// applyCardTitlesFix only revisits cards whose TITLE names a donor brand, so a
+// card already titled after a mall case kept the donor's own location pill
+// ("Mother's Day at Galleria Mall" / "Udine"), and a card pointing at a
+// donor-only slug shipped a dead link. Keying off the card's own href makes
+// every card self-describing: the case that the href names supplies its own
+// title, event type and location.
+//
+// A card whose slug is not a case (e.g. the MWC stand) is repointed at a real
+// case rather than deleted, so the number and shape of cards the flight
+// payload declares stays identical and hydration is unaffected.
+const CARD_TITLE = /<p data-sc-id="t-\d+" class="Paragraph_paragraph__SId_Y css-ye2k4l">([^<]*)<\/p>/g;
+const CARD_PILL = /<p data-sc-id="t-\d+" class="Paragraph_paragraph__SId_Y css-sts5z9">([^<]*)<\/p>/g;
+function setPill(block, re, value, nth) {
+  re.lastIndex = 0;
+  let m;
+  for (let i = 0; i <= nth; i++) {
+    m = re.exec(block);
+    if (!m) return block;
+  }
+  return block.slice(0, m.index) + m[0].split(m[1]).join(value) + block.slice(m.index + m[0].length);
+}
+export function applyProjectCardsFix(html) {
+  try {
+    let out = html;
+    let n = 0;
+    // Each edit shortens or lengthens the document, so the scan runs over the
+    // MUTATING string and resumes past the card just rewritten. Matching on the
+    // original while slicing the rewritten one leaves every offset after the
+    // first resized card stale, which silently skips the rest of the listing.
+    const card = /<a href="\/project\/([a-z0-9-]+)\/?"/g;
+    for (let m = card.exec(out); m; m = card.exec(out)) {
+      const slug = m[1];
+      const start = m.index;
+      const end = out.indexOf('</a>', start);
+      if (end < 0) break;
+      const block = out.slice(start, end);
+      // Re-point donor-only slugs at a case, cycling in listing order.
+      const c = CASE_BY_IDX.find((x) => x.slug === slug) || CASE_BY_IDX[n % CASE_BY_IDX.length];
+      n++;
+      if (!c) { card.lastIndex = end; continue; }
+      let nb = block;
+      CARD_TITLE.lastIndex = 0;
+      const tm = CARD_TITLE.exec(nb);
+      if (tm) nb = nb.slice(0, tm.index) + tm[0].split(tm[1]).join(c.title.replace(/&/g, '&amp;')) + nb.slice(tm.index + tm[0].length);
+      nb = setPill(nb, CARD_PILL, c.eventType.replace(/&/g, '&amp;'), 0);
+      nb = setPill(nb, CARD_PILL, c.location.replace(/&/g, '&amp;'), 1);
+      // The donor's fourth pill is the host city on its own ("Athens",
+      // "Budapest"). Every StillCraft case runs in Nairobi, so the city half of
+      // the case location keeps the row honest instead of naming a foreign
+      // city next to our own mall.
+      nb = setPill(nb, CARD_PILL, teaserEscape(c.location.split(',').pop().trim()), 2);
+      // The href is the first attribute of the anchor text.
+      nb = nb.replace(/^<a href="\/project\/[a-z0-9-]+\/?"/, `<a href="/project/${c.slug}"`);
+      out = out.slice(0, start) + nb + out.slice(end);
+      // Resume after the rewritten card: its length just changed.
+      card.lastIndex = start + nb.length;
+    }
+    return out;
+  } catch { return html; }
+}
+// Service pages carry the testimonial band in the RSC payload rather than the
+// static markup, so applyTestimonialBandFix never sees it: the payload still
+// published the donor's own numbers ("participants":11195), sectors
+// ("industry":"Football") and host cities ("location":"Istanbul, Turkey").
+//
+// Each `testimonialTemplate` object is rewritten as a unit - the three fields
+// move together, so a value can never be re-paired with a different slide's
+// case the way a blind per-value replace would. The client name, role, quote,
+// image and link inside the same object are left alone: those are the fields
+// the client edits through the CMS, and overwriting them would fight the
+// admin. Only the descriptive facts are ours to state.
+export function applyTestimonialFlightFix(html) {
+  try {
+    if (html.indexOf('testimonialTemplate') < 0) return html;
+    const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
+    const delim = 'self.__next_f.push(';
+    const parts = html.split(delim);
+    let out = parts[0];
+    for (let i = 1; i < parts.length; i++) {
+      const seg = parts[i];
+      let s = seg;
+      // Back-to-front: each rewrite changes this segment's length, so a
+      // forward walk would be splicing at offsets taken from the pre-rewrite
+      // string and would silently skip every node after the first.
+      // The payload is JS-escaped, so keys appear as \\"testimonialTemplate\\":\\{
+      // and every pattern below has to match the escaped form.
+      const KEY = /\\"testimonialTemplate\\":\{/g;
+      const nodes = [...seg.matchAll(KEY)].reverse();
+      for (const m of nodes) {
+        // Brace-balanced scan, string-aware, so nested client/logo objects do
+        // not end the match early.
+        let depth = 0, j = m.index + m[0].length - 1, inStr = false;
+        for (; j < s.length; j++) {
+          const ch = s[j];
+          if (ch === '\\') { j++; continue; }
+          if (ch === '"') { inStr = !inStr; continue; }
+          if (inStr) continue;
+          if (ch === '{') depth++;
+          else if (ch === '}' && --depth === 0) break;
+        }
+        if (j >= s.length) continue;
+        // Nodes are visited last-to-first, so the case index is derived from
+        // the node's position in the ORIGINAL segment.
+        // Count the nodes ahead of this one in the ORIGINAL segment; the
+        // first node in a segment counts 0, so this is the slide index itself.
+        const c = CASE[(seg.slice(0, m.index).match(KEY) || []).length % CASE.length];
+        const start = m.index + m[0].length;
+        const body = s.slice(start, j);
+        // Values are re-emitted escaped, matching how the payload encodes them.
+        const q = (v) => `\\"${String(v).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}\\"`;
+        const nb = body
+          .replace(/\\"participants\\":\d+/, `\\"participants\\":${c.participants}`)
+          .replace(/\\"industry\\":\\"(?:[^"\\\\]|\\\\.)*\\"/, `\\"industry\\":${q(c.industry)}`)
+          .replace(/\\"location\\":\\"(?:[^"\\\\]|\\\\.)*\\"/, `\\"location\\":${q(c.location)}`);
+        if (nb === body) continue;
+        s = s.slice(0, start) + nb + s.slice(j);
+      }
+      out += delim + s;
+    }
+    if (out === html) return html;
+    try { if (verifyFlight(out).bad > badBefore) return html; } catch { return html; }
+    return out;
+  } catch { return html; }
+}
+// Every /project/<slug>/ file in dist/ was captured from the same donor
+// template page, so the RSC payload still announced the donor route
+// (`"c":["","project","ypo-global-event"]` and the matching `["slug", ...]`).
+// The visible copy is rewritten per case, but the payload disagreed with the
+// URL it was served at: React would hydrate against a route the page is not,
+// and the donor slug shipped to the client on all 11 case pages. Re-point the
+// payload at the slug actually being served. safeReplaceVerified decodes,
+// substitutes and re-encodes with fresh row lengths, so the length prefixes
+// stay valid.
+export function applyCaseRouteSlug(html, page) {
+  try {
+    const m = /^\/project\/([a-z0-9-]+)\/?$/.exec(String(page || ''));
+    if (!m) return html;
+    const slug = m[1];
+    if (!CASE_BY_IDX.find((x) => x.slug === slug)) return html;
+    // Read the route segment the payload currently claims, in both shapes
+    // Next.js emits it.
+    const claimed = new Set();
+    for (const re of [/\\"c\\":\[\\"\\",\\"project\\",\\"([^\\"]+)\\"\]/g, /\\"slug\\",\\"([^\\"]+)\\",\\"d\\"/g]) {
+      let mm;
+      while ((mm = re.exec(html))) claimed.add(mm[1]);
+    }
+    if (!claimed.size) return html;
+    const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
+    // The route tree lives in the flight's `0:` row, which carries no length
+    // prefix, so a plain substitution cannot desynchronise a row header here.
+    // verifyFlight is still the gate: if a claimed slug ever also appears in a
+    // length-prefixed row, the row count would change and this bails.
+    let out = html;
+    for (const c of claimed) {
+      // Never touch a slug that is one of ours: only the foreign template
+      // route needs re-pointing.
+      if (c === slug || CASE_BY_IDX.find((x) => x.slug === c)) continue;
+      out = out.split(c).join(slug);
+    }
+    if (out === html) return html;
+    try { if (verifyFlight(out).bad > badBefore) return html; } catch { return html; }
+    return out;
+  } catch { return html; }
+}
 // Case pages carry the YPO template's meta description. Set brief-correct
 // per-case descriptions (static metas + flight metadata), oracle-guarded.
 export function applyCaseMetaFix(html, page) {
@@ -2630,14 +3181,21 @@ function applyNav(html, page) {
     html = html.replace(new RegExp(`<li\\b[^<>]*class="[^"]*"[^<>]*>\\s*<\\/li>`, 'g'), '');
     console.error(`[applyNav] ${href}: before=${before} afterP=${afterP} afterA=${afterA}`);
   }
+  // The retired blog's homepage band becomes a case-study teaser. This runs
+  // BEFORE the /insights link stripping below so the band's own CTAs can be
+  // repointed at /case-studies instead of being deleted along with the rest.
+  // If the rewrite cannot land (donor copy drifted, guard tripped), fall back
+  // to cutting the whole block so no donor insights content is ever published.
+  const teased = applyCaseTeaser(html);
+  html = teased === html ? html : teased;
   // blog removed - strip from header and footer (whole footer <p>, no empty shells)
   html = html.replace(/<a\b[^>]*href="\/insights"[^>]*>[\s\S]*?<\/a>/gi, '');
   html = html.replace(/<p\b[^<>]*>\s*<a\b[^<>]*href="\/insights"[^<>]*>[\s\S]*?<\/a>\s*<\/p>/gi, '');
   html = html.replace(/<a\b[^>]*href="\/insights"[^>]*>\s*<span[^>]*>\s*Blog\s*<\/span>\s*<\/a>/gi, '');
   html = html.replace(/<p\b[^<>]*class="styles_contents_menu_item[^"]*"[^<>]*>\s*<\/p>/gi, '');
   html = applyFooterMenuOrder(html);
-  // insights section removed (client killed the blog): cut the whole block
-  html = removeInsightSection(html);
+  // Teaser fell through its guard: cut the donor band rather than publish it.
+  if (teased === html) html = removeInsightSection(html);
   if (TITLE_MAP[page]) {
     const orig = /<title>([^<]*)<\/title>/.exec(html);
     html = html.replace(/<title>[^<]*<\/title>/, `<title>${TITLE_MAP[page]}</title>`);
@@ -2988,6 +3546,9 @@ export function applyHomeStatic(html) {
   html = applyGlobalSwaps(html, '/');
   html = applyStatsFix(html);
   html = applyCitiesFix(html);
+  html = applyServiceCitiesFix(html);
+  html = applyTestimonialBandFix(html);
+  html = applyTestimonialFlightFix(html);
   html = applyLogosFix(html, []);
   html = applyFooterSingleOffice(html);
   html = applyHighlightsFix(html, '/');
@@ -2998,6 +3559,7 @@ export function applyHomeStatic(html) {
   html = applyPortfolioFix(html);
   html = applySplitTextFix(html);
   html = applyCardTitlesFix(html);
+  html = applyCaseRouteSlug(html, '/');
   html = applyCaseMetaFix(html, '/');
   html = applyFooterAddresses(html);
   html = applyContentFlight(html, '/');
@@ -3007,6 +3569,7 @@ export {
   IMAGE_EXTS, IMAGE_EXT_LIST, IMAGE_MAX, getBrand, bustBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,
   stripThirdParty, flightReplace, applyFlightIA, applyContentFlight, applyLinks,
   applyGlobalSwaps, applyFooterAddresses, applyHeroVideo, mobileFor, posterFor, parseUpload, sniffImage, sniffMedia, FILE_FLIGHT,
+  applyTestimonialBandFix,
   TITLE_MAP, NAV_LABELS, NAV_DROP_HREFS, MENU_ORDER, DEFAULT_TAGLINE,
 };
 

@@ -18,7 +18,7 @@ import {
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
   applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash, applyStyleBlocks,
-  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, applyCaseNarrative, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyServiceCitiesFix, applyTestimonialBandFix, applyTestimonialFlightFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyProjectCardsFix, applyCaseRouteSlug, applyCaseMetaFix, applyCaseNarrative, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, normalizeChunkRefs,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
@@ -234,6 +234,12 @@ const server = http.createServer(async (req, res) => {
           // file. Reading dist/index.html directly showed the admin the donor's
           // copy while the site served StillCraft's, so every field disagreed
           // with the page and a plain Save wrote the old data back.
+          //
+          // Saved CMS has to be applied here too, for the same reason: the
+          // admin form submits the whole prefill back on save, so a prefill
+          // taken before applyStructuredCMS still carries the placeholder
+          // values. Editing one field then overwrote every other field with
+          // those placeholders - which is how a saved logo upload was lost.
           let liveHtml = await readFile(path.join(ROOT, 'index.html'), 'utf8');
           const key = '/';
           const dbItems = await getOverrides(key).catch(() => []);
@@ -242,6 +248,10 @@ const server = http.createServer(async (req, res) => {
             ...((LOGO_NAMES[key] || []).map(n => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
           liveHtml = applyOverrides(liveHtml, [...dbItems, ...fileItems], {});
           liveHtml = applyHomeStatic(liveHtml);
+          const liveCms = await getCMS().catch(() => ({}));
+          if (liveCms && Object.keys(liveCms).length) {
+            liveHtml = await applyStructuredCMS(liveHtml, liveCms, key);
+          }
           return json(res, 200, { live: await liveSnapshot(liveHtml) });
         } catch { return json(res, 200, { live: {} }); }
       }
@@ -342,18 +352,22 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    // ----- paginated project lists have no static equivalent: redirect to index -----
-    if (/^\/projects\/page\/\d+\/?$/.test(pathname)) {
-      res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
-      res.end();
-      return;
-    }
     // removed case-study slugs (template projects, not StillCraft cases)
     if (pathname === '/project/mothers-day-brunch-at-southfield-mall' || pathname.startsWith('/project/mothers-day-brunch-at-southfield-mall/')
       || pathname === '/project/adidas-display-wall' || pathname.startsWith('/project/adidas-display-wall/')
       || pathname === '/project/uefa-champions-league-final-2026' || pathname.startsWith('/project/uefa-champions-league-final-2026/')
       || pathname === '/project/ypo-global-event' || pathname.startsWith('/project/ypo-global-event/')) {
-      res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
+      res.writeHead(302, { Location: '/case-studies', 'Access-Control-Allow-Origin': '*' });
+      res.end();
+      return;
+    }
+    // The donor "projects" taxonomy (and every category + paginated view under
+    // it) existed only to list the donor's own project cards - 20 of them, none
+    // of them StillCraft work, with the RSC payload carrying the donor titles
+    // and copy for each. The case-study library is the replacement index, so
+    // the whole branch retires to it rather than republishing donor work.
+    if (pathname === '/projects' || pathname.startsWith('/projects/')) {
+      res.writeHead(302, { Location: '/case-studies', 'Access-Control-Allow-Origin': '*' });
       res.end();
       return;
     }
@@ -366,20 +380,13 @@ const server = http.createServer(async (req, res) => {
     }
     // sports service retired (no StillCraft lane) - redirect to projects
     if (pathname === '/service/sports' || pathname.startsWith('/service/sports/')) {
-      res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
+      res.writeHead(302, { Location: '/case-studies', 'Access-Control-Allow-Origin': '*' });
       res.end();
       return;
     }
     // category pages have no static equivalent: serve /projects
     if (pathname === '/projects/mall-activations' || pathname.startsWith('/projects/mall-activations/')) {
       pathname = '/projects';
-    }
-    // /projects/filter is a dynamic route (client-side filtering) with no static
-    // equivalent: redirect to the static /projects listing.
-    if (pathname === '/projects/filter' || pathname.startsWith('/projects/filter/')) {
-      res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
-      res.end();
-      return;
     }
 
     // ----- Next.js image optimizer shim (real resizing: variants serve the
@@ -503,7 +510,11 @@ const server = http.createServer(async (req, res) => {
       html = applyStatsFix(html);
       __dbg_step('statsFix');
       html = applyCitiesFix(html);
+      html = applyServiceCitiesFix(html);
       __dbg_step('citiesFix');
+      html = applyTestimonialBandFix(html);
+      html = applyTestimonialFlightFix(html);
+      __dbg_step('testimonialBandFix');
       html = applyLogosFix(html, __cms && __cms.logos && Array.isArray(__cms.logos.items) ? __cms.logos.items : []);
       __dbg_step('logosFix');
       html = applyFooterSingleOffice(html);
@@ -528,7 +539,9 @@ const server = http.createServer(async (req, res) => {
       __dbg_step('splitTextFix');
       html = applyCardTitlesFix(html);
       __dbg_step('cardTitlesFix');
-      html = applyCaseMetaFix(html, key);
+      html = applyProjectCardsFix(html);
+      html = applyCaseRouteSlug(html, key);
+  html = applyCaseMetaFix(html, key);
       __dbg_step('caseMetaFix');
       html = applyFooterAddresses(html);
       __dbg_step('footerAddresses');

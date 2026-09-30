@@ -6,7 +6,7 @@ import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, 
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash,
-  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix, applyCaseNarrative, applyAboutTeamRemove, applyAboutTeamReplace,
+  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyStatsFix, applyCitiesFix, applyServiceCitiesFix, applyTestimonialBandFix, applyTestimonialFlightFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyProjectCardsFix, applyCaseRouteSlug, applyCaseMetaFix, applyCaseNarrative, applyAboutTeamRemove, applyAboutTeamReplace,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
@@ -89,6 +89,9 @@ async function serveHtml(pathname, cookies, host) {
     if (__cms) html = await applyStructuredCMS(html, __cms, key);
     html = applyStatsFix(html);
     html = applyCitiesFix(html);
+    html = applyServiceCitiesFix(html);
+    html = applyTestimonialBandFix(html);
+    html = applyTestimonialFlightFix(html);
     html = applyLogosFix(html, __cms && __cms.logos && Array.isArray(__cms.logos.items) ? __cms.logos.items : []);
     html = applyFooterSingleOffice(html);
     html = applyHighlightsFix(html, key);
@@ -102,7 +105,9 @@ async function serveHtml(pathname, cookies, host) {
     html = applyPortfolioFix(html);
     html = applySplitTextFix(html);
     html = applyCardTitlesFix(html);
-    html = applyCaseMetaFix(html, key);
+    html = applyProjectCardsFix(html);
+    html = applyCaseRouteSlug(html, key);
+  html = applyCaseMetaFix(html, key);
     html = applyFooterAddresses(html);
     html = applyContentFlight(html, key);
     // Admin asset swaps target flight payload the content fixes above rewrite,
@@ -172,16 +177,11 @@ export default async function handler(req, res) {
       res.end();
       return;
     }
-    if (/^\/projects\/page\/\d+\/?$/.test(pathname)) {
-      res.writeHead(302, { Location: '/projects' });
-      res.end();
-      return;
-    }
     if (pathname === '/project/mothers-day-brunch-at-southfield-mall' || pathname.startsWith('/project/mothers-day-brunch-at-southfield-mall/')
       || pathname === '/project/adidas-display-wall' || pathname.startsWith('/project/adidas-display-wall/')
       || pathname === '/project/uefa-champions-league-final-2026' || pathname.startsWith('/project/uefa-champions-league-final-2026/')
       || pathname === '/project/ypo-global-event' || pathname.startsWith('/project/ypo-global-event/')) {
-      res.writeHead(302, { Location: '/projects' });
+      res.writeHead(302, { Location: '/case-studies' });
       res.end();
       return;
     }
@@ -190,8 +190,15 @@ export default async function handler(req, res) {
       res.end();
       return;
     }
+    // The donor "projects" taxonomy carried only donor project cards; the
+    // case-study library replaces it.
+    if (pathname === '/projects' || pathname.startsWith('/projects/')) {
+      res.writeHead(302, { Location: '/case-studies' });
+      res.end();
+      return;
+    }
     if (pathname === '/service/sports' || pathname.startsWith('/service/sports/')) {
-      res.writeHead(302, { Location: '/projects' });
+      res.writeHead(302, { Location: '/case-studies' });
       res.end();
       return;
     }
