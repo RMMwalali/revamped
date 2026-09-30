@@ -1125,6 +1125,61 @@ export function applyServiceCitiesFix(html) {
     });
   } catch { return html; }
 }
+// The /about/ talent block is already gone from the static markup
+// (applyAboutTeamRemove strips it), but its RSC row still carried all 35 of
+// the donor's staff: names, job titles, fun-fact quotes and their portraits.
+// Static/flight disagreement like that is not invisible - the client component
+// re-renders on hydration and republishes the whole donor roster, so the
+// section the copy pass removed came straight back client-side.
+//
+// The row is unreferenced (no other row resolves to its id), so the row is
+// dropped whole rather than blanked. The reference check is the guard: if a
+// future capture ever wires this module into the layout, a dangling id would
+// break the page, so the pass bails and leaves the data for a human decision
+// instead of trading donor content for a blank page.
+const CREW_MODULE = 'ModuleContentDynamicLayoutAboutMembersLayout';
+export function applyAboutCrewRemove(html) {
+  try {
+    if (html.indexOf(CREW_MODULE) < 0) return html;
+    const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
+    const delim = 'self.__next_f.push(';
+    const parts = html.split(delim);
+    let out = parts[0];
+    for (let i = 1; i < parts.length; i++) {
+      const seg = parts[i];
+      const at = seg.indexOf(CREW_MODULE);
+      if (at < 0) { out += delim + seg; continue; }
+      // Row start: the "<id>:[" that introduces this row.
+      const rowStart = seg.lastIndexOf(':[', at);
+      if (rowStart < 0) { out += delim + seg; continue; }
+      const id = (/([0-9a-f]{2,4}):\[$/.exec(seg.slice(0, rowStart + 2)) || [])[1];
+      // Bail unless the row is genuinely orphaned: a reference elsewhere means
+      // deleting it would leave a dangling id.
+      if (!id || (html.match(new RegExp(`"${id}"`, 'g')) || []).length > 1) { out += delim + seg; continue; }
+      // Bracket-balanced, string-aware scan to the row's own closing bracket -
+      // a segment holds several rows, so lastIndexOf(']') would swallow the
+      // ones after this.
+      let depth = 0, j = rowStart + 1, inStr = false;
+      for (; j < seg.length; j++) {
+        const ch = seg[j];
+        if (ch === '\\') { j++; continue; }
+        if (ch === '"') { inStr = !inStr; continue; }
+        if (inStr) continue;
+        if (ch === '[') depth++;
+        else if (ch === ']' && --depth === 0) break;
+      }
+      if (j >= seg.length) { out += delim + seg; continue; }
+      // Take the row's trailing newline with it so the next row keeps its own
+      // line prefix.
+      let end = j + 1;
+      if (seg[end] === '\n') end++;
+      out += delim + seg.slice(0, rowStart) + seg.slice(end);
+    }
+    if (out === html) return html;
+    try { if (verifyFlight(out).bad > badBefore) return html; } catch { return html; }
+    return out;
+  } catch { return html; }
+}
 export function applyCitiesFix(html) {
   if (html.indexOf('css-o2o1k2') < 0 && html.indexOf('producedBlock') < 0) return html;
   // heading (static spans + flight label share these substrings)
@@ -2581,7 +2636,8 @@ export function applyTestimonialFlightFix(html) {
       // The payload is JS-escaped, so keys appear as \\"testimonialTemplate\\":\\{
       // and every pattern below has to match the escaped form.
       const KEY = /\\"testimonialTemplate\\":\{/g;
-      const nodes = [...seg.matchAll(KEY)].reverse();
+      const nodes = [...seg.matchAll(KEY)];
+      const edits = [];
       for (const m of nodes) {
         // Brace-balanced scan, string-aware, so nested client/logo objects do
         // not end the match early.
@@ -2604,14 +2660,45 @@ export function applyTestimonialFlightFix(html) {
         const body = s.slice(start, j);
         // Values are re-emitted escaped, matching how the payload encodes them.
         const q = (v) => `\\"${String(v).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}\\"`;
+        const link = `\\"link\\":{\\\"title\\\":${q(c.title)},\\\"target\\\":\\\"\\\",\\\"url\\\":${q('/project/' + c.slug + '/')}}`;
         const nb = body
           .replace(/\\"participants\\":\d+/, `\\"participants\\":${c.participants}`)
-          .replace(/\\"industry\\":\\"(?:[^"\\\\]|\\\\.)*\\"/, `\\"industry\\":${q(c.industry)}`)
-          .replace(/\\"location\\":\\"(?:[^"\\\\]|\\\\.)*\\"/, `\\"location\\":${q(c.location)}`);
+          .replace(/\\"industry\\":\\"[^"\\\\]*\\"/, `\\"industry\\":${q(c.industry)}`)
+          .replace(/\\"location\\":\\"[^"\\\\]*\\"/, `\\"location\\":${q(c.location)}`)
+          // The quote's "read the project" link pointed at a donor project that
+          // no longer exists, so it 404'd and advertised a UEFA event StillCraft
+          // never ran. It now points at the case the slide is describing.
+          .replace(/\\"link\\":\{\\\"title\\":\\\"[^"\\\\]*\\\",\\\"target\\":\\\"[^"\\\\]*\\\",\\\"url\\":\\\"[^"\\\\]*\\\"\}/, link);
         if (nb === body) continue;
-        s = s.slice(0, start) + nb + s.slice(j);
+        edits.push([start, body, nb]);
+      }
+      // Back to front so every recorded offset is still valid when its edit
+      // lands.
+      edits.sort((a, b) => b[0] - a[0]);
+      for (const [at, from, to] of edits) {
+        if (s.slice(at, at + from.length) !== from) continue;
+        s = s.slice(0, at) + to + s.slice(at + from.length);
       }
       out += delim + s;
+    }
+    // Each quote's client logo hangs off a `client` object that is a SIBLING of
+    // its testimonialTemplate - and on these pages it is serialised outside the
+    // flight pushes entirely, so the per-segment walk above never sees it. Most
+    // were already repointed at the mall-case covers by the logo pass; these are
+    // the ones still loading the donor's own brand files (a Euroleague or
+    // Pfizer logo from the donor's uploads), which put a third party's
+    // trademark on a StillCraft page. The name and role beside them stay put -
+    // those are the client's to edit - only the image is ours to choose.
+    let k = 0;
+    const logos = [...out.matchAll(/\\"organization\\":\{\\"name\\":\\"[^"\\]*\\",\\"logo\\":\{\\"node\\":\{\\"sourceUrl\\":\\"([^"\\]*)\\"\}/g)]
+      .filter((m) => m[1].startsWith('/assets/cms/'))
+      .reverse();
+    for (const m of logos) {
+      const c = CASE[k % CASE.length];
+      k++;
+      if (!c) continue;
+      const cover = `/assets/stillcraft/mall-case/${c.slug}/cover.svg`;
+      out = out.slice(0, m.index) + m[0].split(m[1]).join(cover) + out.slice(m.index + m[0].length);
     }
     if (out === html) return html;
     try { if (verifyFlight(out).bad > badBefore) return html; } catch { return html; }
@@ -3547,6 +3634,7 @@ export function applyHomeStatic(html) {
   html = applyStatsFix(html);
   html = applyCitiesFix(html);
   html = applyServiceCitiesFix(html);
+  html = applyAboutCrewRemove(html);
   html = applyTestimonialBandFix(html);
   html = applyTestimonialFlightFix(html);
   html = applyLogosFix(html, []);

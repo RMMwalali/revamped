@@ -18,7 +18,7 @@ import {
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
   applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash, applyStyleBlocks,
-  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyServiceCitiesFix, applyTestimonialBandFix, applyTestimonialFlightFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyProjectCardsFix, applyCaseRouteSlug, applyCaseMetaFix, applyCaseNarrative, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyAboutCrewRemove, applyServiceCitiesFix, applyTestimonialBandFix, applyTestimonialFlightFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyProjectCardsFix, applyCaseRouteSlug, applyCaseMetaFix, applyCaseNarrative, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, normalizeChunkRefs,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
@@ -511,6 +511,7 @@ const server = http.createServer(async (req, res) => {
       __dbg_step('statsFix');
       html = applyCitiesFix(html);
       html = applyServiceCitiesFix(html);
+      html = applyAboutCrewRemove(html);
       __dbg_step('citiesFix');
       html = applyTestimonialBandFix(html);
       html = applyTestimonialFlightFix(html);
