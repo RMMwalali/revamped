@@ -1159,8 +1159,13 @@ export function applyAboutCrewRemove(html) {
       if (rowStart < 0) { out += delim + seg; continue; }
       const id = (/([0-9a-f]{2,4}):\[$/.exec(seg.slice(0, rowStart + 2)) || [])[1];
       // Bail unless the row is genuinely orphaned: a reference elsewhere means
-      // deleting it would leave a dangling id.
-      if (!id || (html.match(new RegExp(`"${id}"`, 'g')) || []).length > 1) { out += delim + seg; continue; }
+      // deleting it would leave a dangling id. References are written `$L3f` /
+      // `$3f` in the payload - counting a quoted `"3f"` misses them entirely,
+      // which is how the crew row `3f` was deleted while `$L3f` still pointed at
+      // it. React then waited for a row that never arrived and bailed with
+      // "Connection closed", leaving /about blank.
+      const stillReferenced = id ? new RegExp('\\$L?' + id + '(?![0-9a-f])').test(html) : true;
+      if (!id || stillReferenced) { out += delim + seg; continue; }
       // Bracket-balanced, string-aware scan to the row's own closing bracket -
       // a segment holds several rows, so lastIndexOf(']') would swallow the
       // ones after this.
@@ -2780,10 +2785,17 @@ export function applyTestimonialClientFix(html) {
         // 2) the node body: the quote, the role and the employer.
         const start = m.index + m[0].length;
         const body = seg.slice(start, j);
+        // The value pattern must stop at the string's real terminator. `(?:[^"\\]|\\.)*`
+        // treats the closing `\"` as an escape PAIR, so it runs straight past the end
+        // of the value and swallows `,"client":{"role":...,"organization":{"name":...`
+        // as well. That deleted four net closing braces per testimonial, unbalancing
+        // the payload so React's flight parser threw and the page rendered blank. The
+        // lookahead accepts a `\"` only where a JSON value can actually end.
+        const VAL = '\\\\"(?:[^"\\\\]|\\\\.)*\\\\"(?=[,}\\\\]])';
         const nb = body
-          .replace(/\\"testimonial\\":\\"(?:[^"\\]|\\.)*\\"/, `\\"testimonial\\":${q(d.quote)}`)
-          .replace(/\\"role\\":\\"(?:[^"\\]|\\.)*\\"/, `\\"role\\":${q(d.role)}`)
-          .replace(/\\"organization\\":\{\\"name\\":\\"(?:[^"\\]|\\.)*\\"/, `\\"organization\\":{\\"name\\":${q(d.org)}`);
+          .replace(new RegExp('\\\\"testimonial\\\\":' + VAL), `\\"testimonial\\":${q(d.quote)}`)
+          .replace(new RegExp('\\\\"role\\\\":' + VAL), `\\"role\\":${q(d.role)}`)
+          .replace(new RegExp('\\\\"organization\\\\":\\\\{\\\\"name\\\\":' + VAL), `\\"organization\\":{\\"name\\":${q(d.org)}`);
         if (nb !== body) edits.push([start, body, nb]);
       }
       // Highest offset first, so nothing shifts underneath an earlier edit.
@@ -2840,17 +2852,23 @@ const DONOR_ENTITY = new RegExp(
   '\\b(?:ISE|MWC|ICE|Integrated Systems Europe|Menzies|NOVOMATIC|Adevinta|CordenPharma|Radisys' +
   '|Ampetronic|Euroleague|UEFA|Pfizer|Turkish Airlines|VEEAM|FedEx|Rakuten|Costa Brava' +
   '|VIP360|epayclub)\\b|hackathon', 'i');
-// The exhibits lane intro named two of the donor's trade shows. It is a single
-// paragraph of plain text in the static markup (not a line-slot block, and not
-// present in the payload at all), so it is replaced directly.
+// The exhibits lane intro named two of the donor's trade shows. It is one
+// paragraph of plain text, and unlike the project blurbs it is not a line-slot
+// block: it appears as static markup AND again in the payload, so both halves
+// have to move together or the wording flips on hydration. safeReplacePairs
+// re-encodes the flight row with a fresh length prefix, so one call covers the
+// whole document - safeReplaceVerified is not used because its boundary guard
+// reads the sentence's trailing "." as touching the next token and skips it.
 const EXHIBITS_DESCRIPTION_OLD = 'Whether it\u2019s ISE, MWC, or a niche industry show, we deliver booths that combine creativity with flawless execution.';
 const EXHIBITS_DESCRIPTION_NEW = 'Whether it\u2019s a flagship industry show or a niche one, we deliver stands that combine creativity with flawless execution.';
 export function applyServiceCopyFix(html) {
   try {
-    const flightAt = html.indexOf('self.__next_f.push(');
-    if (flightAt < 0) return html;
-    let stat = html.slice(0, flightAt).split(EXHIBITS_DESCRIPTION_OLD).join(EXHIBITS_DESCRIPTION_NEW);
-    const rest = html.slice(flightAt);
+    // Description first, across static and flight together.
+    const out = safeReplacePairs(html, [[EXHIBITS_DESCRIPTION_OLD, EXHIBITS_DESCRIPTION_NEW]]);
+    const flightAt = out.indexOf('self.__next_f.push(');
+    if (flightAt < 0) return out;
+    let stat = out.slice(0, flightAt);
+    const rest = out.slice(flightAt);
     const re = /<p\b[^>]*>/g;
     const blocks = [];
     let m, idx = 0;

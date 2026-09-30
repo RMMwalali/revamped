@@ -96,9 +96,13 @@
       var chrome = /line-mask|fix-mask|fix-clip|will-change|css-3w1c3c|css-1lpdf6v/.test(cls) ||
                    /transform|translate|rotate|scale|--r[XY]|animation/i.test(st);
       if (/^(DIV|SPAN)$/.test(tag) && chrome) {
-        var out = '';
-        for (var c = 0; c < node.childNodes.length; c++) out += clean(node.childNodes[c]);
-        return out;
+        // Unwrap into a fragment. Returning a string here (out += clean(...))
+        // made the caller appendChild a string, which threw, and stringified
+        // element nodes to "[object HTMLDivElement]" - so every animated
+        // heading silently refused to enter edit mode.
+        var frag = document.createDocumentFragment();
+        for (var c = 0; c < node.childNodes.length; c++) frag.appendChild(clean(node.childNodes[c]));
+        return frag;
       }
       var clone = node.cloneNode(false);
       if (clone.getAttribute) clone.removeAttribute('style');
@@ -107,7 +111,10 @@
       return clone;
     }
     var frag = document.createDocumentFragment();
-    for (var k = 0; k < el.childNodes.length; k++) frag.appendChild(clean(el.childNodes[k]).cloneNode(true));
+    // clean() already returns fresh nodes, and a DocumentFragment clones to an
+    // EMPTY fragment, so this must append the result directly - cloning it
+    // silently dropped the whole subtree.
+    for (var k = 0; k < el.childNodes.length; k++) frag.appendChild(clean(el.childNodes[k]));
     var box = document.createElement('div');
     box.appendChild(frag);
     var s = box.innerHTML.replace(/\u00a0/g, ' ');
@@ -336,10 +343,21 @@
     if (b) { b.disabled = !n; b.textContent = 'Save (' + n + ')'; }
   }
 
+var SEL = 'img,p,h1,h2,h3,h4,h5,h6,li,a,span,button,video,source';
   function onClick(e) {
     var bar = e.target.closest && e.target.closest('#sc-bar,#sc-brand-panel');
     if (bar) return;
-    var t = e.target.closest ? e.target.closest('img,p,h1,h2,h3,h4,h5,h6,li,a,span,button,video,source') : null;
+    var t = e.target.closest ? e.target.closest(SEL) : null;
+    if (!t) {
+      // The animated-copy stack renders an overlay div ON TOP of the real
+      // heading, and that overlay's ancestors are all divs - so closest() walks
+      // straight past the heading and the biggest text on the site could never
+      // be clicked. Fall back to the hit-test stack at the pointer.
+      var stack = document.elementsFromPoint(e.clientX, e.clientY) || [];
+      for (var si = 0; si < stack.length && !t; si++) {
+        if (stack[si].closest) t = stack[si].closest(SEL);
+      }
+    }
     if (!t || !isCandidate(t)) { if (active) active.blur(); return; }
     var kind = isCandidate(t);
     e.preventDefault(); e.stopPropagation();
