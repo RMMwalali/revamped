@@ -6,7 +6,7 @@ import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, 
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash,
-  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyStatsFix, applyCitiesFix, applyAboutCrewRemove, applyServiceCitiesFix, applyTestimonialBandFix, applyTestimonialFlightFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyProjectCardsFix, applyCaseRouteSlug, applyCaseMetaFix, applyCaseNarrative, applyAboutTeamRemove, applyAboutTeamReplace,
+  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyStatsFix, applyCitiesFix, applyAboutCrewRemove, applyServiceCitiesFix, applyTestimonialBandFix, applyTestimonialFlightFix, applyTestimonialClientFix, applyDonorStaffImageFix, applyServiceQuoteFix, applyServiceCopyFix, applyMissingAssetFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyProjectCardsFix, applyCaseRouteSlug, applyCaseMetaFix, applyCaseNarrative, applyAboutTeamRemove, applyAboutTeamReplace,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
@@ -91,6 +91,10 @@ async function serveHtml(pathname, cookies, host) {
     // Mirrors scripts/serve.mjs.
     html = applyTestimonialBandFix(html);
     html = applyTestimonialFlightFix(html);
+    html = applyTestimonialClientFix(html);
+    html = applyDonorStaffImageFix(html);
+    html = applyServiceQuoteFix(html);
+    html = applyServiceCopyFix(html);
     if (__cms) html = await applyStructuredCMS(html, __cms, key);
     html = applyStatsFix(html);
     html = applyCitiesFix(html);
@@ -131,6 +135,7 @@ async function serveHtml(pathname, cookies, host) {
     html = applyProjectsOverviewFix(html, key);
     html = applyCaseFactsFix(html, key);
     html = applySplash(html, key);
+    html = applyMissingAssetFix(html, key);
     html = applyFooterFix(html, key);
     // Saved copy, applied after every built-in fix: the database is the last
     // word, so a deploy that re-runs this pipeline can no longer revert an

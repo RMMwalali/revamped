@@ -6,7 +6,7 @@ import path from 'node:path';
 import { FLIGHT as FILE_FLIGHT } from './stillcraft-content.mjs';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
 import { CONGRESS_PRECISION_SECTION } from './congress-precision.mjs';
-import { OVERVIEW_STATS, caseBySlug, default as CASE } from './stillcraft-cases.mjs';
+import { OVERVIEW_STATS, caseBySlug, PLACEHOLDER_TESTIMONIALS, default as CASE } from './stillcraft-cases.mjs';
 export { LOGO_ROWS };
 export { CONTENT as FILE_CONTENT } from './stillcraft-content.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
@@ -788,6 +788,11 @@ function applyCaseTeaser(html) {
     addIf(`${EQ}href${EQ}:${EQ}/insights${EQ}`, `${EQ}href${EQ}:${EQ}/case-studies${EQ}`);
     addIf('"url":"https://iventions.com/insights"', '"url":"/case-studies"');
     addIf('"url":"https://iventions.com/insights/"', '"url":"/case-studies"');
+    // The donor pointed this CTA at its uploads directory, not at a listing, so
+    // the label was reworded to "View all case studies" but the href stayed on
+    // /assets/cms/resource/ and 404'd. Left as-is it was the band\'s only link.
+    addIf('href="/assets/cms/resource/"', 'href="/case-studies"');
+    addIf(`${EQ}url${EQ}:${EQ}/assets/cms/resource/${EQ}`, `${EQ}url${EQ}:${EQ}/case-studies${EQ}`);
   }
 
   // --- one case per donor card ---
@@ -2705,7 +2710,315 @@ export function applyTestimonialFlightFix(html) {
     return out;
   } catch { return html; }
 }
-// Every /project/<slug>/ file in dist/ was captured from the same donor
+
+// applyTestimonialFlightFix restates the descriptive facts on a quote
+// (participants / sector / city / link) and deliberately leaves the attribution
+// alone, because those are the fields the client edits through the CMS. On the
+// three /service/* lanes that rationale backfired: the attribution was never
+// StillCraft's to begin with. Each lane still published the donor's carousel -
+// real people's names, their staff photographs, their employers' job titles and
+// the quotes those employers gave the donor - as if StillCraft had run those
+// campaigns. A mall cover had already been swapped in for the logo, so the page
+// claimed "UEFA" above a picture of a shopping centre.
+//
+// The whole attribution is therefore restated from PLACEHOLDER_TESTIMONIALS,
+// the same placeholder set the case pages and the CMS prefill already use: an
+// explicitly unconfirmed name, a generic role, the mall the case was run at, and
+// a quote marked Placeholder. Nothing is invented, and the donor's staff photos
+// and trademarks stop shipping on the page.
+//
+// Runs before applyStructuredCMS, so a testimonial saved in the admin still
+// wins over all of this.
+export function applyTestimonialClientFix(html) {
+  try {
+    if (html.indexOf('testimonialTemplate') < 0) return html;
+    const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
+    const delim = 'self.__next_f.push(';
+    const parts = html.split(delim);
+    const KEY = /\\"testimonialTemplate\\":\{/g;
+    const q = (v) => `\\"${String(v).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}\\"`;
+    let out = parts[0];
+    for (let i = 1; i < parts.length; i++) {
+      const seg = parts[i];
+      const nodes = [...seg.matchAll(KEY)];
+      // One edit per item: the node body (quote / role / org) and the
+      // attribution that sits just before it. Both offsets are taken from the
+      // original segment and applied back to front.
+      const edits = [];
+      for (const m of nodes) {
+        const c = CASE[(seg.slice(0, m.index).match(KEY) || []).length % CASE.length];
+        const d = PLACEHOLDER_TESTIMONIALS[(seg.slice(0, m.index).match(KEY) || []).length % PLACEHOLDER_TESTIMONIALS.length];
+        if (!c || !d) continue;
+
+        let depth = 0, j = m.index + m[0].length - 1, inStr = false;
+        for (; j < seg.length; j++) {
+          const ch = seg[j];
+          if (ch === '\\') { j++; continue; }
+          if (ch === '"') { inStr = !inStr; continue; }
+          if (inStr) continue;
+          if (ch === '{') depth++;
+          else if (ch === '}' && --depth === 0) break;
+        }
+        if (j >= seg.length) continue;
+
+        // 1) the attribution preceding the node: the person's name and photo.
+        // Anchored to this node by searching only the text immediately around
+        // it - a segment holds several carousel items, so a segment-wide match
+        // would attach every node to the first item's name and photo. The
+        // window has to reach past m.index, because the pattern it is matched
+        // with ends on the key that starts there.
+        const cover = `/assets/stillcraft/mall-case/${c.slug}/cover.svg`;
+        const from0 = Math.max(0, m.index - 400);
+        const win = seg.slice(from0, m.index + m[0].length);
+        const pre = /\\"title\\":\\"([^"\\]*)\\",\\"featuredImage\\":\{\\"node\\":\{\\"sourceUrl\\":\\"([^"\\]*)\\"\}\},\\"testimonialTemplate\\":\{$/.exec(win);
+        if (pre) {
+          const at = from0 + pre.index;
+          const nb = `\\"title\\":${q(d.name)},\\"featuredImage\\":{\\"node\\":{\\"sourceUrl\\":${q(cover)}}},\\"testimonialTemplate\\":{`;
+          edits.push([at, pre[0], nb]);
+        }
+
+        // 2) the node body: the quote, the role and the employer.
+        const start = m.index + m[0].length;
+        const body = seg.slice(start, j);
+        const nb = body
+          .replace(/\\"testimonial\\":\\"(?:[^"\\]|\\.)*\\"/, `\\"testimonial\\":${q(d.quote)}`)
+          .replace(/\\"role\\":\\"(?:[^"\\]|\\.)*\\"/, `\\"role\\":${q(d.role)}`)
+          .replace(/\\"organization\\":\{\\"name\\":\\"(?:[^"\\]|\\.)*\\"/, `\\"organization\\":{\\"name\\":${q(d.org)}`);
+        if (nb !== body) edits.push([start, body, nb]);
+      }
+      // Highest offset first, so nothing shifts underneath an earlier edit.
+      edits.sort((a, b) => b[0] - a[0]);
+      let s = seg;
+      for (const [at, from, to] of edits) {
+        if (s.slice(at, at + from.length) !== from) continue;
+        s = s.slice(0, at) + to + s.slice(at + from.length);
+      }
+      out += delim + s;
+    }
+    if (out === html) return html;
+    try { if (verifyFlight(out).bad > badBefore) return html; } catch { return html; }
+    return out;
+  } catch { return html; }
+}
+
+// A handful of images are referenced by the captured markup but were never
+// committed to dist/ - the capture pulled the page without pulling every asset
+// it names. They are preloaded on every case page, so the browser requests them
+// and gets a 404 before rendering anything. Re-point each one at the case cover
+// the page has already loaded, which keeps the markup valid and stops the
+// request. Listed explicitly rather than probed on disk, because a stat() per
+// referenced image on every request would cost more than the 404s do.
+const MISSING_ASSETS = ['/assets/cms/wp-content/uploads/2025/08/Events-StillCraft%20Events%20Co..jpg'];
+export function applyMissingAssetFix(html, page) {
+  try {
+    if (!html.includes('Events-StillCraft%20Events%20Co..jpg')) return html;
+    const m = /^\/project\/([a-z0-9-]+)\/?$/.exec(String(page || ''));
+    const c = m ? CASE.find((x) => x.slug === m[1]) : CASE[0];
+    if (!c) return html;
+    const cover = `/assets/stillcraft/mall-case/${c.slug}/cover.svg`;
+    let out = html;
+    for (const a of MISSING_ASSETS) out = out.split(a).join(cover);
+    if (out === html) return html;
+    try { if (verifyFlight(out).bad > verifyFlight(html).bad) return html; } catch { return html; }
+    return out;
+  } catch { return html; }
+}
+// The three service lanes already resolve to the case library in the payload -
+// every card slug on /service/events, /service/exhibits and /service/congresses
+// is one of the eleven StillCraft cases. Their static pre-render was left behind
+// by the conversion, though, and still described the donor's engagements: an
+// ISE stand, an Integrated Systems Europe show-leadership entry, an Menzies
+// congress in Costa Brava, a "five-day hackathon" of 200 international
+// participants. Left alone, the page shipped donor client work, named the
+// donor's trade shows, and contradicted its own payload on first paint.
+//
+// Each affected block is restated from the case its card already points at, so
+// the static text and the payload describe the same StillCraft work and no
+// project is invented. The exhibits lane intro is plain text rather than a
+// line-slot block, so it is handled by a direct replacement.
+const DONOR_ENTITY = new RegExp(
+  '\\b(?:ISE|MWC|ICE|Integrated Systems Europe|Menzies|NOVOMATIC|Adevinta|CordenPharma|Radisys' +
+  '|Ampetronic|Euroleague|UEFA|Pfizer|Turkish Airlines|VEEAM|FedEx|Rakuten|Costa Brava' +
+  '|VIP360|epayclub)\\b|hackathon', 'i');
+// The exhibits lane intro named two of the donor's trade shows. It is a single
+// paragraph of plain text in the static markup (not a line-slot block, and not
+// present in the payload at all), so it is replaced directly.
+const EXHIBITS_DESCRIPTION_OLD = 'Whether it\u2019s ISE, MWC, or a niche industry show, we deliver booths that combine creativity with flawless execution.';
+const EXHIBITS_DESCRIPTION_NEW = 'Whether it\u2019s a flagship industry show or a niche one, we deliver stands that combine creativity with flawless execution.';
+export function applyServiceCopyFix(html) {
+  try {
+    const flightAt = html.indexOf('self.__next_f.push(');
+    if (flightAt < 0) return html;
+    let stat = html.slice(0, flightAt).split(EXHIBITS_DESCRIPTION_OLD).join(EXHIBITS_DESCRIPTION_NEW);
+    const rest = html.slice(flightAt);
+    const re = /<p\b[^>]*>/g;
+    const blocks = [];
+    let m, idx = 0;
+    while ((m = re.exec(stat))) {
+      const close = stat.indexOf('</p>', m.index);
+      if (close < 0) break;
+      const seg = stat.slice(m.index, close);
+      if (seg.includes('line fix-clip')) {
+        const lines = [...seg.matchAll(/(<div class="line fix-clip"[^>]*>)([\s\S]*?)(<\/div>)/g)]
+          .map((x) => ({ at: m.index + x.index, len: x[0].length, open: x[1], close: x[3], text: x[2] }));
+        const text = lines.map((l) => l.text.replace(/<!-- -->/g, '').trim()).join(' ');
+        if (lines.length >= 2 && DONOR_ENTITY.test(text)) {
+          const c = CASE[idx % CASE.length];
+          if (c) blocks.push({ lines, c });
+          idx++;
+        }
+      }
+      re.lastIndex = close;
+    }
+    // Last to first: rewriting a block shifts everything after it.
+    for (let i = blocks.length - 1; i >= 0; i--) {
+      const { lines, c } = blocks[i];
+      let s = setQuoteLines(stat, lines, c.excerpt);
+      // The case title takes the first line, the excerpt the rest.
+      const first = lines[0];
+      s = s.slice(0, first.at) + first.open + teaserEscape(c.title) + first.close + s.slice(first.at + first.len);
+      stat = s;
+    }
+    return stat + rest;
+  } catch { return html; }
+}
+
+// The payload quote is restated by applyTestimonialClientFix, but each quote is
+// also pre-rendered in the static markup as a fixed set of line divs, and those
+// still carried the donor's words: "this UCL Final", "The 2025 Final Four in
+// Abu Dhabi", "collaborating with them on ISE". The line count is dictated by
+// the markup, so the replacement is re-flowed word by word into the same
+// budgets rather than reflowed by the browser - otherwise the reveal animation
+// masks the wrong number of lines.
+//
+// The donor's employer also survives as a bare chip in the same static run as
+// the detail grid ("Pfizer" printed under a location). The grid pass above
+// deliberately stops at the four published groups, so the chip is replaced here
+// instead, where the donor name is already known to be the donor's.
+//
+// Static only: both live before the first flight push, so no row length prefix
+// is touched.
+const DONOR_ORGS = new Set([
+  'UEFA', 'Euroleague', 'Pfizer', 'CordenPharma', 'CordenPharma International',
+  'Radisys', 'Ampetronic', 'Ampetronic | Listen Technologies', 'Menzies',
+  'Adevinta', 'Midas Console',
+]);
+export function applyServiceQuoteFix(html) {
+  try {
+    const flightAt = html.indexOf('self.__next_f.push(');
+    if (flightAt < 0) return html;
+    const stat = html.slice(0, flightAt);
+    let out = stat;
+
+    // 1) quote blocks, in the same order as the payload's testimonial nodes.
+    // Collected first, then applied last-to-first: rewriting a block changes the
+    // length of everything after it, so applying them in document order would
+    // splice later blocks at offsets taken from the pre-rewrite string.
+    const re = /<p\b[^>]*>/g;
+    const blocks = [];
+    let m;
+    while ((m = re.exec(stat))) {
+      const close = stat.indexOf('</p>', m.index);
+      if (close < 0) break;
+      const seg = stat.slice(m.index, close);
+      if (seg.includes('line fix-clip')) {
+        const lines = [...seg.matchAll(/(<div class="line fix-clip"[^>]*>)([\s\S]*?)(<\/div>)/g)]
+          .map((x) => ({ at: m.index + x.index, len: x[0].length, open: x[1], close: x[3], text: x[2] }));
+        const text = lines.map((l) => l.text.replace(/<!-- -->/g, '').trim()).join(' ');
+        // A quote is a run of three or more lines carrying quotation marks; the
+        // one- and two-line runs in the same markup are headings and chips.
+        if (lines.length >= 3 && /[\u201c\u201d"]/.test(text)) blocks.push(lines);
+      }
+      re.lastIndex = close;
+    }
+    for (let i = blocks.length - 1; i >= 0; i--) {
+      const d = PLACEHOLDER_TESTIMONIALS[i % PLACEHOLDER_TESTIMONIALS.length];
+      if (d) out = setQuoteLines(out, blocks[i], d.quote);
+    }
+
+    // 2) donor employer chips in the static detail grid run.
+    out = out.replace(/(<span\b[^>]*class="css-1kjo4sp"[^>]*>)([^<]+)(<\/span>)/g, (full, a, text, c) => {
+      const t = text.trim();
+      if (!DONOR_ORGS.has(t)) return full;
+      const d = PLACEHOLDER_TESTIMONIALS[0];
+      return a + teaserEscape(d.org) + c;
+    });
+
+    if (out === stat) return html;
+    return out + html.slice(flightAt);
+  } catch { return html; }
+}
+
+// Re-flow `newText` across an existing quote block's line slots, respecting each
+// line's original character budget so the reveal animation keeps its geometry.
+function setQuoteLines(html, lines, newText) {
+  const budgets = lines.map((l) => l.text.replace(/<!-- -->/g, '').trim().length);
+  const words = String(newText).split(/\s+/).filter(Boolean);
+  const chunks = budgets.map(() => []);
+  let w = 0;
+  for (let i = 0; i < chunks.length && w < words.length; i++) {
+    let used = 0;
+    while (w < words.length) {
+      const need = words[w].length + (chunks[i].length ? 1 : 0);
+      // Always place one word per line, then respect the budget.
+      if (chunks[i].length && used + need > budgets[i]) break;
+      chunks[i].push(words[w]);
+      used += need;
+      w++;
+    }
+  }
+  // Anything left over goes on the last line rather than being dropped.
+  if (w < words.length && chunks.length) chunks[chunks.length - 1].push(...words.slice(w));
+
+  let out = html;
+  for (let i = lines.length - 1; i >= 0; i--) {
+    const l = lines[i];
+    const text = (chunks[i] || []).join(' ');
+    out = out.slice(0, l.at) + l.open + teaserEscape(text) + l.close + out.slice(l.at + l.len);
+  }
+  return out;
+}
+
+// photographs are also referenced outside the payload: the static markup
+// preloads each testimonial portrait up front (<link rel="preload"> and the
+// matching <img srcset>), so every service lane and the home page still
+// shipped the donor's team members' faces even with the names replaced. The
+// rendered photo now comes from the payload, so these are preload hints only -
+// re-pointing them at the mall cover keeps the DOM shape, drops the preloads of
+// images the page no longer shows, and stops the donor's photos being
+// requested at all.
+//
+// Listed by file name because the whole directory is the donor's upload tree;
+// matching the name anywhere catches every year/month copy of it.
+const DONOR_STAFF_IMAGES = new Set([
+  'Adel-Kertesz-UEFA.jpg', 'Bruno-Sciamanna.jpg', 'Camilla-Di-Zenzo.jpg',
+  'Camilla-Di-Zenzo-scaled.jpg', 'Costanza-Rota.jpg', 'Ella-McClary.jpg',
+  'Jo-Harrison.jpg', 'Leonardo-Mantovani.jpg', 'Marco-Leira.jpg',
+  'Theresa-Ruivo.jpg', '1517441658058.jpg',
+]);
+const CMS_UPLOAD = /\/assets\/cms\/wp-content\/uploads\/[^"'\\ )]*\/([^/"'\\ )]+?\.(?:jpg|jpeg|png|webp|svg))/g;
+export function applyDonorStaffImageFix(html) {
+  try {
+    if (html.indexOf('/assets/cms/wp-content/uploads/') < 0) return html;
+    const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
+    let k = 0;
+    const swap = (s) => s.replace(CMS_UPLOAD, (full, name) => {
+      if (!DONOR_STAFF_IMAGES.has(name)) return full;
+      const c = CASE[k % CASE.length];
+      k++;
+      return c ? `/assets/stillcraft/mall-case/${c.slug}/cover.svg` : full;
+    });
+    // The payload's length prefixes make a same-length swap impossible here, so
+    // the flight half is only kept if the row structure still verifies; the
+    // static half is unconditional.
+    const out = swap(html);
+    if (out !== html) {
+      try { if (verifyFlight(out).bad > badBefore) return swap(html.slice(0, html.indexOf('self.__next_f.push('))); } catch { /* keep */ }
+    }
+    return out;
+  } catch { return html; }
+}
+
 // template page, so the RSC payload still announced the donor route
 // (`"c":["","project","ypo-global-event"]` and the matching `["slug", ...]`).
 // The visible copy is rewritten per case, but the payload disagreed with the
@@ -3637,6 +3950,10 @@ export function applyHomeStatic(html) {
   html = applyAboutCrewRemove(html);
   html = applyTestimonialBandFix(html);
   html = applyTestimonialFlightFix(html);
+  html = applyTestimonialClientFix(html);
+  html = applyDonorStaffImageFix(html);
+  html = applyServiceQuoteFix(html);
+  html = applyServiceCopyFix(html);
   html = applyLogosFix(html, []);
   html = applyFooterSingleOffice(html);
   html = applyHighlightsFix(html, '/');

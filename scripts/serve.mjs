@@ -18,7 +18,7 @@ import {
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
   applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash, applyStyleBlocks,
-  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyAboutCrewRemove, applyServiceCitiesFix, applyTestimonialBandFix, applyTestimonialFlightFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyProjectCardsFix, applyCaseRouteSlug, applyCaseMetaFix, applyCaseNarrative, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyAboutCrewRemove, applyServiceCitiesFix, applyTestimonialBandFix, applyTestimonialFlightFix, applyTestimonialClientFix, applyDonorStaffImageFix, applyServiceQuoteFix, applyServiceCopyFix, applyMissingAssetFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyProjectCardsFix, applyCaseRouteSlug, applyCaseMetaFix, applyCaseNarrative, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, normalizeChunkRefs,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
@@ -514,6 +514,10 @@ const server = http.createServer(async (req, res) => {
       // structured pass is a no-op and the scrub still stands.
       html = applyTestimonialBandFix(html);
       html = applyTestimonialFlightFix(html);
+      html = applyTestimonialClientFix(html);
+      html = applyDonorStaffImageFix(html);
+      html = applyServiceQuoteFix(html);
+      html = applyServiceCopyFix(html);
       __dbg_step('testimonialBandFix');
       if (__cms) html = await applyStructuredCMS(html, __cms, key);
       __dbg_step('cms');
@@ -549,7 +553,7 @@ const server = http.createServer(async (req, res) => {
       __dbg_step('cardTitlesFix');
       html = applyProjectCardsFix(html);
       html = applyCaseRouteSlug(html, key);
-  html = applyCaseMetaFix(html, key);
+      html = applyCaseMetaFix(html, key);
       __dbg_step('caseMetaFix');
       html = applyFooterAddresses(html);
       __dbg_step('footerAddresses');
@@ -582,6 +586,7 @@ const server = http.createServer(async (req, res) => {
       __dbg_step('removeStaleProjectCards');
       html = applySplash(html, key);
       __dbg_step('splash');
+      html = applyMissingAssetFix(html, key);
       html = applyFooterFix(html, key);
       __dbg_step('footerFix');
       // Saved copy, applied after every built-in fix: the database is the last
