@@ -93,6 +93,7 @@ const TITLE_MAP = {
   '/service/events': 'Brand Activations | StillCraft Events',
   '/service/exhibits': 'Mall Calendar Programming | StillCraft Events',
   '/projects': 'Projects | Case Studies | StillCraft Events',
+  '/case-studies': 'Case Studies | Mall Activations & Event Production | StillCraft Events',
   '/contact': 'Contact | Start Your Project | StillCraft Events',
   '/service/congresses': 'Mall Space Monetization | StillCraft Events',
 };
@@ -2134,6 +2135,46 @@ export function applyCaseMetaFix(html, page) {
     if (out === html) return html;
     try { if (verifyFlight(out).bad > badBefore) return html; } catch { return html; }
     return out;
+  } catch { return html; }
+}
+
+// Case detail pages shipped the narrative as a label heading + body paragraph:
+// "The Situation" / "What We Did" / "The Result". Those headings were noise the
+// client did not want, and worse, the data-sc-id (t-27/28/29) the admin CMS
+// reads sat on the HEADING, not the paragraph, so the admin pre-filled the
+// label text instead of the case copy. Drop the headings and move the id onto
+// the paragraph that follows so the admin edits the real prose. The narrative
+// blocks are server-rendered only (they do not appear in the flight payload),
+// so this is a static-markup edit and does not disturb React hydration.
+export function applyCaseNarrative(html, page) {
+  try {
+    const m = /^\/project\/([a-z0-9-]+)\/?$/.exec(String(page || ''));
+    if (!m) return html;
+    if (!CASE_BY_IDX.find((x) => x.slug === m[1])) return html;
+    let out = html;
+    let touched = false;
+    for (const id of ['t-27', 't-28', 't-29']) {
+      // The label heading, e.g. <h6 data-sc-id="t-27" ...>The Situation</h6>
+      const hRe = new RegExp('<h6\\b[^>]*\\bdata-sc-id="' + id + '"[^>]*>[\\s\\S]*?<\\/h6>');
+      const hm = hRe.exec(out);
+      if (!hm) continue;
+      // Re-tag the id onto the first narrative paragraph after the heading, so
+      // extractProjects() keeps resolving to the case prose rather than nothing.
+      const pRe = /<div class="Paragraph_paragraph__[^"]*"/g;
+      pRe.lastIndex = hm.index + hm[0].length;
+      const pm = pRe.exec(out);
+      if (pm && !/data-sc-id=/.test(pm[0])) {
+        out = out.slice(0, pm.index) + pm[0] + ' data-sc-id="' + id + '"' + out.slice(pm.index + pm[0].length);
+        touched = true;
+      }
+      // Re-find the heading (paragraph insert shifted nothing before it) and drop it.
+      const hm2 = hRe.exec(out);
+      if (hm2) {
+        out = out.slice(0, hm2.index) + out.slice(hm2.index + hm2[0].length);
+        touched = true;
+      }
+    }
+    return touched ? out : html;
   } catch { return html; }
 }
 export function applyLogosFix(html, items) {

@@ -18,7 +18,7 @@ import {
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
   applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash, applyStyleBlocks,
-  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, applyCaseNarrative, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, normalizeChunkRefs,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
@@ -357,9 +357,10 @@ const server = http.createServer(async (req, res) => {
       res.end();
       return;
     }
-    // blog removed - redirect to contact
+    // blog replaced by case studies: the old insight listing + post URLs now
+    // resolve to the case-study library.
     if (pathname === '/insights' || pathname.startsWith('/insights/') || pathname === '/insight' || pathname.startsWith('/insight/')) {
-      res.writeHead(302, { Location: '/contact', 'Access-Control-Allow-Origin': '*' });
+      res.writeHead(302, { Location: '/case-studies', 'Access-Control-Allow-Origin': '*' });
       res.end();
       return;
     }
@@ -425,8 +426,15 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
+    // /case-studies is the public face of the case library. It reuses the
+    // /projects listing body (which already renders the 11 StillCraft cases,
+    // each linking to /project/<slug>) but keeps its own page key so the
+    // canonical URL and <title> read /case-studies, not /projects.
+    const CASE_STUDIES_ALIAS = pathname === '/case-studies' || pathname === '/case-studies/';
+
     // ----- static / pages -----
     let lookup = pathname;
+    if (CASE_STUDIES_ALIAS) lookup = '/projects';
     if (lookup.endsWith('/')) lookup += 'index.html';
     for (const f of resolveFile(lookup)) {
       if (f.toLowerCase().endsWith('.html')) continue; // HTML goes through brand/override pipeline below
@@ -488,6 +496,8 @@ const server = http.createServer(async (req, res) => {
       const __heroPos = posterFor(__heroUrl) || HERO_POSTER_URL;
       html = applyHeroVideo(html, __heroUrl, __heroMob, __heroPos);
       __dbg_step('heroVideo');
+      html = applyCaseNarrative(html, key);
+      __dbg_step('caseNarrative');
       if (__cms) html = await applyStructuredCMS(html, __cms, key);
       __dbg_step('cms');
       html = applyStatsFix(html);

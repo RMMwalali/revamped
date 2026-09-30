@@ -3,13 +3,14 @@
 // that advertises a URL which 404s or 302s is worse than none at all.
 //
 // The retired donor insight URLs and the stale project slugs are deliberately
-// absent: they redirect to /contact, and listing a redirect target invites
+// absent: they redirect to /case-studies, and listing a redirect target invites
 // crawlers to index the wrong page.
 import { allCases } from './stillcraft-cases.mjs';
 
 // Ordered by importance: home and the money pages first, cases after.
 const STATIC_ROUTES = [
   ['/', '1.0', 'weekly'],
+  ['/case-studies', '0.9', 'weekly'],
   ['/projects', '0.9', 'weekly'],
   ['/service/events', '0.8', 'monthly'],
   ['/service/exhibits', '0.8', 'monthly'],

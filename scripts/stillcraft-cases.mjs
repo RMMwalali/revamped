@@ -316,6 +316,37 @@ export const PARTNER_LOGOS = [
   { name: 'Westgate Shopping Mall', src: '/assets/custom/WESTGATE%20SHOPPING%20MALL.png' },
 ];
 
+// The client of each case study, and the partnership-logo-folder asset that
+// belongs to it. The testimonial carousel used to pick a logo by SLIDE INDEX
+// (PARTNER_LOGOS[i % n]), so every slide showed some other client's mark
+// (Galleria -> Carrefour, Westgate -> Radio Africa). Logos are now resolved by
+// the case's actual client, so a slide only ever shows that client's own logo.
+//
+// Southfield Mall is a real StillCraft client (5 of the 11 cases) and had no
+// asset in the folder, so those slides had nothing correct to show. It maps to
+// a neutral wordmark placeholder; upload the real mark via the admin (or drop
+// it in dist/assets/custom/ and point this entry at it) to replace it.
+export const CLIENT_LOGO = {
+  'Galleria Mall': '/assets/custom/GALLERIA%20SHOPPING%20MALL.png',
+  'Westgate Mall': '/assets/custom/WESTGATE%20SHOPPING%20MALL.png',
+  'Sarit Centre': '/assets/custom/SARIT%20CENTER.png',
+  'Southfield Mall': '/assets/custom/SOUTHFIELD%20MALL.svg',
+};
+
+// Fallback if a case ever references a client with no logo yet: the StillCraft
+// mark. Never another client's logo - showing a rival's mark on a testimonial
+// is worse than showing our own.
+const FALLBACK_LOGO = '/assets/custom/stillcraft-logo.png';
+
+export function clientLogoFor(org) {
+  if (!org) return FALLBACK_LOGO;
+  const key = String(org).trim().toLowerCase();
+  for (const [name, src] of Object.entries(CLIENT_LOGO)) {
+    if (name.trim().toLowerCase() === key) return src;
+  }
+  return FALLBACK_LOGO;
+}
+
 // Testimonial band copy, one entry per carousel slide, in the same order as
 // CASE: slide N's "see full case study" link points at CASE[N], so the quote on
 // a slide describes the case that link opens.

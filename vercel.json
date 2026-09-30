@@ -35,22 +35,22 @@
     },
     {
       "source": "/insights/:path*",
-      "destination": "/contact",
+      "destination": "/case-studies",
       "statusCode": 302
     },
     {
       "source": "/insights",
-      "destination": "/contact",
+      "destination": "/case-studies",
       "statusCode": 302
     },
     {
       "source": "/insight/:path*",
-      "destination": "/contact",
+      "destination": "/case-studies",
       "statusCode": 302
     },
     {
       "source": "/insight",
-      "destination": "/contact",
+      "destination": "/case-studies",
       "statusCode": 302
     }
   ],

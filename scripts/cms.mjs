@@ -11,7 +11,7 @@ import { readStore, writeStore } from './storage.mjs';
 import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
-import { PARTNER_LOGOS, PLACEHOLDER_TESTIMONIALS, allCases } from './stillcraft-cases.mjs';
+import { PARTNER_LOGOS, PLACEHOLDER_TESTIMONIALS, allCases, clientLogoFor } from './stillcraft-cases.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
 import { safeReplace, safeReplaceVerified, boundedSplitJoin, findEdgesArrays, splitTopObjects, splitTopArrays, matchBracketRaw, verifyFlight } from './flight.mjs';
 
@@ -706,8 +706,13 @@ function swapUrlInRange(html, start, end, oldUrl, newUrl) {
 // The partner logo that stands in for slide `i`. Slides cycle the list, so a
 // page with more slides than logos still gets a real client mark.
 function partnerLogoAt(i) {
-  if (!PARTNER_LOGOS.length) return '';
-  return PARTNER_LOGOS[((i % PARTNER_LOGOS.length) + PARTNER_LOGOS.length) % PARTNER_LOGOS.length].src;
+  // Resolve by the slide's actual client, not by slide index. The index-based
+  // version (PARTNER_LOGOS[i % n]) showed every slide a different client's
+  // mark: the Galleria slide rendered Carrefour, Westgate rendered Radio
+  // Africa, and the five Southfield Mall cases rendered Junction / Village /
+  // Two Rivers / Westgate / Carrefour in turn.
+  const org = (PLACEHOLDER_TESTIMONIALS[i] || {}).org || '';
+  return clientLogoFor(org);
 }
 // Each slide's "see full case study" link. The donor's point at donor project
 // slugs, so they are repointed at a real StillCraft case, cycling in the same
@@ -805,17 +810,26 @@ function applyTestimonials(html, items) {
     if (node) {
       // The donor's organisation logos and the headshots of the people who
       // gave the quotes are donor assets, so they are replaced with the
-      // StillCraft partner logo for this slide whether or not the admin set
-      // one. An admin-supplied logo or photo still wins - unless it is itself
-      // donor artwork, which happens when an old record is re-saved verbatim:
-      // the CMS store is not in version control, so a record saved before the
-      // donor's assets were purged still names them, and re-saving that record
-      // would otherwise put a donor photograph back on the page.
+      // StillCraft client logo for this slide. An admin-supplied logo or photo
+      // always wins - unless it is itself donor artwork, which happens when an
+      // old record is re-saved verbatim: the CMS store is not in version
+      // control, so a record saved before the donor's assets were purged still
+      // names them, and re-saving that record would otherwise put a donor
+      // photograph back on the page.
+      //
+      // The client logo is a PURGE FALLBACK, not an override. applyTestimonials
+      // runs after applyOverrides, so an image the admin saved through the
+      // inline editbar is already in the HTML by the time this reads it. When
+      // the current value is already a real asset (an upload under
+      // /assets/custom/, a Vercel Blob URL, or a client logo from a previous
+      // save) it is left alone; previously the partner logo was applied
+      // unconditionally, so every saved image reverted to a partner logo on
+      // the next render and the admin's upload never appeared to save.
       for (const field of ['logo', 'photo']) {
         const oldV = String(cur[field] == null ? '' : cur[field]);
         if (!oldV) continue;
         const given = isDonorAsset(it[field]) ? '' : it[field];
-        const target = given || partnerLogoAt(i);
+        const target = given || (isDonorAsset(oldV) ? partnerLogoAt(i) : oldV);
         if (target !== oldV) html = swapUrlInRange(html, node.start, node.end, oldV, target);
       }
       // "See full case study": the donor links each quote at one of its own
@@ -840,9 +854,11 @@ function applyTestimonials(html, items) {
       }
     }
     // Static markup: the leader headshot sits in the slide's own <img>. The
-    // partner logo stands in for it so no donor photograph is served.
+    // client logo stands in for donor artwork so no donor photograph is
+    // served; an admin upload that is already in place is left as-is.
     if (cur.photo) {
-      const target = (isDonorAsset(it.photo) ? '' : it.photo) || partnerLogoAt(i);
+      const givenPhoto = isDonorAsset(it.photo) ? '' : it.photo;
+      const target = givenPhoto || (isDonorAsset(cur.photo) ? partnerLogoAt(i) : cur.photo);
       if (target !== cur.photo) html = swapUrlInRange(html, 0, html.length, cur.photo, target);
     }
     // The slide's event logo is donor artwork on one slide and a StillCraft
@@ -876,6 +892,46 @@ function applyTestimonials(html, items) {
     // still shows the donor quote even after the CMS clears it.
     const qb = quotes()[i];
     if (qb) html = setQuoteLines(html, qb, it.quote);
+  }
+  // Deterministic client-logo pass. The per-slide swaps above mix node-scoped
+  // and document-wide (0..html.length) URL replacements, so a URL that appears
+  // on more than one slide can be rewritten by a neighbour's pass before its
+  // own slide reads it - which is how the Westgate slide ended up wearing the
+  // Southfield logo. Resolving each node's organisation logo from the node's
+  // OWN "see full case study" link is immune to that, because the case slug
+  // only ever appears inside its own slide. An admin-supplied logo still wins.
+  html = applyClientLogosByCase(html, want);
+  return html;
+}
+
+// Set every testimonial node's client logo from the case its own link points
+// at. Scoped to the node and keyed off that node's link URL, so no swap on a
+// different slide can leak in.
+function applyClientLogosByCase(html, want) {
+  try {
+    const bySlug = new Map(allCases().map((c) => [c.slug, c]));
+    for (let i = 0; i < want.length; i++) {
+      const it = want[i] || {};
+      const node = testimonialNodes(html)[i];
+      if (!node) continue;
+      const nodeHtml = html.slice(node.start, node.end);
+      const lm = /url\\":\\"([^\\"]*)/.exec(nodeHtml);
+      if (!lm) continue;
+      const slug = /\/project\/([a-z0-9-]+)/.exec(lm[1]);
+      const c = slug && bySlug.get(slug[1]);
+      if (!c) continue;
+      // The admin's own upload/logo for this slide wins over the derived one.
+      const given = isDonorAsset(it.logo) ? '' : it.logo;
+      const target = given || clientLogoFor(c.location.replace(/,.*$/, ''));
+      // Rewrite the organization logo sourceUrl inside this node only.
+      const m = /logo[\s\S]{0,60}?sourceUrl\\":\\"([^\\"]*)/.exec(nodeHtml);
+      if (!m) continue;
+      const abs = node.start + m.index + m[0].length - m[1].length;
+      if (m[1] === target) continue;
+      html = html.slice(0, abs) + target + html.slice(abs + m[1].length);
+    }
+  } catch (e) {
+    if (process.env.SC_DEBUG) console.error('[cms] applyClientLogosByCase:', (e && e.message) || e);
   }
   return html;
 }

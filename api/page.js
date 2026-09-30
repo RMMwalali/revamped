@@ -6,7 +6,7 @@ import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, 
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash,
-  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
+  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix, applyCaseNarrative, applyAboutTeamRemove, applyAboutTeamReplace,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
@@ -46,6 +46,9 @@ async function serveHtml(pathname, cookies, host) {
   }
   if (process.env.VERCEL && isAdmin) { bustBrand(); bustOverrides(); bustCMS(); }
   let lookup = pathname;
+  // /case-studies reuses the /projects listing body but keeps its own page key
+  // (canonical + title). Keep in lockstep with serve.mjs.
+  if (pathname === '/case-studies' || pathname === '/case-studies/') lookup = '/projects';
   if (lookup.endsWith('/')) lookup += 'index.html';
   const tries = [];
   if (lookup.endsWith('.html') || path.extname(lookup) === '') {
@@ -82,6 +85,7 @@ async function serveHtml(pathname, cookies, host) {
     const __heroMob = (__cms && __cms.hero && __cms.hero.video_mobile_url) || mobileFor(__heroUrl) || HERO_VIDEO_MOBILE_URL;
     const __heroPos = posterFor(__heroUrl) || HERO_POSTER_URL;
     html = applyHeroVideo(html, __heroUrl, __heroMob, __heroPos);
+    html = applyCaseNarrative(html, key);
     if (__cms) html = await applyStructuredCMS(html, __cms, key);
     html = applyStatsFix(html);
     html = applyCitiesFix(html);
@@ -182,7 +186,7 @@ export default async function handler(req, res) {
       return;
     }
     if (pathname === '/insights' || pathname.startsWith('/insights/') || pathname === '/insight' || pathname.startsWith('/insight/')) {
-      res.writeHead(302, { Location: '/contact' });
+      res.writeHead(302, { Location: '/case-studies' });
       res.end();
       return;
     }
