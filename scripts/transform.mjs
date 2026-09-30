@@ -45,9 +45,23 @@ function applyContentFlight(html, page) {
 }
 
 // ---------- brand cache (StillCraft defaults win when DB is down/empty) ----------
-export const HERO_VIDEO_URL = 'https://res.cloudinary.com/dtnbwgpca/video/upload/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4';
-export const HERO_VIDEO_MOBILE_URL = 'https://res.cloudinary.com/dtnbwgpca/video/upload/q_auto,w_640/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4';
-export const HERO_POSTER_URL = 'https://res.cloudinary.com/dtnbwgpca/video/upload/so_0,w_1280,q_auto/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.jpg';
+// The hero video and poster ship with the site. They used to default to the
+// donor's own Cloudinary account, which left every visitor fetching - and every
+// crawler indexing - a third-party asset we do not control.
+export const HERO_VIDEO_URL = '/assets/custom/stillcraft-hero.mp4';
+export const HERO_VIDEO_MOBILE_URL = '/assets/custom/stillcraft-hero.mp4';
+export const HERO_POSTER_URL = '/assets/stillcraft/mall-case/easter-at-galleria-mall/cover.svg';
+
+// Every donor-hosted hero URL that can appear in the served markup: the <video>
+// and its poster, the preload hints, and og:image / twitter:image. Replacing
+// the values passed to applyHeroVideo is not enough on its own - those tags are
+// written by the donor's build and are not part of the flight rows.
+const DONOR_HERO_URLS = [
+  'https://res.cloudinary.com/dtnbwgpca/video/upload/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4',
+  'https://res.cloudinary.com/dtnbwgpca/video/upload/q_auto,w_640/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4',
+  'https://res.cloudinary.com/dtnbwgpca/video/upload/so_0,w_1280,q_auto/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.jpg',
+  'https://res.cloudinary.com/dtnbwgpca/video/upload/so_auto,w_1280,q_auto/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.jpg',
+];
 const BRAND_DEFAULTS = {
   site_name: 'StillCraft Events',
   tagline: 'Step into the Spotlight',
@@ -331,7 +345,11 @@ function posterFor(url) {
   return head + 'so_0,w_1280,q_auto/' + tail;
 }
 function applyHeroVideo(html, desktop, mobile, poster) {
-  const dUrl = resolveHeroUrl(desktop);
+  // A value seeded before the donor was retired (brand settings, CMS hero) must
+  // not win over the local asset, or the donor's CDN comes straight back.
+  const local = (v) => (DONOR_HERO_URLS.some((u) => String(v || '').indexOf(u) >= 0) ? '' : v);
+  desktop = local(desktop); mobile = local(mobile); poster = local(poster);
+  const dUrl = resolveHeroUrl(desktop) || HERO_VIDEO_URL;
   const mUrl = resolveHeroUrl(mobile || mobileFor(dUrl));
   const pUrl = String(poster || posterFor(dUrl)).trim();
   const jobs = [['reelUrl', dUrl], ['reelMobileUrl', mUrl]];
@@ -359,6 +377,16 @@ function applyHeroVideo(html, desktop, mobile, poster) {
   }
   if (pUrl) {
     html = html.replace(/(<video\b[^<>]*\sposter=")https:\/\/i\.vimeocdn\.com[^"]*(")/gi, '$1' + pUrl + '$2');
+  }
+  // og:image, twitter:image and the <link rel=preload> hints are written by the
+  // donor's build, outside the flight rows, so the reel* keys above never
+  // touched them - the donor's Cloudinary URLs stayed in the served markup and
+  // in the social preview. Repoint them too. These appear only as string
+  // values, so a plain swap cannot disturb the payload.
+  for (const from of DONOR_HERO_URLS) {
+    if (html.indexOf(from) < 0) continue;
+    const to = from.endsWith('.jpg') ? (pUrl || HERO_POSTER_URL) : (dUrl || HERO_VIDEO_URL);
+    html = html.split(from).join(to);
   }
   return html;
 }
@@ -971,15 +999,19 @@ function applyCaseTeaser(html) {
         // nodeHtml. The slug and title edits change the string length, and
         // slicing the body afterwards with stale offsets spliced the new copy
         // in without removing the old article.
-        // The value runs to the comma that starts the next key, and that slice
-        // also picks up the escaped quote that terminates the JSON string, so
-        // drop it or the row stops parsing.
+        // The value ends at the first escaped quote that is immediately followed by a
+        // JSON structural character. Anchoring on the NEXT KEY instead (this
+        // used to look for `,"insightTemplate"`) ate whatever sat in between -
+        // on the homepage that is `,"featuredImage":{"node":{"sourceUrl":...}` -
+        // and left an orphaned fragment inside the string, which is what made
+        // the whole flight row stop parsing and blanked the page. The closing
+        // `\"` is kept: it terminates the value.
         const cm = /\\"content\\":\\"/.exec(nodeHtml);
-        const tail = cm && /,\\?"insightTemplate\\?"/.exec(nodeHtml.slice(cm.index));
-        if (cm && tail) {
+        if (cm) {
           const valStart = cm.index + cm[0].length;
-          const valEnd = cm.index + tail.index;
-          if (valEnd > valStart) {
+          const close = /\\"(?=,|}|])/.exec(nodeHtml.slice(valStart));
+          if (close && close.index > 0) {
+            const valEnd = valStart + close.index;
             next = next.slice(0, valStart) + flightHtmlString(target.excerpt) + next.slice(valEnd);
           }
         }
@@ -2790,13 +2822,44 @@ export function applyTestimonialClientFix(html) {
         // of the value and swallows `,"client":{"role":...,"organization":{"name":...`
         // as well. That deleted four net closing braces per testimonial, unbalancing
         // the payload so React's flight parser threw and the page rendered blank. The
-        // lookahead accepts a `\"` only where a JSON value can actually end.
-        const VAL = '\\\\"(?:[^"\\\\]|\\\\.)*\\\\"(?=[,}\\\\]])';
+        // lookahead accepts a `\"` only where a JSON value can actually end, and the
+        // star must be LAZY - greedy lets `\\.` swallow the closing quote as an
+        // escape pair and then never lands back on it. The terminator set is
+        // written as an alternation, not a character class: `\]` inside a class
+        // built through RegExp() closes the class early, leaving a stray `]`
+        // after it, and the lookahead could then never match anything.
+        const VAL = '\\\\"(?:[^"\\\\]|\\\\.)*?\\\\"(?=,|}|])';
         const nb = body
           .replace(new RegExp('\\\\"testimonial\\\\":' + VAL), `\\"testimonial\\":${q(d.quote)}`)
           .replace(new RegExp('\\\\"role\\\\":' + VAL), `\\"role\\":${q(d.role)}`)
-          .replace(new RegExp('\\\\"organization\\\\":\\\\{\\\\"name\\\\":' + VAL), `\\"organization\\":{\\"name\\":${q(d.org)}`);
+          .replace(new RegExp('\\\\"organization\\\\":{\\\\"name\\\\":' + VAL), `\\"organization\\":{\\"name\\":${q(d.org)}`);
         if (nb !== body) edits.push([start, body, nb]);
+
+        // 3) the `client` object sits ALONGSIDE testimonialTemplate, not inside
+        // it, so the body pass above never saw it and the donor's client name
+        // and job title shipped in the payload (and to crawlers) even though the
+        // UI showed placeholders.
+        const cm2 = /,\\"client\\":\{/.exec(seg.slice(j));
+        if (cm2) {
+          const cs = j + cm2.index;
+          const cOpen = cs + cm2[0].length - 1;
+          let cd = 0, ce = -1, cInStr = false;
+          for (let t = cOpen; t < seg.length; t++) {
+            const ch = seg[t];
+            if (ch === '\\') { t++; continue; }
+            if (ch === '"') { cInStr = !cInStr; continue; }
+            if (cInStr) continue;
+            if (ch === '{') cd++;
+            else if (ch === '}' && --cd === 0) { ce = t + 1; break; }
+          }
+          if (ce > 0) {
+            const block = seg.slice(cs, ce);
+            const nb2 = block
+              .replace(new RegExp('\\\\"role\\\\":' + VAL), `\\"role\\":${q(d.role)}`)
+              .replace(new RegExp('\\\\"organization\\\\":{\\\\"name\\\\":' + VAL), `\\"organization\\":{\\"name\\":${q(d.org)}`);
+            if (nb2 !== block) edits.push([cs, block, nb2]);
+          }
+        }
       }
       // Highest offset first, so nothing shifts underneath an earlier edit.
       edits.sort((a, b) => b[0] - a[0]);
@@ -3015,6 +3078,37 @@ const DONOR_STAFF_IMAGES = new Set([
   'Theresa-Ruivo.jpg', '1517441658058.jpg',
 ]);
 const CMS_UPLOAD = /\/assets\/cms\/wp-content\/uploads\/[^"'\\ )]*\/([^/"'\\ )]+?\.(?:jpg|jpeg|png|webp|svg))/g;
+
+// Donor client logos and photographs still reach the page through the service
+// event sliders: as <img src>/<img srcset>, as <link rel="preload" imagesrcset>,
+// and in the alt text that names the client ("Pfizer CentreOne at CPHI...").
+// They all live under /assets/cms/wp-content/uploads/, so one pass can find them
+// by path, re-point them at the StillCraft case covers, and neutralise the alt
+// text. Runs after applyLogosFix: the logo wall drops its own donor slots, but
+// the per-page sliders keep whatever the donor CMS still names.
+const DONOR_ASSET_URL = /\/assets\/cms\/wp-content\/uploads\/[^"'\\\s)]*(?:pfizer|midas|uefa|euroleague|cordenpharma|radisys|menzies|adevinta|ampetronic|carrefour|testimonials_)[^"'\\\s)]*/gi;
+const DONOR_ALT_NAME = /\b(?:pfizer|midas|uefa|euroleague|cordenpharma|radisys|menzies|adevinta|ampetronic|carrefour)\b/i;
+export function applyDonorAssetFix(html) {
+  try {
+    if (html.indexOf('/assets/cms/wp-content/uploads/') < 0) return html;
+    const map = new Map();
+    const out = html.replace(DONOR_ASSET_URL, (u) => {
+      if (!map.has(u)) {
+        const c = CASE[map.size % CASE.length];
+        map.set(u, `/assets/stillcraft/mall-case/${c.slug}/cover.svg`);
+      }
+      return map.get(u);
+    });
+    // alt text is plain markup, so it survives the flight scrub untouched.
+    const named = out.replace(/(<img\b[^>]*\balt=")([^"]*)(")/g, (full, a, t, c) =>
+      (DONOR_ALT_NAME.test(t) ? a + 'StillCraft project' + c : full));
+    if (named === html) return html;
+    const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
+    const badAfter = (() => { try { return verifyFlight(named).bad; } catch { return badBefore + 1; } })();
+    if (badAfter > badBefore) return html;
+    return named;
+  } catch { return html; }
+}
 export function applyDonorStaffImageFix(html) {
   try {
     if (html.indexOf('/assets/cms/wp-content/uploads/') < 0) return html;
@@ -3973,6 +4067,7 @@ export function applyHomeStatic(html) {
   html = applyServiceQuoteFix(html);
   html = applyServiceCopyFix(html);
   html = applyLogosFix(html, []);
+  html = applyDonorAssetFix(html);
   html = applyFooterSingleOffice(html);
   html = applyHighlightsFix(html, '/');
   html = applySliderFix(html, '/');

@@ -69,7 +69,7 @@ const defaults = {
   logo_src: '',
   primary_color: '#1B2A4A',
   accent_color: '#C9A24B',
-  hero_video_src: 'https://res.cloudinary.com/dtnbwgpca/video/upload/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4',
+  hero_video_src: '/assets/custom/stillcraft-hero.mp4',
 };
 for (const [k, v] of Object.entries(defaults)) {
   await pool.query(

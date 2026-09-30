@@ -462,46 +462,114 @@ export function debugRows(html) {
 // Validator: counts verified length-prefixed rows across all pushes
 // (merging first, like the editor path). `bad` = candidate headers that
 // don't verify — normally 0 for self-consistent files.
+// ---- full-stream validation ----
+//
+// findLenRows() above only sees the byte-length-prefixed rows (tags in TAGSET).
+// The rows that actually carry the page - `[` and `I` - are self-delimiting:
+// React bracket-matches them in the decoded stream. None of them were ever
+// checked, so a payload could silently lose a brace, or a row could be deleted
+// while still referenced, and verifyFlight() reported bad=0. Both shipped as
+// blank pages, so the checks below cover the payloads and the reference graph.
+//
+// This deliberately does not try to walk the stream positionally. Rows are found
+// by their boundary instead (start of stream, or the newline escape that
+// separates rows), which needs no sequential resync and so cannot be thrown off
+// by a row shape this scanner has never seen - Next.js emits hint rows like
+// `:HL[...]` alongside the JSON ones.
+
+// Bracket-match a `[`/`{` row on the RAW (still escaped) content. Decoding one
+// token at a time is what makes string state correct: a `"` inside a value
+// arrives as `\"`, and a `{` inside a string must not move the depth.
+function matchBrackets(raw, start) {
+  let depth = 0, inStr = false;
+  for (let i = start; i < raw.length; i++) {
+    const c = raw[i];
+    // Skip any escape as a unit - `\"` is a delimiter, `\u003e` is one char.
+    // Walking the raw text like this (rather than decoding token by token) is
+    // what the rest of this file does, and it does not desync on \uXXXX.
+    if (c === BS) { i++; continue; }
+    if (c === '"') { inStr = !inStr; continue; }
+    if (inStr) continue;
+    if (c === '[' || c === '{') depth++;
+    else if (c === ']' || c === '}') {
+      depth--;
+      if (depth === 0) return i + 1;
+    }
+  }
+  return -1;
+}
+
+const BS_NL = BS + 'n';
+const ROW_START = /(?:^|\\n)([0-9a-f]*):/g;
+
+// Every JSON row in the stream, located by boundary rather than by walking.
+export function scanFlightRows(joined) {
+  const rows = [];
+  ROW_START.lastIndex = 0;
+  let m;
+  while ((m = ROW_START.exec(joined))) {
+    const idStart = m.index + (m[0].startsWith(BS_NL) ? 2 : 0);
+    const afterColon = idStart + m[1].length + 1;
+    const t = decodeOne(joined, afterColon);
+    if (!t) { rows.push({ id: m[1] || '0', at: m.index, err: 'truncated header' }); continue; }
+    const tag = t[0];
+    // For a `[` row the bracket is not a tag - it is the payload's own opening
+    // delimiter, so the body starts on it rather than after it.
+    const bodyStart = tag === '[' ? afterColon : afterColon + t[1];
+    const row = { id: m[1] || '0', tag, at: m.index, bodyStart };
+    if (tag === '[' || tag === 'I') {
+      const end = matchBrackets(joined, bodyStart);
+      if (end < 0) { row.err = 'unterminated payload'; rows.push(row); continue; }
+      row.bodyEnd = end;
+      row.end = end;
+    }
+    rows.push(row);
+  }
+  return rows;
+}
+
 export function verifyFlight(html) {
   const delim = 'self.__next_f.push(';
-  if (!html.includes(delim)) return { rows: 0, bad: 0, merged: false };
+  if (!html.includes(delim)) return { rows: 0, bad: 0, merged: false, missing: [] };
   const parts = html.split(delim);
   const segs = [];
   for (let i = 1; i < parts.length; i++) {
     const s = parseSeg(parts[i]);
-    if (!s) return { rows: 0, bad: -1, merged: false };
+    if (!s) return { rows: 0, bad: -1, merged: false, missing: [] };
+    segs.push(s.content);
   }
-  void segs;
-  const joined = parts.slice(1).map((p) => {
-    const s = parseSeg(p);
-    return s ? s.content : '';
-  }).join('');
-  const rows = findLenRows(joined);
-  // bad: len-tag headers that fail verification
-  let bad = 0, pos = 0;
-  while (pos < joined.length) {
-    const colon = joined.indexOf(':', pos);
-    if (colon < 0) break;
-    let run = colon - 1;
-    while (run >= 0 && isHex(joined[run])) run--;
-    run++;
-    if (run < colon && TAGSET.has(joined[colon + 1])) {
-      let h = colon + 2, hex = '';
-      while (h < joined.length && isHex(joined[h])) { hex += joined[h]; h++; }
-      if (hex && joined[h] === ',') {
-        const end = walkPayload(joined, h + 1, parseInt(hex, 16));
-        let okB = end >= 0 && ((joined[end] === BS && joined[end + 1] === 'n') || end >= joined.length);
-        if (!okB && end >= 0) {
-          let q = end, hd = '';
-          while (q < joined.length && isHex(joined[q]) && hd.length < 24) { hd += joined[q]; q++; }
-          okB = hd.length > 0 && joined[q] === ':';
-        }
-        if (!(end >= 0 && okB)) bad++;
-        pos = colon + 1;
-        continue;
-      }
+  const joined = segs.join('');
+
+  const rows = scanFlightRows(joined);
+  let bad = 0;
+  const defined = new Set();
+  for (const r of rows) {
+    if (r.err) { bad++; continue; }
+    defined.add(r.id);
+    if (r.tag === '[' || r.tag === 'I') {
+      // These rows are JSON. Decoding and parsing them is the check that would
+      // have caught the unbalanced-brace corruption.
+      let txt = '';
+      try { txt = decodeFully(joined.slice(r.bodyStart, r.bodyEnd)); }
+      catch { bad++; continue; }
+      try { JSON.parse(txt); }
+      catch { bad++; }
     }
-    pos = colon + 1;
   }
-  return { rows: rows.length, bad, merged: true };
+  // A deleted-but-still-referenced row leaves React waiting forever ("Connection
+  // closed"), so the reference graph is part of validity too.
+  const missing = [];
+  const seen = new Set();
+  for (const r of rows) {
+    if (r.err) continue;
+    const slice = joined.slice(r.at, r.end);
+    for (const m of slice.matchAll(/[$]L?([0-9a-f]+)/g)) {
+      const ref = m[1];
+      if (ref === r.id || defined.has(ref) || seen.has(ref)) continue;
+      seen.add(ref);
+      missing.push(ref);
+    }
+  }
+  bad += missing.length;
+  return { rows: rows.length, bad, merged: true, missing };
 }
