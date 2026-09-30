@@ -110,11 +110,21 @@ function replaceOutsideScripts(html, from, to) {
 function swapText(html, oldV, newV) {
   if (!oldV || newV == null || String(newV) === '' || String(oldV) === String(newV)) return html;
   const o = String(oldV), n = String(newV);
-  html = replaceOutsideScripts(html, o, n);
-  const eo = flightEncRow(o), ev = flightEncRow(n);
-  html = safeReplace(html, eo, ev, true);
-  html = safeReplaceVerified(html, o, n);
-  return html;
+  // Each pass below rewrites the same value in a different encoding, and the
+  // document still holds occurrences the other passes have not seen yet. When
+  // the replacement CONTAINS the original - the normal case when an admin
+  // extends a label ("Projects Delivered" -> "Projects Delivered SC") - a later
+  // pass re-matches the text an earlier pass just wrote and appends the
+  // replacement again, so the value doubled on every render. Routing each pass
+  // through a placeholder means no pass can see a previous pass's output. The
+  // marker is verified absent from the document first: a literal that collided
+  // would be rewritten by the final join and corrupt the page.
+  let MARK = 'SCSWAP';
+  for (let g = 0; g < 5 && html.includes(MARK); g++) MARK = 'SCSWAP' + g + '';
+  html = replaceOutsideScripts(html, o, MARK);
+  html = safeReplace(html, flightEncRow(o), MARK, true);
+  html = safeReplaceVerified(html, o, MARK);
+  return html.split(MARK).join(n);
 }
 // Swap an asset URL: raw (static) + backslash-escaped-slash flight variant +
 // fully flight-encoded form (& -> \u0026 inside optimizer URLs).
@@ -813,7 +823,17 @@ function applyTestimonials(html, items) {
       const link = caseLinkAt(i);
       if (link) {
         const nodeHtml = html.slice(node.start, node.end);
-        const title = decodeFlight(rawVal(nodeHtml, 'link') ? rawVal(nodeHtml, 'title') : '');
+        // The link's own title, read from inside the "link" object. A node has
+        // two "title" fields - the testimonial name and the link label - and a
+        // plain search returns the first, so the donor's link label
+        // ("...UEFA Champions League Final 2023: Where Football Met Turkish
+        // Grandeur") was never rewritten and shipped in the flight payload.
+        // Located with a regex: fkey() returns regex source (an escaped
+        // backslash), so indexOf would never match the raw bytes.
+        const lm = new RegExp(BS + BS + '"link' + BS + BS + '":\\{').exec(nodeHtml);
+        const title = lm
+          ? decodeFlight(rawVal(nodeHtml.slice(lm.index, lm.index + 600), 'title'))
+          : '';
         const url = decodeFlight(rawVal(nodeHtml, 'url'));
         if (title) html = swapInRange(html, node.start, node.end, title, link.title);
         if (url) html = swapInRange(html, node.start, node.end, url, link.url);

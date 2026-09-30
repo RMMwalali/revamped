@@ -18,7 +18,7 @@ import {
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
   applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash, applyStyleBlocks,
-  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  applyFooterFix, applyDonorBrand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, normalizeChunkRefs,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
@@ -230,7 +230,18 @@ const server = http.createServer(async (req, res) => {
       const only = String(u.searchParams.get('section') || '');
       if (u.searchParams.get('live') === '1') {
         try {
-          const liveHtml = await readFile(path.join(ROOT, 'index.html'), 'utf8');
+          // Prefill from the page as it is actually served, not the raw dist
+          // file. Reading dist/index.html directly showed the admin the donor's
+          // copy while the site served StillCraft's, so every field disagreed
+          // with the page and a plain Save wrote the old data back.
+          let liveHtml = await readFile(path.join(ROOT, 'index.html'), 'utf8');
+          const key = '/';
+          const dbItems = await getOverrides(key).catch(() => []);
+          const fileItems = [...(FILE_CONTENT[key] || []),
+            ...((LOGO_ROWS[key] || []).filter(r => !/Testimonial/i.test(r.orig_html))),
+            ...((LOGO_NAMES[key] || []).map(n => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
+          liveHtml = applyOverrides(liveHtml, [...dbItems, ...fileItems], {});
+          liveHtml = applyHomeStatic(liveHtml);
           return json(res, 200, { live: await liveSnapshot(liveHtml) });
         } catch { return json(res, 200, { live: {} }); }
       }

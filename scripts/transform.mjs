@@ -928,7 +928,35 @@ const HL_DESC_TAILS = [
   ['at ISE 2026, designed to immerse, ', 'engage and stand out.'],
   ['the Costa Brava became the setting for ', 'Menzies Congress 2025, a multi-day ', 'gathering of strategic inspiration and ', 'Catalan luxury.'],
 ];
-export function applyHighlightsFix(html, page) {
+// The donor's highlight card names its own event, in the static split-line
+// heading and in the flight prominents node. Those rewrites used to live inside
+// the region transaction below, which is all-or-nothing: a dozen strict count
+// guards each `return html` and revert the WHOLE thing. Editing one highlight
+// through the admin changed a count, the transaction bailed, and the donor
+// event name came back on the page while the rest of the rebrand stayed. This
+// purge is deliberately separate and self-guarded, so donor naming cannot
+// survive a failed region pass.
+function purgeDonorHighlightText(html) {
+  const BS = String.fromCharCode(92);
+  // Static split lines of the lead card. Each must be present exactly once, so
+  // a donor redesign skips rather than corrupting an unrelated heading.
+  const lead = [
+    ['>UEFA Champions League Final </div>', '>Easter at Galleria Mall</div>'],
+    ['>2026: Budapest. Nine spaces. One </div>', '></div>'],
+    ['>night to remember.</div>', '></div>'],
+  ];
+  for (const [from, to] of lead) {
+    if (html.split(from).length - 1 !== 1) continue;
+    html = html.split(from).join(to);
+  }
+  // The flight prominents node also names the donor event, but it is NOT
+  // rewritten here. Its title lives in a length-prefixed row and the value is
+  // also present in a non-flight copy that a global swap would corrupt, so a
+  // targeted edit could not be proven safe; the visible heading is handled
+  // above. Left as a known reference, listed in the audit.
+  return html;
+}
+function applyHighlightsFixInner(html, page) {
   if (page !== '/' && page !== '/home') return html;
   if (html.indexOf('Highlight projects') < 0) return html;
   // --- flight images, scoped to each highlight node (databaseId 1200..1204) ---
@@ -1011,6 +1039,15 @@ export function applyHighlightsFix(html, page) {
   // point it at the Easter cover. Only remaining UEFA-webp uses are heroic.
   html = html.split(HL_OLD_IMG[0]).join(HL_NEW_IMG[0]);
   return html;
+}
+export function applyHighlightsFix(html, page) {
+  // The purge runs last, as a fallback only. The region transaction above is
+  // all-or-nothing: each guard returns the original document, so one admin edit
+  // that changes a count reverts the donor purge too and the donor event name
+  // comes back. Running the purge after means the transaction gets first
+  // refusal (it consumes the exact strings it needs), and anything it left
+  // behind because it bailed is cleaned up here.
+  return purgeDonorHighlightText(applyHighlightsFixInner(html, page));
 }
 // Flight image swaps scoped to highlight nodes 1200..1204 (oracle-guarded).
 function hlFixFlightImages(html) {
@@ -1860,8 +1897,14 @@ export function applyListingStaticFix(html) {
         if (qk < 0 || qk > 2500) break;
         const qj = win.indexOf(FQ, qk + sm.length);
         if (qj < 0) break;
+        // Only the donor's own uploads tree is a template image to be remapped.
+        // Any /assets/ URL used to qualify, and this scan reads a 2500-char
+        // window from the slug lead, so it could reach past the node and pick
+        // up a neighbouring asset - including a StillCraft admin upload, which
+        // was then replaced by a case cover site-wide and the admin's image
+        // silently disappeared on save.
         const u = win.slice(qk + sm.length, qj);
-        if (u && u.startsWith('/assets/') && !imgs.includes(u)) imgs.push(u);
+        if (u && u.startsWith('/assets/cms/') && !imgs.includes(u)) imgs.push(u);
         qi = qj + 2;
       }
       info.set(slug, { title, imgs });
@@ -1914,7 +1957,15 @@ export function applyListingStaticFix(html) {
     // the oracle at the end no-ops naturally when nothing changed.
     try {
       const DENY_IMG = ['UEFA-', 'UCLF-', 'Midas-', 'Adevinta', 'Adevina-', '-mwc-', '-ise-202', '-cphi-', 'Basketball', 'Hackathon', 'Axiecon', 'Super-Cup', 'final-four', 'Stella', 'Testimonial_', 'Testimonials_', 'UEFA-logo', 'Pfizer-logo', 'Pfizer-', 'Menzies-', 'Euroleague-', 'Champions-League-', 'Corden-', 'FedEx', 'Fedex', 'Turkish-', 'YPO-', 'Istanbul', 'Udine', 'Frankfurt', 'NL.png', 'NL.svg', 'Champions-League.svg', 'Turkish-Airlines.svg', 'pfizer.png', 'adidas.png', 'Adidas-', 'Euroleague.svg', 'Ribbon.svg', 'Ribbon-', 'Centrient.svg', 'Corden-Pharma.svg', 'Radisys.svg', 'YPO.svg', 'Menzies.svg', 'Adevinta.svg', 'European-Commission.svg', 'ISE.svg', 'Fiat.svg', 'VEEAM.svg', 'Nagarro', 'Symetrix', 'Lindy'];
-      const isTplUrl = (u) => u.includes('/assets/cms/') && DENY_IMG.some((d) => u.includes(d));
+      // An admin-uploaded asset must never be treated as donor artwork. The
+      // admin writes its uploads to /assets/custom/, so a CMS-set image is not
+      // a donor path - but a CMS record saved before that was true can name a
+      // donor file, and this pass ran after applyStructuredCMS, so it replaced
+      // the admin's own image with a case cover and the upload silently
+      // vanished. /assets/custom/ is StillCraft's own upload space and is
+      // excluded outright.
+      const isTplUrl = (u) => u.includes('/assets/cms/') && !u.includes('/assets/custom/')
+        && DENY_IMG.some((d) => u.includes(d));
       const urlIndex = new Map();
       const urlOrder = [];
       const tagRe = /<(img|link)\b[^<>]*>/gi;
@@ -2878,6 +2929,38 @@ function sniffImage(data, ext) {
   if (ext === 'bmp' && !(h.startsWith('BM'))) return null;
   if (ext === 'ico' && !(h.startsWith('\x00\x00\x01\x00') || h.startsWith('\x00\x00\x02\x00'))) return null;
   return ext === 'jpeg' ? 'jpg' : ext;
+}
+// The static half of the home-page pipeline, in the same order serveHtml and
+// api/page.js apply it. Used by the admin's "live" endpoint: it used to read the
+// raw dist/index.html, which is the donor's page before any StillCraft pass has
+// run, so the CMS prefilled donor copy while the site served StillCraft copy -
+// the admin showed values the page did not have, and saving them wrote the
+// donor's data back. Feeding it the transformed page makes "live" mean live.
+//
+// The CMS's own pass is deliberately excluded (this is the pre-CMS baseline the
+// prefill compares against) and so are the request-scoped ones (links, brand
+// styles, the reveal failsafe) which do not change content.
+export function applyHomeStatic(html) {
+  html = stripThirdParty(html);
+  html = removeBadges(html);
+  html = applyNav(html, '/');
+  html = applyGlobalSwaps(html, '/');
+  html = applyStatsFix(html);
+  html = applyCitiesFix(html);
+  html = applyLogosFix(html, []);
+  html = applyFooterSingleOffice(html);
+  html = applyHighlightsFix(html, '/');
+  html = applySliderFix(html, '/');
+  html = applyValuesFix(html, '/');
+  html = applyServiceCardsFix(html, '/');
+  html = applyListingStaticFix(html);
+  html = applyPortfolioFix(html);
+  html = applySplitTextFix(html);
+  html = applyCardTitlesFix(html);
+  html = applyCaseMetaFix(html, '/');
+  html = applyFooterAddresses(html);
+  html = applyContentFlight(html, '/');
+  return html;
 }
 export {
   IMAGE_EXTS, IMAGE_EXT_LIST, IMAGE_MAX, getBrand, bustBrand, applyBrand, applyNav, applyMenuOrder, applyTheme,

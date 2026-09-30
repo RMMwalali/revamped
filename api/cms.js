@@ -4,8 +4,8 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getCMS, saveCMSSection, liveSnapshot, CMS_SECTIONS } from '../scripts/cms.mjs';
-import { bustBrand } from '../scripts/transform.mjs';
-import { bustOverrides } from '../scripts/overrides.mjs';
+import { bustBrand, applyHomeStatic, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES } from '../scripts/transform.mjs';
+import { bustOverrides, getOverrides, applyOverrides } from '../scripts/overrides.mjs';
 import { bustCMS } from '../scripts/cms.mjs';
 
 export default async function handler(req, res) {
@@ -17,7 +17,17 @@ export default async function handler(req, res) {
     if (u.searchParams.get('live') === '1') {
       try {
         const file = path.join(process.cwd(), 'dist', 'index.html');
-        const html = await readFile(file, 'utf8');
+        let html = await readFile(file, 'utf8');
+        // Prefill from the page as it is actually served, not the raw dist file.
+        // Reading dist/index.html directly showed the admin the donor's copy
+        // while the site served StillCraft's, so every field disagreed with the
+        // page and a plain Save wrote the old data back.
+        const dbItems = await getOverrides('/').catch(() => []);
+        const fileItems = [...(FILE_CONTENT['/'] || []),
+          ...((LOGO_ROWS['/'] || []).filter((r) => !/Testimonial/i.test(r.orig_html))),
+          ...((LOGO_NAMES['/'] || []).map((n) => ({ el_id: n.id, kind: 'text', value: n.name, orig_html: n.old })))];
+        html = applyOverrides(html, [...dbItems, ...fileItems], {});
+        html = applyHomeStatic(html);
         res.status(200).json({ live: await liveSnapshot(html) });
       } catch {
         res.status(200).json({ live: {} });
