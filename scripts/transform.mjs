@@ -3284,6 +3284,30 @@ export function applyProjectsOverviewFix(html, page) {
   return html.slice(0, anchor) + block + html.slice(anchor);
 }
 
+// /projects category filter bar: the donor ships five chips (All Projects +
+// Congresses, Events, Exhibits, Sports). The brief is to show only the Events
+// category (count 11), so every other chip is dropped. Each chip is an
+// <a href="/projects/<slug>"> wrapped in a container owning a stable `.js-arrow`
+// marker; matching by href slug plus the arrow ancestor is resilient to the
+// build-specific emotion class hashes, and project-card links are /project/
+// (singular), so they never match. The sweep is deferred so it survives SSR
+// markup and any hydration re-render of the chip bar.
+export function applyProjectsFilterFix(html, page) {
+  if (!html) return html;
+  const p = (page || "").replace(/\/$/, "");
+  if (p !== "/projects" && p !== "/projects/filter") return html;
+  if (html.indexOf("</body>") < 0) return html;
+  if (html.indexOf("data-sc-projects-filter-fix") >= 0) return html;
+  const js = `<script data-sc-projects-filter-fix>(function(){
+var slugOf=function(href){try{var u=decodeURIComponent(href||"");var prefix="/projects/";if(u.indexOf(prefix)!==0)return null;var rest=u.slice(prefix.length);if(rest.indexOf("/")!==-1)return null;return rest.toLowerCase();}catch(e){return null;}};
+var chipFor=function(a){var c=a;while(c&&c!==document.body){if(c.querySelector&&c.querySelector("div.js-arrow")){return c;}c=c.parentElement;}return null;};
+var pf=function(){var as=document.querySelectorAll("a[href]");for(var i=0;i<as.length;i++){var a=as[i];var s=slugOf(a.getAttribute("href"));if(s===null)continue;var chip=chipFor(a);if(!chip)continue;if(s!=="events")chip.remove();}};
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",pf);else pf();
+setTimeout(pf,800);setTimeout(pf,2500);setTimeout(pf,5000);
+})();</script>`;
+  return html.replace(/<\/body>/i, js + "\n$1");
+}
+
 // "33% / 21%" is a programme-wide average across all StillCraft seasonal mall
 // programming, so it is wrong to present it as any single campaign's result on
 // a case page. It belongs on the /projects overview (applyProjectsOverviewFix).
