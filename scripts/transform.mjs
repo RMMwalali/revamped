@@ -3816,13 +3816,29 @@ export function applyRevealFailsafe(html) {
   const js = `<script>(function(){
 var DELAY=6000,done=false;
 function reveal(){
-  var masks=document.querySelectorAll('.line-mask'),n=0;
+  var masks=document.querySelectorAll('.line-mask'),n=0,t=0;
   for(var i=0;i<masks.length;i++){
     for(var p=masks[i];p&&p!==document.body;p=p.parentElement){
       if(getComputedStyle(p).visibility==='hidden'){p.style.visibility='visible';n++;}
     }
   }
-  if(n>0&&window.console&&console.warn)console.warn('[stillcraft] entrance animation did not run; revealed '+n+' hidden line(s)');
+  // StillCraft entrance tween leaves every line at its start translate (e.g.
+  // translate(0%,150%)); when the tween never runs the slides stack on top of
+  // each other -- the homepage testimonial "overlapping slides". Reset the
+  // non-identity transforms inside revealed masks so content lays out in its
+  // natural position. Only when the entrance actually failed (n>0).
+  if(n>0){
+    var ident=/^matrix3?d\(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1\)/;
+    for(var i=0;i<masks.length;i++){
+      var desc=masks[i].querySelectorAll('*');
+      for(var j=0;j<desc.length;j++){
+        var el=desc[j], tr=(getComputedStyle(el).transform||'none');
+        if(tr==='none'||ident.test(tr)||/^matrix\(1,0,0,1,0,0\)/.test(tr))continue;
+        el.style.transform='none';el.style.webkitTransform='none';el.style.msTransform='none';t++;
+      }
+    }
+  }
+  if(n>0&&window.console&&console.warn)console.warn('[stillcraft] entrance animation did not run; revealed '+n+' hidden line(s), reset '+t+' stuck transforms');
   done=true;
 }
 window.addEventListener('load',function(){setTimeout(function(){if(!done)reveal();},DELAY);});
@@ -3831,51 +3847,3 @@ window.addEventListener('error',function(){setTimeout(function(){if(!done)reveal
   return html.replace(/<body[^>]*>/i, (m) => m + '\n' + js);
 }
 
-// Home testimonial (EventSlider/Embla) overlap/collapse fix.
-// Symptom: when the StillCraft GSAP entrance (see applyRevealFailsafe) does not
-// run, the Embla carousel on the home testimonials section fails to measure
-// itself, so its 5 `.embla__slide` children + viewport collapse to 0x0 (blank) or
-// stack at the same slot (overlap) — the reported "overlapping testimonial
-// slides with quote + person + org + logo". This is a guarded, home-only
-// failsafe: it only mutates the DOM when the slider is actually broken
-// (collapsed 0-height viewport OR >=2 slides sharing an identical rendered box),
-// then sizes the section and shows a single slide (the topmost). A healthy
-// slider is a no-op. "/project/<slug>" pages and /projects are not affected.
-export function applyHomeHeroSliderFix(html, page) {
-  if (!html || html.indexOf("</body>") < 0) return html;
-  const p = (page || "").replace(/\/+$/, "");
-  if (p !== "/" && p !== "") return html;
-  if (html.indexOf("data-sc-home-hero-fix") >= 0) return html;
-  const js = `<script data-sc-home-hero-fix>(function(){
-function rectSame(a,b){return Math.round(a.x)===Math.round(b.x)&&Math.round(a.y)===Math.round(b.y)&&Math.round(a.width)===Math.round(b.width)&&Math.round(a.height)===Math.round(b.height);}
-function fix(){
-  var slides=[...document.querySelectorAll('.embla__slide')];
-  if(slides.length<=1)return;
-  var vp=null,par;
-  for(var i=0;i<slides.length;i++){par=slides[i].parentElement;if(par&&par.className&&par.className.indexOf('embla')!==-1){vp=par;break;}}
-  if(!vp)vp=slides[0].parentElement;
-  var vrect=vp.getBoundingClientRect();
-  var boxes=slides.map(function(s){return s.getBoundingClientRect();});
-  var collapsed=!vrect.height||!vrect.width;
-  var dup=false;
-  for(var i=0;i<boxes.length;i++)for(var j=i+1;j<boxes.length;j++){if(boxes[i].width>0&&rectSame(boxes[i],boxes[j])){dup=true;break;}}
-  if(!collapsed&&!dup)return; // healthy slider -> leave untouched
-  var root=vp;while(root&&root!==document.body){if(root.tagName==='SECTION'&&root.className&&root.className.indexOf('css-')===0)break;root=root.parentElement;}
-  if(!root)root=vp;
-  root.style.position=root.style.position||'relative';
-  if(!parseFloat(getComputedStyle(root).minHeight||0)){root.style.minHeight='420px';}
-  root.style.overflow='hidden';
-  vp.style.position='relative'; vp.style.width='100%'; vp.style.height='100%'; vp.style.overflow='hidden';
-  var last=slides[slides.length-1];
-  slides.forEach(function(s,k){
-    s.style.position='absolute'; s.style.inset='0'; s.style.margin='0';
-    if(k===slides.length-1){s.style.zIndex='1';s.style.opacity='1';s.style.visibility='visible';}
-    else{s.style.zIndex='0';s.style.opacity='0';s.style.visibility='hidden';}
-  });
-  if(last&&last.offsetHeight)last.style.opacity='1';
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix); else fix();
-setTimeout(fix,800);setTimeout(fix,2500);setTimeout(fix,5000);
-})();</script>`;
-  return html.replace(/<\/body>/i, js + "\n</body>");
-}
