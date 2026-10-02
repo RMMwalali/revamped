@@ -9,17 +9,37 @@ const ROOT = path.join(process.cwd(), 'dist');
 const CACHE = new Map();
 const CACHE_MAX = 40;
 
+// Returns { remote } for an absolute URL this shim cannot resize, { file, pub }
+// for a path under dist (pub = the same asset as a browser-facing URL), or null
+// for a path that escapes the root.
+//
+// Uploads are stored in Vercel Blob and saved as absolute URLs
+// (https://<store>.public.blob.vercel-storage.com/custom/<name>), so once an
+// admin swaps an image the flight payload carries a remote src and hydration
+// rebuilds it as /_next/image?url=<absolute>. Treating that as a local path
+// resolved it to dist/https:/<store>... , stat threw, and the catch-all
+// 302'd to the same bogus path - every uploaded slot 404'd for anyone not
+// running the edit bar, which re-asserts the raw src client-side and so
+// masked it while logged in. Remote sources are redirected to untouched.
 function resolveTarget(src) {
   let target = src;
   try { target = decodeURIComponent(src); } catch {}
-  if (target.startsWith('https://cms.iventions.com/')) {
-    target = '/assets/cms/' + target.replace('https://cms.iventions.com/', '');
+  if (/^https?:\/\//i.test(target)) {
+    if (target.startsWith('https://cms.iventions.com/')) {
+      target = '/assets/cms/' + target.replace('https://cms.iventions.com/', '');
+    } else {
+      return { remote: target };
+    }
   } else if (!target.startsWith('/')) {
     target = '/' + target;
   }
   const p = path.normalize(path.join(ROOT, target));
   if (!p.startsWith(ROOT)) return null;
-  return p;
+  // pub is the resolved, browser-facing form. Passthrough redirects must use it
+  // rather than the raw src: a mapped donor URL is relative on disk but
+  // absolute as written, so reusing src rebuilt the very "/https://..." target
+  // the guard above exists to prevent.
+  return { file: p, pub: target };
 }
 
 const MIME = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif', '.avif': 'image/avif' };
@@ -39,21 +59,28 @@ export default async function handler(req, res) {
   const ALLOWED_W = [640, 750, 828, 1080, 1200, 1920, 3840];
   const w = rawW ? ALLOWED_W.find((a) => a >= rawW) || 3840 : 0;
   const q = Math.min(100, Math.max(10, parseInt(u.searchParams.get('q') || '75', 10) || 75));
-  const file = resolveTarget(src);
-  if (!file) { res.status(400).end(); return; }
+  const target = resolveTarget(src);
+  if (!target) { res.status(400).end(); return; }
+  if (target.remote) {
+    res.writeHead(302, { Location: target.remote, 'Access-Control-Allow-Origin': '*' });
+    res.end();
+    return;
+  }
+  const file = target.file;
+  // Passthrough redirects keep the src verbatim when it is already rooted (its
+  // encoding survives) and otherwise use the resolved path - see resolveTarget.
+  const passthrough = () => { res.writeHead(302, { Location: src.startsWith('/') ? src : target.pub }); res.end(); };
   try {
     const st = await stat(file);
     if (!st.isFile()) throw new Error('missing');
     const ext = path.extname(file).toLowerCase();
     // Vector originals and unrequested sizes pass through untouched.
     if (ext === '.svg' || ext === '.ico' || !w) {
-      res.writeHead(302, { Location: src.startsWith('/') ? src : '/' + src });
-      res.end();
+      passthrough();
       return;
     }
     if (!MIME[ext]) {
-      res.writeHead(302, { Location: src.startsWith('/') ? src : '/' + src });
-      res.end();
+      passthrough();
       return;
     }
     const key = file + '|' + w + '|' + q;
@@ -64,8 +91,7 @@ export default async function handler(req, res) {
       const meta = await sharp(input).metadata();
       if (meta.width && meta.width <= w) {
         // Never upscale: serve the original bytes.
-        res.writeHead(302, { Location: src.startsWith('/') ? src : '/' + src });
-        res.end();
+        passthrough();
         return;
       }
       let pipe = sharp(input).resize({ width: w, withoutEnlargement: true });
@@ -90,7 +116,6 @@ export default async function handler(req, res) {
     });
     res.end(buf);
   } catch {
-    res.writeHead(302, { Location: src.startsWith('/') ? src : '/' + src });
-    res.end();
+    passthrough();
   }
 }

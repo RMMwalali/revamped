@@ -163,7 +163,10 @@ export default async function handler(req, res) {
     if (pathname === '/_next/image') {
       const src = u.searchParams.get('url');
       if (!src) { res.status(204).end(); return; }
-      const target = src.startsWith('/') ? src : '/' + src;
+      // Absolute sources (Vercel Blob uploads) are already fetchable by the
+      // browser; prefixing them with "/" pointed at a same-origin path that
+      // does not exist. Only relative sources need the leading slash.
+      const target = /^https?:\/\//i.test(src) ? src : (src.startsWith('/') ? src : '/' + src);
       res.writeHead(302, { Location: target });
       res.end();
       return;
