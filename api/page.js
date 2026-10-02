@@ -6,7 +6,7 @@ import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, 
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash,
-  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
+  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyHomeBand, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
@@ -123,6 +123,9 @@ async function serveHtml(pathname, cookies, host) {
     // word, so a deploy that re-runs this pipeline can no longer revert an
     // edit the moment it is saved.
     html = applyTextOverrides(html, __overrides);
+    // Band copy is applied last so no earlier pass can re-own it, and before
+    // the donor sweep so its brand rename runs over the final text.
+    html = applyHomeBand(html, key, __cms);
     // Last pass before the admin bar: the donor's company name has no place in
     // this site's copy. Header, footer and nav are excluded, so the menus and
     // the copyright line keep their exact wording.
@@ -184,8 +187,12 @@ export default async function handler(req, res) {
       res.end();
       return;
     }
+    // The blog lane was retired, but old /insight/<slug> links are still baked
+    // into served pages (the home band's cards build their href from the
+    // RESOURCE constant in the page chunk). Send them to the work that
+    // replaced them instead of a dead contact form.
     if (pathname === '/insights' || pathname.startsWith('/insights/') || pathname === '/insight' || pathname.startsWith('/insight/')) {
-      res.writeHead(302, { Location: '/contact' });
+      res.writeHead(302, { Location: '/projects' });
       res.end();
       return;
     }

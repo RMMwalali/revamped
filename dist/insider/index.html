@@ -186,7 +186,16 @@
     </section>
 
     <section class="pane" data-pane="insights">
-      <div class="paneHead"><h2>Insights</h2><p>Blog posts on the home page and the Insights listing. Edit text and cover images, curate the 3 home cards, hide posts from listings — every card links its slug, which always opens the real post page.</p></div>
+      <div class="paneHead"><h2>Insights</h2><p>Blog posts on the home page. Edit text and cover images, curate the 3 home cards, hide posts — the blog itself is retired, so a card opens the case studies page rather than an article.</p></div>
+      <div class="item"><h3>BAND COPY (&ldquo;Inside StillCraft Events&rdquo; section on the home page)</h3>
+        <div class="grid">
+          <div class="fld full"><label>HEADING (two lines &mdash; use a line break between them)</label><textarea id="bandLabel" rows="2"></textarea></div>
+          <div class="fld full"><label>BLURB</label><textarea id="bandDesc" rows="2"></textarea></div>
+          <div class="fld"><label>CTA LABEL</label><input type="text" id="bandCta"></div>
+          <div class="fld"><label>CTA LINK</label><input type="text" id="bandUrl"></div>
+        </div>
+        <div class="help">The three circle cards below still come from the blog posts you curate; their links now open the case studies page.</div>
+      </div>
       <div class="item"><h3>HOME CARDS (in order — only these show on the home page)</h3>
         <div class="grid" id="insHome"></div>
         <div class="savebar"><span class="st">Live now: <span id="insHomeLive"></span></span></div>
@@ -463,6 +472,11 @@
   }
   function renderInsights() {
     var w = insWork();
+    var blk = (S.saved.insights || {}).block || {};
+    $('#bandLabel').value = blk.label || 'Inside\nStillCraft Events';
+    $('#bandDesc').value = blk.description || 'Selected work from StillCraft Events Co. — seasonal mall programming, brand activations and live experiences delivered across Kenya.';
+    $('#bandCta').value = blk.cta || 'Explore our case studies';
+    $('#bandUrl').value = blk.ctaUrl || '/projects';
     var svHome = ((S.saved.insights || {}).home) || [];
     var liveHome = (S.live.insights || []).map(function (x) { return x.slug; });
     var opts = function (sel) {
@@ -554,6 +568,8 @@
     }
     if (sec === 'insights') {
       var home = $all('#insHome [data-home-slot]').map(function (el) { return el.value; }).filter(Boolean);
+      var block = { label: $('#bandLabel').value, description: $('#bandDesc').value,
+        cta: $('#bandCta').value.trim(), ctaUrl: $('#bandUrl').value.trim() };
       var items = {}, hidden = [];
       $all('#insList [data-post]').forEach(function (box) {
         var slug = box.getAttribute('data-post');
@@ -568,7 +584,7 @@
         delete o.listed;
         items[slug] = o;
       });
-      return { home: home, hidden: hidden, items: items };
+      return { home: home, hidden: hidden, items: items, block: block };
     }
     return {};
   }

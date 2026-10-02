@@ -693,6 +693,94 @@ function removeInsightSection(html) {
   if (verifyFlight(out).bad > badBefore) { console.error('DBG bail oracle'); return html; }
   return out;
 }
+
+// ---------- home "Inside" band -> StillCraft copy + case-study CTA ----------
+// The blog lane was retired, but its home band survived: removeInsightSection()
+// only cuts the /insights listing, and the home circles wrapper
+// (styles_bottom__ivX84) is a different block. Nothing owned the band's
+// heading, blurb or CTA, so the donor's "Get insider tips..." pitch and a dead
+// /insights link shipped to visitors with no CMS control. All four are now
+// CMS-owned (/insider -> Insights -> BAND COPY) with StillCraft defaults.
+const BAND = {
+  cls: 'styles_invention__bakTB',
+  ctaText: 'Explore our insights',
+  ctaHref: '/insights',
+  linkUrl: '/assets/cms/resource/',
+  desc: 'Get insider tips, bold ideas, and future-forward trends, straight from the frontlines of unforgettable events.',
+  lines: ['Inside', 'Iventions'],
+};
+export const HOME_BAND_DEFAULTS = {
+  label: 'Inside\nStillCraft Events',
+  description: 'Selected work from StillCraft Events Co. — seasonal mall programming, brand activations and live experiences delivered across Kenya.',
+  cta: 'Explore our case studies',
+  ctaUrl: '/projects',
+};
+export function applyHomeBand(html, page, cms) {
+  if (page !== '/' && page !== '/home') return html;
+  if (html.indexOf(BAND.cls) < 0) return html;
+  const BS = String.fromCharCode(92);
+  const Q = BS + '"';
+  const cfg = (cms && cms.insights && cms.insights.block && typeof cms.insights.block === 'object') ? cms.insights.block : {};
+  const pick = (k) => (typeof cfg[k] === 'string' && cfg[k].trim() ? cfg[k] : null);
+  const cta = pick('cta') || HOME_BAND_DEFAULTS.cta;
+  const ctaUrl = pick('ctaUrl') || HOME_BAND_DEFAULTS.ctaUrl;
+  const desc = pick('description') || HOME_BAND_DEFAULTS.description;
+  const lines = (pick('label') || HOME_BAND_DEFAULTS.label).split('\n');
+  const l1 = lines[0] || '';
+  const l2 = lines.length > 1 ? lines.slice(1).join(' ') : '';
+  const badBefore = verifyFlight(html).bad;
+
+  // 1) static band markup. Scoped on purpose: `href="/insights"` also sits in
+  // the header menu, which must stay a menu link, not a case-studies link.
+  const sOpen = staticIndexOf(html, '<div class="' + BAND.cls);
+  const sEnd = sOpen >= 0 ? cutBalancedDiv(html, sOpen) : -1;
+  if (sOpen >= 0 && sEnd > sOpen) {
+    let band = html.slice(sOpen, sEnd);
+    band = band.split(BAND.ctaText).join(cta);
+    band = band.split(BAND.desc).join(desc);
+    band = band.split('href="' + BAND.ctaHref + '"').join('href="' + ctaUrl + '"');
+    const hOpen = band.indexOf('<h2');
+    const hClose = hOpen >= 0 ? band.indexOf('</h2>', hOpen) : -1;
+    if (hOpen >= 0 && hClose > hOpen) {
+      let head = band.slice(hOpen, hClose);
+      head = head.split('>' + BAND.lines[0] + '</span>').join('>' + l1 + '</span>');
+      head = head.split('>' + BAND.lines[1] + '</span>').join('>' + l2 + '</span>');
+      band = band.slice(0, hOpen) + head + band.slice(hClose);
+    }
+    html = html.slice(0, sOpen) + band + html.slice(sEnd);
+  }
+
+  // 2) flight payload (length-prefixed rows: safeReplacePairs re-relens).
+  // Every literal is offered twice: escaped (blind spans / plain JSON rows)
+  // and decoded (inside a verified length-prefixed row, where the replacer
+  // works on the decoded payload). One form alone silently no-ops.
+  const DQ = String.fromCharCode(34);
+  const q = (s) => Q + s + Q;
+  const dq = (s) => DQ + s + DQ;
+  const P = [];
+  P.push([BAND.ctaText, cta]);
+  P.push([BAND.desc, desc]);
+  P.push([q('href') + ':' + q(BAND.ctaHref), q('href') + ':' + q(ctaUrl)]);
+  P.push([q('url') + ':' + q(BAND.linkUrl), q('url') + ':' + q(ctaUrl)]);
+  const labelFrom = BAND.lines[0] + '\r\n' + BAND.lines[1];
+  const labelTo = l1 + '\r\n' + l2;
+  P.push([q('label') + ':' + q(flightEnc(flightEnc(labelFrom))), q('label') + ':' + q(flightEnc(flightEnc(labelTo)))]);
+  P.push([dq('label') + ':' + dq(flightEnc(labelFrom)), dq('label') + ':' + dq(flightEnc(labelTo))]);
+  // The rendered heading is two literal span tuples, not a label reference:
+  // the tuple key (`["$","$1","Inside",…`) and the span's own `children`
+  // string. Both carry the text, so both must move. Short, count-1 literals —
+  // a full-tuple literal is brittle against the tuple's exact arg shape.
+  for (const [oldT, newT] of [[BAND.lines[0], l1], [BAND.lines[1], l2]]) {
+    if (!oldT || oldT === newT) continue;
+    P.push([q('$1') + ',' + q(oldT), q('$1') + ',' + q(newT)]);
+    P.push([q('children') + ':' + q(oldT), q('children') + ':' + q(newT)]);
+    P.push([dq('$1') + ',' + dq(oldT), dq('$1') + ',' + dq(newT)]);
+    P.push([dq('children') + ':' + dq(oldT), dq('children') + ':' + dq(newT)]);
+  }
+  const out = safeReplacePairs(html, P, true);
+  if (verifyFlight(out).bad > badBefore) return html;
+  return out;
+}
 function applyFooterMenuOrder(html) {
   // Footer Explore order must match the header: Home, About, Mall and
   // Retail, Mall Space Monetization, Brand Activations, Contact.
