@@ -5,8 +5,8 @@ import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, bustOverrides } from '../scripts/overrides.mjs';
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
-  applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash,
-  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyHomeBand, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
+  applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyProjectsFilterFix, applyCaseFactsFix, applySplash,
+  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyHomeBand, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRevealFailsafe, applyHomeHeroSliderFix, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
@@ -109,6 +109,7 @@ async function serveHtml(pathname, cookies, host) {
     html = applyLinks(html, host, key);
     html = applyAboutTeamRemove(html);
     html = applyRevealFailsafe(html);
+    html = applyHomeHeroSliderFix(html, key);
     html = applyAboutTeamReplace(html, __cms);
     html = applyStyleBlocks(html, __brand);
     html = await applyImgDims(html);
@@ -116,6 +117,7 @@ async function serveHtml(pathname, cookies, host) {
     html = removeStaleProjectCards(html);
     html = applyProjectCardDedup(html);
     html = applyProjectsOverviewFix(html, key);
+    html = applyProjectsFilterFix(html, key);
     html = applyCaseFactsFix(html, key);
     html = applySplash(html, key);
     html = applyFooterFix(html, key);

@@ -17,8 +17,8 @@ import {
   getBrand, bustBrand, saveBrand, applyBrand, applyNav, applyTheme, stripThirdParty, removeBadges,
   parseUpload, sniffMedia, sniffImage, IMAGE_MAX,
   applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
-  applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyCaseFactsFix, applySplash, applyStyleBlocks,
-  applyFooterFix, applyDonorBrand, applyHomeBand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  applyContentFlight, applyLinks, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyProjectsFilterFix, applyCaseFactsFix, applySplash, applyStyleBlocks,
+  applyFooterFix, applyDonorBrand, applyHomeBand, applyAboutTeamRemove, applyAboutTeamReplace, applyRevealFailsafe, applyHomeHeroSliderFix, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix,   applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyCaseMetaFix, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, normalizeChunkRefs,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
@@ -525,6 +525,7 @@ const server = http.createServer(async (req, res) => {
       html = applyAboutTeamRemove(html);
       __dbg_step('aboutTeamRemove');
       html = applyRevealFailsafe(html);
+      html = applyHomeHeroSliderFix(html, key);
       __dbg_step('revealFailsafe');
       html = applyAboutTeamReplace(html, __cms);
       __dbg_step('aboutTeamReplace');
@@ -537,6 +538,7 @@ const server = http.createServer(async (req, res) => {
       html = removeStaleProjectCards(html);
       html = applyProjectCardDedup(html);
       html = applyProjectsOverviewFix(html, key);
+      html = applyProjectsFilterFix(html, key);
       html = applyCaseFactsFix(html, key);
       __dbg_step('removeStaleProjectCards');
       html = applySplash(html, key);
