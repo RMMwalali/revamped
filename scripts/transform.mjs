@@ -3816,29 +3816,13 @@ export function applyRevealFailsafe(html) {
   const js = `<script>(function(){
 var DELAY=6000,done=false;
 function reveal(){
-  var masks=document.querySelectorAll('.line-mask'),n=0,t=0;
+  var masks=document.querySelectorAll('.line-mask'),n=0;
   for(var i=0;i<masks.length;i++){
     for(var p=masks[i];p&&p!==document.body;p=p.parentElement){
       if(getComputedStyle(p).visibility==='hidden'){p.style.visibility='visible';n++;}
     }
   }
-  // StillCraft entrance tween leaves every line at its start translate (e.g.
-  // translate(0%,150%)); when the tween never runs the slides stack on top of
-  // each other -- the homepage testimonial "overlapping slides". Reset the
-  // non-identity transforms inside revealed masks so content lays out in its
-  // natural position. Only when the entrance actually failed (n>0).
-  if(n>0){
-    var ident=/^matrix3?d\(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1\)/;
-    for(var i=0;i<masks.length;i++){
-      var desc=masks[i].querySelectorAll('*');
-      for(var j=0;j<desc.length;j++){
-        var el=desc[j], tr=(getComputedStyle(el).transform||'none');
-        if(tr==='none'||ident.test(tr)||/^matrix\(1,0,0,1,0,0\)/.test(tr))continue;
-        el.style.transform='none';el.style.webkitTransform='none';el.style.msTransform='none';t++;
-      }
-    }
-  }
-  if(n>0&&window.console&&console.warn)console.warn('[stillcraft] entrance animation did not run; revealed '+n+' hidden line(s), reset '+t+' stuck transforms');
+  if(n>0&&window.console&&console.warn)console.warn('[stillcraft] entrance animation did not run; revealed '+n+' hidden line(s)');
   done=true;
 }
 window.addEventListener('load',function(){setTimeout(function(){if(!done)reveal();},DELAY);});
