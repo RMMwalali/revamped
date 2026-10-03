@@ -762,27 +762,20 @@ export function applyHomeBand(html, page, cms) {
   P.push([BAND.desc, desc]);
   P.push([q('href') + ':' + q(BAND.ctaHref), q('href') + ':' + q(ctaUrl)]);
   P.push([q('url') + ':' + q(BAND.linkUrl), q('url') + ':' + q(ctaUrl)]);
+  const labelFrom = BAND.lines[0] + '\r\n' + BAND.lines[1];
   const labelTo = l1 + '\r\n' + l2;
-  // Earlier passes may already have renamed "Iventions" in one place but not
-  // another (the served home page carries GLOBAL_SWAPS output in the label
-  // field but the raw donor name in the heading spans), so both variants are
-  // offered; whichever is present moves, the rest are no-ops.
-  for (const src of [BAND.lines[1], 'StillCraft Events Co.']) {
-    const labelFrom = BAND.lines[0] + '\r\n' + src;
-    P.push([q('label') + ':' + q(flightEnc(flightEnc(labelFrom))), q('label') + ':' + q(flightEnc(flightEnc(labelTo)))]);
-    P.push([dq('label') + ':' + dq(flightEnc(labelFrom)), dq('label') + ':' + dq(flightEnc(labelTo))]);
-    // The rendered heading is two literal span tuples, not a label reference:
-    // the tuple key (`["$","$1","Inside",…`) and the span's own
-    // `children` string. Both carry the text, so both must move. Short,
-    // count-1 literals — a full-tuple literal is brittle against the
-    // tuple's exact argument shape.
-    for (const [oldT, newT] of [[BAND.lines[0], l1], [src, l2]]) {
-      if (!oldT || oldT === newT) continue;
-      P.push([q('$1') + ',' + q(oldT), q('$1') + ',' + q(newT)]);
-      P.push([q('children') + ':' + q(oldT), q('children') + ':' + q(newT)]);
-      P.push([dq('$1') + ',' + dq(oldT), dq('$1') + ',' + dq(newT)]);
-      P.push([dq('children') + ':' + dq(oldT), dq('children') + ':' + dq(newT)]);
-    }
+  P.push([q('label') + ':' + q(flightEnc(flightEnc(labelFrom))), q('label') + ':' + q(flightEnc(flightEnc(labelTo)))]);
+  P.push([dq('label') + ':' + dq(flightEnc(labelFrom)), dq('label') + ':' + dq(flightEnc(labelTo))]);
+  // The rendered heading is two literal span tuples, not a label reference:
+  // the tuple key (`["$","$1","Inside",…`) and the span's own `children`
+  // string. Both carry the text, so both must move. Short, count-1 literals —
+  // a full-tuple literal is brittle against the tuple's exact arg shape.
+  for (const [oldT, newT] of [[BAND.lines[0], l1], [BAND.lines[1], l2]]) {
+    if (!oldT || oldT === newT) continue;
+    P.push([q('$1') + ',' + q(oldT), q('$1') + ',' + q(newT)]);
+    P.push([q('children') + ':' + q(oldT), q('children') + ':' + q(newT)]);
+    P.push([dq('$1') + ',' + dq(oldT), dq('$1') + ',' + dq(newT)]);
+    P.push([dq('children') + ':' + dq(oldT), dq('children') + ':' + dq(newT)]);
   }
   const out = safeReplacePairs(html, P, true);
   if (verifyFlight(out).bad > badBefore) return html;
@@ -3822,11 +3815,6 @@ function reveal(){
       if(getComputedStyle(p).visibility==='hidden'){p.style.visibility='visible';n++;}
     }
   }
-  // StillCraft entrance tween leaves every line at its start translate (e.g.
-  // translate(0%,150%)); when the tween never runs the slides stack on top of
-  // each other -- the homepage testimonial "overlapping slides". Reset the
-  // non-identity transforms inside revealed masks so content lays out in its
-  // natural position. Only when the entrance actually failed (n>0).
   if(n>0){
     var ident=/^matrix3?d\(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1\)/;
     for(var i=0;i<masks.length;i++){
@@ -3846,4 +3834,3 @@ window.addEventListener('error',function(){setTimeout(function(){if(!done)reveal
 })();</script>`;
   return html.replace(/<body[^>]*>/i, (m) => m + '\n' + js);
 }
-
