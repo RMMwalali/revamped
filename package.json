@@ -23,7 +23,6 @@
     "node": "22.x"
   },
   "devDependencies": {
-    "playwright": "1.52.0",
     "serve": "^14.2.6"
   }
 }
