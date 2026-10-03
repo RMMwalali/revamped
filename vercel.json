@@ -209,7 +209,7 @@
     }
   ],
   "functions": {
-    "api/page.js": { "includeFiles": "dist/**" },
+    "api/page.js": { "includeFiles": "dist/**/*.html" },
     "api/cms.js": { "includeFiles": "dist/**/*.html" },
     "api/img.js": { "includeFiles": "dist/assets/**" },
     "api/login.js": { "includeFiles": "scripts/auth.mjs" },

@@ -8,6 +8,7 @@ import http from 'node:http';
 import crypto from 'node:crypto';
 import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { snapWidth, isResizable } from './imgpaths.mjs';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
 import { saveLead } from '../api/lead.js';
 import { readStore } from './storage.mjs';
@@ -81,13 +82,18 @@ async function sendFile(res, file, noCache) {
 // Resized image variants (/_next/image?w=..&q=..). Memory-capped; sharp is a
 // hard dependency. Returns null on any failure so callers fall back to the
 // original bytes - never a 500 for an image.
+//
+// Mirrors api/img.js (the production path) exactly: same width ladder, same
+// WebP-with-fallback encoding, and the same "cap at the source width" rule.
+// The two must stay in step or the site behaves differently locally and on
+// Vercel.
 const RESIZE_CACHE = new Map();
-const RESIZE_CACHE_MAX = 40;
-const RESIZE_MIME = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif', '.avif': 'image/avif' };
-async function resizedImage(file, w, q) {
+const RESIZE_CACHE_MAX = 128;
+const RESIZE_MIME = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif', '.avif': 'image/avif', '.bmp': 'image/bmp' };
+async function resizedImage(file, w, q, acceptWebp) {
   const ext = path.extname(file).toLowerCase();
-  if (!RESIZE_MIME[ext]) return null;
-  const key = file + '|' + w + '|' + q;
+  if (!RESIZE_MIME[ext] || !isResizable(file)) return null;
+  const key = file + '|' + w + '|' + q + '|' + (acceptWebp ? 'w' : 'o');
   const hit = RESIZE_CACHE.get(key);
   if (hit) {
     RESIZE_CACHE.delete(key);
@@ -97,15 +103,21 @@ async function resizedImage(file, w, q) {
   const { default: sharp } = await import('sharp');
   const input = await readFile(file);
   const meta = await sharp(input).metadata();
-  if (meta.width && meta.width <= w) return null; // never upscale
-  let pipe = sharp(input).resize({ width: w, withoutEnlargement: true });
-  if (ext === '.jpg' || ext === '.jpeg') pipe = pipe.jpeg({ quality: q, mozjpeg: true });
-  else if (ext === '.png') pipe = pipe.png({ quality: q });
-  else if (ext === '.webp') pipe = pipe.webp({ quality: q });
-  else if (ext === '.gif') pipe = pipe.gif();
-  else if (ext === '.avif') pipe = pipe.avif({ quality: q });
+  // Cap at the source width rather than bailing out. Bailing meant a request
+  // wider than the original fell through to the untouched file, handing the
+  // browser the full multi-hundred-KB asset; re-encoding the source's own
+  // width returns the same pixels in a smaller format.
+  const target = Math.min(w, meta.width || w);
+  let pipe = sharp(input).resize({ width: target, withoutEnlargement: true, fastShrinkOnLoad: true });
+  let type;
+  if (ext === '.gif') { pipe = pipe.gif(); type = RESIZE_MIME[ext]; }
+  else if (acceptWebp) { pipe = pipe.webp({ quality: q, effort: 4, smartSubsample: true }); type = 'image/webp'; }
+  else if (ext === '.jpg' || ext === '.jpeg') { pipe = pipe.jpeg({ quality: q, mozjpeg: true }); type = RESIZE_MIME[ext]; }
+  else if (ext === '.png') { pipe = pipe.png({ quality: q }); type = RESIZE_MIME[ext]; }
+  else if (ext === '.avif') { pipe = pipe.avif({ quality: q }); type = RESIZE_MIME[ext]; }
+  else { pipe = pipe.webp({ quality: q }); type = 'image/webp'; }
   const buf = await pipe.toBuffer();
-  const out = { buf, type: RESIZE_MIME[ext] };
+  const out = { buf, type };
   if (RESIZE_CACHE.size >= RESIZE_CACHE_MAX) RESIZE_CACHE.delete(RESIZE_CACHE.keys().next().value);
   RESIZE_CACHE.set(key, out);
   return out;
@@ -382,27 +394,34 @@ const server = http.createServer(async (req, res) => {
       }
       let target = src;
       try { target = decodeURIComponent(src); } catch {}
-      if (target.startsWith('https://cms.iventions.com/')) {
-        target = '/assets/cms/' + target.replace('https://cms.iventions.com/', '');
+      if (/^https?:\/\//i.test(target)) {
+        if (target.startsWith('https://cms.iventions.com/')) {
+          target = '/assets/cms/' + target.replace('https://cms.iventions.com/', '');
+        } else {
+          res.writeHead(302, { Location: target, 'Access-Control-Allow-Origin': '*' });
+          res.end();
+          return;
+        }
       } else if (!target.startsWith('/')) {
         target = '/' + target;
       }
       const rawW = Math.min(3840, Math.max(0, parseInt(u.searchParams.get('w') || '0', 10) || 0));
-      const ALLOWED_W = [640, 750, 828, 1080, 1200, 1920, 3840];
-      const w = rawW ? ALLOWED_W.find((a) => a >= rawW) || 3840 : 0;
+      const w = rawW ? snapWidth(rawW) : 0;
       const q = Math.min(100, Math.max(10, parseInt(u.searchParams.get('q') || '75', 10) || 75));
+      const acceptWebp = /\bimage\/webp\b/i.test(String(req.headers.accept || ''));
       for (const f of resolveFile(target)) {
         const ext = path.extname(f).toLowerCase();
-        if (!w || ext === '.svg' || ext === '.ico') {
+        if (!w || ext === '.svg' || ext === '.ico' || !isResizable(f)) {
           if (await sendFile(res, f)) return;
           continue;
         }
-        const resized = await resizedImage(f, w, q).catch(() => null);
+        const resized = await resizedImage(f, w, q, acceptWebp).catch(() => null);
         if (resized) {
           res.writeHead(200, {
             'Content-Type': resized.type,
             'Content-Length': resized.buf.length,
-            'Cache-Control': 'public, max-age=3600',
+            'Cache-Control': 'public, max-age=31536000, immutable',
+            'Vary': 'Accept',
             'Access-Control-Allow-Origin': '*',
           });
           res.end(resized.buf);
