@@ -2972,6 +2972,7 @@ export {
   stripThirdParty, flightReplace, applyFlightIA, applyContentFlight, applyLinks,
   applyGlobalSwaps, applyFooterAddresses, applyHeroVideo, mobileFor, posterFor, parseUpload, sniffImage, sniffMedia, FILE_FLIGHT,
   TITLE_MAP, NAV_LABELS, NAV_DROP_HREFS, MENU_ORDER, DEFAULT_TAGLINE,
+  WALL_DROP_TITLES, SPLIT_BRANDS,
 };
 
 // ---------- image dimensions (kills layout shift for imgs missing width/height) ----------

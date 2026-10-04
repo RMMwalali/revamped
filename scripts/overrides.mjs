@@ -3,7 +3,7 @@
 // Anchor rows (el_id starting with 'a') match by exact content + occurrence
 // index, so they keep working after React hydration re-renders the tree.
 import { readStore, writeStore } from './storage.mjs';
-import { safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs, verifyFlight } from './flight.mjs';
+import { safeReplace, safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs, verifyFlight } from './flight.mjs';
 
 const cache = new Map(); // page -> { at, items }
 const TTL = 15000;
@@ -520,6 +520,7 @@ export function applyTextOverrides(html, items) {
 export function applyAssetOverrides(html, items) {
   for (const it of items || []) {
     if (it.kind !== 'image' && it.kind !== 'media') continue;
+    const anchored = it.kind === 'image' && !!it.orig_html && imgAnchored(html, it.orig_html);
     if (it.orig_html) html = applyAnchor(html, it);
     // One URL for another in the same payload slot: the row structure cannot
     // change, so this stays safe on the legal pages too (they skip the text
@@ -529,6 +530,21 @@ export function applyAssetOverrides(html, items) {
     const next = patchAssetFlight(html, it);
     if (next !== html && flightBad(next) > before) continue;
     html = next;
+    // No <img> carries this URL: it is a CSS background image, living only in
+    // baked <style> rules and the flight "sourceUrl" strings, none of which
+    // the passes above reach. A full asset path is a safe token to replace
+    // document-wide - static markup and every push, length-synced; anchored
+    // rows keep their targeted rewrite so a same-asset <img> next to a
+    // background is never swapped as a side effect.
+    if (it.kind === 'image' && !anchored && it.orig_html && it.value && it.value !== it.orig_html) {
+      for (const cand of imgOrigCandidates(it.orig_html)) {
+        if (!cand || cand === it.value || !html.includes(cand)) continue;
+        const rep = safeReplace(html, cand, it.value);
+        if (rep === html) continue;
+        if (flightBad(rep) > before) continue;
+        html = rep;
+      }
+    }
   }
   return html;
 }
@@ -612,6 +628,19 @@ function imgOrigCandidates(orig) {
     if (base.startsWith('/assets/root/')) push(base.slice('/assets/root'.length));
   }
   return out;
+}
+
+// True when the recorded URL is carried by an <img src> in the markup. Rows
+// that are not are CSS background images: no img anchor exists for
+// applyAnchor, and the push-only flight swap cannot reach the baked <style>
+// rule, so the caller must fall back to a document-wide replace.
+function imgAnchored(html, orig) {
+  for (const cand of imgOrigCandidates(orig)) {
+    for (const sp of imgSrcCandidates(cand)) {
+      if (sp && html.indexOf('src="' + sp + '"') >= 0) return true;
+    }
+  }
+  return false;
 }
 
 function applyAnchor(html, it) {

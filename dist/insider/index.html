@@ -252,6 +252,10 @@
   }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function pick(a, b) { return (a !== undefined && a !== null && String(a) !== '') ? a : (b == null ? '' : b); }
+  // Records saved before the prefill fix kept donor client names; never show
+  // those in the editor fields, so saving again stores the clean value.
+  var DONOR_NAMES = { midas:1, pfizer:1, cordenpharma:1, 'corden pharma':1, corden:1, adidas:1, adevinta:1, adevina:1, nagarro:1, ribbon:1, symetrix:1, lindy:1, uefa:1, menzies:1, ypo:1, fedex:1, 'turkish airlines':1, veeam:1, hackathon:1, axiecon:1, stella:1, icefit:1, amazfit:1, novomatic:1, euroleague:1, 'ribbon communications':1, centrient:1, radisys:1 };
+  function donorFree(v) { var t = String(v == null ? '' : v).trim().toLowerCase(); return DONOR_NAMES[t] ? '' : v; }
   function toast(m) { var t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(t._h); t._h = setTimeout(function(){ t.style.display='none'; }, 2600); }
   function api(p, o) {
     o = o || {};
@@ -386,14 +390,14 @@
     var h = '';
     for (var i = 0; i < n; i++) {
       var s = sv[i] || {}, l = lv[i] || {};
-      h += '<div class="item" data-tm="' + i + '"><h3>' + esc(pick(s.name, l.name) || ('testimonial ' + (i + 1))) + '</h3><div class="grid">' +
-        '<div class="fld"><label>NAME</label><input type="text" data-k="name" value="' + esc(pick(s.name, l.name)) + '"></div>' +
-        '<div class="fld"><label>ROLE</label><input type="text" data-k="role" value="' + esc(pick(s.role, l.role)) + '"></div>' +
-        '<div class="fld"><label>ORGANISATION</label><input type="text" data-k="org" value="' + esc(pick(s.org, l.org)) + '"></div>' +
-        '<div class="fld"><label>LOCATION</label><input type="text" data-k="location" value="' + esc(pick(s.location, l.location)) + '"></div>' +
-        '<div class="fld"><label>INDUSTRY</label><input type="text" data-k="industry" value="' + esc(pick(s.industry, l.industry)) + '"></div>' +
+      h += '<div class="item" data-tm="' + i + '"><h3>' + esc(pick(donorFree(s.name), l.name) || ('testimonial ' + (i + 1))) + '</h3><div class="grid">' +
+        '<div class="fld"><label>NAME</label><input type="text" data-k="name" value="' + esc(pick(donorFree(s.name), l.name)) + '"></div>' +
+        '<div class="fld"><label>ROLE</label><input type="text" data-k="role" value="' + esc(pick(donorFree(s.role), l.role)) + '"></div>' +
+        '<div class="fld"><label>ORGANISATION</label><input type="text" data-k="org" value="' + esc(pick(donorFree(s.org), l.org)) + '"></div>' +
+        '<div class="fld"><label>LOCATION</label><input type="text" data-k="location" value="' + esc(pick(donorFree(s.location), l.location)) + '"></div>' +
+        '<div class="fld"><label>INDUSTRY</label><input type="text" data-k="industry" value="' + esc(pick(donorFree(s.industry), l.industry)) + '"></div>' +
         '<div class="fld"><label>PHOTO</label>' + imgRow('tm-photo-' + i, pick(s.photo, l.photo)) + '</div>' +
-        '<div class="fld full"><label>QUOTE</label><textarea data-k="quote" rows="3">' + esc(pick(s.quote, l.quote)) + '</textarea></div>' +
+        '<div class="fld full"><label>QUOTE</label><textarea data-k="quote" rows="3">' + esc(pick(donorFree(s.quote), l.quote)) + '</textarea></div>' +
         '<div class="fld full"><label>COMPANY LOGO</label>' + imgRow('tm-logo-' + i, pick(s.logo, l.logo)) + '</div>' +
         '</div></div>';
     }

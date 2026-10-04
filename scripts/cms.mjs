@@ -12,6 +12,7 @@ import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
 import { PARTNER_LOGOS, PLACEHOLDER_TESTIMONIALS, allCases } from './stillcraft-cases.mjs';
+import { SPLIT_BRANDS, WALL_DROP_TITLES } from './transform.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
 import { safeReplace, safeReplaceVerified, boundedSplitJoin, findEdgesArrays, splitTopObjects, splitTopArrays, matchBracketRaw, verifyFlight } from './flight.mjs';
 
@@ -749,6 +750,16 @@ function defaultTestimonials(html) {
     };
   });
 }
+// Records saved before the dashboard's prefill was cleaned kept donor client
+// names verbatim, and re-saving such a record would put the donor name back on
+// the page. Exact donor brand names (case-insensitive) therefore count as
+// "not set", so the StillCraft placeholder stands in. Exact-match only: a real
+// name that merely resembles one is left alone.
+const DONOR_NAME_SET = new Set(SPLIT_BRANDS.concat(WALL_DROP_TITLES).map((s) => String(s).trim().toLowerCase()));
+function isDonorName(v) {
+  const t = String(v == null ? '' : v).trim().toLowerCase();
+  return !!t && DONOR_NAME_SET.has(t);
+}
 function applyTestimonials(html, items) {
   const live = extractTestimonials(html);
   if (!live.length) return html;
@@ -764,7 +775,9 @@ function applyTestimonials(html, items) {
     const d = PLACEHOLDER_TESTIMONIALS[i] || {};
     const row = {};
     for (const f of FIELDS) {
-      row[f] = (it && it[f] != null) ? String(it[f]) : (d[f] || '');
+      let v = (it && it[f] != null) ? String(it[f]) : null;
+      if (v != null && isDonorName(v)) v = null; // donor name: treat as unset
+      row[f] = (v == null) ? (d[f] || '') : v;
     }
     // Images are optional: empty means "fall back to the partner logo".
     for (const f of ['logo', 'photo']) row[f] = (it && it[f]) ? String(it[f]) : '';

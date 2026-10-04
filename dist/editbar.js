@@ -45,6 +45,29 @@
     return null;
   }
 
+  // CSS background images are invisible to isCandidate (they are not <img>)
+  // but are editable the same way. Only local site assets qualify - external
+  // or data: backgrounds are template/framework material, out of scope.
+  function bgAssetOf(el) {
+    var st = null;
+    try { st = getComputedStyle(el); } catch (e) { return ''; }
+    if (!st) return '';
+    var m = /url\(\s*(['"]?)([^'")]+)\1\s*\)/.exec(st.backgroundImage || '');
+    if (!m || !m[2]) return '';
+    return m[2].indexOf('/assets/') === 0 ? m[2] : '';
+  }
+
+  function markBgCandidates() {
+    var els = document.body.getElementsByTagName('*');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (!el.closest || el.closest('#sc-bar,#sc-brand-panel')) continue;
+      var u = bgAssetOf(el);
+      if (u) el.setAttribute('data-sc-bg', u);
+      else if (el.hasAttribute('data-sc-bg')) el.removeAttribute('data-sc-bg');
+    }
+  }
+
   // Climb from a clicked node to the element the user actually means. The
   // animated-copy stack (span.css-3w1c3c > div.line-mask > div.line > sliced
   // text) exposes the SAME visible text at every level, so walking up while
@@ -199,6 +222,13 @@
           img.removeAttribute('srcset');
           img.removeAttribute('sizes');
         }
+        if (!img) {
+          // No <img> carries this URL: it is a CSS background image. Re-assert
+          // on the elements it was recorded from - data-sc-bg still names the
+          // recorded original even after the inline swap above.
+          var bgs = document.querySelectorAll('[data-sc-bg="' + o.orig_html + '"]');
+          for (var bi = 0; bi < bgs.length; bi++) bgs[bi].style.backgroundImage = "url('" + o.value + "')";
+        }
         return;
       }
       if (o.kind === 'media') {
@@ -267,7 +297,7 @@
       'padding:9px;font:700 12px Arial,sans-serif;cursor:pointer;}' +
       '</style>' +
       '<span class="dot"></span><b>STILLCRAFT</b><span class="pg"></span>' +
-      '<span class="hint">Click any text to edit · click images/videos to swap</span>' +
+      '<span class="hint">Click text to edit · click images or section backgrounds to swap</span>' +
       '<span class="row"><button id="sc-brand">Brand</button>' +
       '<button id="sc-cms">CMS</button>' +
       '<button id="sc-save" disabled>Save (0)</button></span>' +
@@ -278,6 +308,7 @@
     bar.querySelector('.pg').textContent = PAGE;
     document.documentElement.id = 'sc-bar-on';
     markCandidates();
+    markBgCandidates();
 
     $('#sc-save').addEventListener('click', save);
     $('#sc-discard').addEventListener('click', function () {
@@ -340,8 +371,18 @@
     var bar = e.target.closest && e.target.closest('#sc-bar,#sc-brand-panel');
     if (bar) return;
     var t = e.target.closest ? e.target.closest('img,p,h1,h2,h3,h4,h5,h6,li,a,span,button,video,source') : null;
-    if (!t || !isCandidate(t)) { if (active) active.blur(); return; }
-    var kind = isCandidate(t);
+    var kind = t ? isCandidate(t) : null;
+    if (!kind) {
+      // No text/image candidate under the cursor: fall back to a CSS
+      // background image, so sections that paint their banner in <style>
+      // rather than <img> stay swappable. Text and <img> always win.
+      var bg = e.target.closest ? e.target.closest('[data-sc-bg]') : null;
+      if (!bg) { if (active) active.blur(); return; }
+      if (active) active.blur();
+      e.preventDefault(); e.stopPropagation();
+      pickBg(bg);
+      return;
+    }
     e.preventDefault(); e.stopPropagation();
     if (kind === 'image') pickImage(t);
     else if (kind === 'video') pickMedia(t);
@@ -416,6 +457,37 @@
         img.removeAttribute('sizes');
         markDirty(key('image', tag, idx), 'image', d.src, orig, idx, tag);
         toast('Image swapped — press Save');
+      }).catch(function (e) { toast('Upload failed: ' + errMsg(e), true); });
+    };
+    input.click();
+  }
+
+  var bgInput = null;
+  function ensureBgInput() {
+    if (!bgInput) {
+      bgInput = document.createElement('input');
+      bgInput.type = 'file';
+      bgInput.accept = 'image/png,image/jpeg,image/webp,image/gif,image/svg+xml';
+      document.documentElement.appendChild(bgInput);
+    }
+    return bgInput;
+  }
+
+  function pickBg(el) {
+    var orig = el.getAttribute('data-sc-bg') || '';
+    if (!orig) return;
+    var input = ensureBgInput();
+    input.onchange = function () {
+      var f = input.files[0];
+      input.value = '';
+      if (!f) return;
+      var fd = new FormData();
+      fd.append('image', f);
+      toast('Uploading…');
+      uploadFile(fd).then(function (d) {
+        el.style.backgroundImage = "url('" + d.src + "')";
+        markDirty(key('image', el.tagName, 0), 'image', d.src, orig, 0, el.tagName);
+        toast('Background swapped — press Save');
       }).catch(function (e) { toast('Upload failed: ' + errMsg(e), true); });
     };
     input.click();
@@ -575,6 +647,7 @@
           sessionStorage.getItem('sc_hide') !== '1') {
         buildBar();
       }
+      markBgCandidates();
       loadOverrides();
     } catch (e) {}
   }, 5000);
