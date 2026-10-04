@@ -7,6 +7,7 @@ import { writeFile, mkdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { parseUpload, sniffMedia, sniffImage, IMAGE_MAX } from '../scripts/transform.mjs';
+import { isResizable } from '../scripts/imgpaths.mjs';
 
 export const config = { api: { bodyParser: false } };
 
@@ -34,7 +35,7 @@ function contentHash(buf) {
 async function normalizeImage(input, ext) {
   const { default: sharp } = await import('sharp');
   const resized = sharp(input)
-    .resize(MAX_DIM, MAX_DIM, { withoutReduction: false, fit: 'inside' })
+    .resize(MAX_DIM, MAX_DIM, { withoutEnlargement: true, fit: 'inside' })
     .webp({ quality: 72, effort: 4 })
     .toBuffer();
   return resized;
@@ -57,9 +58,10 @@ export default async function handler(req, res) {
     if (!sniffImage(part.data, ext)) { res.status(400).json({ error: 'invalid image format' }); return; }
   }
   const isBig = /^(mp4|m4v|mov|webm|mp3|wav|ogg|m4a)$/.test(ext);
-  const finalData = isImage ? await normalizeImage(part.data, ext) : part.data;
+  const doNorm = isImage && isResizable('i.' + ext);
+  const finalData = doNorm ? await normalizeImage(part.data, ext) : part.data;
   const hash = contentHash(finalData);
-  const finalExt = isImage ? 'webp' : ext;
+  const finalExt = doNorm ? 'webp' : ext;
   const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
     hash + '.' + finalExt;
   if (process.env.BLOB_READ_WRITE_TOKEN) {
@@ -70,7 +72,7 @@ export default async function handler(req, res) {
         res.status(200).json({ src: existing.url, kind: isBig ? 'media' : 'image', deduped: true });
         return;
       }
-      const blob = await put('custom/' + name, finalData, { access: 'public', contentType: isImage ? 'image/webp' : (part.type || undefined), allowOverwrite: true });
+      const blob = await put('custom/' + name, finalData, { access: 'public', contentType: doNorm ? 'image/webp' : (part.type || undefined), allowOverwrite: true });
       res.status(200).json({ src: blob.url, kind: isBig ? 'media' : 'image' });
     } catch (e) {
       console.error('[upload] blob error:', e?.message || e);
