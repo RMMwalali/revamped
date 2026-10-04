@@ -370,6 +370,23 @@
     });
   }
 
+  // Carries the server's actual error (d.error / d.detail) to the toast, so a
+  // 401 (logged out), 413 (too big) or storage 500 is legible instead of the
+  // old blanket "must be an image" which matched nothing.
+  function errMsg(e) { return (e && e.message) || String(e || 'unknown error'); }
+  function uploadFile(fd) {
+    return fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok) {
+          var e = new Error((d && (d.error || d.detail)) || ('http ' + r.status));
+          e.status = r.status;
+          throw e;
+        }
+        return d;
+      });
+    });
+  }
+
   var fileInput = null;
   function ensureInput() {
     if (!fileInput) {
@@ -393,16 +410,13 @@
       var fd = new FormData();
       fd.append('image', f);
       toast('Uploading…');
-      fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) {
-        if (!r.ok) throw new Error();
-        return r.json();
-      }).then(function (d) {
+      uploadFile(fd).then(function (d) {
         img.setAttribute('src', d.src);
         img.removeAttribute('srcset');
         img.removeAttribute('sizes');
         markDirty(key('image', tag, idx), 'image', d.src, orig, idx, tag);
         toast('Image swapped — press Save');
-      }).catch(function () { toast('Upload failed (must be an image)', true); });
+      }).catch(function (e) { toast('Upload failed: ' + errMsg(e), true); });
     };
     input.click();
   }
@@ -434,10 +448,7 @@
       var fd = new FormData();
       fd.append('image', f);
       toast('Uploading…');
-      fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) {
-        if (!r.ok) throw new Error();
-        return r.json();
-      }).then(function (d) {
+      uploadFile(fd).then(function (d) {
         if (target.attr === 'poster') {
           video.setAttribute('poster', d.src);
         } else {
@@ -446,7 +457,7 @@
         video.load && video.load();
         markDirty(key('media', video.tagName, idx), 'media', d.src, orig, idx, video.tagName);
         toast('Media swapped — press Save');
-      }).catch(function () { toast('Upload failed (max 250MB, image/video/audio)', true); });
+      }).catch(function (e) { toast('Upload failed: ' + errMsg(e), true); });
     };
     input.click();
   }
@@ -546,10 +557,7 @@
       if (f) {
         var fd = new FormData();
         fd.append('image', f);
-        fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) {
-          if (!r.ok) throw new Error();
-          return r.json();
-        }).then(function (d) { done(d.src); }).catch(function () { toast('Logo upload failed', true); });
+        uploadFile(fd).then(function (d) { done(d.src); }).catch(function (e) { toast('Logo upload failed: ' + errMsg(e), true); });
       } else done(null);
     });
   }

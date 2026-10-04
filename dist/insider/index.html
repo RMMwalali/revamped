@@ -633,9 +633,14 @@
       };
       if (lf) {
         var fd = new FormData(); fd.append('image', lf);
-        fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (d) {
+            if (!r.ok) throw new Error((d && (d.error || d.detail)) || ('http ' + r.status));
+            return d;
+          });
+        })
           .then(function (d) { $('#bLogo').value = d.src; done(d.src); })
-          .catch(function () { toast('Logo upload failed'); b.disabled = false; });
+          .catch(function (e) { toast('Logo upload failed: ' + ((e && e.message) || 'unknown')); b.disabled = false; });
       } else done($('#bLogo').value || null);
       return;
     }
@@ -671,7 +676,12 @@
       // silently never appeared.
       var uploading = (PENDING.uploads += 1);
       var fd = new FormData(); fd.append('image', f.files[0]);
-      fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (d) {
+          if (!r.ok) throw new Error((d && (d.error || d.detail)) || ('http ' + r.status));
+          return d;
+        });
+      })
         .then(function (d) {
           if (target) {
             target.value = d.src;
@@ -682,7 +692,7 @@
           }
           toast('Uploaded — press Save');
         })
-        .catch(function () { toast('Upload failed'); })
+        .catch(function (e) { toast('Upload failed: ' + ((e && e.message) || 'unknown')); })
         .then(function () {
           if (--PENDING.uploads === 0) PENDING.resolve();
         });
