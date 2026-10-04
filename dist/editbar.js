@@ -378,7 +378,7 @@
     return fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (d) {
         if (!r.ok) {
-          var e = new Error((d && (d.error || d.detail)) || ('http ' + r.status));
+          var e = new Error((d && (d.detail || d.error)) || ('http ' + r.status));
           e.status = r.status;
           throw e;
         }
