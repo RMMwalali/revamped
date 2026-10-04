@@ -10,7 +10,7 @@ function conf() {
   const bucket = process.env.R2_BUCKET;
   if (!accountId || !accessKeyId || !secret || !bucket) return null;
   const base = (process.env.R2_ENDPOINT || `https://${accountId}.r2.cloudflarestorage.com`).replace(/\/+$/, '');
-  return { accountId, accessKeyId, secret, bucket, base, publicBase: (process.env.R2_PUBLIC_BASE || '').replace(/\/+$/, '') };
+  return { accountId, accessKeyId, secret, bucket, base, publicBase: (process.env.R2_PUBLIC_URL || process.env.R2_PUBLIC_BASE || '').replace(/\/+$/, '') };
 }
 
 export function r2Configured() {

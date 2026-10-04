@@ -98,7 +98,7 @@ export default async function handler(req, res) {
     return;
   }
   if (process.env.VERCEL) {
-    res.status(500).json({ error: 'uploads not configured (set R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_PUBLIC_BASE - or BLOB_READ_WRITE_TOKEN for legacy Vercel Blob)' });
+    res.status(500).json({ error: 'uploads not configured (set R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_PUBLIC_URL - or BLOB_READ_WRITE_TOKEN for legacy Vercel Blob)' });
     return;
   }
   const dir = path.join(process.cwd(), 'dist', 'assets', 'custom');
