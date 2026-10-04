@@ -1,13 +1,15 @@
 ﻿// POST /api/upload (admin): media field "image", up to 8MB for images,
-// 250MB for video/audio. Uses Vercel Blob when BLOB_READ_WRITE_TOKEN is
-// set, else local disk (dev). Deduplicates uploads via content hash,
-// normalizes images to WebP with sharp to cut bytes.
+// 250MB for video/audio. Storage: Cloudflare R2 when R2_* vars are set,
+// else Vercel Blob (legacy) when BLOB_READ_WRITE_TOKEN is set, else local
+// disk (dev). Deduplicates uploads via content hash, normalizes images to
+// WebP with sharp to cut bytes.
 import crypto from 'node:crypto';
 import { writeFile, mkdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { parseUpload, sniffMedia, sniffImage, IMAGE_MAX } from '../scripts/transform.mjs';
 import { isResizable } from '../scripts/imgpaths.mjs';
+import { r2Configured, r2Head, r2Put, r2PublicUrl } from '../scripts/r2.mjs';
 
 export const config = { api: { bodyParser: false } };
 
@@ -64,6 +66,21 @@ export default async function handler(req, res) {
   const finalExt = doNorm ? 'webp' : ext;
   const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
     hash + '.' + finalExt;
+  if (r2Configured()) {
+    try {
+      const existing = await r2Head('custom/' + name).catch(() => false);
+      if (existing) {
+        res.status(200).json({ src: r2PublicUrl('custom/' + name), kind: isBig ? 'media' : 'image', deduped: true });
+        return;
+      }
+      await r2Put('custom/' + name, finalData, doNorm ? 'image/webp' : (part.type || 'application/octet-stream'));
+      res.status(200).json({ src: r2PublicUrl('custom/' + name), kind: isBig ? 'media' : 'image' });
+    } catch (e) {
+      console.error('[upload] r2 error:', e?.message || e);
+      res.status(500).json({ error: 'upload failed', detail: String(e?.message || e).slice(0, 200) });
+    }
+    return;
+  }
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       const { put, head } = await import('@vercel/blob');
@@ -81,7 +98,7 @@ export default async function handler(req, res) {
     return;
   }
   if (process.env.VERCEL) {
-    res.status(500).json({ error: 'uploads not configured (missing BLOB_READ_WRITE_TOKEN)' });
+    res.status(500).json({ error: 'uploads not configured (set R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_PUBLIC_BASE - or BLOB_READ_WRITE_TOKEN for legacy Vercel Blob)' });
     return;
   }
   const dir = path.join(process.cwd(), 'dist', 'assets', 'custom');
