@@ -1300,7 +1300,7 @@ export function teamSectionHTML() {
     + `</div></section>`;
 }
 
-const ABOUT_GUARD_CSS = 'section.css-4csq8r{display:none !important;}';
+const ABOUT_GUARD_CSS = 'section.css-4csq8r,section.styles_talent__AlRC3{display:none !important;}';
 const ABOUT_GUARD_JS = `<script>(function(){function drop(){var els=document.querySelectorAll('section.css-4csq8r');for(var i=0;i<els.length;i++){var n=els[i];if(n)n.remove();}}function run(){drop();}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}setTimeout(run,800);setTimeout(run,2500);setTimeout(run,6000);setTimeout(run,12000);})();</script>`;
 export function applyAboutTeamReplace(html, cms) {
   // Key on the heading the served /about ACTUALLY ships. The static roster grid
@@ -1355,7 +1355,7 @@ function teamMountScript(cms) {
     + 'var made=document.querySelector(".styles_madeof__UEfw1");'
     + 'if(made){var mt=topLevel(made);if(mt)return mt.nextElementSibling;}'
     + 'return null;}'
-    + 'function drop(){var e=document.querySelectorAll("section.css-4csq8r");'
+    + 'function drop(){var e=document.querySelectorAll("section.css-4csq8r,section.styles_talent__AlRC3");'
     + 'for(var i=0;i<e.length;i++){if(e[i])e[i].remove();}}'
     + 'function mount(){drop();'
     + 'if(document.getElementById("sc-team"))return true;'
@@ -1371,28 +1371,60 @@ function teamMountScript(cms) {
     + '})();<\/script>';
 }
 export function applyAboutTeamRemove(html) {
-  // Strip ONLY the donor's static talent roster block. No CTA cut, no mount -
-  // applyAboutTeamReplace (with the CMS bundle) rebuilds and mounts after.
-  // Static markup only: never touch flight payload copies.
+  // Strip the donor's talent roster block (static markup) plus its flight
+  // payload copy (AboutMembersLayout members array) so React hydration cannot
+  // re-render the donor names after the static section is gone. The flight
+  // edit is verifier-guarded: on failure the static strip still stands.
   const secOpen = staticIndexOf(html, '<section class="styles_talent__AlRC3">');
-  if (secOpen < 0) return html;
-  let depth = 0, i = secOpen;
-  while (i < html.length) {
-    if (html.startsWith('</section', i) && /[\s>]/.test(html[i + 9] || '')) {
-      const gt = html.indexOf('>', i);
-      if (gt < 0) return html;
-      depth--;
-      i = gt + 1;
-      if (depth === 0) return html.slice(0, secOpen) + html.slice(i);
-    } else if (html.startsWith('<section', i) && /[\s>]/.test(html[i + 8] || '')) {
-      const gt = html.indexOf('>', i);
-      if (gt < 0) return html;
-      if (html[gt - 1] !== '/') depth++;
-      i = gt + 1;
-    } else {
-      i++;
+  if (secOpen >= 0) {
+    let depth = 0, i = secOpen, done = false;
+    while (i < html.length) {
+      if (html.startsWith('</section', i) && /[\s>]/.test(html[i + 9] || '')) {
+        const gt = html.indexOf('>', i);
+        if (gt < 0) break;
+        depth--;
+        i = gt + 1;
+        if (depth === 0) { html = html.slice(0, secOpen) + html.slice(i); done = true; break; }
+      } else if (html.startsWith('<section', i) && /[\s>]/.test(html[i + 8] || '')) {
+        const gt = html.indexOf('>', i);
+        if (gt < 0) break;
+        if (html[gt - 1] !== '/') depth++;
+        i = gt + 1;
+      } else {
+        i++;
+      }
     }
+    if (!done) return html;
   }
+  // Flight: empty the AboutMembersLayout members array (single occurrence).
+  // Raw bytes use backslash-escaped quotes, so match the FQ spelling.
+  try {
+    const BS = String.fromCharCode(92);
+    const FQ = BS + '"';
+    const anchor = html.indexOf('AboutMembersLayout');
+    if (anchor >= 0) {
+      const marker = FQ + 'members' + FQ + ':[';
+      const mi = html.indexOf(marker, anchor);
+      if (mi >= 0) {
+        const open = mi + marker.length - 1; // at '['
+        let depth = 0;
+        let end = -1;
+        for (let k = open; k < html.length; k++) {
+          const c = html[k];
+          if (c === BS) { k++; continue; }
+          if (c === '[') depth++;
+          else if (c === ']') { depth--; if (depth === 0) { end = k; break; } }
+        }
+        if (end > open + 1) {
+          const badBefore = (() => { try { return verifyFlight(html).bad; } catch { return 0; } })();
+          const cand = html.slice(0, open + 1) + html.slice(end);
+          try {
+            if (verifyFlight(cand).bad <= badBefore) html = cand;
+          } catch { /* keep static strip */ }
+        }
+      }
+    }
+  } catch { /* keep static strip */ }
   return html;
 }
 // Social share image: template points og:image/twitter:image at an Adevinta
@@ -1628,6 +1660,187 @@ export function applySplitTextFix(html) {
     }
     void changed;
     return html;
+  } catch { return html; }
+}
+// Service "What The Programme Moves" related-projects info panel: the 10
+// slides' category / location / title / description rows render stacked until
+// the donor slider JS advances them (inactive rows hide via translate+clip).
+// The static rows still name donor projects (VIP360, five-metre wall...),
+// donor categories (rewritten by the nav rename to the service title) and
+// donor cities (Budapest, Barcelona...) while flight already carries the 10
+// mall cases in thumbnail order (= CASE_DATA order). Align static with flight,
+// positionally by slide. Region-scoped so listing cards or FAQ copy elsewhere
+// on the page can never match.
+const RELATED_CATS = ['Exhibits, Sports', 'Exhibits', 'Congresses, Events', 'Congresses', 'Events',
+  'Mall Calendar Programming', 'Mall Space Monetization', 'Brand Activations',
+  'Live Event', 'Sports', 'Product Launch'];
+// Rewrite one related-project thumbnail (balanced div span) to CASE[slide]:
+// alt text + every image URL (src/srcset/href, optimizer or raw) become the
+// case cover. Thumbs beyond the case list cycle; a drifted strip (fewer than
+// 10 thumbs) maps what exists.
+function relatedThumbsFix(html) {
+  try {
+    const openRe = /<div class="RelatedProjectInfoThumbnail_thumbnail__GFeyD[^"]*"[^>]*>/g;
+    const spans = [];
+    let m;
+    while ((m = openRe.exec(html))) {
+      const end = cutBalancedDiv(html, m.index);
+      if (end > m.index) spans.push([m.index, end]);
+      if (spans.length > 12) break;
+    }
+    if (!spans.length) return html;
+    // back-to-front so offsets hold
+    spans.sort((a, b) => b[0] - a[0]);
+    spans.forEach(([s, e], ri) => {
+      const k = (spans.length - 1 - ri) % 10;
+      const c = CASE_BY_IDX[k];
+      let div = html.slice(s, e);
+      const alt = escStatic(c.title);
+      div = div.replace(/alt="[^"]*"/, 'alt="' + alt + '"');
+      const cover = `/assets/stillcraft/mall-case/${c.slug}/cover.svg`;
+      // optimizer URLs (/_next/image?url=<path>&w=..) keep their params: only
+      // the embedded asset path is swapped. Covers from other cases are
+      // re-pointed too so strip order always matches the info rows + flight.
+      div = div.replace(/\/assets\/(?:stillcraft\/mall-case\/[a-z0-9-]+\/cover\.svg|cms\/[^"&\s]*\.(?:jpg|jpeg|png|webp|svg|gif))/gi, cover);
+      html = html.slice(0, s) + div + html.slice(e);
+    });
+    return html;
+  } catch { return html; }
+}
+const escStatic = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// Rewrite the line-div texts inside one <p> block: first line-div gets `lines`
+// distributed by character budget (words wrap, overflow lands on last line),
+// surplus line-divs run empty. Returns the patched block.
+function fillPanelLines(block, texts) {
+  const re = /(<div class="line fix-clip"[^>]*>)([^<]*)(<\/div>)/g;
+  const slots = [];
+  let m;
+  while ((m = re.exec(block))) slots.push({ open: m[1], text: m[2], close: m[3], at: m.index, len: m[0].length });
+  if (!slots.length) return block;
+  const words = String(texts).split(/\s+/).filter(Boolean);
+  const budgets = slots.map((s) => Math.max(s.text.length, 8));
+  const chunks = budgets.map(() => []);
+  let w = 0;
+  for (let i = 0; i < chunks.length && w < words.length; i++) {
+    let used = 0;
+    while (w < words.length) {
+      const need = words[w].length + (chunks[i].length ? 1 : 0);
+      if (chunks[i].length && used + need > budgets[i]) break;
+      chunks[i].push(words[w]);
+      used += need;
+      w++;
+    }
+  }
+  if (w < words.length && chunks.length) chunks[chunks.length - 1] = chunks[chunks.length - 1].concat(words.slice(w));
+  let out = block;
+  for (let i = slots.length - 1; i >= 0; i--) {
+    const s = slots[i];
+    const val = escStatic((chunks[i] || []).join(' '));
+    out = out.slice(0, s.at) + s.open + val + s.close + out.slice(s.at + s.len);
+  }
+  return out;
+}
+export function applyRelatedInfoFix(html, page) {
+  try {
+    if (!/^\/service\//.test(page || '')) return html;
+    // Thumbnails first: each strip thumb shows one case (thumbnail/flight
+    // order = CASE_DATA order). Rewrite alt + every image URL inside thumb k
+    // to CASE[k] so alt, artwork, info rows and flight all agree. (An earlier
+    // document-order URL pass pairs each thumb's two <img>s with different
+    // cases, showing every thumb the next case's cover.)
+    html = relatedThumbsFix(html);
+    const marker = 'styles_relatedProjectInfo__MdY1q';
+    const start = html.indexOf(marker);
+    if (start < 0) return html;
+    let end = html.indexOf('EventSliderLeaderInfo_content', start);
+    if (end < 0) end = html.indexOf('szh-accordion', start);
+    if (end < 0) end = html.indexOf('<footer', start);
+    if (end < 0) return html;
+    const head = html.slice(0, start);
+    let region = html.slice(start, end);
+    const tail = html.slice(end);
+    const blockRe = /<p class="(css-928hs6|css-pc9jiq|css-1jlphtm)\b[^>]*>([\s\S]*?)<\/p>/g;
+    const metas = [];   // css-928hs6 blocks (categories + locations)
+    const titles = [];  // css-pc9jiq blocks
+    const descs = [];   // css-1jlphtm blocks
+    let m;
+    while ((m = blockRe.exec(region))) {
+      const rec = { cls: m[1], full: m[0], at: m.index, len: m[0].length };
+      if (m[1] === 'css-928hs6') metas.push(rec);
+      else if (m[1] === 'css-pc9jiq') titles.push(rec);
+      else descs.push(rec);
+    }
+    // Expected shape: 40 meta (10 cats + 10 locs, x2 loop copies), 10 titles,
+    // 10 descs. Anything else means the template drifted: categories are still
+    // safe value-based, but positional slides need the exact shape.
+    const shapeOk = metas.length === 40 && titles.length === 10 && descs.length === 10;
+    // 1) categories (value-based, order-free): every cat block reads Retail & Malls.
+    {
+      const edits = [];
+      const isCat = (idx) => {
+        if (metas.length === 40) return idx < 10 || (idx >= 20 && idx < 30);
+        if (metas.length === 20) return idx < 10;
+        return null; // unknown shape: fall through to value check below
+      };
+      metas.forEach((b, idx) => {
+        const lineRe = /(<div class="line fix-clip"[^>]*>)([^<]*)(<\/div>)/g;
+        let lm, first = true, nb = b.full, sh = 0, touched = false;
+        const kind = isCat(idx);
+        while ((lm = lineRe.exec(b.full))) {
+          const cur = lm[2];
+          let want = null;
+          if (kind === true || (kind === null && RELATED_CATS.some((c) => cur.trim() === c))) {
+            want = 'Retail &amp; Malls';
+          }
+          if (want != null && cur !== want) {
+            const nl = lm[1].length + sh, vl = lm[2].length;
+            nb = nb.slice(0, lm.index + sh + lm[1].length) + want + nb.slice(lm.index + sh + lm[1].length + vl);
+            sh += want.length - vl;
+            touched = true;
+          }
+          void first; first = false;
+        }
+        if (touched) edits.push([b.at, b.len, nb, nb.length - b.len]);
+      });
+      edits.sort((a, b2) => b2[0] - a[0]);
+      for (const [at, len, nb] of edits) region = region.slice(0, at) + nb + region.slice(at + len);
+    }
+    if (!shapeOk) {
+      // Drifted template: categories fixed above; leave slide-positional
+      // values (locations/titles/descs) to the generic passes rather than
+      // risk mislabelling a slide.
+      return head + region + tail;
+    }
+    // Slide order check: the mall-titled blocks already in place must agree
+    // with CASE_DATA order, or positional mapping would scramble them.
+    const dec = (s) => String(s).replace(/&amp;/g, '&').replace(/&#39;/g, "'");
+    let aligned = 0, misaligned = 0;
+    titles.forEach((b, j) => {
+      const lm = /<div class="line fix-clip"[^>]*>([^<]*)<\/div>/.exec(b.full);
+      if (!lm) return;
+      const cur = dec(lm[1]).trim();
+      if (!cur) return;
+      if (cur === CASE_BY_IDX[j % 10].title) aligned++;
+      else if (CASE_BY_IDX.some((c) => c.title === cur)) misaligned++;
+    });
+    if (misaligned > aligned) return head + region + tail;
+    const edits = [];
+    const pushBlock = (b, text) => {
+      const nb = fillPanelLines(b.full, text);
+      if (nb !== b.full) edits.push([b.at, b.len, nb]);
+    };
+    // 2) locations: metas[10..19] + metas[30..39], slide = idx % 10.
+    metas.forEach((b, idx) => {
+      const inLoc = (idx >= 10 && idx < 20) || (idx >= 30 && idx < 40);
+      if (!inLoc) return;
+      pushBlock(b, CASE_BY_IDX[idx % 10].location);
+    });
+    // 3) titles + 4) descriptions, slide = idx % 10.
+    titles.forEach((b, j) => pushBlock(b, CASE_BY_IDX[j % 10].title));
+    descs.forEach((b, j) => pushBlock(b, CASE_BY_IDX[j % 10].excerpt));
+    edits.sort((a, b2) => b2[0] - a[0]);
+    for (const [at, len, nb] of edits) region = region.slice(0, at) + nb + region.slice(at + len);
+    return head + region + tail;
   } catch { return html; }
 }
 // Portfolio listings: template project nodes (UEFA/Midas/Adevinta/CPHI…)

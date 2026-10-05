@@ -931,8 +931,12 @@ function applyTestimonials(html, items) {
   // One quote paragraph per slide, or the split-line scan has found something
   // that is not the carousel. Leaving the static copy alone is the safe
   // outcome: the flight payload edits still apply.
-  const qbs = quoteBlocks(html);
-  const quotes = () => (qbs.length === live.length ? qbs : []);
+  // Re-scanned per use: the URL pass above changes document lengths, so a
+  // snapshot would write quote text at stale offsets (span corruption).
+  const quotes = () => {
+    const qbs = quoteBlocks(html);
+    return qbs.length === live.length ? qbs : [];
+  };
   // Two passes, and the order is load-bearing. Donor file names carry the donor
   // company (".../UEFA-logo.png"), so a text swap for that company name also
   // rewrites the URL and leaves a broken path behind. Every URL is therefore
@@ -1012,6 +1016,236 @@ function applyTestimonials(html, items) {
     const qb = quotes()[i];
     if (qb) html = setQuoteLines(html, qb, it.quote);
   }
+  return html;
+}
+// ---------------------------------------------------------------------------
+// Service-page testimonial sliders (/service/*)
+// ---------------------------------------------------------------------------
+// Same EventSlider chrome as home, but a different flight shape: items sit in
+// a plain `testimonials:[{title, featuredImage, testimonialTemplate, industry,
+// eventTypes, location, testimonial, client:{role, organization:{name, logo}}}]`
+// array (e.g. `testimonial-5`), not the home node:{title} edges — so the home
+// extractor finds nothing here and the donor quotes/names/orgs/meta shipped
+// untouched. Remapped positionally from the same testimonial pool as home
+// (saved items win, StillCraft placeholders fill the rest); an explicitly
+// emptied pool hides the band, matching home delete semantics.
+function serviceTestimonialsArray(html) {
+  const marker = FQ + 'testimonials' + FQ + ':[';
+  let at = 0;
+  while (true) {
+    const i = html.indexOf(marker, at);
+    if (i < 0) return null;
+    const open = i + marker.length - 1; // at '['
+    const m = matchBracket(html, open);
+    if (!m) { at = open + 1; continue; }
+    const text = html.slice(m[0], m[1]);
+    if (text.includes('testimonialTemplate') && text.includes('client')) {
+      return { start: m[0], end: m[1], text };
+    }
+    at = m[1];
+  }
+}
+function serviceTestimonialNodes(html) {
+  const reg = serviceTestimonialsArray(html);
+  if (!reg) return [];
+  const inner = html.slice(reg.start + 1, reg.end - 1);
+  const nodes = splitTopObjects(inner);
+  if (!nodes.length) return [];
+  return nodes.map((nd) => ({ start: reg.start + 1 + nd.start, end: reg.start + 1 + nd.end }));
+}
+export function extractServiceTestimonials(html) {
+  const reg = serviceTestimonialsArray(html);
+  if (!reg) return [];
+  const inner = html.slice(reg.start + 1, reg.end - 1);
+  const nodes = splitTopObjects(inner);
+  return nodes.map((nd) => {
+    const e = inner.slice(nd.start, nd.end);
+    const photo = (() => {
+      const m = new RegExp('featuredImage' + RFQ + ':\\{' + RFQ + 'node' + RFQ + ':\\{' + RFQ + 'sourceUrl' + RFQ + ':' + RFQ + '([^' + EBS + ']+)' + RFQ).exec(e);
+      return m ? m[1] : '';
+    })();
+    const logo = (() => {
+      const m = new RegExp('organization' + RFQ + ':\\{' + RFQ + 'name' + RFQ + ':' + RFQ + '(' + FVAL + ')' + RFQ + '([\\s\\S]{0,600}?)' + RFQ + 'sourceUrl' + RFQ + ':' + RFQ + '([^' + EBS + ']+)' + RFQ).exec(e);
+      return m ? m[3] : '';
+    })();
+    const org = (() => {
+      const m = new RegExp('organization' + RFQ + ':\\{' + RFQ + 'name' + RFQ + ':' + RFQ + '(' + FVAL + ')' + RFQ).exec(e);
+      return m ? decodeFlight(m[1]).trim() : '';
+    })();
+    const role = (() => {
+      const m = new RegExp('client' + RFQ + ':\\{' + RFQ + 'role' + RFQ + ':' + RFQ + '(' + FVAL + ')' + RFQ).exec(e);
+      return m ? decodeFlight(m[1]).trim() : '';
+    })();
+    const linkUrl = (() => {
+      const m = new RegExp('link' + RFQ + ':\\{([^}]*?)' + RFQ + 'url' + RFQ + ':' + RFQ + '([^' + EBS + ']+)' + RFQ).exec(e);
+      return m ? m[2] : '';
+    })();
+    const pm = new RegExp(ropen('participants') + '(\\d+)').exec(e);
+    return {
+      name: decodeFlight(rawVal(e, 'title')),
+      photo,
+      quote: decodeFlight(rawVal(e, 'testimonial')),
+      location: decodeFlight(rawVal(e, 'location')),
+      industry: decodeFlight(rawVal(e, 'industry')),
+      role, org, logo, participants: pm ? Number(pm[1]) : '',
+      linkUrl,
+    };
+  }).filter((r) => r.name || r.quote);
+}
+// Split-line quote blocks of the service slider: `p.css-14j7yr9` blocks after
+// the related-info panel (or, without one, the trailing run before the first
+// leader block). Count-guarded by the caller like the home equivalent.
+function serviceQuoteBlocks(html) {
+  const firstLeader = leaderInfoBlocks(html)[0];
+  if (!firstLeader) return [];
+  const panelAt = html.indexOf('styles_relatedProjectInfo__MdY1q');
+  const from = panelAt >= 0 ? panelAt : 0;
+  const out = [];
+  const re = /<p class="css-14j7yr9[^"]*"[^>]*>/g;
+  let m;
+  while ((m = re.exec(html))) {
+    if (m.index < from || m.index >= firstLeader.start) break;
+    const end = matchTag(html, m.index);
+    if (end < 0 || end > firstLeader.start) { re.lastIndex = m.index + 2; continue; }
+    const seg = html.slice(m.index, end);
+    if (!seg.includes('line fix-clip')) { re.lastIndex = end; continue; }
+    out.push({ start: m.index, end, lines: lineSlots(html, m.index, end) });
+    re.lastIndex = end;
+  }
+  return out;
+}
+// Labeled meta rows (participants / industry / event type / location): each is
+// a label <p> followed by a div of one value <p> per slide. Offsets are
+// absolute (value index rebased past the label/div prefix).
+function serviceMetaGroups(html) {
+  const out = [];
+  const re = /<p data-sc-id="t-\d+" class="css-qg5m4o">([^<]*)<\/p><div class="css-h3wi0l">([\s\S]*?)<\/div><\/div>/g;
+  let m;
+  while ((m = re.exec(html))) {
+    const valsBase = m.index + m[0].indexOf(m[2]);
+    const vals = [];
+    const vre = /<p class="css-1fqz1sl"><span data-sc-id="t-\d+"[^>]*>([^<]*)<\/span><\/p>/g;
+    let vm;
+    while ((vm = vre.exec(m[2]))) vals.push({ text: vm[1], at: valsBase + vm.index, len: vm[0].length, inner: vm[1] });
+    out.push({ label: m[1].trim().toLowerCase(), vals, at: m.index, len: m[0].length });
+  }
+  return out;
+}
+const fmtNum = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+function applyServiceTestimonials(html, items) {
+  const live = extractServiceTestimonials(html);
+  if (!live.length) return html;
+  const N = live.length;
+  const FIELDS = ['name', 'quote', 'role', 'org'];
+  const isExplicit = Array.isArray(items);
+  const given = (isExplicit ? items : []).filter((it) => it && !it._deleted && !it.deleted);
+  // Explicitly emptied pool hides the band, same as home.
+  if (isExplicit && given.length === 0) return hideTestimonialsBand(html);
+  // Voice fields come from the shared pool (saved wins, placeholders fill);
+  // meta (industry/location/participants) is mall context per slide.
+  const want = live.map((_, i) => {
+    const it = given[i];
+    const d = PLACEHOLDER_TESTIMONIALS[i] || {};
+    const row = {};
+    for (const f of FIELDS) {
+      let v = (it && it[f] != null) ? String(it[f]) : null;
+      if (v != null && isDonorName(v)) v = null;
+      row[f] = (v == null) ? (d[f] || '') : v;
+    }
+    for (const f of ['logo', 'photo']) row[f] = (it && it[f]) ? String(it[f]) : '';
+    const c = allCases()[i % Math.max(1, allCases().length)] || {};
+    row.industry = 'Retail & Malls';
+    row.location = c.location || '';
+    row.participants = c.participants || '';
+    return row;
+  });
+  const nodes = () => serviceTestimonialNodes(html);
+  const blocks = () => leaderInfoBlocks(html);
+  // Re-scanned per iteration: the URL pass above changes document lengths, so
+  // a snapshot would write quote text at stale offsets (span corruption).
+  const quotes = () => {
+    const qbs = serviceQuoteBlocks(html);
+    return qbs.length === N ? qbs : [];
+  };
+  const metas = () => serviceMetaGroups(html);
+  // URL pass first (donor-named URLs would be mangled by later text swaps).
+  for (let i = N - 1; i >= 0; i--) {
+    const it = want[i];
+    const cur = live[i];
+    if (!cur) continue;
+    const node = nodes()[i];
+    if (node) {
+      for (const field of ['logo', 'photo']) {
+        const oldV = String(cur[field] == null ? '' : cur[field]);
+        if (!oldV) continue;
+        const gv = isDonorAsset(it[field]) ? '' : it[field];
+        const target = gv || partnerLogoAt(i);
+        if (target !== oldV) html = swapUrlInRange(html, node.start, node.end, oldV, target);
+      }
+      // Donor-absolute "see full case study" link -> a real StillCraft case.
+      if (cur.linkUrl && /iventions\.com/i.test(cur.linkUrl)) {
+        const link = caseLinkAt(i);
+        if (link) html = swapInRange(html, node.start, node.end, cur.linkUrl, link.url);
+      }
+    }
+    if (cur.photo) {
+      const target = (isDonorAsset(it.photo) ? '' : it.photo) || partnerLogoAt(i);
+      if (target !== cur.photo) html = swapUrlInRange(html, 0, html.length, cur.photo, target);
+    }
+    const slideLogo = eventLogoSrcs(html)[i];
+    if (isDonorAsset(slideLogo)) {
+      html = swapUrlInRange(html, 0, html.length, slideLogo, partnerLogoAt(i));
+    }
+  }
+  // Text + meta pass.
+  for (let i = N - 1; i >= 0; i--) {
+    const it = want[i];
+    const cur = live[i];
+    if (!cur) continue;
+    const node = nodes()[i];
+    if (node) {
+      for (const field of [...FIELDS, 'location', 'industry']) {
+        const oldV = String(cur[field] == null ? '' : cur[field]);
+        if (oldV && oldV !== it[field]) html = swapInRange(html, node.start, node.end, oldV, it[field]);
+      }
+      if (cur.participants !== '' && String(cur.participants) !== String(it.participants)) {
+        const needle = FQ + 'participants' + FQ + ':' + cur.participants;
+        if (html.includes(needle)) html = swapAll(html, needle, FQ + 'participants' + FQ + ':' + it.participants);
+      }
+    }
+    const b = blocks()[i];
+    if (b) {
+      html = setSpanText(html, b.start, b.end, 0, it.role);
+      const nb = blocks()[i];
+      if (nb) html = setSpanText(html, nb.start, nb.end, 1, it.org);
+    }
+    const qb = quotes()[i];
+    if (qb) html = setQuoteLines(html, qb, it.quote);
+  }
+  // Meta rows (participants / industry / location values, one <p> per slide).
+  // Groups run back-to-front (later groups first) so earlier offsets stay
+  // valid across groups; values within a group already run back-to-front.
+  try {
+    const groups = metas().sort((a, b) => b.at - a.at);
+    for (const g of groups) {
+      if (!g.vals.length || g.vals.length !== N) continue;
+      const kind = /participant/.test(g.label) ? 'participants'
+        : /industr/.test(g.label) ? 'industry'
+        : /location/.test(g.label) ? 'location' : null;
+      if (!kind) continue; // event type + unknown labels stay as shipped
+      const vals = g.vals.slice().sort((a, b2) => b2.at - a.at);
+      for (let k = 0; k < vals.length; k++) {
+        const slide = vals.length - 1 - k;
+        const wantV = want[slide] ? want[slide][kind] : '';
+        const nv = kind === 'participants' ? fmtNum(wantV) : String(wantV == null ? '' : wantV);
+        const v = vals[k];
+        if (v.inner === nv) continue;
+        const span = html.slice(v.at, v.at + v.len);
+        const patched = span.split(v.inner).join(escHtml(nv));
+        if (patched !== span) html = html.slice(0, v.at) + patched + html.slice(v.at + v.len);
+      }
+    }
+  } catch { /* meta rows keep donor copy rather than risk layout */ }
   return html;
 }
 function applyCities(html, cfg) {
@@ -1861,6 +2095,13 @@ export async function applyStructuredCMS(html, cms, page) {
       if (cms.cities && (cms.cities.label || cms.cities.description || (Array.isArray(cms.cities.items) && cms.cities.items.length) || (Array.isArray(cms.cities.addresses) && cms.cities.addresses.length))) html = applyCities(html, cms.cities);
     } else if (cms.cities && Array.isArray(cms.cities.addresses) && cms.cities.addresses.length) {
       html = applyCities(html, { addresses: cms.cities.addresses });
+    }
+    // Service pages carry their own EventSlider with the same donor quotes
+    // (different flight shape: testimonial-N array, not node edges). Remap it
+    // from the same testimonial pool as home: placeholders when never saved,
+    // hidden when the pool was explicitly emptied.
+    if (/^\/service\//.test(page || '')) {
+      html = applyServiceTestimonials(html, cms.testimonials && cms.testimonials.items);
     }
     if (cms.articles && Array.isArray(cms.articles.items) && cms.articles.items.length) html = applyArticles(html, cms.articles.items);
     if (cms.insights && typeof cms.insights === 'object') {
