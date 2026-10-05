@@ -151,9 +151,9 @@
     </section>
 
     <section class="pane" data-pane="testimonials">
-      <div class="paneHead"><h2>Testimonials</h2><p>Client quotes in the home-page slider. Edit names, roles, organisations, quotes, locations and swap photos/logos.</p></div>
+      <div class="paneHead"><h2>Testimonials</h2><p>Client quotes in the home-page slider. Edit names, roles, organisations, quotes, locations and swap photos/logos. Use Delete to remove a quote — when none remain the section disappears from the site.</p></div>
       <div id="tmList"></div>
-      <div class="savebar"><button class="primary" data-save="testimonials">Save testimonials</button><button class="gold" data-tm-reset>Reset to StillCraft defaults</button><span class="st" data-st="testimonials"></span></div>
+      <div class="savebar"><button data-add-tm>+ Add testimonial</button><button class="primary" data-save="testimonials">Save testimonials</button><button class="gold" data-tm-reset>Reset to StillCraft defaults</button><span class="st" data-st="testimonials"></span></div>
     </section>
 
     <section class="pane" data-pane="team">
@@ -382,15 +382,24 @@
     }
     $('#statList').innerHTML = h;
   }
+  function tmHasSave() {
+    return !!(S.saved.testimonials && Array.isArray(S.saved.testimonials.items));
+  }
   function renderTestimonials() {
     var sv = S.saved.testimonials || [];
     if (!Array.isArray(sv)) sv = sv.items || [];
     var lv = S.live.testimonials || [];
-    var n = Math.max(lv.length, sv.length);
+    // An explicitly saved list is authoritative so deletions stick: once the
+    // admin has saved (even an empty list), render exactly that — not the
+    // live placeholder count. Only before the first save do live placeholders
+    // define the rows.
+    var rows, n;
+    if (tmHasSave()) { rows = sv; n = sv.length; }
+    else { rows = null; n = lv.length; }
     var h = '';
     for (var i = 0; i < n; i++) {
-      var s = sv[i] || {}, l = lv[i] || {};
-      h += '<div class="item" data-tm="' + i + '"><h3>' + esc(pick(donorFree(s.name), l.name) || ('testimonial ' + (i + 1))) + '</h3><div class="grid">' +
+      var s = (rows ? rows[i] : null) || sv[i] || {}, l = lv[i] || {};
+      h += '<div class="item" data-tm="' + i + '"><h3>' + esc(pick(donorFree(s.name), l.name) || ('testimonial ' + (i + 1))) + ' <button data-del-tm="' + i + '" style="margin-left:8px">Delete</button></h3><div class="grid">' +
         '<div class="fld"><label>NAME</label><input type="text" data-k="name" value="' + esc(pick(donorFree(s.name), l.name)) + '"></div>' +
         '<div class="fld"><label>ROLE</label><input type="text" data-k="role" value="' + esc(pick(donorFree(s.role), l.role)) + '"></div>' +
         '<div class="fld"><label>ORGANISATION</label><input type="text" data-k="org" value="' + esc(pick(donorFree(s.org), l.org)) + '"></div>' +
@@ -401,6 +410,7 @@
         '<div class="fld full"><label>COMPANY LOGO</label>' + imgRow('tm-logo-' + i, pick(s.logo, l.logo)) + '</div>' +
         '</div></div>';
     }
+    if (!n) h = '<div class="help">No testimonials — the section is hidden on the site. Add one below or reset to StillCraft defaults.</div>';
     $('#tmList').innerHTML = h;
   }
   function renderCities() {
@@ -648,15 +658,49 @@
       } else done($('#bLogo').value || null);
       return;
     }
+    if (e.target.closest('[data-del-tm]')) {
+      var box = e.target.closest('[data-tm]');
+      if (box) box.remove();
+      // Empty list gets an explanatory note until Save (saving zero items
+      // hides the section on the site).
+      if (!document.querySelector('#tmList [data-tm]')) {
+        $('#tmList').innerHTML = '<div class="help">No testimonials — press Save to hide the section on the site, or reset to StillCraft defaults.</div>';
+      }
+      return;
+    }
+    if (e.target.closest('[data-add-tm]')) {
+      var list = $('#tmList');
+      var empty = list.querySelector('.help');
+      if (empty && !list.querySelector('[data-tm]')) list.innerHTML = '';
+      var idx = list.querySelectorAll('[data-tm]').length;
+      // Unique field ids per row (image inputs map by prefix on save).
+      var uid = Date.now().toString(36) + idx;
+      var d = document.createElement('div');
+      d.className = 'item'; d.setAttribute('data-tm', String(idx));
+      d.innerHTML = '<h3>new testimonial <button data-del-tm="' + idx + '" style="margin-left:8px">Delete</button></h3><div class="grid">' +
+        '<div class="fld"><label>NAME</label><input type="text" data-k="name" value=""></div>' +
+        '<div class="fld"><label>ROLE</label><input type="text" data-k="role" value=""></div>' +
+        '<div class="fld"><label>ORGANISATION</label><input type="text" data-k="org" value=""></div>' +
+        '<div class="fld"><label>LOCATION</label><input type="text" data-k="location" value=""></div>' +
+        '<div class="fld"><label>INDUSTRY</label><input type="text" data-k="industry" value=""></div>' +
+        '<div class="fld"><label>PHOTO</label>' + imgRow('tm-photo-new-' + uid, '') + '</div>' +
+        '<div class="fld full"><label>QUOTE</label><textarea data-k="quote" rows="3"></textarea></div>' +
+        '<div class="fld full"><label>COMPANY LOGO</label>' + imgRow('tm-logo-new-' + uid, '') + '</div>' +
+        '</div>';
+      list.appendChild(d);
+      return;
+    }
     if (e.target.closest('[data-tm-reset]')) {
       // Clears the saved record rather than saving the prefill: the site falls
       // back to the StillCraft placeholder copy the moment no items are stored,
       // and saving the prefill instead would pin today's placeholder wording
       // into the CMS where it would never track a code change again.
+      // An empty items array now means "hide the section", so reset must save
+      // no items key at all ({}), not [].
       st('testimonials', 'Resetting…');
       api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ section: 'testimonials', data: { items: [] } }) })
-        .then(function () { S.saved.testimonials = { items: [] }; S.live = { testimonials: [] }; return loadAll(); })
+        body: JSON.stringify({ section: 'testimonials', data: {} }) })
+        .then(function () { S.saved.testimonials = {}; return loadAll(); })
         .then(function () { st('testimonials', 'Reset to StillCraft defaults'); toast('Testimonials reset'); })
         .catch(function (e) { st('testimonials', 'Reset failed: ' + ((e && e.message) || 'unknown')); });
       return;

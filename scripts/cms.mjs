@@ -760,17 +760,159 @@ function isDonorName(v) {
   const t = String(v == null ? '' : v).trim().toLowerCase();
   return !!t && DONOR_NAME_SET.has(t);
 }
+// Hide the whole testimonial band when the admin has deleted every entry.
+// Static pieces are hidden immediately via CSS (pre-hydration); a small
+// retrying script removes the band root so split-line quotes (generic <p>
+// elements with no stable class) disappear too and stay gone after the
+// template carousel hydrates from the flight payload.
+function hideTestimonialsBand(html) {
+  if (!html || html.indexOf('EventSliderLeaderInfo_content') < 0) return html;
+  const css = '<style id="sc-tm-hide">'
+    + '[class*="EventSliderLeaderInfo_content"],[class*="EventSliderEventLogo_imageOuter"],[class*="EventSliderActions"]{display:none !important;}'
+    + '</style>';
+  if (html.indexOf('sc-tm-hide') < 0 && /<\/head>/i.test(html)) html = html.replace(/<\/head>/i, css + '\n$&');
+  const js = '<script>(function(){'
+    + 'function hide(){'
+    + 'try{'
+    + 'var leaders=document.querySelectorAll(\'[class*="EventSliderLeaderInfo_content"]\');'
+    + 'if(!leaders.length)return false;'
+    // Highest ancestor that still contains ALL leader blocks: the band root.
+    // Hiding it removes quotes + photos + logos in one go (they live inside).
+    + 'var n=leaders.length,el=leaders[0],root=null,p=el;'
+    + 'while(p&&p!==document.body){'
+    + 'try{if(p.querySelectorAll){var c=p.querySelectorAll(\'[class*="EventSliderLeaderInfo_content"]\').length;if(c===n)root=p;}}catch(e){}'
+    + 'p=p.parentElement;}'
+    + 'if(root){root.style.display="none";root.setAttribute("data-sc-tm-hidden","1");'
+    // Quotes can sit in a sibling container ahead of the leaders (separate
+    // synced carousel). Hide the 8 split-line <p> blocks before the first
+    // leader as well, scoped to their own container.
+    + 'try{var q=root.previousElementSibling;var guard=0;while(q&&guard<6){'
+    + 'if(q.querySelectorAll&&q.querySelectorAll(".line.fix-clip").length){q.style.display="none";}'
+    + 'q=q.previousElementSibling;guard++;}}catch(e){}'
+    + 'return true;}'
+    + '}catch(e){}return false;}'
+    + 'function run(){hide();}'
+    + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
+    + 'setTimeout(run,800);setTimeout(run,2500);setTimeout(run,6000);setTimeout(run,12000);'
+    + '})();</script>';
+  if (html.indexOf('data-sc-tm-hidden') < 0 && /<\/body>/i.test(html)) html = html.replace(/<\/body>/i, js + '\n$&');
+  return html;
+}
+// Drop surplus slides (indices >= keep) from the static markup and the flight
+// payload so a deleted testimonial is truly gone, not an empty slide.
+// Static: leader blocks + split-line quote blocks. Flight: testimonial edge
+// nodes, trimmed under guardedFlight so a verification failure keeps the page.
+function removeSurplusTestimonials(html, keep) {
+  if (!html || keep < 0) return html;
+  try {
+    const blocks = leaderInfoBlocks(html);
+    if (blocks.length > keep) {
+      const drop = blocks.slice(keep).sort((a, b) => b.start - a.start);
+      for (const b of drop) html = html.slice(0, b.start) + html.slice(b.end);
+    }
+  } catch {}
+  try {
+    const qbs = quoteBlocks(html);
+    // quoteBlocks is count-guarded by callers; here drop surplus tail blocks
+    // only when the scan found exactly the carousel quotes.
+    const liveCount = extractTestimonials(html).length;
+    if (qbs.length && qbs.length >= liveCount && liveCount > keep) {
+      // Re-scan after leader removal (offsets shifted): drop last (live-keep).
+      const fresh = quoteBlocks(html);
+      if (fresh.length >= liveCount) {
+        const dropQ = fresh.slice(keep).sort((a, b) => b.start - a.start);
+        for (const b of dropQ) html = html.slice(0, b.start) + html.slice(b.end);
+      }
+    }
+  } catch {}
+  // Surplus event logos (one outer div per slide): drop the tail so no donor
+  // client mark ships for a deleted slide. Static only; hydration re-renders
+  // from the trimmed flight payload.
+  try {
+    const re = /<div class="EventSliderEventLogo_imageOuter__[^"]*"[^>]*>/g;
+    const starts = [];
+    let m;
+    while ((m = re.exec(html))) starts.push(m.index);
+    if (starts.length > keep) {
+      const spans = starts.map((s) => ({ start: s, end: matchTag(html, s) })).filter((b) => b.end > b.start);
+      if (spans.length > keep) {
+        const drop = spans.slice(keep).sort((a, b) => b.start - a.start);
+        for (const b of drop) html = html.slice(0, b.start) + html.slice(b.end);
+      }
+    }
+  } catch {}
+  // Surplus leader photos (<img alt="Leader">, 2 per slide per copy block):
+  // drop the tail copies so deleted slides leave no donor portrait behind.
+  // Photos ship as two contiguous runs (desktop + mobile copies); keep the
+  // first `keep` slides' photos in each run.
+  try {
+    const re = /<img\b[^>]*\balt="Leader"[^>]*>/g;
+    const all = [];
+    let m;
+    while ((m = re.exec(html))) all.push({ start: m.index, end: m.index + m[0].length });
+    if (all.length > 0) {
+      // Split into contiguous runs (gap > 4k chars starts a new copy block).
+      const runs = [];
+      let cur = [all[0]];
+      for (let i = 1; i < all.length; i++) {
+        if (all[i].start - all[i - 1].end > 4000) { runs.push(cur); cur = [all[i]]; }
+        else cur.push(all[i]);
+      }
+      runs.push(cur);
+      const drop = [];
+      const liveN = extractTestimonials(html).length || 8;
+      for (const run of runs) {
+        // Each run holds one copy of every slide; keep first `keep` slides.
+        const pps = Math.round(run.length / Math.max(1, liveN));
+        const stride = pps >= 1 && pps <= 4 ? pps : 2;
+        const keepImgs = keep * stride;
+        if (run.length > keepImgs) drop.push(...run.slice(keepImgs));
+      }
+      drop.sort((a, b) => b.start - a.start);
+      for (const b of drop) html = html.slice(0, b.start) + html.slice(b.end);
+    }
+  } catch {}
+  try {
+    html = guardedFlight(html, (h) => {
+      const reg = arrayRegion(h, FQ + 'testimonials' + FQ);
+      if (!reg) return h;
+      const nodeOpen = FQ + 'node' + FQ + ':{' + FQ + 'title' + FQ;
+      const idxs = [];
+      let at = reg.start;
+      for (;;) {
+        const i = h.indexOf(nodeOpen, at);
+        if (i < 0 || i > reg.end) break;
+        const objStart = h.lastIndexOf('{', i);
+        const objEnd = matchBracket(h, objStart);
+        if (!objEnd || objEnd[1] > reg.end) break;
+        idxs.push([objStart, objEnd[1]]);
+        at = objEnd[1];
+      }
+      if (idxs.length <= keep) return h;
+      const keepSpans = idxs.slice(0, keep);
+      // Rebuild the array inner from the kept node slices (comma-joined).
+      const inner = keepSpans.map(([s, e]) => h.slice(s, e)).join(',');
+      return h.slice(0, reg.start + 1) + inner + h.slice(reg.end - 1);
+    });
+  } catch {}
+  return html;
+}
 function applyTestimonials(html, items) {
   const live = extractTestimonials(html);
   if (!live.length) return html;
-  // Per slide, the admin entry wins and any field it leaves null falls back to
-  // that slide's StillCraft placeholder rather than to the donor's copy. The
-  // fallback is never donor text, so saving one real quote does not have to
-  // blank the other seven slides - and an admin who genuinely wants a slide
-  // empty saves an empty string, which is a value, not a missing key.
+  // Deletion model: an explicitly saved array is authoritative.
+  //  * undefined (never saved, or reset to {}) -> placeholder fallback (band stays).
+  //  * [] (admin deleted every row, then saved) -> hide the whole band.
+  //  * shorter than live -> first M slides use saved copy, surplus slides removed.
+  // A null entry or {_deleted:true} tombstone also counts as deleted.
   const FIELDS = ['name', 'quote', 'role', 'org', 'location', 'industry'];
-  const given = Array.isArray(items) ? items : [];
-  const want = live.map((_, i) => {
+  const isExplicit = Array.isArray(items);
+  const given = (isExplicit ? items : []).filter((it) => it && !it._deleted && !it.deleted);
+  if (isExplicit && given.length === 0) return hideTestimonialsBand(html);
+  const visible = isExplicit ? Math.min(given.length, live.length) : live.length;
+  // Surplus slides (deleted tail) go before text swaps so offsets stay valid.
+  if (isExplicit && visible < live.length) html = removeSurplusTestimonials(html, visible);
+  const want = live.slice(0, visible).map((_, i) => {
     const it = given[i];
     const d = PLACEHOLDER_TESTIMONIALS[i] || {};
     const row = {};
