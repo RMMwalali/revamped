@@ -68,6 +68,8 @@ const server = http.createServer(async (req, res) => {
       await runHandler(await handlerFor(name), req, res);
       return;
     }
+    // vercel.json rewrites these to the page function (generated SEO files)
+    if (pathname === '/sitemap.xml' || pathname === '/robots.txt') { await runHandler(await handlerFor('page'), req, res); return; }
     // vercel.json rewrites this to the image function
     if (pathname === '/_next/image') { await runHandler(await handlerFor('img'), req, res); return; }
 
