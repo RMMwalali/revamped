@@ -37,6 +37,13 @@ const sorted = [...routes].sort((a, b) => b.length - a.length || (a < b ? -1 : 1
 const rewrites = [{ source: '/_next/image', destination: '/api/img' }];
 for (const r of sorted) {
   rewrites.push({ source: r, destination: `/api/page?path=${r}` });
+  // Trailing-slash parity: vercel.json source "/about" does not match
+  // "/about/" (cleanUrls/trailingSlash false), but pageKey() normalizes.
+  if (r !== '/') rewrites.push({ source: r + '/', destination: `/api/page?path=${r}` });
+}
+// Aliases with no static file (handled in api/page.js + serve.mjs).
+for (const a of ['/projects/mall-activations', '/projects/mall-activations/']) {
+  rewrites.push({ source: a, destination: '/api/page?path=/projects' });
 }
 
 const raw = await readFile(VERCEL_JSON, 'utf8');

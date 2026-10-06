@@ -247,7 +247,7 @@
   /* ---------- boot ---------- */
   api('/api/me').then(function (d) {
     if (d && d.email) { $('#loginWrap').style.display = 'none'; $('#cmsWrap').style.display = 'block'; loadAll(); }
-  }).catch(function () {});
+  }).catch(function () { toast('Could not reach admin API — check connection'); });
   $('#loginForm').addEventListener('submit', function (e) {
     e.preventDefault();
     $('#err').style.display = 'none'; $('#btn').disabled = true;

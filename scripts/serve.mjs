@@ -10,7 +10,7 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { statSync } from 'node:fs';
 import path from 'node:path';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
-import { saveLead } from '../api/lead.js';
+import { saveLead, parseMultipartFields } from '../api/lead.js';
 import { readStore } from './storage.mjs';
 import { getOverrides, applyOverrides, bustOverrides, saveOverrides, maskT } from './overrides.mjs';
 import {
@@ -178,7 +178,7 @@ const server = http.createServer(async (req, res) => {
 
     // ----- API -----
     if (pathname === '/api/login' && method === 'POST') {
-      const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'x';
+      const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'x').split(',')[0].trim().slice(0, 64) || 'x';
       if (rateLimited(ip)) return json(res, 429, { error: 'too many attempts, try later' });
       let body;
       try { body = JSON.parse((await readBody(req)).toString('utf8')); }
@@ -277,7 +277,26 @@ const server = http.createServer(async (req, res) => {
     // fix drift out of sync once already.
     if (pathname === '/api/lead' && method === 'POST') {
       const ctype = String(req.headers['content-type'] || '');
-      if (ctype.includes('multipart/form-data')) return json(res, 200, { ok: true });
+      if (ctype.includes('multipart/form-data')) {
+        let buf;
+        try { buf = await readBody(req, 5 << 20); }
+        catch { return json(res, 400, { error: 'bad request' }); }
+        const fields = parseMultipartFields(buf, req.headers['content-type']) || {};
+        if (fields.Email || fields.email) {
+          const body = { ...fields };
+          if (fields.email && !body.Email) body.Email = fields.email;
+          const leadIp = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+            .split(',')[0].trim().slice(0, 64);
+          try {
+            const r = await saveLead(body, leadIp);
+            if (!r.ok) return json(res, 400, { error: r.error });
+          } catch (e) {
+            console.error('lead insert failed:', String((e && e.code) || 'unknown'));
+            return json(res, 500, { error: 'could not save' });
+          }
+        }
+        return json(res, 200, { ok: true });
+      }
       let body;
       try { body = JSON.parse((await readBody(req)).toString('utf8')); }
       catch { return json(res, 400, { error: 'bad request' }); }
@@ -298,30 +317,46 @@ const server = http.createServer(async (req, res) => {
       const limit = Math.min(500, Math.max(1, parseInt(u.searchParams.get('limit') || '100', 10) || 100));
       const leads = await readStore('leads.json') || [];
       const rows = leads.slice().sort((a, b) => b.created_at - a.created_at).slice(0, limit)
-        .map((r) => ({ ...r, created_at: new Date(r.created_at).toISOString() }));
+        .map((r) => {
+          let iso = '';
+          try { const d = new Date(Number(r.created_at)); iso = Number.isNaN(d.getTime()) ? String(r.created_at ?? '') : d.toISOString(); }
+          catch { iso = String(r.created_at ?? ''); }
+          return { ...r, created_at: iso };
+        });
       return json(res, 200, { leads: rows });
     }
     if (pathname === '/api/upload' && method === 'POST') {
       const s = await verifySession(cookies.sc_admin).catch(() => null);
-      if (!s) return json(res, 401, { error: 'unauthorized' });
       let buf;
       try { buf = await readBody(req, 250 << 20); }
-      catch { return json(res, 413, { error: 'file too large (max 250MB)' }); }
+      catch { return json(res, 413, { ok: false, success: false, error: 'file too large (max 250MB)' }); }
       const part = parseUpload(buf, req.headers['content-type']);
-      if (!part || !part.data.length) return json(res, 400, { error: 'bad upload' });
+      if (!part || !part.data.length) return json(res, 400, { ok: false, success: false, error: 'bad upload' });
       const ext = sniffMedia(part.data, part.filename);
-      if (!ext) return json(res, 400, { error: 'unsupported media type (images, svg, video, audio, fonts)' });
+      if (!ext) return json(res, 400, { ok: false, success: false, error: 'unsupported media type (images, svg, video, audio, fonts)' });
+      const compatOk = (src, kind) => ({ ok: true, success: true, src, kind, result: { success: true, data: { file_url: src } } });
+      if (!s) {
+        const norm = ext === 'jpeg' ? 'jpg' : ext;
+        if (!['pdf', 'png', 'jpg', 'jpeg', 'webp'].includes(norm)) return json(res, 403, { ok: false, success: false, error: 'unsupported file type for public upload (pdf/png/jpg/webp only)' });
+        if (part.data.length > (5 << 20)) return json(res, 413, { ok: false, success: false, error: 'file too large (max 5MB for public uploads)' });
+        if (norm !== 'pdf' && !sniffImage(part.data, norm)) return json(res, 400, { ok: false, success: false, error: 'invalid image format' });
+        const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
+          crypto.randomBytes(4).toString('hex') + '.' + norm;
+        await mkdir(path.join(ROOT, 'assets', 'custom'), { recursive: true });
+        await writeFile(path.join(ROOT, 'assets', 'custom', name), part.data);
+        return json(res, 200, compatOk('/assets/custom/' + name, 'image'));
+      }
       const isImage = /^(png|jpg|jpeg|webp|gif|svg|avif|bmp|ico)$/.test(ext);
       if (isImage) {
-        if (part.data.length > IMAGE_MAX) return json(res, 413, { error: 'image too large (max 8MB)' });
-        if (!sniffImage(part.data, ext)) return json(res, 400, { error: 'invalid image format' });
+        if (part.data.length > IMAGE_MAX) return json(res, 413, { ok: false, success: false, error: 'image too large (max 8MB)' });
+        if (!sniffImage(part.data, ext)) return json(res, 400, { ok: false, success: false, error: 'invalid image format' });
       }
       const isBig = /^(mp4|m4v|mov|webm|mp3|wav|ogg|m4a)$/.test(ext);
       const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
         crypto.randomBytes(4).toString('hex') + '.' + ext;
       await mkdir(path.join(ROOT, 'assets', 'custom'), { recursive: true });
       await writeFile(path.join(ROOT, 'assets', 'custom', name), part.data);
-      return json(res, 200, { src: '/assets/custom/' + name, kind: isBig ? 'media' : 'image' });
+      return json(res, 200, compatOk('/assets/custom/' + name, isBig ? 'media' : 'image'));
     }
 
     if (pathname.startsWith('/cdn-cgi/')) {
@@ -345,12 +380,8 @@ const server = http.createServer(async (req, res) => {
       res.end();
       return;
     }
-    // blog removed - redirect to contact
-    if (pathname === '/insights' || pathname.startsWith('/insights/') || pathname === '/insight' || pathname.startsWith('/insight/')) {
-      res.writeHead(302, { Location: '/contact', 'Access-Control-Allow-Origin': '*' });
-      res.end();
-      return;
-    }
+    // Blog restored (per go-live decision): /insight/* + /insights serve
+    // through the pipeline below. No redirect.
     // sports service retired (no StillCraft lane) - redirect to projects
     if (pathname === '/service/sports' || pathname.startsWith('/service/sports/')) {
       res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
@@ -361,13 +392,8 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/projects/mall-activations' || pathname.startsWith('/projects/mall-activations/')) {
       pathname = '/projects';
     }
-    // /projects/filter is a dynamic route (client-side filtering) with no static
-    // equivalent: redirect to the static /projects listing.
-    if (pathname === '/projects/filter' || pathname.startsWith('/projects/filter/')) {
-      res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
-      res.end();
-      return;
-    }
+    // /projects/filter has a static file (dist/projects/filter/index.html):
+    // serve it via the pipeline below. No redirect (parity with api/page.js).
 
     // ----- Next.js image optimizer shim (real resizing: variants serve the
     // requested width, not the full original) -----
@@ -408,8 +434,9 @@ const server = http.createServer(async (req, res) => {
         }
         if (await sendFile(res, f)) return;
       }
-      res.writeHead(302, { Location: target, 'Access-Control-Allow-Origin': '*' });
-      res.end();
+      // Missing file: 404, not a redirect back at the same missing URL.
+      res.writeHead(404, { 'Access-Control-Allow-Origin': '*' });
+      res.end('not found');
       return;
     }
 
@@ -553,8 +580,14 @@ const server = http.createServer(async (req, res) => {
         try { if (await serveHtml(path.join(f, 'index.html'))) return; } catch (e) { if (e && e.code !== 'ENOENT') console.error('[serve] serveHtml failed for ' + f + '/index.html:', (e && e.message) || e); }
       }
     }
-    res.writeHead(404, { 'Access-Control-Allow-Origin': '*' });
-    res.end('not found');
+    try {
+      const nf = await readFile(path.join(ROOT, '404.html'), 'utf8');
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'Access-Control-Allow-Origin': '*' });
+      res.end(nf);
+    } catch {
+      res.writeHead(404, { 'Access-Control-Allow-Origin': '*' });
+      res.end('not found');
+    }
   } catch (e) {
     res.writeHead(500);
     res.end('error');

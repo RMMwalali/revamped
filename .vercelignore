@@ -1,6 +1,7 @@
 .pgdata/
 partner logos/
 *.log
+*.err
 .env
 .env.new
 # NOTE: scraped/ must DEPLOY — npm run build regenerates dist/ from it.

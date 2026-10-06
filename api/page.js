@@ -167,19 +167,31 @@ export default async function handler(req, res) {
       res.end();
       return;
     }
-    if (pathname === '/insights' || pathname.startsWith('/insights/') || pathname === '/insight' || pathname.startsWith('/insight/')) {
-      res.writeHead(302, { Location: '/contact' });
-      res.end();
-      return;
-    }
+    // Blog restored (per go-live decision): /insight/* + /insights serve via
+    // serveHtml below. No redirect.
     if (pathname === '/service/sports' || pathname.startsWith('/service/sports/')) {
       res.writeHead(302, { Location: '/projects' });
       res.end();
       return;
     }
+    // Category alias (parity with scripts/serve.mjs): no static file.
+    if (pathname === '/projects/mall-activations' || pathname.startsWith('/projects/mall-activations/')) {
+      pathname = '/projects';
+    }
+    // /projects/filter has a static file (dist/projects/filter/index.html):
+    // serve it via the pipeline below (parity with serve.mjs). No redirect.
+    // Blog restored (per go-live decision): /insight/* + /insights serve via
+    // serveHtml below through vercel.json rewrites. No redirect.
     const cookies = parseCookies(req);
     const found = await serveHtml(pathname, cookies, req.headers.host);
-    if (!found) { res.status(404).send('not found'); return; }
+    if (!found) {
+      try {
+        const nf = await readFile(path.join(ROOT, '404.html'), 'utf8');
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.status(404).send(nf);
+      } catch { res.status(404).send('not found'); }
+      return;
+    }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     // Public pages are edge-cached (60s fresh, background revalidate after)
     // so repeat views skip the DB + transform pipeline entirely. Admins get

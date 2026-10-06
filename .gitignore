@@ -3,6 +3,7 @@ node_modules/
 .env.new
 .pgdata/
 *.log
+*.err
 .vercel/
 .claude/
 # Build output: regenerate with `npm run build` instead of committing.
