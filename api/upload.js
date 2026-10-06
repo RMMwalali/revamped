@@ -63,13 +63,32 @@ function contentHash(buf) {
   return crypto.createHash('sha256').update(buf).digest('hex').slice(0, 16);
 }
 
+let sharpMod; // undefined = not tried yet, null = unavailable on this platform
+async function loadSharp() {
+  if (sharpMod === undefined) {
+    try { sharpMod = (await import('sharp')).default; }
+    catch (e) { console.error('[upload] sharp unavailable:', e?.message || e); sharpMod = null; }
+  }
+  return sharpMod;
+}
+
+// Returns the WebP bytes, null if sharp cannot run here (caller keeps the
+// original), and throws UnreadableImage when the file simply is not a valid
+// image - that must be refused, otherwise it is stored and shows up as a broken
+// picture on the live site.
+class UnreadableImage extends Error {}
 async function normalizeImage(input) {
-  const { default: sharp } = await import('sharp');
-  return sharp(input)
-    .rotate() // honour the phone's EXIF orientation before it is stripped
-    .resize(MAX_DIM, MAX_DIM, { withoutEnlargement: true, fit: 'inside' })
-    .webp({ quality: 78, effort: 4 })
-    .toBuffer();
+  const sharp = await loadSharp();
+  if (!sharp) return null;
+  try {
+    return await sharp(input)
+      .rotate() // honour the phone's EXIF orientation before it is stripped
+      .resize(MAX_DIM, MAX_DIM, { withoutEnlargement: true, fit: 'inside' })
+      .webp({ quality: 78, effort: 4 })
+      .toBuffer();
+  } catch (e) {
+    throw new UnreadableImage(String(e?.message || e));
+  }
 }
 
 // Persist to whichever backend is configured. Returns { src, deduped }.
@@ -150,14 +169,15 @@ export default async function handler(req, res) {
   let finalType = part.type || 'application/octet-stream';
   if (isImage && isResizable('i.' + ext)) {
     try {
-      finalData = await normalizeImage(part.data);
-      finalExt = 'webp';
-      finalType = 'image/webp';
+      const out = await normalizeImage(part.data);
+      if (out) { finalData = out; finalExt = 'webp'; finalType = 'image/webp'; }
     } catch (e) {
-      // sharp unavailable or the file is not decodable: keep the original
-      // rather than crash the request, but refuse if it is too big to be worth it.
-      console.error('[upload] normalize failed, keeping original:', e?.message || e);
-      finalData = part.data;
+      if (e instanceof UnreadableImage) {
+        console.error('[upload] rejected unreadable image:', e.message);
+        res.status(400).json(compatFail("That file isn't a readable image. Re-save it as a JPG or PNG and try again."));
+        return;
+      }
+      throw e;
     }
   }
   try {
