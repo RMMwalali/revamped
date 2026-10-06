@@ -1,12 +1,28 @@
 // Session + admin auth helpers (env-var backed, signed-token sessions).
 // No database required: admin credentials come from VERCEL_ENV vars,
 // and sessions are HMAC-signed tokens stored in a cookie.
+import './env.mjs';
 import crypto from 'node:crypto';
 import bcrypt from 'bcryptjs';
 
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || '').toLowerCase();
 const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD || '';
-const APP_SECRET = process.env.APP_SECRET || crypto.randomBytes(32).toString('hex');
+// A random per-process secret is the wrong fallback here: on Vercel every
+// instance and every cold start would sign with a different key, so a token
+// minted by one request fails verification on the next and the admin is
+// bounced straight back to the login screen. Derive a stable key from the
+// configured credentials instead, so sessions survive restarts and scale-out
+// even when APP_SECRET is unset. Changing the admin password rotates it,
+// which is the behaviour you want anyway.
+const APP_SECRET = process.env.APP_SECRET
+  || (process.env.ADMIN_PASSWORD
+        ? crypto.createHash('sha256')
+            .update('sc-session:' + (process.env.ADMIN_EMAIL || '') + ':' + process.env.ADMIN_PASSWORD)
+            .digest('hex')
+        : null);
+if (!process.env.APP_SECRET && APP_SECRET) {
+  console.warn('[auth] APP_SECRET is not set; deriving the session key from ADMIN_PASSWORD. Set APP_SECRET to control session lifetime independently.');
+}
 const TTL_HOURS = Number(process.env.SESSION_TTL_HOURS || 72);
 
 export function parseCookies(req) {
@@ -30,7 +46,7 @@ function signToken(email) {
 }
 
 function verifyToken(token) {
-  if (!token) return null;
+  if (!token || !APP_SECRET) return null;
   const dot = token.indexOf('.');
   if (dot < 0) return null;
   const payload = token.slice(0, dot);
@@ -56,6 +72,10 @@ export async function verifySession(token) {
 }
 
 export async function login(email, password) {
+  if (!APP_SECRET) {
+    console.error('[login] no signing key: set APP_SECRET (or ADMIN_PASSWORD)');
+    return null;
+  }
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD_HASH) {
     console.error('[login] admin not configured (set ADMIN_EMAIL and ADMIN_PASSWORD)');
     return null;

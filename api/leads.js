@@ -25,7 +25,13 @@ export default async function handler(req, res) {
   if (KINDS.includes(kind)) rows = rows.filter((l) => l.kind === kind);
   rows = rows.slice().sort((a, b) => b.created_at - a.created_at).slice(0, limit);
   // Convert created_at from ms to ISO string for consistency with old API.
-  rows = rows.map((r) => ({ ...r, created_at: new Date(r.created_at).toISOString() }));
+  // Guard: a single corrupt row must not 500 the whole export.
+  rows = rows.map((r) => {
+    let iso = '';
+    try { const d = new Date(Number(r.created_at)); iso = Number.isNaN(d.getTime()) ? String(r.created_at ?? '') : d.toISOString(); }
+    catch { iso = String(r.created_at ?? ''); }
+    return { ...r, created_at: iso };
+  });
 
   res.setHeader('Cache-Control', 'no-store');
   if (u.searchParams.get('format') === 'csv') {

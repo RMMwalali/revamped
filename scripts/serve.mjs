@@ -7,10 +7,11 @@
 import http from 'node:http';
 import crypto from 'node:crypto';
 import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
+import { statSync } from 'node:fs';
 import path from 'node:path';
 import { snapWidth, isResizable } from './imgpaths.mjs';
 import { parseCookies, verifySession, login, logout, sessionCookie, clearCookie } from './auth.mjs';
-import { saveLead } from '../api/lead.js';
+import { saveLead, parseMultipartFields } from '../api/lead.js';
 import { readStore } from './storage.mjs';
 import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, bustOverrides, saveOverrides, maskT } from './overrides.mjs';
 import { buildSitemap, buildRobots } from './sitemap.mjs';
@@ -23,6 +24,17 @@ import {
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, normalizeChunkRefs,
 } from './transform.mjs';
 import { getCMS, bustCMS, saveCMSSection, liveSnapshot, applyStructuredCMS, CMS_SECTIONS } from './cms.mjs';
+// Cache-bust the edit bar: it is served from dist with a normal cache header,
+// so without a version an admin keeps a stale copy after a fix ships. Uses the
+// file's mtime, which is the deploy time on Vercel.
+function editbarVersion() {
+  try {
+    return Math.floor(statSync(path.join(process.cwd(), 'dist', 'editbar.js')).mtimeMs).toString(36);
+  } catch {
+    return '0';
+  }
+}
+const EDITBAR_V = editbarVersion();
 const ROOT = path.resolve('dist');
 const PORT = Number(process.argv[2] || process.env.PORT || 3000);
 
@@ -191,7 +203,7 @@ const server = http.createServer(async (req, res) => {
 
     // ----- API -----
     if (pathname === '/api/login' && method === 'POST') {
-      const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'x';
+      const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'x').split(',')[0].trim().slice(0, 64) || 'x';
       if (rateLimited(ip)) return json(res, 429, { error: 'too many attempts, try later' });
       let body;
       try { body = JSON.parse((await readBody(req)).toString('utf8')); }
@@ -290,7 +302,26 @@ const server = http.createServer(async (req, res) => {
     // fix drift out of sync once already.
     if (pathname === '/api/lead' && method === 'POST') {
       const ctype = String(req.headers['content-type'] || '');
-      if (ctype.includes('multipart/form-data')) return json(res, 200, { ok: true });
+      if (ctype.includes('multipart/form-data')) {
+        let buf;
+        try { buf = await readBody(req, 5 << 20); }
+        catch { return json(res, 400, { error: 'bad request' }); }
+        const fields = parseMultipartFields(buf, req.headers['content-type']) || {};
+        if (fields.Email || fields.email) {
+          const body = { ...fields };
+          if (fields.email && !body.Email) body.Email = fields.email;
+          const leadIp = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+            .split(',')[0].trim().slice(0, 64);
+          try {
+            const r = await saveLead(body, leadIp);
+            if (!r.ok) return json(res, 400, { error: r.error });
+          } catch (e) {
+            console.error('lead insert failed:', String((e && e.code) || 'unknown'));
+            return json(res, 500, { error: 'could not save' });
+          }
+        }
+        return json(res, 200, { ok: true });
+      }
       let body;
       try { body = JSON.parse((await readBody(req)).toString('utf8')); }
       catch { return json(res, 400, { error: 'bad request' }); }
@@ -311,30 +342,46 @@ const server = http.createServer(async (req, res) => {
       const limit = Math.min(500, Math.max(1, parseInt(u.searchParams.get('limit') || '100', 10) || 100));
       const leads = await readStore('leads.json') || [];
       const rows = leads.slice().sort((a, b) => b.created_at - a.created_at).slice(0, limit)
-        .map((r) => ({ ...r, created_at: new Date(r.created_at).toISOString() }));
+        .map((r) => {
+          let iso = '';
+          try { const d = new Date(Number(r.created_at)); iso = Number.isNaN(d.getTime()) ? String(r.created_at ?? '') : d.toISOString(); }
+          catch { iso = String(r.created_at ?? ''); }
+          return { ...r, created_at: iso };
+        });
       return json(res, 200, { leads: rows });
     }
     if (pathname === '/api/upload' && method === 'POST') {
       const s = await verifySession(cookies.sc_admin).catch(() => null);
-      if (!s) return json(res, 401, { error: 'unauthorized' });
       let buf;
       try { buf = await readBody(req, 250 << 20); }
-      catch { return json(res, 413, { error: 'file too large (max 250MB)' }); }
+      catch { return json(res, 413, { ok: false, success: false, error: 'file too large (max 250MB)' }); }
       const part = parseUpload(buf, req.headers['content-type']);
-      if (!part || !part.data.length) return json(res, 400, { error: 'bad upload' });
+      if (!part || !part.data.length) return json(res, 400, { ok: false, success: false, error: 'bad upload' });
       const ext = sniffMedia(part.data, part.filename);
-      if (!ext) return json(res, 400, { error: 'unsupported media type (images, svg, video, audio, fonts)' });
+      if (!ext) return json(res, 400, { ok: false, success: false, error: 'unsupported media type (images, svg, video, audio, fonts)' });
+      const compatOk = (src, kind) => ({ ok: true, success: true, src, kind, result: { success: true, data: { file_url: src } } });
+      if (!s) {
+        const norm = ext === 'jpeg' ? 'jpg' : ext;
+        if (!['pdf', 'png', 'jpg', 'jpeg', 'webp'].includes(norm)) return json(res, 403, { ok: false, success: false, error: 'unsupported file type for public upload (pdf/png/jpg/webp only)' });
+        if (part.data.length > (5 << 20)) return json(res, 413, { ok: false, success: false, error: 'file too large (max 5MB for public uploads)' });
+        if (norm !== 'pdf' && !sniffImage(part.data, norm)) return json(res, 400, { ok: false, success: false, error: 'invalid image format' });
+        const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
+          crypto.randomBytes(4).toString('hex') + '.' + norm;
+        await mkdir(path.join(ROOT, 'assets', 'custom'), { recursive: true });
+        await writeFile(path.join(ROOT, 'assets', 'custom', name), part.data);
+        return json(res, 200, compatOk('/assets/custom/' + name, 'image'));
+      }
       const isImage = /^(png|jpg|jpeg|webp|gif|svg|avif|bmp|ico)$/.test(ext);
       if (isImage) {
-        if (part.data.length > IMAGE_MAX) return json(res, 413, { error: 'image too large (max 8MB)' });
-        if (!sniffImage(part.data, ext)) return json(res, 400, { error: 'invalid image format' });
+        if (part.data.length > IMAGE_MAX) return json(res, 413, { ok: false, success: false, error: 'image too large (max 8MB)' });
+        if (!sniffImage(part.data, ext)) return json(res, 400, { ok: false, success: false, error: 'invalid image format' });
       }
       const isBig = /^(mp4|m4v|mov|webm|mp3|wav|ogg|m4a)$/.test(ext);
       const name = new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' +
         crypto.randomBytes(4).toString('hex') + '.' + ext;
       await mkdir(path.join(ROOT, 'assets', 'custom'), { recursive: true });
       await writeFile(path.join(ROOT, 'assets', 'custom', name), part.data);
-      return json(res, 200, { src: '/assets/custom/' + name, kind: isBig ? 'media' : 'image' });
+      return json(res, 200, compatOk('/assets/custom/' + name, isBig ? 'media' : 'image'));
     }
 
     if (pathname.startsWith('/cdn-cgi/')) {
@@ -375,13 +422,8 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/projects/mall-activations' || pathname.startsWith('/projects/mall-activations/')) {
       pathname = '/projects';
     }
-    // /projects/filter is a dynamic route (client-side filtering) with no static
-    // equivalent: redirect to the static /projects listing.
-    if (pathname === '/projects/filter' || pathname.startsWith('/projects/filter/')) {
-      res.writeHead(302, { Location: '/projects', 'Access-Control-Allow-Origin': '*' });
-      res.end();
-      return;
-    }
+    // /projects/filter has a static file (dist/projects/filter/index.html):
+    // serve it via the pipeline below. No redirect (parity with api/page.js).
 
     // ----- Next.js image optimizer shim (real resizing: variants serve the
     // requested width, not the full original) -----
@@ -429,8 +471,9 @@ const server = http.createServer(async (req, res) => {
         }
         if (await sendFile(res, f)) return;
       }
-      res.writeHead(302, { Location: target, 'Access-Control-Allow-Origin': '*' });
-      res.end();
+      // Missing file: 404, not a redirect back at the same missing URL.
+      res.writeHead(404, { 'Access-Control-Allow-Origin': '*' });
+      res.end('not found');
       return;
     }
 
@@ -581,7 +624,7 @@ const server = http.createServer(async (req, res) => {
         // Boot via inline script: React hydration can wipe deferred tags before
         // they run, but an inline script executes during parse, so its loader survives.
         html = html.replace(/(<\/body>)/i,
-          `<script>window.__SC_PAGE__=${JSON.stringify(key)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js';s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
+          `<script>window.__SC_PAGE__=${JSON.stringify(key)};var EDITBAR_V=${JSON.stringify(EDITBAR_V)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js?v='+EDITBAR_V;s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
       }
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache', 'Access-Control-Allow-Origin': '*' });
       res.end(html);
@@ -589,15 +632,21 @@ const server = http.createServer(async (req, res) => {
     }
     if (lookup.endsWith('.html') || path.extname(lookup) === '') {
       for (const f of resolveFile(lookup.endsWith('.html') ? lookup : lookup + '.html')) {
-        try { if (await serveHtml(f)) return; } catch (e) { console.error('[serve] serveHtml failed for ' + f + ':', (e && e.message) || e); }
+        try { if (await serveHtml(f)) return; } catch (e) { if (e && e.code !== 'ENOENT') console.error('[serve] serveHtml failed for ' + f + ':', (e && e.message) || e); }
       }
       // directory index fallback
       for (const f of resolveFile(lookup)) {
-        try { if (await serveHtml(path.join(f, 'index.html'))) return; } catch (e) { console.error('[serve] serveHtml failed for ' + f + '/index.html:', (e && e.message) || e); }
+        try { if (await serveHtml(path.join(f, 'index.html'))) return; } catch (e) { if (e && e.code !== 'ENOENT') console.error('[serve] serveHtml failed for ' + f + '/index.html:', (e && e.message) || e); }
       }
     }
-    res.writeHead(404, { 'Access-Control-Allow-Origin': '*' });
-    res.end('not found');
+    try {
+      const nf = await readFile(path.join(ROOT, '404.html'), 'utf8');
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'Access-Control-Allow-Origin': '*' });
+      res.end(nf);
+    } catch {
+      res.writeHead(404, { 'Access-Control-Allow-Origin': '*' });
+      res.end('not found');
+    }
   } catch (e) {
     res.writeHead(500);
     res.end('error');

@@ -26,7 +26,7 @@ function clearFailures(ip) {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') { res.status(405).send('method not allowed'); return; }
-  const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'x';
+  const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'x').split(',')[0].trim().slice(0, 64) || 'x';
   if (isLimited(ip)) { res.status(429).json({ error: 'too many attempts, try later' }); return; }
   const body = req.body && typeof req.body === 'object' ? req.body : {};
   let sess = null;

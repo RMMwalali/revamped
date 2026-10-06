@@ -16,6 +16,7 @@ async function walk(dir) {
     const full = path.join(dir, e.name);
     if (e.isDirectory()) {
       if (e.name === 'insider' || e.name === 'vendor') continue; // dashboard + vendor stay static
+      if (e.name === 'insight' || e.name === 'insights') continue; // retired blog (donor-agency articles): redirected, never routed
       out.push(...await walk(full));
     } else if (e.name.endsWith('.html') && !e.name.startsWith('_')) {
       out.push(full);
@@ -37,6 +38,13 @@ const sorted = [...routes].sort((a, b) => b.length - a.length || (a < b ? -1 : 1
 const rewrites = [{ source: '/_next/image', destination: '/api/img' }];
 for (const r of sorted) {
   rewrites.push({ source: r, destination: `/api/page?path=${r}` });
+  // Trailing-slash parity: vercel.json source "/about" does not match
+  // "/about/" (cleanUrls/trailingSlash false), but pageKey() normalizes.
+  if (r !== '/') rewrites.push({ source: r + '/', destination: `/api/page?path=${r}` });
+}
+// Aliases with no static file (handled in api/page.js + serve.mjs).
+for (const a of ['/projects/mall-activations', '/projects/mall-activations/']) {
+  rewrites.push({ source: a, destination: '/api/page?path=/projects' });
 }
 
 const raw = await readFile(VERCEL_JSON, 'utf8');

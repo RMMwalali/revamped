@@ -111,30 +111,39 @@
     if (keep.length) node.className = keep.join(' '); else node.removeAttribute('class');
   }
   function cleanTextHTML(el) {
+    // clean() returns an HTML STRING at every branch. Mixing Nodes and Strings
+    // made appendChild(string) / string.cloneNode() throw the moment an element
+    // contained an unwrapped chrome span - and nearly every heading and
+    // paragraph on this site is wrapped in css-3w1c3c spans, so text editing
+    // threw on almost any click.
+    function esc(v) {
+      return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
     function clean(node) {
-      if (node.nodeType !== 1) return node.cloneNode(true);
+      if (node.nodeType === 3) return esc(node.nodeValue || '');
+      if (node.nodeType !== 1) return '';
       var tag = node.tagName;
       var cls = String(node.className || '');
       var st = String(node.getAttribute ? node.getAttribute('style') || '' : '');
       var chrome = /line-mask|fix-mask|fix-clip|will-change|css-3w1c3c|css-1lpdf6v/.test(cls) ||
                    /transform|translate|rotate|scale|--r[XY]|animation/i.test(st);
-      if (/^(DIV|SPAN)$/.test(tag) && chrome) {
-        var out = '';
-        for (var c = 0; c < node.childNodes.length; c++) out += clean(node.childNodes[c]);
-        return out;
-      }
+      var inner = '';
+      for (var c = 0; c < node.childNodes.length; c++) inner += clean(node.childNodes[c]);
+      if (/^(DIV|SPAN)$/.test(tag) && chrome) return inner;
       var clone = node.cloneNode(false);
-      if (clone.getAttribute) clone.removeAttribute('style');
+      if (clone.removeAttribute) clone.removeAttribute('style');
+      // Strip what the editor itself added (contenteditable, sc-cand/sc-editing)
+      // so it is never baked into the saved value shipped to visitors.
       stripEditChrome(clone);
-      for (var c2 = 0; c2 < node.childNodes.length; c2++) clone.appendChild(clean(node.childNodes[c2]));
-      return clone;
+      clone.innerHTML = inner;
+      return clone.outerHTML;
     }
-    var frag = document.createDocumentFragment();
-    for (var k = 0; k < el.childNodes.length; k++) frag.appendChild(clean(el.childNodes[k]).cloneNode(true));
-    var box = document.createElement('div');
-    box.appendChild(frag);
-    var s = box.innerHTML.replace(/\u00a0/g, ' ');
-    return s.replace(/\s+/g, ' ').replace(/ >/g, '>').replace(/> </g, '><').trim();
+    // Serialize the element's CONTENT, not the element itself: the server
+    // matches a text override by inner html (replaceElInner / patchFlight),
+    // so outerHTML here made edits save but never reach a visitor.
+    var inner = '';
+    for (var i = 0; i < el.childNodes.length; i++) inner += clean(el.childNodes[i]);
+    return inner.replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').replace(/ >/g, '>').replace(/> </g, '><').trim();
   }
 
   // nth occurrence of the same content among same-tag peers (for duplicates)
