@@ -1384,6 +1384,45 @@ export function applyAboutTeamRemove(html) {
   } catch { /* keep static strip */ }
   return html;
 }
+// The donor's /projects listing is a lavender panel with dark text. The brand
+// palette swap turned that lavender into navy, leaving black text on navy (the
+// headline, filters and project names were close to unreadable, contrast 1.5).
+// Give the panel the brand cream so the existing dark text reads. Scoped to the
+// listing pages; other sections that use the navy keep their light text.
+export function applyReadabilityFix(html, page) {
+  if (page === '/insider') return html;
+  let css = '';
+  // Phones: a long call-to-action (e.g. "Talk to us about vacant unit") was wider
+  // than the screen, which scrolled the whole page sideways and cut off text and
+  // the footer logo. Let it wrap, and never allow sideways page scroll
+  // (clip, not hidden, so sticky headers keep working).
+  css += '@media(max-width:600px){html,body{overflow-x:clip}.css-3byrcy{max-width:calc(100vw - 84px) !important;white-space:normal !important;overflow-wrap:anywhere}}';
+  // The footer logo sits in a fixed box with object-fit: cover, which cropped
+  // the StillCraft sticker logo to a fragment. Show all of it.
+  css += '[class*="styles_top_logo_image"]{object-fit:contain !important;object-position:left center !important}';
+  if ((page === '/projects' || String(page).startsWith('/projects/')) && html.indexOf('css-a9zjgk') >= 0) {
+    css += '.css-a9zjgk{background-color:#F5F1EC !important}';
+    // The listing also shows the donor's project total ("71") in the headline and
+    // in the page data. Show the real number of case studies. Only done when the
+    // replacement has the same width, so nothing in the data stream can shift.
+    const real = String(CASE_DATA.length);
+    if (real.length === 2) {
+      html = html.split('>71</div>').join('>' + real + '</div>')
+        .replace(/(\\"(?:total|originalTotal)\\":)71([,}])/g, '$1' + real + '$2');
+    }
+  }
+  // The footer's "LinkedIn" link was re-pointed at StillCraft's Facebook page but
+  // kept its old label. "LinkedIn" and "Facebook" are both 8 characters, so the
+  // label can be corrected in the markup and the page data without shifting
+  // anything in the data stream.
+  if (html.indexOf('facebook.com/people/StillCraft') >= 0 && html.indexOf('linkedin.com') < 0) {
+    html = html.split('>LinkedIn</span>').join('>Facebook</span>')
+      .split('\\"title\\":\\"LinkedIn\\"').join('\\"title\\":\\"Facebook\\"')
+      .split('\\"children\\":\\"LinkedIn\\"').join('\\"children\\":\\"Facebook\\"');
+  }
+  const tag = '<style id="sc-readability">' + css + '</style>';
+  return /<\/head>/i.test(html) ? html.replace(/<\/head>/i, tag + '\n$&') : html;
+}
 // Social share image: template points og:image/twitter:image at an Adevinta
 // case photo. Point at StillCraft's own hero poster until a dedicated
 // 1200x630 share image is supplied via the Brand panel.
