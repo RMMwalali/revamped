@@ -1253,52 +1253,9 @@ export function applySliderFix(html, page) {
 // without the team section are untouched. A small guard is injected with the
 // section to hide/remove the hydrated team accordion (section.css-4csq8r) so it
 // does not render back over the new section.
-// ---------- About page: team section ----------
-// Replaces the donor template's team block. Names, roles and the order come
-// from TEAM (client-provided copy); no photography is required, so nothing
-// here can 404 the way the old roster's missing portrait did. Monograms are
-// drawn in CSS rather than shipped as SVGs for the same reason.
-// Scoped to .sc-team-* so it cannot collide with the bundle's emotion classes.
-const TEAM_CSS = `
-.sc-team{padding:9rem 0;color:#1B2A4A}
-.sc-team__inner{width:100%;max-width:132rem;margin:0 auto;padding:0 2.4rem;box-sizing:border-box}
-.sc-team__eyebrow{font-size:1.2rem;letter-spacing:.32em;text-transform:uppercase;color:#C9A24B;margin:0 0 1.6rem}
-.sc-team__title{font-size:clamp(2.4rem,4vw,4rem);line-height:1.1;font-weight:400;margin:0 0 1.6rem;max-width:18ch}
-.sc-team__intro{font-size:1.4rem;line-height:1.6;max-width:56ch;margin:0 0 4.8rem;opacity:.72}
-.sc-team__grid{list-style:none;margin:0;padding:0;display:grid;gap:4rem 3.2rem;grid-template-columns:1fr}
-.sc-team__member{display:flex;flex-direction:column;align-items:flex-start;gap:1.6rem}
-.sc-team__mono{width:4.8rem;height:4.8rem;border-radius:50%;border:1px solid #C9A24B;display:flex;align-items:center;justify-content:center;font-size:1.6rem;letter-spacing:.06em;color:#C9A24B;flex:none}
-.sc-team__name{font-size:1.8rem;font-weight:500;margin:0 0 .4rem;line-height:1.25}
-.sc-team__role{font-size:1.3rem;line-height:1.5;margin:0;opacity:.6}
-.sc-team__rule{border:0;border-top:1px solid rgba(27,42,74,.14);margin:0 0 4rem}
-@media(min-width:600px){.sc-team__grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:1024px){.sc-team{padding:12rem 0}.sc-team__grid{grid-template-columns:repeat(3,1fr);gap:5.6rem 4rem}}
-@media(prefers-reduced-motion:no-preference){.sc-team__member{transition:transform .4s ease}}
-`;
+// esc() stayed behind when the hand-rolled team section was superseded by the
+// CMS-driven one in applyAboutTeamReplace; other helpers below still use it.
 const esc = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-// "John Mesh" -> JM, "Diana" -> D. Initials only, so a missing portrait can
-// never leave a hole in the grid.
-function monogram(name) {
-  return String(name).trim().split(/\s+/).slice(0, 2).map((w) => w[0] || '').join('').toUpperCase();
-}
-// Roles carry a parenthetical years-of-experience note in the source copy;
-// keep it, it is the client's wording.
-export function teamSectionHTML() {
-  const items = TEAM.map((m) => `<li class="sc-team__member">`
-    + `<span class="sc-team__mono" aria-hidden="true">${esc(monogram(m.name))}</span>`
-    + `<span><h3 class="sc-team__name">${esc(m.name)}</h3>`
-    + `<p class="sc-team__role">${esc(m.role)}</p></span>`
-    + `</li>`).join('');
-  return `<section class="sc-team" id="sc-team" aria-labelledby="sc-team-title">`
-    + `<style>${TEAM_CSS}</style>`
-    + `<div class="sc-team__inner">`
-    + `<hr class="sc-team__rule">`
-    + `<p class="sc-team__eyebrow">Our team</p>`
-    + `<h2 class="sc-team__title" id="sc-team-title">The people behind the work</h2>`
-    + `<p class="sc-team__intro">Strategy and delivery under one roof, so the people who plan your event are the same ones standing in the room on the day.</p>`
-    + `<ul class="sc-team__grid">${items}</ul>`
-    + `</div></section>`;
-}
 
 const ABOUT_GUARD_CSS = 'section.css-4csq8r,section.styles_talent__AlRC3{display:none !important;}';
 const ABOUT_GUARD_JS = `<script>(function(){function drop(){var els=document.querySelectorAll('section.css-4csq8r');for(var i=0;i<els.length;i++){var n=els[i];if(n)n.remove();}}function run(){drop();}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}setTimeout(run,800);setTimeout(run,2500);setTimeout(run,6000);setTimeout(run,12000);})();</script>`;
@@ -1426,6 +1383,45 @@ export function applyAboutTeamRemove(html) {
     }
   } catch { /* keep static strip */ }
   return html;
+}
+// The donor's /projects listing is a lavender panel with dark text. The brand
+// palette swap turned that lavender into navy, leaving black text on navy (the
+// headline, filters and project names were close to unreadable, contrast 1.5).
+// Give the panel the brand cream so the existing dark text reads. Scoped to the
+// listing pages; other sections that use the navy keep their light text.
+export function applyReadabilityFix(html, page) {
+  if (page === '/insider') return html;
+  let css = '';
+  // Phones: a long call-to-action (e.g. "Talk to us about vacant unit") was wider
+  // than the screen, which scrolled the whole page sideways and cut off text and
+  // the footer logo. Let it wrap, and never allow sideways page scroll
+  // (clip, not hidden, so sticky headers keep working).
+  css += '@media(max-width:600px){html,body{overflow-x:clip}.css-3byrcy{max-width:calc(100vw - 84px) !important;white-space:normal !important;overflow-wrap:anywhere}}';
+  // The footer logo sits in a fixed box with object-fit: cover, which cropped
+  // the StillCraft sticker logo to a fragment. Show all of it.
+  css += '[class*="styles_top_logo_image"]{object-fit:contain !important;object-position:left center !important}';
+  if ((page === '/projects' || String(page).startsWith('/projects/')) && html.indexOf('css-a9zjgk') >= 0) {
+    css += '.css-a9zjgk{background-color:#F5F1EC !important}';
+    // The listing also shows the donor's project total ("71") in the headline and
+    // in the page data. Show the real number of case studies. Only done when the
+    // replacement has the same width, so nothing in the data stream can shift.
+    const real = String(CASE_DATA.length);
+    if (real.length === 2) {
+      html = html.split('>71</div>').join('>' + real + '</div>')
+        .replace(/(\\"(?:total|originalTotal)\\":)71([,}])/g, '$1' + real + '$2');
+    }
+  }
+  // The footer's "LinkedIn" link was re-pointed at StillCraft's Facebook page but
+  // kept its old label. "LinkedIn" and "Facebook" are both 8 characters, so the
+  // label can be corrected in the markup and the page data without shifting
+  // anything in the data stream.
+  if (html.indexOf('facebook.com/people/StillCraft') >= 0 && html.indexOf('linkedin.com') < 0) {
+    html = html.split('>LinkedIn</span>').join('>Facebook</span>')
+      .split('\\"title\\":\\"LinkedIn\\"').join('\\"title\\":\\"Facebook\\"')
+      .split('\\"children\\":\\"LinkedIn\\"').join('\\"children\\":\\"Facebook\\"');
+  }
+  const tag = '<style id="sc-readability">' + css + '</style>';
+  return /<\/head>/i.test(html) ? html.replace(/<\/head>/i, tag + '\n$&') : html;
 }
 // Social share image: template points og:image/twitter:image at an Adevinta
 // case photo. Point at StillCraft's own hero poster until a dedicated
@@ -2837,7 +2833,11 @@ function applyNav(html, page) {
     html = html.replace(new RegExp(`<p\\b[^<>]*class="[^"]*"[^<>]*>\\s*<\\/p>`, 'g'), '');
     html = html.replace(new RegExp(`<li\\b[^<>]*>\\s*<\\/li>`, 'g'), '');
     html = html.replace(new RegExp(`<li\\b[^<>]*class="[^"]*"[^<>]*>\\s*<\\/li>`, 'g'), '');
-    console.error(`[applyNav] ${href}: before=${before} afterP=${afterP} afterA=${afterA}`);
+    // Left-over tracing from building the nav strip: it fired on every render
+    // of every page, mostly reporting zeroes. Behind a flag now.
+    if (process.env.SC_DEBUG_NAV) {
+      console.error(`[applyNav] ${href}: before=${before} afterP=${afterP} afterA=${afterA}`);
+    }
   }
   // blog removed - strip from header and footer (whole footer <p>, no empty shells)
   html = html.replace(/<a\b[^>]*href="\/insights"[^>]*>[\s\S]*?<\/a>/gi, '');

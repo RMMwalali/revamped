@@ -86,6 +86,20 @@
       if (TEXT_TAGS.test(p.tagName)) top = p;
       t = p;
     }
+    // Headings are split into one <span>/<div> per visual line for the reveal
+    // animation, so the click usually lands on ONE line of a multi-line heading.
+    // Promote a bare wrapper to the heading/paragraph that owns it, otherwise
+    // only that line gets edited and the saved text never matches the page.
+    // Never promote out of a link or button (that would swallow the anchor).
+    if (/^(SPAN|DIV)$/.test(top.tagName) && top.parentElement) {
+      var blk = top.parentElement.closest('p,h1,h2,h3,h4,h5,h6,li,blockquote,figcaption,dt,dd');
+      if (blk && !blk.closest('#sc-bar,#sc-brand-panel')) {
+        for (var c = top.parentElement; c && c !== blk; c = c.parentElement) {
+          if (/^(A|BUTTON)$/.test(c.tagName)) { blk = null; break; }
+        }
+        if (blk) top = blk;
+      }
+    }
     return top;
   }
 
@@ -111,30 +125,39 @@
     if (keep.length) node.className = keep.join(' '); else node.removeAttribute('class');
   }
   function cleanTextHTML(el) {
+    // clean() returns an HTML STRING at every branch. Mixing Nodes and Strings
+    // made appendChild(string) / string.cloneNode() throw the moment an element
+    // contained an unwrapped chrome span - and nearly every heading and
+    // paragraph on this site is wrapped in css-3w1c3c spans, so text editing
+    // threw on almost any click.
+    function esc(v) {
+      return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
     function clean(node) {
-      if (node.nodeType !== 1) return node.cloneNode(true);
+      if (node.nodeType === 3) return esc(node.nodeValue || '');
+      if (node.nodeType !== 1) return '';
       var tag = node.tagName;
       var cls = String(node.className || '');
       var st = String(node.getAttribute ? node.getAttribute('style') || '' : '');
       var chrome = /line-mask|fix-mask|fix-clip|will-change|css-3w1c3c|css-1lpdf6v/.test(cls) ||
                    /transform|translate|rotate|scale|--r[XY]|animation/i.test(st);
-      if (/^(DIV|SPAN)$/.test(tag) && chrome) {
-        var out = '';
-        for (var c = 0; c < node.childNodes.length; c++) out += clean(node.childNodes[c]);
-        return out;
-      }
+      var inner = '';
+      for (var c = 0; c < node.childNodes.length; c++) inner += clean(node.childNodes[c]);
+      if (/^(DIV|SPAN)$/.test(tag) && chrome) return inner;
       var clone = node.cloneNode(false);
-      if (clone.getAttribute) clone.removeAttribute('style');
+      if (clone.removeAttribute) clone.removeAttribute('style');
+      // Strip what the editor itself added (contenteditable, sc-cand/sc-editing)
+      // so it is never baked into the saved value shipped to visitors.
       stripEditChrome(clone);
-      for (var c2 = 0; c2 < node.childNodes.length; c2++) clone.appendChild(clean(node.childNodes[c2]));
-      return clone;
+      clone.innerHTML = inner;
+      return clone.outerHTML;
     }
-    var frag = document.createDocumentFragment();
-    for (var k = 0; k < el.childNodes.length; k++) frag.appendChild(clean(el.childNodes[k]).cloneNode(true));
-    var box = document.createElement('div');
-    box.appendChild(frag);
-    var s = box.innerHTML.replace(/\u00a0/g, ' ');
-    return s.replace(/\s+/g, ' ').replace(/ >/g, '>').replace(/> </g, '><').trim();
+    // Serialize the element's CONTENT, not the element itself: the server
+    // matches a text override by inner html (replaceElInner / patchFlight),
+    // so outerHTML here made edits save but never reach a visitor.
+    var inner = '';
+    for (var i = 0; i < el.childNodes.length; i++) inner += clean(el.childNodes[i]);
+    return inner.replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').replace(/ >/g, '>').replace(/> </g, '><').trim();
   }
 
   // nth occurrence of the same content among same-tag peers (for duplicates)
@@ -367,16 +390,69 @@
     if (b) { b.disabled = !n; b.textContent = 'Save (' + n + ')'; }
   }
 
+  // Full-viewport decorative layers (the sticky hero panels) sit on top of the
+  // headings and pictures they frame, so the clicked element is often just an
+  // empty wrapper div. Hit-test the whole stack under the pointer and take the
+  // topmost thing that is actually editable.
+  var CAND_SEL = 'img,p,h1,h2,h3,h4,h5,h6,li,a,span,button,video,source';
+  function stackAt(e) {
+    try { return document.elementsFromPoint(e.clientX, e.clientY) || []; } catch (x) { return []; }
+  }
+  function candidateAt(e) {
+    var stack = stackAt(e);
+    for (var i = 0; i < stack.length; i++) {
+      var el = stack[i];
+      if (el.closest && el.closest('#sc-bar,#sc-brand-panel')) return null;
+      var t = el.closest ? el.closest(CAND_SEL) : null;
+      var kind = t ? isCandidate(t) : null;
+      if (kind) return { t: t, kind: kind };
+    }
+    return null;
+  }
+  // Most photos on this site are Next.js images with `pointer-events: none`,
+  // which the browser never reports as the click target and which
+  // elementsFromPoint skips - so a photo could not be clicked at all. Fall back
+  // to geometry: the smallest visible image/video whose box contains the click.
+  function mediaAt(e) {
+    var list = document.querySelectorAll('img.sc-cand, video.sc-cand');
+    var best = null, bestArea = Infinity;
+    for (var i = 0; i < list.length; i++) {
+      var el = list[i];
+      if (el.closest('#sc-bar,#sc-brand-panel')) continue;
+      var r = el.getBoundingClientRect();
+      if (r.width < 8 || r.height < 8) continue;
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) continue;
+      var cs = getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+      var area = r.width * r.height;
+      // On a tie prefer the fully loaded original over its blur placeholder.
+      if (area < bestArea || (area === bestArea && /original/.test(String(el.className)))) { best = el; bestArea = area; }
+    }
+    return best ? { t: best, kind: best.tagName === 'VIDEO' ? 'video' : 'image' } : null;
+  }
+  function bgAt(e) {
+    var stack = stackAt(e);
+    for (var i = 0; i < stack.length; i++) {
+      var b = stack[i].closest ? stack[i].closest('[data-sc-bg]') : null;
+      if (b) return b;
+    }
+    return null;
+  }
+
   function onClick(e) {
     var bar = e.target.closest && e.target.closest('#sc-bar,#sc-brand-panel');
     if (bar) return;
-    var t = e.target.closest ? e.target.closest('img,p,h1,h2,h3,h4,h5,h6,li,a,span,button,video,source') : null;
+    var t = e.target.closest ? e.target.closest(CAND_SEL) : null;
     var kind = t ? isCandidate(t) : null;
     if (!kind) {
-      // No text/image candidate under the cursor: fall back to a CSS
+      var hit = candidateAt(e) || mediaAt(e);
+      if (hit) { t = hit.t; kind = hit.kind; }
+    }
+    if (!kind) {
+      // No text/image candidate anywhere under the cursor: fall back to a CSS
       // background image, so sections that paint their banner in <style>
       // rather than <img> stay swappable. Text and <img> always win.
-      var bg = e.target.closest ? e.target.closest('[data-sc-bg]') : null;
+      var bg = bgAt(e);
       if (!bg) { if (active) active.blur(); return; }
       if (active) active.blur();
       e.preventDefault(); e.stopPropagation();
@@ -411,20 +487,92 @@
     });
   }
 
-  // Carries the server's actual error (d.error / d.detail) to the toast, so a
-  // 401 (logged out), 413 (too big) or storage 500 is legible instead of the
-  // old blanket "must be an image" which matched nothing.
+  // ---- uploads ---------------------------------------------------------
+  // Vercel rejects any request body over ~4.5MB before the server code runs,
+  // and phone photos are routinely 3-12MB, so big pictures are shrunk here
+  // first (longest side 2200px, WebP/JPEG). That is invisible at web sizes and
+  // turns a 9MB photo into a few hundred KB. Small files, GIFs, SVGs, video and
+  // audio go up untouched.
+  var SEND_LIMIT = 4 * 1024 * 1024;
+  function loadBitmap(file) {
+    if (window.createImageBitmap) {
+      return createImageBitmap(file, { imageOrientation: 'from-image' }).catch(function () { return viaImg(file); });
+    }
+    return viaImg(file);
+  }
+  function viaImg(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file);
+      var im = new Image();
+      im.onload = function () { URL.revokeObjectURL(url); resolve(im); };
+      im.onerror = function () { URL.revokeObjectURL(url); reject(new Error('That file could not be read as a picture.')); };
+      im.src = url;
+    });
+  }
+  function encode(bmp, maxSide, q, type) {
+    var w = bmp.width, h = bmp.height, sc = Math.min(1, maxSide / Math.max(w, h));
+    var c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(w * sc)); c.height = Math.max(1, Math.round(h * sc));
+    var g = c.getContext('2d');
+    if (type === 'image/jpeg') { g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); }
+    g.drawImage(bmp, 0, 0, c.width, c.height);
+    return new Promise(function (resolve) { c.toBlob(function (b) { resolve(b); }, type, q); });
+  }
+  function prepareFile(f) {
+    if (!f || !/^image\/(jpeg|png|webp)$/.test(f.type || '') || f.size <= 900 * 1024) return Promise.resolve(f);
+    return loadBitmap(f).then(function (bmp) {
+      var tries = [[2200, 0.86], [1800, 0.78], [1400, 0.7]];
+      function attempt(i) {
+        var t = tries[i];
+        return encode(bmp, t[0], t[1], 'image/webp').then(function (b) {
+          if (!b || b.type !== 'image/webp') return encode(bmp, t[0], t[1], 'image/jpeg'); // old Safari cannot encode WebP
+          return b;
+        }).then(function (b) {
+          if (b && b.size <= SEND_LIMIT) return b;
+          if (i + 1 < tries.length) return attempt(i + 1);
+          return b;
+        });
+      }
+      return attempt(0).then(function (b) {
+        if (!b) return f;
+        if (b.size >= f.size && f.size <= SEND_LIMIT) return f; // already smaller than our re-encode
+        var base = String(f.name || 'photo').replace(/\.[^.]+$/, '');
+        return new File([b], base + (b.type === 'image/jpeg' ? '.jpg' : '.webp'), { type: b.type });
+      });
+    }).catch(function (e) {
+      if (f.size > SEND_LIMIT) throw e; // cannot shrink it and it would be rejected anyway
+      return f;
+    });
+  }
+
+  // Turn every failure into something a non-technical editor can act on.
   function errMsg(e) { return (e && e.message) || String(e || 'unknown error'); }
+  function friendly(status, d) {
+    var msg = d && (d.detail || d.error);
+    if (status === 401) return 'Your admin session has expired. Log in again at /insider, then retry.';
+    if (status === 413) return 'That file is too big. Pictures are shrunk automatically, but videos must be under 4 MB here - host larger videos elsewhere and paste the link.';
+    if (status === 429) return 'Too many uploads in a short time. Wait a minute and try again.';
+    if (status === 503) return msg || 'Image storage is not set up yet. Ask your developer to configure it.';
+    return msg || ('The server answered with an error (' + status + '). Please try again.');
+  }
   function uploadFile(fd) {
-    return fetch('/api/upload', { method: 'POST', body: fd }).then(function (r) {
+    var f = fd.get('image');
+    return prepareFile(f).then(function (pf) {
+      var out = new FormData();
+      out.append('image', pf, (pf && pf.name) || (f && f.name) || 'upload');
+      return fetch('/api/upload', { method: 'POST', body: out, credentials: 'same-origin' });
+    }, function (e) { throw e; }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (d) {
         if (!r.ok) {
-          var e = new Error((d && (d.detail || d.error)) || ('http ' + r.status));
+          var e = new Error(friendly(r.status, d));
           e.status = r.status;
           throw e;
         }
         return d;
       });
+    }, function (e) {
+      if (e && e.status) throw e;
+      throw new Error(e && e.message && !/Failed to fetch|NetworkError|Load failed/i.test(e.message) ? e.message : 'Could not reach the server. Check your connection and try again.');
     });
   }
 

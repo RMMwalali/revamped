@@ -86,6 +86,8 @@ export default async function handler(req, res) {
     });
     res.end(buf);
   } catch {
-    passthrough();
+    // Missing file: 404, not a redirect back at the same missing URL
+    // (that caused a 404 loop: optimizer -> static -> 404 -> retry).
+    res.status(404).end();
   }
 }

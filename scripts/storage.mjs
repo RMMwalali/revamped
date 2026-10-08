@@ -3,6 +3,7 @@
 // local filesystem (dev). Each "table" is a single JSON file so reads/writes
 // are atomic at the file level. Good for low-write admin tools — not for
 // high-concurrency user-facing data.
+import './env.mjs';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { r2Configured, r2Get, r2Put } from './r2.mjs';
@@ -14,28 +15,36 @@ const DATA_DIR = process.env.VERCEL
   ? path.join('/tmp', '.data')
   : path.join(process.cwd(), 'dist', '.data');
 
+// On Vercel the filesystem fallback is /tmp, which is per-instance and wiped
+// between invocations: an admin edit would appear to save and then vanish.
+// R2 or Blob is the only durable option there.
+if (process.env.VERCEL && !IS_R2 && !IS_BLOB) {
+  console.warn('[storage] neither R2_* nor BLOB_READ_WRITE_TOKEN is set: saves go to /tmp and will not survive. Configure R2 (or Blob) in the Vercel dashboard.');
+}
+
 export async function readStore(name) {
   if (IS_R2) {
     const raw = await r2Get('sc-data/' + name);
     return raw == null ? null : JSON.parse(raw);
   }
   if (IS_BLOB) {
-    // @vercel/blob has no `get()` export (head/list/put/del only) — importing
-    // it threw "does not provide an export named 'get'", which broke EVERY
-    // save (brand/overrides/cms all read the store before writing). Resolve the
-    // download URL with head(), then fetch the body ourselves.
+    // @vercel/blob exposes head/list/put/del - there is no `get`. Resolve the
+    // pathname to its URL, then fetch it. Only "does not exist" maps to null:
+    // any other failure must throw, otherwise a transient error reads as an
+    // empty store and the next save overwrites everything that was there.
     const { head, BlobNotFoundError } = await import('@vercel/blob');
     let url;
     try {
-      const meta = await head(name);
+      const meta = await head(name, { token: BLOB_TOKEN });
       url = meta.downloadUrl || meta.url;
     } catch (e) {
       if (e instanceof BlobNotFoundError) return null;
       throw e;
     }
     if (!url) return null;
-    const res = await fetch(url);
-    if (!res.ok) return null;
+    const res = await fetch(url, { cache: 'no-store' });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error('blob read ' + name + ': ' + res.status);
     return JSON.parse(await res.text());
   }
   try {
@@ -53,7 +62,17 @@ export async function writeStore(name, data) {
   }
   if (IS_BLOB) {
     const { put } = await import('@vercel/blob');
-    await put(name, json, { access: 'public', cacheControl: 'no-cache', allowOverwrite: true });
+    await put(name, json, {
+      access: 'public',
+      token: BLOB_TOKEN,
+      contentType: 'application/json',
+      // Keep the pathname stable so head(name) can find it again, and allow
+      // the overwrite: without these the first save works and every later one
+      // fails with "blob already exists" at a new random pathname.
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      cacheControl: 'no-cache, max-age=0',
+    });
   } else {
     await mkdir(DATA_DIR, { recursive: true });
     await writeFile(path.join(DATA_DIR, name), json, 'utf8');

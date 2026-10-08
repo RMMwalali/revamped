@@ -64,11 +64,15 @@
       "destination": "/api/page?path=/project/world-cup-watch-party-at-galleria-mall"
     },
     {
-      "source": "/project/uefa-champions-league-final-2026",
-      "destination": "/api/page?path=/project/uefa-champions-league-final-2026"
+      "source": "/project/world-cup-watch-party-at-galleria-mall/",
+      "destination": "/api/page?path=/project/world-cup-watch-party-at-galleria-mall"
     },
     {
       "source": "/project/fathers-day-at-southfield-mall",
+      "destination": "/api/page?path=/project/fathers-day-at-southfield-mall"
+    },
+    {
+      "source": "/project/fathers-day-at-southfield-mall/",
       "destination": "/api/page?path=/project/fathers-day-at-southfield-mall"
     },
     {
@@ -76,7 +80,15 @@
       "destination": "/api/page?path=/project/mothers-day-at-southfield-mall"
     },
     {
+      "source": "/project/mothers-day-at-southfield-mall/",
+      "destination": "/api/page?path=/project/mothers-day-at-southfield-mall"
+    },
+    {
       "source": "/project/valentines-at-southfield-mall",
+      "destination": "/api/page?path=/project/valentines-at-southfield-mall"
+    },
+    {
+      "source": "/project/valentines-at-southfield-mall/",
       "destination": "/api/page?path=/project/valentines-at-southfield-mall"
     },
     {
@@ -84,7 +96,15 @@
       "destination": "/api/page?path=/project/christmas-at-southfield-mall"
     },
     {
+      "source": "/project/christmas-at-southfield-mall/",
+      "destination": "/api/page?path=/project/christmas-at-southfield-mall"
+    },
+    {
       "source": "/project/mothers-day-at-galleria-mall",
+      "destination": "/api/page?path=/project/mothers-day-at-galleria-mall"
+    },
+    {
+      "source": "/project/mothers-day-at-galleria-mall/",
       "destination": "/api/page?path=/project/mothers-day-at-galleria-mall"
     },
     {
@@ -92,7 +112,15 @@
       "destination": "/api/page?path=/project/christmas-at-westgate-mall"
     },
     {
+      "source": "/project/christmas-at-westgate-mall/",
+      "destination": "/api/page?path=/project/christmas-at-westgate-mall"
+    },
+    {
       "source": "/project/valentines-at-sarit-centre",
+      "destination": "/api/page?path=/project/valentines-at-sarit-centre"
+    },
+    {
+      "source": "/project/valentines-at-sarit-centre/",
       "destination": "/api/page?path=/project/valentines-at-sarit-centre"
     },
     {
@@ -100,7 +128,15 @@
       "destination": "/api/page?path=/project/easter-at-southfield-mall"
     },
     {
+      "source": "/project/easter-at-southfield-mall/",
+      "destination": "/api/page?path=/project/easter-at-southfield-mall"
+    },
+    {
       "source": "/project/easter-at-galleria-mall",
+      "destination": "/api/page?path=/project/easter-at-galleria-mall"
+    },
+    {
+      "source": "/project/easter-at-galleria-mall/",
       "destination": "/api/page?path=/project/easter-at-galleria-mall"
     },
     {
@@ -108,11 +144,15 @@
       "destination": "/api/page?path=/project/easter-at-sarit-centre"
     },
     {
-      "source": "/project/adidas-display-wall",
-      "destination": "/api/page?path=/project/adidas-display-wall"
+      "source": "/project/easter-at-sarit-centre/",
+      "destination": "/api/page?path=/project/easter-at-sarit-centre"
     },
     {
       "source": "/projects/congresses/page/1",
+      "destination": "/api/page?path=/projects/congresses/page/1"
+    },
+    {
+      "source": "/projects/congresses/page/1/",
       "destination": "/api/page?path=/projects/congresses/page/1"
     },
     {
@@ -120,11 +160,15 @@
       "destination": "/api/page?path=/legal-notice-terms-of-use"
     },
     {
-      "source": "/project/ypo-global-event",
-      "destination": "/api/page?path=/project/ypo-global-event"
+      "source": "/legal-notice-terms-of-use/",
+      "destination": "/api/page?path=/legal-notice-terms-of-use"
     },
     {
       "source": "/projects/exhibits/page/1",
+      "destination": "/api/page?path=/projects/exhibits/page/1"
+    },
+    {
+      "source": "/projects/exhibits/page/1/",
       "destination": "/api/page?path=/projects/exhibits/page/1"
     },
     {
@@ -132,7 +176,15 @@
       "destination": "/api/page?path=/projects/exhibits/page/2"
     },
     {
+      "source": "/projects/exhibits/page/2/",
+      "destination": "/api/page?path=/projects/exhibits/page/2"
+    },
+    {
       "source": "/projects/events/page/1",
+      "destination": "/api/page?path=/projects/events/page/1"
+    },
+    {
+      "source": "/projects/events/page/1/",
       "destination": "/api/page?path=/projects/events/page/1"
     },
     {
@@ -140,7 +192,15 @@
       "destination": "/api/page?path=/projects/sports/page/1"
     },
     {
+      "source": "/projects/sports/page/1/",
+      "destination": "/api/page?path=/projects/sports/page/1"
+    },
+    {
       "source": "/projects/congresses",
+      "destination": "/api/page?path=/projects/congresses"
+    },
+    {
+      "source": "/projects/congresses/",
       "destination": "/api/page?path=/projects/congresses"
     },
     {
@@ -148,7 +208,15 @@
       "destination": "/api/page?path=/service/congresses"
     },
     {
+      "source": "/service/congresses/",
+      "destination": "/api/page?path=/service/congresses"
+    },
+    {
       "source": "/projects/exhibits",
+      "destination": "/api/page?path=/projects/exhibits"
+    },
+    {
+      "source": "/projects/exhibits/",
       "destination": "/api/page?path=/projects/exhibits"
     },
     {
@@ -156,15 +224,31 @@
       "destination": "/api/page?path=/service/exhibits"
     },
     {
+      "source": "/service/exhibits/",
+      "destination": "/api/page?path=/service/exhibits"
+    },
+    {
       "source": "/projects/events",
       "destination": "/api/page?path=/projects/events"
     },
     {
+      "source": "/projects/events/",
+      "destination": "/api/page?path=/projects/events"
+    },
+    {
       "source": "/projects/filter",
-      "destination": "/api/page?path=/projects"
+      "destination": "/api/page?path=/projects/filter"
+    },
+    {
+      "source": "/projects/filter/",
+      "destination": "/api/page?path=/projects/filter"
     },
     {
       "source": "/projects/sports",
+      "destination": "/api/page?path=/projects/sports"
+    },
+    {
+      "source": "/projects/sports/",
       "destination": "/api/page?path=/projects/sports"
     },
     {
@@ -172,15 +256,23 @@
       "destination": "/api/page?path=/privacy-policy"
     },
     {
+      "source": "/privacy-policy/",
+      "destination": "/api/page?path=/privacy-policy"
+    },
+    {
       "source": "/service/events",
       "destination": "/api/page?path=/service/events"
     },
     {
-      "source": "/service/sports",
-      "destination": "/api/page?path=/service/sports"
+      "source": "/service/events/",
+      "destination": "/api/page?path=/service/events"
     },
     {
       "source": "/cookie-policy",
+      "destination": "/api/page?path=/cookie-policy"
+    },
+    {
+      "source": "/cookie-policy/",
       "destination": "/api/page?path=/cookie-policy"
     },
     {
@@ -188,7 +280,23 @@
       "destination": "/api/page?path=/projects/all"
     },
     {
+      "source": "/projects/all/",
+      "destination": "/api/page?path=/projects/all"
+    },
+    {
+      "source": "/team-preview",
+      "destination": "/api/page?path=/team-preview"
+    },
+    {
+      "source": "/team-preview/",
+      "destination": "/api/page?path=/team-preview"
+    },
+    {
       "source": "/projects",
+      "destination": "/api/page?path=/projects"
+    },
+    {
+      "source": "/projects/",
       "destination": "/api/page?path=/projects"
     },
     {
@@ -196,7 +304,15 @@
       "destination": "/api/page?path=/contact"
     },
     {
+      "source": "/contact/",
+      "destination": "/api/page?path=/contact"
+    },
+    {
       "source": "/about",
+      "destination": "/api/page?path=/about"
+    },
+    {
+      "source": "/about/",
       "destination": "/api/page?path=/about"
     },
     {
@@ -204,22 +320,72 @@
       "destination": "/api/page?path=/home"
     },
     {
+      "source": "/home/",
+      "destination": "/api/page?path=/home"
+    },
+    {
+      "source": "/404",
+      "destination": "/api/page?path=/404"
+    },
+    {
+      "source": "/404/",
+      "destination": "/api/page?path=/404"
+    },
+    {
       "source": "/",
       "destination": "/api/page?path=/"
+    },
+    {
+      "source": "/projects/mall-activations",
+      "destination": "/api/page?path=/projects"
+    },
+    {
+      "source": "/projects/mall-activations/",
+      "destination": "/api/page?path=/projects"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/page?path=/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/api/page?path=/robots.txt"
     }
   ],
   "functions": {
-    "api/page.js": { "includeFiles": "dist/**/*.html" },
-    "api/cms.js": { "includeFiles": "dist/**/*.html" },
-    "api/img.js": { "includeFiles": "dist/assets/**" },
-    "api/login.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/logout.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/me.js": { "includeFiles": "scripts/auth.mjs" },
-    "api/brand.js": { "includeFiles": "scripts/*.mjs" },
-    "api/content.js": { "includeFiles": "scripts/*.mjs" },
-    "api/upload.js": { "includeFiles": "scripts/*.mjs" },
-    "api/lead.js": { "includeFiles": "scripts/*.mjs" },
-    "api/leads.js": { "includeFiles": "scripts/*.mjs" }
+    "api/page.js": {
+      "includeFiles": "dist/**/*.html"
+    },
+    "api/cms.js": {
+      "includeFiles": "dist/**/*.html"
+    },
+    "api/img.js": {
+      "includeFiles": "dist/assets/**"
+    },
+    "api/login.js": {
+      "includeFiles": "scripts/auth.mjs"
+    },
+    "api/logout.js": {
+      "includeFiles": "scripts/auth.mjs"
+    },
+    "api/me.js": {
+      "includeFiles": "scripts/auth.mjs"
+    },
+    "api/brand.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/content.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/upload.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/lead.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/leads.js": {
+      "includeFiles": "scripts/*.mjs"
+    }
   },
   "headers": [
     {

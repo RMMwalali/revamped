@@ -5,13 +5,27 @@ import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, bustOverrides } from '../scripts/overrides.mjs';
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
-  applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyProjectsFilterFix, applyCaseFactsFix, applySplash,
+  applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyProjectsFilterFix, applyCaseFactsFix, applyReadabilityFix, applySplash,
   applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyHomeBand, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRelatedInfoFix,   applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
   FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
 import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
 import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
+import { statSync } from 'node:fs';
+import nodePath from 'node:path';
+// Cache-bust the edit bar: it is served from dist with a normal cache header,
+// so without a version an admin keeps a stale copy after a fix ships. Uses the
+// file's mtime, which is the deploy time on Vercel.
+function editbarVersion() {
+  try {
+    return Math.floor(statSync(nodePath.join(process.cwd(), 'dist', 'editbar.js')).mtimeMs).toString(36);
+  } catch {
+    return '0';
+  }
+}
+const EDITBAR_V = editbarVersion();
+
 
 const ROOT = path.join(process.cwd(), 'dist');
 const NO_FP = new Set(['/cookie-policy', '/privacy-policy', '/legal-notice-terms-of-use']);
@@ -119,6 +133,7 @@ async function serveHtml(pathname, cookies, host) {
     html = applyProjectsOverviewFix(html, key);
     html = applyProjectsFilterFix(html, key);
     html = applyCaseFactsFix(html, key);
+    html = applyReadabilityFix(html, key);
     html = applySplash(html, key);
     html = applyFooterFix(html, key);
     // Saved copy, applied after every built-in fix: the database is the last
@@ -136,7 +151,7 @@ async function serveHtml(pathname, cookies, host) {
     // never inject the floating inline edit bar there.
     if (isAdmin && key !== '/insider') {
       html = html.replace(/(<\/body>)/i,
-        `<script>window.__SC_PAGE__=${JSON.stringify(key)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js';s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
+        `<script>window.__SC_PAGE__=${JSON.stringify(key)};var EDITBAR_V=${JSON.stringify(EDITBAR_V)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js?v='+EDITBAR_V;s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
     }
     return { key, html, isAdmin };
   }
@@ -203,9 +218,22 @@ export default async function handler(req, res) {
       res.end();
       return;
     }
+    // Category alias (parity with scripts/serve.mjs): no static file.
+    if (pathname === '/projects/mall-activations' || pathname.startsWith('/projects/mall-activations/')) {
+      pathname = '/projects';
+    }
+    // /projects/filter has a static file (dist/projects/filter/index.html):
+    // serve it via the pipeline below (parity with serve.mjs). No redirect.
     const cookies = parseCookies(req);
     const found = await serveHtml(pathname, cookies, req.headers.host);
-    if (!found) { res.status(404).send('not found'); return; }
+    if (!found) {
+      try {
+        const nf = await readFile(path.join(ROOT, '404.html'), 'utf8');
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.status(404).send(nf);
+      } catch { res.status(404).send('not found'); }
+      return;
+    }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     // Public pages are edge-cached (60s fresh, background revalidate after)
     // so repeat views skip the DB + transform pipeline entirely. Admins get
