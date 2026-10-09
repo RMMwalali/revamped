@@ -67,6 +67,12 @@ function verifyToken(token) {
   }
 }
 
+// True when this deployment has admin credentials and a signing key. Lets the
+// login endpoint tell "not set up here" apart from "wrong password".
+export function isConfigured() {
+  return !!(APP_SECRET && ADMIN_EMAIL && ADMIN_PASSWORD_HASH);
+}
+
 export async function verifySession(token) {
   return verifyToken(token);
 }

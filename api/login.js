@@ -1,5 +1,5 @@
 // POST /api/login { email, password } — env-var auth, in-memory rate limiting.
-import { login, sessionCookie } from '../scripts/auth.mjs';
+import { login, sessionCookie, isConfigured } from '../scripts/auth.mjs';
 
 const LOCK_MINUTES = 5;
 const MAX_FAILS = 5;
@@ -28,6 +28,12 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') { res.status(405).send('method not allowed'); return; }
   const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'x').split(',')[0].trim().slice(0, 64) || 'x';
   if (isLimited(ip)) { res.status(429).json({ error: 'too many attempts, try later' }); return; }
+  if (!isConfigured()) {
+    // Not a credentials problem: this deployment has no ADMIN_EMAIL /
+    // ADMIN_PASSWORD (bcrypt hash) set, so nobody can log in. Say so.
+    res.status(503).json({ error: 'not_configured', detail: 'Admin login is not set up on this server: set ADMIN_EMAIL and ADMIN_PASSWORD (bcrypt hash), plus APP_SECRET, then redeploy.' });
+    return;
+  }
   const body = req.body && typeof req.body === 'object' ? req.body : {};
   let sess = null;
   try {
