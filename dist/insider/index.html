@@ -482,7 +482,8 @@
         '<div class="fld full"><label>COMPANY LOGO</label>' + imgRow('tm-logo-' + i, pick(s.logo, l.logo)) + '</div>' +
         '</div></div>';
     }
-    if (!n) h = '<div class="help">No testimonials — the section is hidden on the site. Add one below or reset to StillCraft defaults.</div>';
+    if (!n) h = '<div class="store bad">All testimonials have been deleted, so the testimonials section is <b>hidden</b> on Home, Mall Calendar Programming and Brand Activations. ' +
+      'Press <b>Reset to StillCraft defaults</b> below to bring back the 8 default testimonials (then edit them), or <b>+ Add testimonial</b> to write your own.</div>';
     $('#tmList').innerHTML = h;
   }
   function renderCities() {
@@ -736,7 +737,7 @@
       // Empty list gets an explanatory note until Save (saving zero items
       // hides the section on the site).
       if (!document.querySelector('#tmList [data-tm]')) {
-        $('#tmList').innerHTML = '<div class="help">No testimonials — press Save to hide the section on the site, or reset to StillCraft defaults.</div>';
+        $('#tmList').innerHTML = '<div class="store bad">No testimonials left. If you press Save now, the testimonials section will be <b>hidden</b> on Home, Mall Calendar Programming and Brand Activations. Use <b>Reset to StillCraft defaults</b> to bring the defaults back instead.</div>';
       }
       return;
     }
