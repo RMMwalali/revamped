@@ -760,39 +760,40 @@ function isDonorName(v) {
   return !!t && DONOR_NAME_SET.has(t);
 }
 // Hide the whole testimonial band when the admin has deleted every entry.
-// Static pieces are hidden immediately via CSS (pre-hydration); a small
-// retrying script removes the band root so split-line quotes (generic <p>
-// elements with no stable class) disappear too and stay gone after the
-// template carousel hydrates from the flight payload.
+//
+// The band is one block directly under <main> (home: div.css-0, service
+// pages: div.css-5ohagv) holding the stats row, quotes, roles and logos.
+// The old version climbed from the first role block to the HIGHEST ancestor
+// that contained every role block - which is <main> itself - so on the
+// service pages the whole page vanished (only the footer left, no scroll).
+//
+// Now: a CSS rule hides exactly the child of <main> that holds the band
+// (works before hydration and when the home band mounts late on scroll),
+// and a script does the same for browsers without :has(), never touching
+// <main>, <body>, anything holding the page's <h1>, or the footer.
 function hideTestimonialsBand(html) {
   if (!html || html.indexOf('EventSliderLeaderInfo_content') < 0) return html;
   const css = '<style id="sc-tm-hide">'
-    + '[class*="EventSliderLeaderInfo_content"],[class*="EventSliderEventLogo_imageOuter"],[class*="EventSliderActions"]{display:none !important;}'
+    + 'main>div:has([class*="EventSliderLeaderInfo_content"]){display:none !important;}'
     + '</style>';
   if (html.indexOf('sc-tm-hide') < 0 && /<\/head>/i.test(html)) html = html.replace(/<\/head>/i, css + '\n$&');
   const js = '<script>(function(){'
-    + 'function hide(){'
-    + 'try{'
-    + 'var leaders=document.querySelectorAll(\'[class*="EventSliderLeaderInfo_content"]\');'
-    + 'if(!leaders.length)return false;'
-    // Highest ancestor that still contains ALL leader blocks: the band root.
-    // Hiding it removes quotes + photos + logos in one go (they live inside).
-    + 'var n=leaders.length,el=leaders[0],root=null,p=el;'
-    + 'while(p&&p!==document.body){'
-    + 'try{if(p.querySelectorAll){var c=p.querySelectorAll(\'[class*="EventSliderLeaderInfo_content"]\').length;if(c===n)root=p;}}catch(e){}'
+    + 'var SEL=\'[class*="EventSliderLeaderInfo_content"]\';'
+    + 'function bandRoot(){'
+    + 'var leaders=document.querySelectorAll(SEL);if(!leaders.length)return null;'
+    + 'var p=leaders[0],root=null;'
+    + 'while(p&&p.parentElement){'
+    + 'var tag=p.tagName;if(tag==="MAIN"||tag==="BODY"||tag==="HTML")break;'
+    + 'if(p.querySelector("h1")||p.querySelector("footer"))break;'
+    + 'if(p.querySelectorAll(SEL).length===leaders.length)root=p;'
+    + 'if(p.parentElement.tagName==="MAIN")break;'
     + 'p=p.parentElement;}'
-    + 'if(root){root.style.display="none";root.setAttribute("data-sc-tm-hidden","1");'
-    // Quotes can sit in a sibling container ahead of the leaders (separate
-    // synced carousel). Hide the 8 split-line <p> blocks before the first
-    // leader as well, scoped to their own container.
-    + 'try{var q=root.previousElementSibling;var guard=0;while(q&&guard<6){'
-    + 'if(q.querySelectorAll&&q.querySelectorAll(".line.fix-clip").length){q.style.display="none";}'
-    + 'q=q.previousElementSibling;guard++;}}catch(e){}'
-    + 'return true;}'
-    + '}catch(e){}return false;}'
-    + 'function run(){hide();}'
-    + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}'
-    + 'setTimeout(run,800);setTimeout(run,2500);setTimeout(run,6000);setTimeout(run,12000);'
+    + 'return root;}'
+    + 'function hide(){try{var r=bandRoot();if(r&&r.style.display!=="none"){r.style.display="none";r.setAttribute("data-sc-tm-hidden","1");}}catch(e){}}'
+    + 'hide();'
+    // Watch only while the page settles (the home band mounts on scroll).
+    + 'try{var mo=new MutationObserver(hide);mo.observe(document.documentElement,{childList:true,subtree:true});setTimeout(function(){mo.disconnect();},30000);}catch(e){}'
+    + 'setTimeout(hide,800);setTimeout(hide,2500);setTimeout(hide,6000);'
     + '})();</script>';
   if (html.indexOf('data-sc-tm-hidden') < 0 && /<\/body>/i.test(html)) html = html.replace(/<\/body>/i, js + '\n$&');
   return html;
