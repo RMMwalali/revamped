@@ -29,7 +29,7 @@ import './env.mjs';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
 import path from 'node:path';
-import { r2Configured, r2Get, r2Put } from './r2.mjs';
+import { r2Configured, r2Get, r2Put, r2Settings } from './r2.mjs';
 
 const BLOB_TOKEN = (process.env.BLOB_READ_WRITE_TOKEN || '').trim();
 const IS_R2 = r2Configured();
@@ -42,20 +42,30 @@ const KEEP_VERSIONS = 50;
 export class StorageNotConfigured extends Error {
   constructor() {
     super('Saving is not set up on this server, so nothing can be stored permanently. ' +
-      'In Vercel: Storage → Create → Blob → connect it to this project (all environments), then redeploy.');
+      'In Vercel → Settings → Environment Variables add R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET and R2_PUBLIC_URL for Production and Preview, then redeploy.');
     this.code = 'STORAGE_NOT_CONFIGURED';
   }
 }
 
 if (ON_VERCEL && !IS_R2 && !IS_BLOB) {
-  console.error('[storage] no R2_* or BLOB_READ_WRITE_TOKEN: admin saves will be refused. Connect a Blob store in Vercel.');
+  console.error('[storage] no R2_* (or BLOB_READ_WRITE_TOKEN): admin saves will be refused. Set the R2_* variables in Vercel.');
 }
 
 export function storageInfo() {
   const backend = IS_R2 ? 'r2' : IS_BLOB ? 'blob' : IS_LOCAL ? 'local' : 'none';
+  const r2 = r2Settings();
+  const warnings = [];
+  if (!IS_R2 && r2.anySet) {
+    warnings.push('R2 is only partly set up (missing: ' + r2.missing.join(', ') + '), so it is NOT being used' +
+      (IS_BLOB ? '; saves are going to Vercel Blob instead.' : '.'));
+  }
+  if (IS_R2 && !r2.publicUrlSet) warnings.push('R2_PUBLIC_URL is not set: text saves work, but image and video uploads will fail.');
+  if (IS_R2 && BLOB_TOKEN) warnings.push('BLOB_READ_WRITE_TOKEN is still set. It is no longer used for saving; keep it only until old content and images have been moved over.');
   return {
     backend,
     durable: IS_R2 || IS_BLOB,
+    warnings,
+    r2: { bucket: r2.bucket, endpoint: r2.endpoint, publicUrlSet: r2.publicUrlSet },
     label: {
       r2: 'Cloudflare R2 (permanent)',
       blob: 'Vercel Blob (permanent)',
@@ -199,6 +209,40 @@ export function updateStore(name, fn) {
   run.finally(() => { if (queues.get(name) === run) queues.delete(name); }).catch(() => {});
   return run;
 }
+
+// Live check that this server can really write and read back. Shown in
+// /insider so a wrong key, bucket or permission is visible before an edit
+// is lost to it.
+export async function probeStorage() {
+  const started = Date.now();
+  const stamp = new Date().toISOString() + ' ' + Math.random().toString(36).slice(2, 8);
+  try {
+    if (IS_R2) {
+      await r2Put('sc-data/_health.json', Buffer.from(JSON.stringify({ stamp }), 'utf8'), 'application/json');
+      const back = JSON.parse((await r2Get('sc-data/_health.json')) || '{}');
+      if (back.stamp !== stamp) throw new Error('R2 accepted the write but returned different content on read.');
+    } else if (IS_BLOB) {
+      await blobCurrent('cms.json');
+    } else if (IS_LOCAL) {
+      await mkdir(DATA_DIR, { recursive: true });
+      await writeFile(path.join(DATA_DIR, '_health.json'), JSON.stringify({ stamp }), 'utf8');
+    } else {
+      throw new StorageNotConfigured();
+    }
+    return { ok: true, ms: Date.now() - started };
+  } catch (e) {
+    return { ok: false, error: String(e?.message || e).slice(0, 400) };
+  }
+}
+
+// Old content still in Vercel Blob (used by the Blob -> R2 import). Works
+// whenever BLOB_READ_WRITE_TOKEN is set, whichever backend is active.
+export const hasLegacyBlob = () => !!BLOB_TOKEN;
+export async function readLegacyBlob(name) {
+  if (!BLOB_TOKEN) return null;
+  return blobLatest(name);
+}
+export const activeBackend = () => (IS_R2 ? 'r2' : IS_BLOB ? 'blob' : IS_LOCAL ? 'local' : 'none');
 
 // Newest-first list of saved versions (for diagnostics / future restore).
 export async function listVersions(name) {

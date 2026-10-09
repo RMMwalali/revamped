@@ -316,17 +316,48 @@
   function loadStorageStatus() {
     api('/api/storage').then(function (d) {
       var el = $('#storeStatus');
-      el.className = 'store ' + (d.durable ? 'ok' : 'bad');
-      el.textContent = d.durable
-        ? 'Changes are saved permanently to ' + d.label + '. They stay live through every redeploy; visitors see a save within about a minute.'
-        : (d.backend === 'local'
-            ? 'Changes are saved on this computer only (' + d.label + '). Add the live storage key to .env to edit the live site from here.'
-            : 'Saving is NOT set up on this server: changes cannot be stored. In Vercel open Storage → Create → Blob, connect it to this project for all environments, then redeploy.');
+      var ok = d.durable && d.probe && d.probe.ok;
+      var lines = [];
+      if (!d.durable) {
+        lines.push(d.backend === 'local'
+          ? 'Changes are saved on this computer only (' + d.label + '). Put the live R2 settings in .env to edit the live site from here.'
+          : 'Saving is NOT set up on this server: changes cannot be stored. Add the R2_* settings in Vercel → Settings → Environment Variables (Production and Preview), then redeploy.');
+      } else if (!d.probe || !d.probe.ok) {
+        lines.push('Storage is set to ' + d.label + ' but a test save just FAILED, so your changes will not be stored: ' + ((d.probe && d.probe.error) || 'unknown error'));
+      } else {
+        lines.push('Changes are saved permanently to ' + d.label + (d.r2 && d.r2.bucket ? ' (bucket "' + d.r2.bucket + '")' : '') +
+          '. They stay live through every redeploy; visitors see a save within about a minute.');
+      }
+      (d.warnings || []).forEach(function (w) { lines.push('Note: ' + w); });
+      el.className = 'store ' + (ok ? 'ok' : 'bad');
+      el.innerHTML = '';
+      lines.forEach(function (t) { var p = document.createElement('div'); p.textContent = t; el.appendChild(p); });
+      if (ok && d.legacyBlob) {
+        var box = document.createElement('div'); box.style.marginTop = '8px';
+        box.innerHTML = '<button type="button" data-mig="import-blob">Import content saved in old Vercel Blob</button> ' +
+          '<button type="button" data-mig="move-blob-files">Move uploaded images/videos from Blob to R2</button>' +
+          '<div data-mig-out style="margin-top:6px"></div>';
+        el.appendChild(box);
+      }
     }).catch(function (e) {
       var el = $('#storeStatus'); el.className = 'store bad';
       el.textContent = 'Could not check the storage status (' + ((e && e.message) || 'error') + ').';
     });
   }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-mig]'); if (!b) return;
+    var action = b.getAttribute('data-mig'); var out = document.querySelector('[data-mig-out]');
+    b.disabled = true; out.textContent = 'Working… (moving files can take a minute)';
+    api('/api/storage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: action }) })
+      .then(function (r) {
+        if (r.imported) out.textContent = r.imported.map(function (x) { return x.name + ': ' + x.result; }).join(' · ');
+        if (r.files) out.textContent = 'Found ' + r.files.found + ' Blob file(s), moved ' + r.files.moved + ', updated ' + r.files.storesUpdated + ' content store(s)' +
+          (r.files.failed.length ? '. Failed: ' + r.files.failed.map(function (f) { return f.url + ' (' + f.error + ')'; }).join('; ') : '.');
+        if (r.imported) loadAll();
+      })
+      .catch(function (err) { out.textContent = 'Failed: ' + ((err && err.message) || 'error'); })
+      .then(function () { b.disabled = false; });
+  });
   function loadAll() {
     loadStorageStatus();
     Promise.all([

@@ -274,10 +274,12 @@
   // permanently, instead of letting edits look saved and then vanish.
   function checkStorage() {
     api('/api/storage').then(function (d) {
-      if (d && d.durable) return;
+      if (d && d.durable && d.probe && d.probe.ok) return;
       var msg = d && d.backend === 'local'
         ? 'Edits here are saved on this computer only, not on the live site.'
-        : 'Saving is NOT set up on this server - edits cannot be stored. Connect Vercel Blob storage, then redeploy.';
+        : d && d.durable
+          ? 'Saving is failing: ' + ((d.probe && d.probe.error) || 'storage test failed') + ' Open /insider for details.'
+          : 'Saving is NOT set up on this server - edits cannot be stored. Add the R2 settings in Vercel, then redeploy.';
       toast(msg, true);
       var dot = document.querySelector('#sc-bar .dot');
       if (dot) { dot.style.background = '#ff6b6b'; dot.title = msg; }
