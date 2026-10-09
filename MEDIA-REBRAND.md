@@ -1,17 +1,17 @@
 ﻿# StillCraft Events -- Rebrand Media Replacement List
 
-What to swap for the new client, in priority order. Replace via `/insider` (open the page, click the image, upload) except Brand files, which live in the edit-bar **Brand** panel. Exhaustive per-image inventory (all 55 pages) is in `MEDIA-GUIDE.md`.
+What to swap for the new client, in priority order. Replace via `/insider` (open the page, click the image, upload) except Brand , which live in the edit-bar **Brand** panel. Exhaustive per-image inventory (all 55 pages) is in `MEDIA-GUIDE.md`.
 
 ## P0 -- Brand (edit-bar Brand panel, applies site-wide)
 
-| Page | Section on page | Current file | Format (type, size, weight) | Alt | Edit ID |
-|---|---|---|---|---|---|
-| site-wide | header logo / favicon / badges | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | svg, 137x20, 2.8KB | brand | Brand panel |
-| site-wide | header logo / favicon / badges | `/favicon.ico` | ico, 16x16, 14.7KB | brand | Brand panel |
-| site-wide | header logo / favicon / badges | `/manifest.json` | json, --, 0.5KB | brand | Brand panel |
-| site-wide | header logo / favicon / badges | `/cssda-wotm-white.svg` | svg, viewBox 0 0 90 90, 55.2KB | brand | Brand panel |
-| site-wide | header logo / favicon / badges | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | png, 630x1074, 52.8KB | brand | Brand panel |
-| site-wide | social share card (og:image) | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` | external CMS jpg -- supply new StillCraft share image 1200x630 | Brand panel |
+| Page      | Section on page                | Current file                                                   | Format (type, size, weight)                                    | Alt         | Edit ID     |
+| --------- | ------------------------------ | -------------------------------------------------------------- | -------------------------------------------------------------- | ----------- | ----------- |
+| site-wide | header logo / favicon / badges | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`       | svg, 137x20, 2.8KB                                             | brand       | Brand panel |
+| site-wide | header logo / favicon / badges | `/favicon.ico`                                               | ico, 16x16, 14.7KB                                             | brand       | Brand panel |
+| site-wide | header logo / favicon / badges | `/manifest.json`                                             | json, --, 0.5KB                                                | brand       | Brand panel |
+| site-wide | header logo / favicon / badges | `/cssda-wotm-white.svg`                                      | svg, viewBox 0 0 90 90, 55.2KB                                 | brand       | Brand panel |
+| site-wide | header logo / favicon / badges | `/assets/cms/wp-content/uploads/2025/07/footer-cert-new.png` | png, 630x1074, 52.8KB                                          | brand       | Brand panel |
+| site-wide | social share card (og:image)   | `/assets/cms/wp-content/uploads/2025/07/Adevinta-scaled.jpg` | external CMS jpg -- supply new StillCraft share image 1200x630 | Brand panel |             |
 
 ## P1 -- Hero video (external -- needs new client footage)
 
@@ -32,163 +32,162 @@ What to swap for the new client, in priority order. Replace via `/insider` (open
 
 ## P2 -- People, client logos, heroes (replace with StillCraft content)
 
-| Page | Section on page | Current file | Format (type, size, weight) | Alt | Edit ID |
-|---|---|---|---|---|---|
-| `/about` | [CLIENT LOGO] (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | svg, 137x20, 2.8KB | logo | i-1 |
-| `/about` | [HERO] The global event agency behind powerful brand moments and events | `/assets/root/upload/about-ive-hero.svg` | svg, 479x231, 1KB | ive | i-2 |
-| `/about` | [HERO] The global event agency behind powerful brand moments and events | `/assets/root/upload/about-ntions-hero.svg` | svg, 1117x230, 1.8KB | ntions | i-3 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_portrait.jpg` | jpg, 630x810, 180.3KB | Alise Grota | i-12 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_funfact-1.jpg` | jpg, 630x810, 181.4KB | Alise Grota-2 | i-14 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_portrait.jpg` | jpg, 630x810, 202.6KB | Ana Oma | i-16 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_funfact-1.jpg` | jpg, 630x810, 229.3KB | Ana Oma-2 | i-18 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_portrait.jpg` | jpg, 630x810, 206.6KB | Anci Hammerstein | i-20 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_funfact-1.jpg` | jpg, 630x810, 206.9KB | Anci Hammerstein-2 | i-22 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_portrait.jpg` | jpg, 630x810, 161.5KB | Beatriz Cordero | i-24 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_funfact-1.jpg` | jpg, 630x810, 259.2KB | Beatriz Cordero-2 | i-26 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_portrait.jpg` | jpg, 630x810, 226KB | Beatriz García-Tapia | i-28 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_funfact.jpg` | jpg, 630x810, 271KB | Beatriz García-Tapia-2 | i-30 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_portrait-1.jpg` | jpg, 630x810, 143.9KB | Benita Lileikytė | i-32 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_funfact.jpg` | jpg, 630x810, 175.2KB | Benita Lileikytė-2 | i-34 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_portrait.jpg` | jpg, 630x810, 179KB | Bruna Camaroti | i-36 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_funfact-1.jpg` | jpg, 630x810, 256.7KB | Bruna Camaroti-2 | i-38 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/CarlaCusell_funfact.jpg` | jpg, 630x810, 323KB | Carla Cusell-2 | i-42 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_portrait.jpg` | jpg, 630x810, 189.7KB | Catalina Cardona | i-44 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_funfact-1.jpg` | jpg, 630x810, 230.1KB | Catalina Cardona-2 | i-46 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_portrait.jpg` | jpg, 630x810, 174KB | Catalina Salamanca | i-48 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_funfact-1.jpg` | jpg, 630x810, 230KB | Catalina Salamanca-2 | i-50 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_portrait.jpg` | jpg, 630x810, 257.3KB | Cathleen Rodriguez | i-52 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_funfact.jpg` | jpg, 630x810, 253KB | Cathleen Rodriguez-2 | i-54 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_portrait.jpg` | jpg, 630x810, 128.3KB | Chris Goundrill | i-56 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_funfact.jpg` | jpg, 630x810, 139.2KB | Chris Goundrill-2 | i-58 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_portrait.jpg` | jpg, 630x810, 137.2KB | Constanza Chicco | i-60 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_funfact.jpg` | jpg, 630x810, 205.6KB | Constanza Chicco-2 | i-62 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_portrait.jpg` | jpg, 630x810, 189.9KB | David Atkinson | i-64 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_funfact-1.jpg` | jpg, 630x810, 266.5KB | David Atkinson-2 | i-66 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_portrait.jpg` | jpg, 630x810, 177.3KB | Elisa Gazzola | i-68 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_portrait.jpg` | jpg, 630x810, 225.3KB | Ezgi Alioglu | i-72 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_funfact-1.jpg` | jpg, 630x810, 155.6KB | Ezgi Alioglu-2 | i-74 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_portrait.jpg` | jpg, 630x810, 93.4KB | Fernanda Vallejo | i-76 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_funfact.jpg` | jpg, 630x810, 116.3KB | Fernanda Vallejo-2 | i-78 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/03/FlorRodriguez_portrait.jpg` | jpg, 533x800, 25.2KB | Flor Rodríguez | i-80 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/FlorRodriguez_funfact.jpg` | jpg, 630x810, 384.2KB | Flor Rodríguez-2 | i-82 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg` | jpg, 630x810, 70.4KB | Jennifer Simionato | i-84 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_portrait.jpg` | jpg, 630x810, 85.1KB | Jimena Castillo | i-88 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_funfact.jpg` | jpg, 630x810, 112.9KB | Jimena Castillo-2 | i-90 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_portrait.jpg` | jpg, 630x810, 76.8KB | Juanita Benavides | i-92 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_funfact.jpg` | jpg, 630x810, 91.4KB | Juanita Benavides-2 | i-94 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_portrait.jpg` | jpg, 630x810, 108.1KB | Kaytee Marsh | i-96 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_funfact.jpg` | jpg, 630x810, 113.3KB | Kaytee Marsh-2 | i-98 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/KerstinSchuster_portrait.jpg` | jpg, 630x810, 290.5KB | Kerstin Schuster | i-100 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Kerstin_funfact.jpg` | jpg, 630x810, 249.6KB | Kerstin Schuster-2 | i-102 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_portrait.jpg` | jpg, 630x810, 218.8KB | Lara Cellini | i-104 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_funfact-1.jpg` | jpg, 630x810, 311.9KB | Lara Cellini-2 | i-106 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_portrait.jpg` | jpg, 630x810, 194.4KB | Léa Cécile | i-108 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_funfact-1.jpg` | jpg, 630x810, 179.4KB | Léa Cécile-2 | i-110 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_portrait.jpg` | jpg, 630x810, 93.9KB | Lillian Marbaise | i-112 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_funfact.jpg` | jpg, 630x810, 85.5KB | Lillian Marbaise-2 | i-114 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_portrait.jpg` | jpg, 630x810, 171.1KB | Lisa Bilman | i-116 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_funfact-1.jpg` | jpg, 630x810, 241.5KB | Lisa Bilman-2 | i-118 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_portrait.jpg` | jpg, 630x810, 245.7KB | Mar Ortega | i-120 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_funfacti.jpg` | jpg, 630x810, 291.3KB | Mar Ortega-2 | i-122 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_portrait.jpg` | jpg, 630x810, 180.3KB | Melanie León | i-124 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_funfact.jpg` | jpg, 630x810, 217.1KB | Melanie León-2 | i-126 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_portrait.jpg` | jpg, 630x810, 95.8KB | Olive Bychkova | i-128 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_funfact.jpg` | jpg, 630x810, 76.5KB | Olive Bychkova-2 | i-130 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_portrait.jpg` | jpg, 630x810, 175.9KB | Pascal Jorritsma | i-132 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_funfact-1.jpg` | jpg, 630x810, 191.3KB | Pascal Jorritsma-2 | i-134 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_portrait.jpg` | jpg, 630x810, 135.9KB | Robert McDonald | i-136 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_funfact.jpg` | jpg, 630x810, 190.3KB | Robert McDonald-2 | i-138 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Sarahv-von-Aspern_portrait.jpg` | jpg, 630x810, 192.4KB | Sarah von Aspern | i-140 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Sarah-von-Aspern_funfact-1.jpg` | jpg, 630x810, 231.1KB | Sarah von Aspern-2 | i-142 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_portrait.jpg` | jpg, 630x810, 139.4KB | Sela Britton | i-144 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_funfact.jpg` | jpg, 630x810, 140.4KB | Sela Britton-2 | i-146 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_portrait.jpg` | jpg, 630x810, 176.4KB | Stephanie Weber | i-148 |
-| `/about` | [PERSON] Our secret? The people | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_funfact-1.jpg` | jpg, 630x810, 178.5KB | Stephanie Weber-2 | i-150 |
-| `/about` | [PERSON] Apply here | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` | jpg, 1684x1068, 409KB | Team Nationalities | i-160 |
-| `/home` | [CLIENT LOGO] (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | svg, 137x20, 2.8KB | logo | i-1 |
-| `/home` | [HERO] We craft world-class spaces &amp; events that create memories, initiat | `/assets/root/upload/home-hero-text.svg` | svg, 1856x266, 2.6KB | home-hero-text | i-2 |
-| `/home` | [CLIENT LOGO] We craft world-class spaces &amp; events that create memories, initiat | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | webp, --, 265.9KB | projects | i-5 |
-| `/home` | [CLIENT LOGO] Highlight projects UEFA Champions League Final 2026: Budapest. Nine sp | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` | jpg, 2560x1703, 397.4KB | projects | i-11 |
-| `/home` | [HERO] Highlight projects Etihad Euroleague Final Four 2026: From raw venue t | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | jpg, 2560x1707, 1002.8KB | projects | i-17 |
-| `/home` | [CLIENT LOGO] Highlight projects Adevinta Ignite: Empowering connection &amp; growth | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | jpg, 2560x1706, 855.3KB | projects | i-23 |
-| `/home` | [CLIENT LOGO] Highlight projects Midas at ISE: Where six metres of LED sounds impecc | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` | jpg, 2560x1440, 419.4KB | projects | i-29 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2026/05/NL.png` | png, 800x800, 15.2KB | logo | i-39 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Champions-League.svg` | svg, 180x180, 17KB | logo | i-41 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg` | svg, 180x180, 4.1KB | logo | i-43 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/11/pfizer.png` | png, 800x800, 26.6KB | logo | i-45 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Fedex.svg` | svg, 180x180, 3.2KB | logo | i-47 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2026/08/adidas.png` | png, 800x800, 29.1KB | logo | i-49 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Euroleague.svg` | svg, 180x180, 24.9KB | logo | i-51 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Ribbon.svg` | svg, 180x180, 16.8KB | logo | i-53 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Centrient.svg` | svg, 180x180, 16.2KB | logo | i-55 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg` | svg, 180x180, 5.6KB | logo | i-57 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Radisys.svg` | svg, 180x180, 3.7KB | logo | i-59 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/NL.svg` | svg, 180x180, 0.9KB | logo | i-61 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/YPO.svg` | svg, 180x180, 11.5KB | logo | i-63 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Menzies.svg` | svg, 180x180, 5.3KB | logo | i-65 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Adevinta.svg` | svg, 180x180, 4.6KB | logo | i-67 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/ISE.svg` | svg, 180x180, 21.2KB | logo | i-71 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Fiat.svg` | svg, 180x180, 0.7KB | logo | i-73 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/VEEAM.svg` | svg, 180x180, 2.1KB | logo | i-75 |
-| `/home` | [HERO] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Events-1.jpg` | jpg, 800x860, 131KB | Events | i-77 |
-| `/home` | [HERO] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Exhibits-2.jpg` | jpg, 800x860, 85.6KB | Exhibits | i-83 |
-| `/home` | [HERO] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Congresses-2.jpg` | jpg, 800x860, 71.4KB | Congresses | i-89 |
-| `/home` | [HERO] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Sports-3.jpg` | jpg, 800x860, 131.6KB | Sports | i-95 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png` | png, 500x500, 17.2KB | Logo | i-101 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg` | svg, 157x128, 13.7KB | Logo | i-103 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png` | png, 500x500, 16.8KB | Logo | i-105 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` | svg, 157x128, 5.7KB | Logo | i-107 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg` | svg, 157x128, 29.8KB | Logo | i-111 |
-| `/home` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg` | svg, 157x128, 5.5KB | Logo | i-113 |
-| `/home` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` | jpg, 768x768, 126.9KB | Leader | i-119 |
-| `/home` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg` | jpg, 2560x2560, 433.8KB | Leader | i-123 |
-| `/home` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg` | jpg, 726x726, 63.3KB | Leader | i-125 |
-| `/home` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg` | jpg, 547x547, 51.4KB | Leader | i-127 |
-| `/home` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg` | jpg, 342x342, 32.2KB | Leader | i-129 |
-| `/home` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` | jpg, 800x800, 81KB | Leader | i-131 |
-| `/home` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` | jpg, 1684x1068, 409KB | Team Nationalities | i-157 |
-| `/` | [CLIENT LOGO] (top of page) | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg` | svg, 137x20, 2.8KB | logo | i-1 |
-| `/` | [HERO] We craft world-class spaces &amp; events that create memories, initiat | `/assets/root/upload/home-hero-text.svg` | svg, 1856x266, 2.6KB | home-hero-text | i-2 |
-| `/` | [CLIENT LOGO] We craft world-class spaces &amp; events that create memories, initiat | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | webp, --, 265.9KB | projects | i-5 |
-| `/` | [CLIENT LOGO] Highlight projects UEFA Champions League Final 2026: Budapest. Nine sp | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg` | jpg, 2560x1703, 397.4KB | projects | i-11 |
-| `/` | [HERO] Highlight projects Etihad Euroleague Final Four 2026: From raw venue t | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg` | jpg, 2560x1707, 1002.8KB | projects | i-17 |
-| `/` | [CLIENT LOGO] Highlight projects Adevinta Ignite: Empowering connection &amp; growth | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg` | jpg, 2560x1706, 855.3KB | projects | i-23 |
-| `/` | [CLIENT LOGO] Highlight projects Midas at ISE: Where six metres of LED sounds impecc | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg` | jpg, 2560x1440, 419.4KB | projects | i-29 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2026/05/NL.png` | png, 800x800, 15.2KB | logo | i-39 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Champions-League.svg` | svg, 180x180, 17KB | logo | i-41 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg` | svg, 180x180, 4.1KB | logo | i-43 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/11/pfizer.png` | png, 800x800, 26.6KB | logo | i-45 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Fedex.svg` | svg, 180x180, 3.2KB | logo | i-47 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2026/08/adidas.png` | png, 800x800, 29.1KB | logo | i-49 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Euroleague.svg` | svg, 180x180, 24.9KB | logo | i-51 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Ribbon.svg` | svg, 180x180, 16.8KB | logo | i-53 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Centrient.svg` | svg, 180x180, 16.2KB | logo | i-55 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg` | svg, 180x180, 5.6KB | logo | i-57 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Radisys.svg` | svg, 180x180, 3.7KB | logo | i-59 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/NL.svg` | svg, 180x180, 0.9KB | logo | i-61 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/YPO.svg` | svg, 180x180, 11.5KB | logo | i-63 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Menzies.svg` | svg, 180x180, 5.3KB | logo | i-65 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Adevinta.svg` | svg, 180x180, 4.6KB | logo | i-67 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/ISE.svg` | svg, 180x180, 21.2KB | logo | i-71 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Fiat.svg` | svg, 180x180, 0.7KB | logo | i-73 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/VEEAM.svg` | svg, 180x180, 2.1KB | logo | i-75 |
-| `/` | [HERO] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Events-1.jpg` | jpg, 800x860, 131KB | Events | i-77 |
-| `/` | [HERO] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Exhibits-2.jpg` | jpg, 800x860, 85.6KB | Exhibits | i-83 |
-| `/` | [HERO] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Congresses-2.jpg` | jpg, 800x860, 71.4KB | Congresses | i-89 |
-| `/` | [HERO] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Sports-3.jpg` | jpg, 800x860, 131.6KB | Sports | i-95 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png` | png, 500x500, 17.2KB | Logo | i-101 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg` | svg, 157x128, 13.7KB | Logo | i-103 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png` | png, 500x500, 16.8KB | Logo | i-105 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg` | svg, 157x128, 5.7KB | Logo | i-107 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg` | svg, 157x128, 29.8KB | Logo | i-111 |
-| `/` | [CLIENT LOGO] Highlight projects | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg` | svg, 157x128, 5.5KB | Logo | i-113 |
-| `/` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg` | jpg, 768x768, 126.9KB | Leader | i-119 |
-| `/` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg` | jpg, 2560x2560, 433.8KB | Leader | i-123 |
-| `/` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg` | jpg, 726x726, 63.3KB | Leader | i-125 |
-| `/` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg` | jpg, 547x547, 51.4KB | Leader | i-127 |
-| `/` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg` | jpg, 342x342, 32.2KB | Leader | i-129 |
-| `/` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg` | jpg, 800x800, 81KB | Leader | i-131 |
-| `/` | [PERSON] Highlight projects | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg` | jpg, 1684x1068, 409KB | Team Nationalities | i-157 |
+| Page       | Section on page                                                                      | Current file                                                                                | Format (type, size, weight) | Alt                     | Edit ID |
+| ---------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | --------------------------- | ----------------------- | ------- |
+| `/about` | [CLIENT LOGO] (top of page)                                                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                    | svg, 137x20, 2.8KB          | logo                    | i-1     |
+| `/about` | [HERO] The global event agency behind powerful brand moments and events              | `/assets/root/upload/about-ive-hero.svg`                                                  | svg, 479x231, 1KB           | ive                     | i-2     |
+| `/about` | [HERO] The global event agency behind powerful brand moments and events              | `/assets/root/upload/about-ntions-hero.svg`                                               | svg, 1117x230, 1.8KB        | ntions                  | i-3     |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_portrait.jpg`                         | jpg, 630x810, 180.3KB       | Alise Grota             | i-12    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Alise-Grota_funfact-1.jpg`                        | jpg, 630x810, 181.4KB       | Alise Grota-2           | i-14    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_portrait.jpg`                             | jpg, 630x810, 202.6KB       | Ana Oma                 | i-16    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Ana-Oma_funfact-1.jpg`                            | jpg, 630x810, 229.3KB       | Ana Oma-2               | i-18    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_portrait.jpg`                    | jpg, 630x810, 206.6KB       | Anci Hammerstein        | i-20    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Anci-Hammerstein_funfact-1.jpg`                   | jpg, 630x810, 206.9KB       | Anci Hammerstein-2      | i-22    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_portrait.jpg`                     | jpg, 630x810, 161.5KB       | Beatriz Cordero         | i-24    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Cordero_funfact-1.jpg`                    | jpg, 630x810, 259.2KB       | Beatriz Cordero-2       | i-26    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_portrait.jpg`                      | jpg, 630x810, 226KB         | Beatriz García-Tapia   | i-28    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Beatriz-Garcia_funfact.jpg`                       | jpg, 630x810, 271KB         | Beatriz García-Tapia-2 | i-30    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_portrait-1.jpg`                  | jpg, 630x810, 143.9KB       | Benita Lileikytė       | i-32    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Benita-Lileikyte_funfact.jpg`                     | jpg, 630x810, 175.2KB       | Benita Lileikytė-2     | i-34    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_portrait.jpg`                      | jpg, 630x810, 179KB         | Bruna Camaroti          | i-36    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Bruna-Camaroti_funfact-1.jpg`                     | jpg, 630x810, 256.7KB       | Bruna Camaroti-2        | i-38    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/CarlaCusell_funfact.jpg`                          | jpg, 630x810, 323KB         | Carla Cusell-2          | i-42    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_portrait.jpg`                    | jpg, 630x810, 189.7KB       | Catalina Cardona        | i-44    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Catalina-Cardona_funfact-1.jpg`                   | jpg, 630x810, 230.1KB       | Catalina Cardona-2      | i-46    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_portrait.jpg`                  | jpg, 630x810, 174KB         | Catalina Salamanca      | i-48    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Catalina-Salamanca_funfact-1.jpg`                 | jpg, 630x810, 230KB         | Catalina Salamanca-2    | i-50    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_portrait.jpg`                   | jpg, 630x810, 257.3KB       | Cathleen Rodriguez      | i-52    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/CathleenRodriguez_funfact.jpg`                    | jpg, 630x810, 253KB         | Cathleen Rodriguez-2    | i-54    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_portrait.jpg`                     | jpg, 630x810, 128.3KB       | Chris Goundrill         | i-56    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/Chris-Goundrill_funfact.jpg`                      | jpg, 630x810, 139.2KB       | Chris Goundrill-2       | i-58    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_portrait.jpg`                     | jpg, 630x810, 137.2KB       | Constanza Chicco        | i-60    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/ConstanzaChicco_funfact.jpg`                      | jpg, 630x810, 205.6KB       | Constanza Chicco-2      | i-62    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_portrait.jpg`                      | jpg, 630x810, 189.9KB       | David Atkinson          | i-64    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/David-Atkinson_funfact-1.jpg`                     | jpg, 630x810, 266.5KB       | David Atkinson-2        | i-66    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Elisa-Gazzola_portrait.jpg`                       | jpg, 630x810, 177.3KB       | Elisa Gazzola           | i-68    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_portrait.jpg`                        | jpg, 630x810, 225.3KB       | Ezgi Alioglu            | i-72    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Ezgi-Alioglu_funfact-1.jpg`                       | jpg, 630x810, 155.6KB       | Ezgi Alioglu-2          | i-74    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_portrait.jpg`                    | jpg, 630x810, 93.4KB        | Fernanda Vallejo        | i-76    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Fernanda-Vallejo_funfact.jpg`                     | jpg, 630x810, 116.3KB       | Fernanda Vallejo-2      | i-78    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/03/FlorRodriguez_portrait.jpg`                       | jpg, 533x800, 25.2KB        | Flor Rodríguez         | i-80    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/FlorRodriguez_funfact.jpg`                        | jpg, 630x810, 384.2KB       | Flor Rodríguez-2       | i-82    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Jennifer-Simionato_portrait.jpg`                  | jpg, 630x810, 70.4KB        | Jennifer Simionato      | i-84    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_portrait.jpg`                     | jpg, 630x810, 85.1KB        | Jimena Castillo         | i-88    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Jimena-Castillo_funfact.jpg`                      | jpg, 630x810, 112.9KB       | Jimena Castillo-2       | i-90    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_portrait.jpg`                   | jpg, 630x810, 76.8KB        | Juanita Benavides       | i-92    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Juanita-Benavides_funfact.jpg`                    | jpg, 630x810, 91.4KB        | Juanita Benavides-2     | i-94    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_portrait.jpg`                        | jpg, 630x810, 108.1KB       | Kaytee Marsh            | i-96    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Kaytee-Marsh_funfact.jpg`                         | jpg, 630x810, 113.3KB       | Kaytee Marsh-2          | i-98    |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/KerstinSchuster_portrait.jpg`                     | jpg, 630x810, 290.5KB       | Kerstin Schuster        | i-100   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/Kerstin_funfact.jpg`                              | jpg, 630x810, 249.6KB       | Kerstin Schuster-2      | i-102   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_portrait.jpg`                        | jpg, 630x810, 218.8KB       | Lara Cellini            | i-104   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Lara-Cellini_funfact-1.jpg`                       | jpg, 630x810, 311.9KB       | Lara Cellini-2          | i-106   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_portrait.jpg`                          | jpg, 630x810, 194.4KB       | Léa Cécile            | i-108   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Lea-Cecile_funfact-1.jpg`                         | jpg, 630x810, 179.4KB       | Léa Cécile-2          | i-110   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_portrait.jpg`                    | jpg, 630x810, 93.9KB        | Lillian Marbaise        | i-112   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Lillian-Marbaise_funfact.jpg`                     | jpg, 630x810, 85.5KB        | Lillian Marbaise-2      | i-114   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_portrait.jpg`                         | jpg, 630x810, 171.1KB       | Lisa Bilman             | i-116   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Lisa-Bilman_funfact-1.jpg`                        | jpg, 630x810, 241.5KB       | Lisa Bilman-2           | i-118   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_portrait.jpg`                           | jpg, 630x810, 245.7KB       | Mar Ortega              | i-120   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/MarOrtega_funfacti.jpg`                           | jpg, 630x810, 291.3KB       | Mar Ortega-2            | i-122   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_portrait.jpg`                        | jpg, 630x810, 180.3KB       | Melanie León           | i-124   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Melanie-Leon_funfact.jpg`                         | jpg, 630x810, 217.1KB       | Melanie León-2         | i-126   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_portrait.jpg`                      | jpg, 630x810, 95.8KB        | Olive Bychkova          | i-128   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/07/Olive-Bychkova_funfact.jpg`                       | jpg, 630x810, 76.5KB        | Olive Bychkova-2        | i-130   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_portrait.jpg`                    | jpg, 630x810, 175.9KB       | Pascal Jorritsma        | i-132   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Pascal-Jorritsma_funfact-1.jpg`                   | jpg, 630x810, 191.3KB       | Pascal Jorritsma-2      | i-134   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_portrait.jpg`                     | jpg, 630x810, 135.9KB       | Robert McDonald         | i-136   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Robert-McDonald_funfact.jpg`                      | jpg, 630x810, 190.3KB       | Robert McDonald-2       | i-138   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Sarahv-von-Aspern_portrait.jpg`                   | jpg, 630x810, 192.4KB       | Sarah von Aspern        | i-140   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Sarah-von-Aspern_funfact-1.jpg`                   | jpg, 630x810, 231.1KB       | Sarah von Aspern-2      | i-142   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_portrait.jpg`                        | jpg, 630x810, 139.4KB       | Sela Britton            | i-144   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2026/02/Sela-Britton_funfact.jpg`                         | jpg, 630x810, 140.4KB       | Sela Britton-2          | i-146   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_portrait.jpg`                     | jpg, 630x810, 176.4KB       | Stephanie Weber         | i-148   |
+| `/about` | [PERSON] Our secret? The people                                                      | `/assets/cms/wp-content/uploads/2025/08/Stephanie-Weber_funfact-1.jpg`                    | jpg, 630x810, 178.5KB       | Stephanie Weber-2       | i-150   |
+| `/about` | [PERSON] Apply here                                                                  | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg`                           | jpg, 1684x1068, 409KB       | Team Nationalities      | i-160   |
+| `/home`  | [CLIENT LOGO] (top of page)                                                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                    | svg, 137x20, 2.8KB          | logo                    | i-1     |
+| `/home`  | [HERO] We craft world-class spaces&amp; events that create memories, initiat         | `/assets/root/upload/home-hero-text.svg`                                                  | svg, 1856x266, 2.6KB        | home-hero-text          | i-2     |
+| `/home`  | [CLIENT LOGO] We craft world-class spaces&amp; events that create memories, initiat  | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | webp, --, 265.9KB           | projects                | i-5     |
+| `/home`  | [CLIENT LOGO] Highlight projects UEFA Champions League Final 2026: Budapest. Nine sp | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg`         | jpg, 2560x1703, 397.4KB     | projects                | i-11    |
+| `/home`  | [HERO] Highlight projects Etihad Euroleague Final Four 2026: From raw venue t        | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`                 | jpg, 2560x1707, 1002.8KB    | projects                | i-17    |
+| `/home`  | [CLIENT LOGO] Highlight projects Adevinta Ignite: Empowering connection&amp; growth  | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`                      | jpg, 2560x1706, 855.3KB     | projects                | i-23    |
+| `/home`  | [CLIENT LOGO] Highlight projects Midas at ISE: Where six metres of LED sounds impecc | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg`                               | jpg, 2560x1440, 419.4KB     | projects                | i-29    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2026/05/NL.png`                                           | png, 800x800, 15.2KB        | logo                    | i-39    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Champions-League.svg`                             | svg, 180x180, 17KB          | logo                    | i-41    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg`                             | svg, 180x180, 4.1KB         | logo                    | i-43    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/11/pfizer.png`                                       | png, 800x800, 26.6KB        | logo                    | i-45    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Fedex.svg`                                        | svg, 180x180, 3.2KB         | logo                    | i-47    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2026/08/adidas.png`                                       | png, 800x800, 29.1KB        | logo                    | i-49    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Euroleague.svg`                                   | svg, 180x180, 24.9KB        | logo                    | i-51    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Ribbon.svg`                                       | svg, 180x180, 16.8KB        | logo                    | i-53    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Centrient.svg`                                    | svg, 180x180, 16.2KB        | logo                    | i-55    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg`                                | svg, 180x180, 5.6KB         | logo                    | i-57    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Radisys.svg`                                      | svg, 180x180, 3.7KB         | logo                    | i-59    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/NL.svg`                                           | svg, 180x180, 0.9KB         | logo                    | i-61    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/YPO.svg`                                          | svg, 180x180, 11.5KB        | logo                    | i-63    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Menzies.svg`                                      | svg, 180x180, 5.3KB         | logo                    | i-65    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Adevinta.svg`                                     | svg, 180x180, 4.6KB         | logo                    | i-67    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/ISE.svg`                                          | svg, 180x180, 21.2KB        | logo                    | i-71    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Fiat.svg`                                         | svg, 180x180, 0.7KB         | logo                    | i-73    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/VEEAM.svg`                                        | svg, 180x180, 2.1KB         | logo                    | i-75    |
+| `/home`  | [HERO] Highlight projects                                                            | `/assets/cms/wp-content/uploads/2025/06/Events-1.jpg`                                     | jpg, 800x860, 131KB         | Events                  | i-77    |
+| `/home`  | [HERO] Highlight projects                                                            | `/assets/cms/wp-content/uploads/2025/06/Exhibits-2.jpg`                                   | jpg, 800x860, 85.6KB        | Exhibits                | i-83    |
+| `/home`  | [HERO] Highlight projects                                                            | `/assets/cms/wp-content/uploads/2025/06/Congresses-2.jpg`                                 | jpg, 800x860, 71.4KB        | Congresses              | i-89    |
+| `/home`  | [HERO] Highlight projects                                                            | `/assets/cms/wp-content/uploads/2025/06/Sports-3.jpg`                                     | jpg, 800x860, 131.6KB       | Sports                  | i-95    |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png`                                    | png, 500x500, 17.2KB        | Logo                    | i-101   |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg`                 | svg, 157x128, 13.7KB        | Logo                    | i-103   |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png`                            | png, 500x500, 16.8KB        | Logo                    | i-105   |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg`                   | svg, 157x128, 5.7KB         | Logo                    | i-107   |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg`                        | svg, 157x128, 29.8KB        | Logo                    | i-111   |
+| `/home`  | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg`                         | svg, 157x128, 5.5KB         | Logo                    | i-113   |
+| `/home`  | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg`                                | jpg, 768x768, 126.9KB       | Leader                  | i-119   |
+| `/home`  | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg`                      | jpg, 2560x2560, 433.8KB     | Leader                  | i-123   |
+| `/home`  | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg`                                 | jpg, 726x726, 63.3KB        | Leader                  | i-125   |
+| `/home`  | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg`                                | jpg, 547x547, 51.4KB        | Leader                  | i-127   |
+| `/home`  | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg`                                  | jpg, 342x342, 32.2KB        | Leader                  | i-129   |
+| `/home`  | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg`                             | jpg, 800x800, 81KB          | Leader                  | i-131   |
+| `/home`  | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg`                           | jpg, 1684x1068, 409KB       | Team Nationalities      | i-157   |
+| `/`      | [CLIENT LOGO] (top of page)                                                          | `/assets/cms/wp-content/uploads/2025/06/icon-logo.svg`                                    | svg, 137x20, 2.8KB          | logo                    | i-1     |
+| `/`      | [HERO] We craft world-class spaces&amp; events that create memories, initiat         | `/assets/root/upload/home-hero-text.svg`                                                  | svg, 1856x266, 2.6KB        | home-hero-text          | i-2     |
+| `/`      | [CLIENT LOGO] We craft world-class spaces&amp; events that create memories, initiat  | `/assets/cms/wp-content/uploads/2026/07/UEFA-Champions-League-Final-2026-1-scaled-1.webp` | webp, --, 265.9KB           | projects                | i-5     |
+| `/`      | [CLIENT LOGO] Highlight projects UEFA Champions League Final 2026: Budapest. Nine sp | `/assets/cms/wp-content/uploads/2026/07/Euroleague-Final-Four-2026-12-scaled.jpg`         | jpg, 2560x1703, 397.4KB     | projects                | i-11    |
+| `/`      | [HERO] Highlight projects Etihad Euroleague Final Four 2026: From raw venue t        | `/assets/cms/wp-content/uploads/2025/08/Adevina-Ignite-2024-4-scaled.jpg`                 | jpg, 2560x1707, 1002.8KB    | projects                | i-17    |
+| `/`      | [CLIENT LOGO] Highlight projects Adevinta Ignite: Empowering connection&amp; growth  | `/assets/cms/wp-content/uploads/2026/06/Midas-ISE-2026-1-scaled.jpg`                      | jpg, 2560x1706, 855.3KB     | projects                | i-23    |
+| `/`      | [CLIENT LOGO] Highlight projects Midas at ISE: Where six metres of LED sounds impecc | `/assets/cms/wp-content/uploads/2025/07/Menzies-scaled.jpg`                               | jpg, 2560x1440, 419.4KB     | projects                | i-29    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2026/05/NL.png`                                           | png, 800x800, 15.2KB        | logo                    | i-39    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Champions-League.svg`                             | svg, 180x180, 17KB          | logo                    | i-41    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Turkish-Airlines.svg`                             | svg, 180x180, 4.1KB         | logo                    | i-43    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/11/pfizer.png`                                       | png, 800x800, 26.6KB        | logo                    | i-45    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Fedex.svg`                                        | svg, 180x180, 3.2KB         | logo                    | i-47    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2026/08/adidas.png`                                       | png, 800x800, 29.1KB        | logo                    | i-49    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Euroleague.svg`                                   | svg, 180x180, 24.9KB        | logo                    | i-51    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Ribbon.svg`                                       | svg, 180x180, 16.8KB        | logo                    | i-53    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Centrient.svg`                                    | svg, 180x180, 16.2KB        | logo                    | i-55    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Corden-Pharma.svg`                                | svg, 180x180, 5.6KB         | logo                    | i-57    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Radisys.svg`                                      | svg, 180x180, 3.7KB         | logo                    | i-59    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/NL.svg`                                           | svg, 180x180, 0.9KB         | logo                    | i-61    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/YPO.svg`                                          | svg, 180x180, 11.5KB        | logo                    | i-63    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Menzies.svg`                                      | svg, 180x180, 5.3KB         | logo                    | i-65    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Adevinta.svg`                                     | svg, 180x180, 4.6KB         | logo                    | i-67    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/ISE.svg`                                          | svg, 180x180, 21.2KB        | logo                    | i-71    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/Fiat.svg`                                         | svg, 180x180, 0.7KB         | logo                    | i-73    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/07/VEEAM.svg`                                        | svg, 180x180, 2.1KB         | logo                    | i-75    |
+| `/`      | [HERO] Highlight projects                                                            | `/assets/cms/wp-content/uploads/2025/06/Events-1.jpg`                                     | jpg, 800x860, 131KB         | Events                  | i-77    |
+| `/`      | [HERO] Highlight projects                                                            | `/assets/cms/wp-content/uploads/2025/06/Exhibits-2.jpg`                                   | jpg, 800x860, 85.6KB        | Exhibits                | i-83    |
+| `/`      | [HERO] Highlight projects                                                            | `/assets/cms/wp-content/uploads/2025/06/Congresses-2.jpg`                                 | jpg, 800x860, 71.4KB        | Congresses              | i-89    |
+| `/`      | [HERO] Highlight projects                                                            | `/assets/cms/wp-content/uploads/2025/06/Sports-3.jpg`                                     | jpg, 800x860, 131.6KB       | Sports                  | i-95    |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/11/UEFA-logo.png`                                    | png, 500x500, 17.2KB        | Logo                    | i-101   |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/09/Testimonial_Champions-League.svg`                 | svg, 157x128, 13.7KB        | Logo                    | i-103   |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/11/Pfizer-logo-black.png`                            | png, 500x500, 16.8KB        | Logo                    | i-105   |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Corden-Pharma.svg`                   | svg, 157x128, 5.7KB         | Logo                    | i-107   |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Adevinta.svg`                        | svg, 157x128, 29.8KB        | Logo                    | i-111   |
+| `/`      | [CLIENT LOGO] Highlight projects                                                     | `/assets/cms/wp-content/uploads/2025/09/Testimonials_Menzies.svg`                         | svg, 157x128, 5.5KB         | Logo                    | i-113   |
+| `/`      | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/08/Theresa-Ruivo.jpg`                                | jpg, 768x768, 126.9KB       | Leader                  | i-119   |
+| `/`      | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2026/04/Camilla-Di-Zenzo-scaled.jpg`                      | jpg, 2560x2560, 433.8KB     | Leader                  | i-123   |
+| `/`      | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2026/04/Ella-McClary.jpg`                                 | jpg, 726x726, 63.3KB        | Leader                  | i-125   |
+| `/`      | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/06/Costanza-Rota.jpg`                                | jpg, 547x547, 51.4KB        | Leader                  | i-127   |
+| `/`      | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/08/Jo-Harrison.jpg`                                  | jpg, 342x342, 32.2KB        | Leader                  | i-129   |
+| `/`      | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/08/Camilla-Di-Zenzo.jpg`                             | jpg, 800x800, 81KB          | Leader                  | i-131   |
+| `/`      | [PERSON] Highlight projects                                                          | `/assets/cms/wp-content/uploads/2025/07/Team-nationalities.jpg`                           | jpg, 1684x1068, 409KB       | Team Nationalities      | i-157   |
 
 _Full inventory of every remaining image (insights, projects, services, legal) with the same columns is in `MEDIA-GUIDE.md`._
-
