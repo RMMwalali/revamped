@@ -4018,31 +4018,68 @@ export function applySplash(html, page) {  if (page === '/insider') return html;
 // only `visibility` is changed, never opacity or transforms.
 export function applyRevealFailsafe(html) {
   if (!/<body[^>]*>/i.test(html)) return html;
+  // Rescues split-text headings whose entrance animation never ran (left
+  // hidden / shifted out of their clip mask). It must only touch those lines:
+  // sliders (e.g. the service page "What The Programme Moves" panel) stack
+  // every slide's text in one grid cell and hide the inactive ones by shifting
+  // them out of the mask. Resetting those made all ten titles show on top of
+  // each other. So: only masks that really had a hidden ancestor, never a
+  // stacked slide, and a failed image load is not a reason to run.
   const js = `<script>(function(){
 var DELAY=6000,done=false;
+function stacked(el){
+  for(var x=el,d=0;x&&x!==document.body&&d<6;x=x.parentElement,d++){
+    var par=x.parentElement;if(!par||par.children.length<2)continue;
+    var cs=getComputedStyle(par);if(cs.display!=='grid'&&cs.display!=='inline-grid')continue;
+    var r=x.getBoundingClientRect();
+    for(var i=0;i<par.children.length;i++){var o=par.children[i];if(o===x)continue;var q=o.getBoundingClientRect();
+      if(Math.abs(q.top-r.top)<2&&Math.abs(q.left-r.left)<2&&q.width>0)return true;}
+  }
+  return false;
+}
 function reveal(){
   var masks=document.querySelectorAll('.line-mask'),n=0,t=0;
   for(var i=0;i<masks.length;i++){
-    for(var p=masks[i];p&&p!==document.body;p=p.parentElement){
-      if(getComputedStyle(p).visibility==='hidden'){p.style.visibility='visible';n++;}
+    var m=masks[i],hid=false;
+    if(stacked(m))continue;
+    for(var p=m;p&&p!==document.body;p=p.parentElement){
+      if(getComputedStyle(p).visibility==='hidden'){p.style.visibility='visible';n++;hid=true;}
     }
-  }
-  if(n>0){
-    var ident=/^matrix3?d\(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1\)/;
-    for(var i=0;i<masks.length;i++){
-      var desc=masks[i].querySelectorAll('*');
-      for(var j=0;j<desc.length;j++){
-        var el=desc[j], tr=(getComputedStyle(el).transform||'none');
-        if(tr==='none'||ident.test(tr)||/^matrix\(1,0,0,1,0,0\)/.test(tr))continue;
-        el.style.transform='none';el.style.webkitTransform='none';el.style.msTransform='none';t++;
-      }
+    if(!hid)continue;
+    var ident=/^matrix3?d\\(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1\\)/;
+    var desc=m.querySelectorAll('*');
+    for(var j=0;j<desc.length;j++){
+      var el=desc[j], tr=(getComputedStyle(el).transform||'none');
+      if(tr==='none'||ident.test(tr)||/^matrix\\(1,0,0,1,0,0\\)/.test(tr))continue;
+      el.style.transform='none';el.style.webkitTransform='none';el.style.msTransform='none';t++;
     }
   }
   if(n>0&&window.console&&console.warn)console.warn('[stillcraft] entrance animation did not run; revealed '+n+' hidden line(s), reset '+t+' stuck transforms');
   done=true;
 }
 window.addEventListener('load',function(){setTimeout(function(){if(!done)reveal();},DELAY);});
-window.addEventListener('error',function(){setTimeout(function(){if(!done)reveal();},400);},true);
+// Script errors only: a missing image fires 'error' on the <img>, not window.
+window.addEventListener('error',function(e){if(e&&e.target&&e.target!==window)return;setTimeout(function(){if(!done)reveal();},400);},true);
 })();</script>`;
   return html.replace(/<body[^>]*>/i, (m) => m + '\n' + js);
+}
+
+// A project can carry the same category twice (the first mall case lists
+// "Retail & Malls" twice), which shows as "Retail & Malls, Retail & Malls"
+// on the service page's project slider. Drop repeated categories, in the
+// static HTML and in the flight data the slider hydrates from (length-safe).
+export function applyCategoryDedupe(html) {
+  if (html.indexOf('projectCategories') < 0 && html.indexOf('line-mask') < 0) return html;
+  // Static: "<line>X,</line><line>X</line>" inside one category row.
+  html = html.replace(
+    /(<div class="line[^"]*"[^>]*>)([^<,]+),(<\/div><\/div>)<div class="line-mask[^"]*"[^>]*><div class="line[^"]*"[^>]*>\2<\/div><\/div>/g,
+    (m, open, name, close) => open + name + close,
+  );
+  // Flight: {"node":{"name":"X"}},{"node":{"name":"X"}} (escaped in pushes).
+  const dupRe = /(\{\\"node\\":\{\\"name\\":\\"[^"\\]+\\"\}\}),\1/g;
+  const seen = new Set();
+  let m;
+  while ((m = dupRe.exec(html))) seen.add(m[0]);
+  for (const dup of seen) html = safeReplace(html, dup, dup.slice(0, (dup.length - 1) / 2));
+  return html;
 }

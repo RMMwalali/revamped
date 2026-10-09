@@ -2087,7 +2087,7 @@ export async function applyStructuredCMS(html, cms, page) {
       // the code: applyTestimonials falls back to StillCraft's own placeholder
       // lines for any slide the admin has not filled in, so the band never
       // falls back to the donor's copy.
-      html = applyTestimonials(html, cms.testimonials && cms.testimonials.items);
+      html = applyTestimonials(html, plainTestimonials(cms));
       // Runs whether or not testimonials are configured: the donor client list
       // in the logo-wall pairing array ships on every home render.
       html = clearDonorLogoPairs(html);
@@ -2100,7 +2100,7 @@ export async function applyStructuredCMS(html, cms, page) {
     // from the same testimonial pool as home: placeholders when never saved,
     // hidden when the pool was explicitly emptied.
     if (/^\/service\//.test(page || '')) {
-      html = applyServiceTestimonials(html, cms.testimonials && cms.testimonials.items);
+      html = applyServiceTestimonials(html, plainTestimonials(cms));
     }
     if (cms.articles && Array.isArray(cms.articles.items) && cms.articles.items.length) html = applyArticles(html, cms.articles.items);
     if (cms.insights && typeof cms.insights === 'object') {
@@ -2131,19 +2131,180 @@ export async function liveSnapshot(pristineHtml) {
       // those donor paths into the CMS as a deliberate, admin-edited setting.
       // Offering the StillCraft logo makes the prefill and the page agree, and
       // leaves a real upload to replace it.
-      testimonials: (() => {
-        const live = extractTestimonials(pristineHtml);
-        return defaultTestimonials(pristineHtml).map((t, i) => ({
-          ...t,
-          logo: partnerLogoAt(i) || (live[i] || {}).logo || '',
-          photo: '',
-          participants: (live[i] || {}).participants || '',
-        }));
-      })(),
+      // Exactly the defaults every testimonials slider serves (one shared
+      // list, see testimonialList), so the form and the site agree.
+      testimonials: testimonialList({}).map((t) => ({
+        name: t.name, quote: t.quote, role: t.role, org: t.org,
+        location: t.location, industry: t.industry, participants: t.participants,
+        eventType: t.eventType, link: t.linkUrl, logo: t.logo, photo: '',
+      })),
       cities: { items: extractCities(pristineHtml).slice(0, 45), addresses: extractAddresses(pristineHtml) },
       insights: extractInsights(pristineHtml),
       insightManifest: await getInsightManifest().catch(() => []),
       team: extractTeam(pristineHtml),
     };
   } catch { return {}; }
+}
+
+// ---------------------------------------------------------------------------
+// One testimonial list for every testimonials slider
+// ---------------------------------------------------------------------------
+// The home page and the service pages (Mall Calendar Programming, Brand
+// Activations) all render the same EventSlider component, and the slider is
+// rendered in the browser from the page's flight data. The bands used to be
+// patched slide-by-slide inside whatever count each donor page shipped with
+// (8 on home, 4 and 3 on the service pages), with different fallbacks, so
+// they never showed the same testimonials. Now every band's flight array is
+// rebuilt from ONE list:
+//   - the CMS Testimonials tab (cms.testimonials.items) once it has been saved,
+//   - otherwise the StillCraft defaults (8 placeholder quotes, partner logos,
+//     the matching case study's link, stats and location).
+// Same testimonials, same order, same count, everywhere; layout untouched.
+const DEFAULT_TESTIMONIAL_COUNT = 8;
+const strOr = (v, d) => (v == null || String(v).trim() === '' ? d : String(v));
+export function testimonialList(cms) {
+  const items = cms && cms.testimonials && cms.testimonials.items;
+  const saved = Array.isArray(items);
+  const src = saved
+    ? items.filter((it) => it && !it._deleted && !it.deleted)
+    : PLACEHOLDER_TESTIMONIALS.slice(0, DEFAULT_TESTIMONIAL_COUNT);
+  const cases = allCases();
+  return src.map((it, i) => {
+    const c = cases[i % Math.max(1, cases.length)] || {};
+    const link = caseLinkAt(i) || { title: 'Projects', url: '/projects/' };
+    const clean = (v) => (v != null && isDonorName(v) ? '' : v);
+    const img = (v) => (v && !isDonorAsset(v) ? String(v) : '');
+    const people = Number(String(clean(it.participants) ?? '').replace(/[^\d]/g, ''));
+    return {
+      name: saved ? strOr(clean(it.name), '') : it.name,
+      quote: saved ? strOr(clean(it.quote), '') : it.quote,
+      role: saved ? strOr(clean(it.role), '') : it.role,
+      org: saved ? strOr(clean(it.org), '') : it.org,
+      // Stats row (shown by the service-page layout): the testimonial's own
+      // values when set, else the matching case study's.
+      location: strOr(clean(it.location), c.location || ''),
+      industry: strOr(clean(it.industry), c.industry || ''),
+      eventType: strOr(clean(it.eventType), c.eventType || ''),
+      participants: people > 0 ? people : (c.participants || 0),
+      logo: img(it.logo) || partnerLogoAt(i),
+      photo: img(it.photo) || img(it.logo) || partnerLogoAt(i),
+      linkUrl: strOr(it.link, link.url),
+      linkTitle: link.title,
+    };
+  });
+}
+
+// The older per-slide passes (static markup + first flight edits) write text
+// as-is. Give them single-line text without backslashes: a raw line break,
+// tab or lone backslash inside the page's flight script is a syntax error
+// that blanks the whole page. The exact text is restored by
+// applyTestimonialFlight, which encodes it properly.
+function plainTestimonials(cms) {
+  const items = cms && cms.testimonials && cms.testimonials.items;
+  if (!Array.isArray(items)) return items;
+  const flat = (v) => (typeof v === 'string' ? v.replace(/[\u0000-\u001f]+/g, ' ').replace(/\\/g, '/') : v);
+  return items.map((it) => {
+    if (!it || typeof it !== 'object') return it;
+    const o = {};
+    for (const k of Object.keys(it)) o[k] = flat(it[k]);
+    return o;
+  });
+}
+
+// Flight strings that start with "$" are references; a literal "$" is "$$".
+const flightStr = (s) => { const v = String(s == null ? '' : s); return v[0] === '$' ? '$' + v : v; };
+// Encode a JS value as the JSON text it has inside a self.__next_f.push("...")
+// string: JSON, with "<" escaped (no "</script>"), then JS-string escaped.
+function encodePushJson(value) {
+  const json = JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .split(String.fromCharCode(0x2028)).join('\\u2028')
+    .split(String.fromCharCode(0x2029)).join('\\u2029');
+  return json.replace(/\\/g, BS + BS).replace(/"/g, BS + '"');
+}
+function buildTestimonialNode(template, t) {
+  const n = JSON.parse(JSON.stringify(template || {}));
+  n.title = flightStr(t.name);
+  n.featuredImage = { node: { sourceUrl: flightStr(t.photo) } };
+  const tt = n.testimonialTemplate = { ...(n.testimonialTemplate || {}) };
+  tt.link = { ...(tt.link || {}), title: flightStr(t.linkTitle), target: '', url: flightStr(t.linkUrl) };
+  tt.participants = Number(t.participants) || 0;
+  tt.industry = flightStr(t.industry);
+  tt.eventTypes = { edges: t.eventType ? [{ node: { name: flightStr(t.eventType) } }] : [] };
+  tt.location = flightStr(t.location);
+  tt.testimonial = flightStr(t.quote);
+  const client = tt.client = { ...(tt.client || {}) };
+  client.role = flightStr(t.role);
+  client.organization = { ...(client.organization || {}), name: flightStr(t.org), logo: { node: { sourceUrl: flightStr(t.logo) } } };
+  return n;
+}
+// Every testimonials array in the page's flight data: home's
+// {"edges":[{"node":{...}}]} shape and the service pages' plain [{...}] shape.
+function testimonialArrays(html) {
+  const out = [];
+  const marker = FQ + 'testimonials' + FQ + ':';
+  let at = 0;
+  while (true) {
+    const i = html.indexOf(marker, at);
+    if (i < 0) break;
+    let p = i + marker.length;
+    let wrapped = false;
+    if (html.startsWith('{' + FQ + 'edges' + FQ + ':[', p)) { p += ('{' + FQ + 'edges' + FQ + ':').length; wrapped = true; }
+    if (html[p] !== '[') { at = p; continue; }
+    const m = matchBracket(html, p);
+    if (!m) { at = p + 1; continue; }
+    const text = html.slice(m[0], m[1]);
+    if (text.includes('testimonialTemplate')) out.push({ start: m[0], end: m[1], wrapped, text });
+    at = m[1];
+  }
+  return out;
+}
+export function applyTestimonialFlight(html, cms) {
+  const list = testimonialList(cms);
+  if (!list.length) return html; // empty list: the band is hidden (hideTestimonialsBand)
+  const regions = testimonialArrays(html);
+  if (!regions.length) return html;
+  const badBefore = verifyFlight(html).bad;
+  let out = html;
+  for (const r of regions.reverse()) {
+    let parsed;
+    // Raw control characters (an unescaped line break written into a quote by
+    // an older pass) make the template unparseable and the page's script
+    // invalid. Every value is rewritten below, so they can simply go.
+    const decoded = decodeFlight(r.text).replace(/[\u0000-\u001f]/g, ' ')
+      .replace(/\\(?!["\\/bfnrtu])/g, '\\\\'); // a lone backslash is not valid JSON
+    try { parsed = JSON.parse(decoded); } catch { continue; }
+    if (!Array.isArray(parsed) || !parsed.length) continue;
+    const template = r.wrapped ? (parsed[0] && parsed[0].node) : parsed[0];
+    const nodes = list.map((t) => buildTestimonialNode(template, t));
+    const value = r.wrapped ? nodes.map((node) => ({ ...parsed[0], node })) : nodes;
+    out = out.slice(0, r.start) + encodePushJson(value) + out.slice(r.end);
+  }
+  // React also dedupes repeated objects into path references, e.g. the home
+  // slider gets a second list ["$4:...:testimonials:edges:0:node", ... :7:node].
+  // It must name exactly the rebuilt entries: a reference past the end of
+  // the list resolves to nothing and the whole slider renders empty.
+  out = rebuildTestimonialRefs(out, list.length);
+  // Never ship a page whose flight stream got worse: keep the old one.
+  if (verifyFlight(out).bad > badBefore) { console.error('[testimonials] flight check failed; left unchanged'); return html; }
+  return out;
+}
+function rebuildTestimonialRefs(html, n) {
+  const marker = FQ + 'testimonials' + FQ + ':[' + FQ + '$';
+  let at = 0;
+  while (true) {
+    const i = html.indexOf(marker, at);
+    if (i < 0) return html;
+    const open = i + (FQ + 'testimonials' + FQ + ':').length;
+    const m = matchBracket(html, open);
+    if (!m) { at = open + 1; continue; }
+    let refs;
+    try { refs = JSON.parse(decodeFlight(html.slice(m[0], m[1]))); } catch { at = m[1]; continue; }
+    const tpl = Array.isArray(refs) && refs.length && typeof refs[0] === 'string' ? refs[0] : '';
+    if (!/:\d+(:node)?$/.test(tpl) || !refs.every((r) => typeof r === 'string' && r[0] === '$')) { at = m[1]; continue; }
+    const next = Array.from({ length: n }, (_, k) => tpl.replace(/:\d+(:node)?$/, (x, node) => ':' + k + (node || '')));
+    const enc = encodePushJson(next);
+    html = html.slice(0, m[0]) + enc + html.slice(m[1]);
+    at = m[0] + enc.length;
+  }
 }

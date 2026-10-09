@@ -155,7 +155,7 @@
     </section>
 
     <section class="pane" data-pane="testimonials">
-      <div class="paneHead"><h2>Testimonials</h2><p>Client quotes in the home-page slider. Edit names, roles, organisations, quotes, locations and swap photos/logos. Use Delete to remove a quote — when none remain the section disappears from the site.</p></div>
+      <div class="paneHead"><h2>Testimonials</h2><p>Client quotes for <b>every</b> testimonials slider on the site — the home page, Mall Calendar Programming and Brand Activations all show this same list, in this order. Participants, event type, industry and location fill the stats row on the service pages (left empty, they come from the matching case study). Use Delete to remove a quote — when none remain the sliders disappear from the site.</p></div>
       <div id="tmList"></div>
       <div class="savebar"><button data-add-tm>+ Add testimonial</button><button class="primary" data-save="testimonials">Save testimonials</button><button class="gold" data-tm-reset>Reset to StillCraft defaults</button><span class="st" data-st="testimonials"></span></div>
     </section>
@@ -474,6 +474,9 @@
         '<div class="fld"><label>ORGANISATION</label><input type="text" data-k="org" value="' + esc(pick(donorFree(s.org), l.org)) + '"></div>' +
         '<div class="fld"><label>LOCATION</label><input type="text" data-k="location" value="' + esc(pick(donorFree(s.location), l.location)) + '"></div>' +
         '<div class="fld"><label>INDUSTRY</label><input type="text" data-k="industry" value="' + esc(pick(donorFree(s.industry), l.industry)) + '"></div>' +
+        '<div class="fld"><label>PARTICIPANTS</label><input type="text" inputmode="numeric" data-k="participants" value="' + esc(pick(s.participants, l.participants)) + '"></div>' +
+        '<div class="fld"><label>EVENT TYPE</label><input type="text" data-k="eventType" value="' + esc(pick(s.eventType, l.eventType)) + '"></div>' +
+        '<div class="fld full"><label>CASE STUDY LINK (e.g. /project/easter-at-galleria-mall/)</label><input type="text" data-k="link" value="' + esc(pick(s.link, l.link)) + '"></div>' +
         '<div class="fld"><label>PHOTO</label>' + imgRow('tm-photo-' + i, pick(s.photo, l.photo)) + '</div>' +
         '<div class="fld full"><label>QUOTE</label><textarea data-k="quote" rows="3">' + esc(pick(donorFree(s.quote), l.quote)) + '</textarea></div>' +
         '<div class="fld full"><label>COMPANY LOGO</label>' + imgRow('tm-logo-' + i, pick(s.logo, l.logo)) + '</div>' +
@@ -752,6 +755,9 @@
         '<div class="fld"><label>ORGANISATION</label><input type="text" data-k="org" value=""></div>' +
         '<div class="fld"><label>LOCATION</label><input type="text" data-k="location" value=""></div>' +
         '<div class="fld"><label>INDUSTRY</label><input type="text" data-k="industry" value=""></div>' +
+        '<div class="fld"><label>PARTICIPANTS</label><input type="text" inputmode="numeric" data-k="participants" value=""></div>' +
+        '<div class="fld"><label>EVENT TYPE</label><input type="text" data-k="eventType" value=""></div>' +
+        '<div class="fld full"><label>CASE STUDY LINK (e.g. /project/easter-at-galleria-mall/)</label><input type="text" data-k="link" value=""></div>' +
         '<div class="fld"><label>PHOTO</label>' + imgRow('tm-photo-new-' + uid, '') + '</div>' +
         '<div class="fld full"><label>QUOTE</label><textarea data-k="quote" rows="3"></textarea></div>' +
         '<div class="fld full"><label>COMPANY LOGO</label>' + imgRow('tm-logo-new-' + uid, '') + '</div>' +
