@@ -11,9 +11,9 @@ import { allCases } from './stillcraft-cases.mjs';
 const STATIC_ROUTES = [
   ['/', '1.0', 'weekly'],
   ['/projects', '0.9', 'weekly'],
-  ['/service/events', '0.8', 'monthly'],
-  ['/service/exhibits', '0.8', 'monthly'],
-  ['/service/congresses', '0.8', 'monthly'],
+  ['/service/brand-activations', '0.8', 'monthly'],
+  ['/service/mall-calendar-programming', '0.8', 'monthly'],
+  ['/service/mall-space-monetization', '0.8', 'monthly'],
   ['/contact', '0.8', 'monthly'],
   ['/about', '0.7', 'monthly'],
   ['/cookie-policy', '0.2', 'yearly'],

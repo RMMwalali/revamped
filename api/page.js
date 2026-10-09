@@ -13,6 +13,7 @@ import {
 import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
 import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
 import { withFreshReads } from '../scripts/storage.mjs';
+import { internalPath, publicRedirect, applyRouteNames } from '../scripts/routes.mjs';
 import { statSync } from 'node:fs';
 import nodePath from 'node:path';
 // Cache-bust the edit bar: it is served from dist with a normal cache header,
@@ -157,6 +158,8 @@ async function serveHtml(pathname, cookies, host) {
       html = html.replace(/(<\/body>)/i,
         `<script>window.__SC_PAGE__=${JSON.stringify(key)};var EDITBAR_V=${JSON.stringify(EDITBAR_V)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js?v='+EDITBAR_V;s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
     }
+    // Service pages are linked by their menu names (scripts/routes.mjs).
+    html = applyRouteNames(html);
     return { key, html, isAdmin };
   }
   return null;
@@ -217,6 +220,16 @@ export default async function handler(req, res) {
       res.end();
       return;
     }
+    // Old template URLs for the service pages -> their menu-named URLs.
+    const moved = publicRedirect(pathname);
+    if (moved) {
+      const q = new URLSearchParams(u.search); q.delete('path');
+      res.writeHead(301, { Location: moved + (q.toString() ? '?' + q : '') });
+      res.end();
+      return;
+    }
+    // Menu-named URL -> the page it is stored as.
+    pathname = internalPath(pathname) || pathname;
     if (pathname === '/service/sports' || pathname.startsWith('/service/sports/')) {
       res.writeHead(302, { Location: '/projects' });
       res.end();

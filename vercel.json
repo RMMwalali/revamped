@@ -142,6 +142,27 @@
       }
     },
     {
+      "src": "^/service/exhibits(?:/|/index\\.html|\\.html)?$",
+      "status": 301,
+      "headers": {
+        "Location": "/service/mall-calendar-programming"
+      }
+    },
+    {
+      "src": "^/service/congresses(?:/|/index\\.html|\\.html)?$",
+      "status": 301,
+      "headers": {
+        "Location": "/service/mall-space-monetization"
+      }
+    },
+    {
+      "src": "^/service/events(?:/|/index\\.html|\\.html)?$",
+      "status": 301,
+      "headers": {
+        "Location": "/service/brand-activations"
+      }
+    },
+    {
       "src": "^/_next/image$",
       "dest": "/api/img"
     },
@@ -186,8 +207,16 @@
       "dest": "/api/page?path=/project/easter-at-southfield-mall"
     },
     {
+      "src": "^/service/mall-calendar-programming(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/service/mall-calendar-programming"
+    },
+    {
       "src": "^/project/easter-at-galleria-mall(?:/|/index\\.html|\\.html)?$",
       "dest": "/api/page?path=/project/easter-at-galleria-mall"
+    },
+    {
+      "src": "^/service/mall-space-monetization(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/service/mall-space-monetization"
     },
     {
       "src": "^/project/easter-at-sarit-centre(?:/|/index\\.html|\\.html)?$",
@@ -204,6 +233,10 @@
     {
       "src": "^/legal-notice-terms-of-use(?:/|/index\\.html|\\.html)?$",
       "dest": "/api/page?path=/legal-notice-terms-of-use"
+    },
+    {
+      "src": "^/service/brand-activations(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/service/brand-activations"
     },
     {
       "src": "^/project/ypo-global-event(?:/|/index\\.html|\\.html)?$",
@@ -230,16 +263,8 @@
       "dest": "/api/page?path=/projects/congresses"
     },
     {
-      "src": "^/service/congresses(?:/|/index\\.html|\\.html)?$",
-      "dest": "/api/page?path=/service/congresses"
-    },
-    {
       "src": "^/projects/exhibits(?:/|/index\\.html|\\.html)?$",
       "dest": "/api/page?path=/projects/exhibits"
-    },
-    {
-      "src": "^/service/exhibits(?:/|/index\\.html|\\.html)?$",
-      "dest": "/api/page?path=/service/exhibits"
     },
     {
       "src": "^/projects/events(?:/|/index\\.html|\\.html)?$",
@@ -256,10 +281,6 @@
     {
       "src": "^/privacy-policy(?:/|/index\\.html|\\.html)?$",
       "dest": "/api/page?path=/privacy-policy"
-    },
-    {
-      "src": "^/service/events(?:/|/index\\.html|\\.html)?$",
-      "dest": "/api/page?path=/service/events"
     },
     {
       "src": "^/service/sports(?:/|/index\\.html|\\.html)?$",

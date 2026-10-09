@@ -7,6 +7,19 @@ import path from 'node:path';
 
 const PATCHES = [
   {
+    // Home page service cards ("See what we create") build their link as
+    // "/service/" + slug from the donor's slugs (events/exhibits/congresses).
+    // The service pages are public under their menu names (scripts/routes.mjs),
+    // so map the slug to that name. Same card, same behaviour, right URL.
+    match: 'serviceTitle:l}=e;return',
+    edits: [
+      [
+        'href:"".concat(k.f.SERVICE).concat((0,_._t)(r)),title:"".concat(t," - ").concat(l)',
+        'href:"".concat(k.f.SERVICE).concat((0,_._t)({events:"brand-activations",exhibits:"mall-calendar-programming",congresses:"mall-space-monetization"}[r]||r)),title:"".concat(t," - ").concat(l)',
+      ],
+    ],
+  },
+  {
     // About page "talent" panel. It finds the active .js-talent-item with
     // querySelectorAll(...)[index] and calls getBoundingClientRect() on it with
     // no check. We replace the donor's team list with our own section, so on this
