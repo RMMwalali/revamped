@@ -2,6 +2,13 @@
   "outputDirectory": "dist",
   "routes": [
     {
+      "src": "^/api/storage/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
+    },
+    {
       "src": "^/api/login/?$",
       "headers": {
         "Cache-Control": "no-store, max-age=0"
@@ -352,6 +359,9 @@
       "includeFiles": "scripts/*.mjs"
     },
     "api/leads.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/storage.js": {
       "includeFiles": "scripts/*.mjs"
     }
   }

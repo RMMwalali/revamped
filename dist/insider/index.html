@@ -29,6 +29,9 @@
   button.gold { background:var(--gold); color:#111; border:0; }
   button:disabled { opacity:.5; cursor:wait; }
   .err { display:none; margin-top:14px; color:#ff9d9d; font-size:13px; }
+  .store { margin:0 0 14px; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:12.5px; line-height:1.45; }
+  .store.ok { border-color:#3c5a2a; color:#cfe8b4; }
+  .store.bad { border-color:#7a2f2f; color:#ffb3b3; background:#2a1414; }
   /* dashboard */
   #cmsWrap { display:none; max-width:1060px; margin:0 auto; padding:20px 18px 120px; }
   header.top { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:6px; }
@@ -94,6 +97,7 @@
       <button id="viewSite">View site</button>
       <button id="logout">Logout</button>
     </header>
+    <div id="storeStatus" class="store">Checking where changes are saved…</div>
     <nav class="tabs" id="tabs">
       <button data-tab="hero" class="on">Hero video</button>
       <button data-tab="highlights">Highlight projects</button>
@@ -309,15 +313,36 @@
   });
 
   /* ---------- load + merge ---------- */
+  function loadStorageStatus() {
+    api('/api/storage').then(function (d) {
+      var el = $('#storeStatus');
+      el.className = 'store ' + (d.durable ? 'ok' : 'bad');
+      el.textContent = d.durable
+        ? 'Changes are saved permanently to ' + d.label + '. They stay live through every redeploy; visitors see a save within about a minute.'
+        : (d.backend === 'local'
+            ? 'Changes are saved on this computer only (' + d.label + '). Add the live storage key to .env to edit the live site from here.'
+            : 'Saving is NOT set up on this server: changes cannot be stored. In Vercel open Storage → Create → Blob, connect it to this project for all environments, then redeploy.');
+    }).catch(function (e) {
+      var el = $('#storeStatus'); el.className = 'store bad';
+      el.textContent = 'Could not check the storage status (' + ((e && e.message) || 'error') + ').';
+    });
+  }
   function loadAll() {
+    loadStorageStatus();
     Promise.all([
-      api('/api/cms').catch(function () { return { sections: {} }; }),
+      // If saved content cannot be loaded, stop: editing a form filled from
+      // the defaults and saving it would overwrite what is really stored.
+      api('/api/cms'),
       api('/api/cms?live=1').catch(function () { return { live: {} }; }),
       api('/api/brand').catch(function () { return {}; })
     ]).then(function (r) {
       S.saved = r[0].sections || {}; S.live = r[1].live || {}; S.brand = r[2] || {};
       renderAll();
-    }).catch(function () { toast('Could not load CMS data'); });
+    }).catch(function (e) {
+      var el = $('#storeStatus'); el.className = 'store bad';
+      el.textContent = 'Could not load your saved content (' + ((e && e.message) || 'error') + '). Editing is paused so nothing gets overwritten - reload the page to try again.';
+      $all('.pane').forEach(function (p) { p.style.display = 'none'; });
+    });
   }
 
   function imgRow(id, val) {
@@ -640,8 +665,8 @@
                 .then(function () { S.saved.articles = { items: [] }; });
             }
           })
-          .then(function () { st(sec, 'Saved — live now.'); toast('Saved — live now'); S.saved[sec] = payload; })
-          .catch(function (e) { st(sec, 'Save failed.'); toast('Save failed: ' + (e && e.message ? e.message : '')); })
+          .then(function () { st(sec, 'Saved. Visitors see it within a minute.'); toast('Saved'); S.saved[sec] = payload; })
+          .catch(function (e) { var m = (e && e.message) || 'unknown error'; st(sec, 'NOT saved: ' + m); toast('Save failed: ' + m); })
           .then(function () { sv.disabled = false; });
       });
       return;
@@ -654,8 +679,8 @@
           primary_color: $('#bPri').value, accent_color: $('#bAcc').value, hero_video_src: $('#bHero').value };
         if (logoSrc) payload.logo_src = logoSrc;
         api('/api/brand', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-          .then(function (r) { S.brand = r || payload; st('brand', 'Saved — live now.'); toast('Brand saved'); })
-          .catch(function (e) { var m = (e && e.message) || 'unknown error'; st('brand', 'Save failed: ' + m); toast('Brand save failed: ' + m); })
+          .then(function (r) { S.brand = r || payload; st('brand', 'Saved. Visitors see it within a minute.'); toast('Brand saved'); })
+          .catch(function (e) { var m = (e && e.message) || 'unknown error'; st('brand', 'NOT saved: ' + m); toast('Brand save failed: ' + m); })
           .then(function () { b.disabled = false; });
       };
       if (lf) {

@@ -1,6 +1,6 @@
 // StillCraft page transforms shared by the dev server and Vercel functions.
 // Pure string ops over served HTML (+ brand data). No http, no fs writes.
-import { readStore, writeStore } from './storage.mjs';
+import { readStore, updateStore } from './storage.mjs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { FLIGHT as FILE_FLIGHT } from './stillcraft-content.mjs';
@@ -60,7 +60,7 @@ let brandCache = null;
 let brandAt = 0;
 function bustBrand() { brandAt = 0; }
 async function getBrand() {
-  if (brandCache && Date.now() - brandAt < 60000) return brandCache;
+  if (brandCache && Date.now() - brandAt < 15000) return brandCache;
   try {
     const data = await readStore('brand.json');
     brandCache = { ...BRAND_DEFAULTS, ...data };
@@ -70,9 +70,7 @@ async function getBrand() {
 }
 
 export async function saveBrand(updates) {
-  const data = await readStore('brand.json') || {};
-  Object.assign(data, updates);
-  await writeStore('brand.json', data);
+  await updateStore('brand.json', (data) => ({ ...(data || {}), ...updates }));
   bustBrand();
 }
 

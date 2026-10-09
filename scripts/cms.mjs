@@ -7,7 +7,7 @@
 //
 // Model: JSON keyed by section name (stored in Vercel Blob or local fs).
 // Empty/missing values are always a no-op (live content is kept).
-import { readStore, writeStore } from './storage.mjs';
+import { readStore, updateStore } from './storage.mjs';
 import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
@@ -211,16 +211,15 @@ export async function getCMS() {
         if (sd && typeof sd === 'object') out[section] = { ...(out[section] || {}), ...sd };
       }
     }
-  } catch {}
+  } catch (e) { console.error('[cms] read failed:', e?.message || e); }
   cmsCache = out; cmsAt = Date.now();
   return out;
 }
 export async function saveCMSSection(section, data) {
   if (!CMS_SECTIONS.includes(section)) throw new Error('unknown section');
   if (!data || typeof data !== 'object') throw new Error('bad data');
-  const all = await readStore('cms.json') || {};
-  all[section] = JSON.parse(JSON.stringify(data));
-  await writeStore('cms.json', all);
+  const copy = JSON.parse(JSON.stringify(data));
+  await updateStore('cms.json', (all) => ({ ...(all || {}), [section]: copy }));
   bustCMS();
 }
 

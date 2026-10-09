@@ -1,6 +1,6 @@
 // POST /api/lead — quote, contact and prize form submissions.
 // Both legs now post to /api/lead (see dist/_next/static/chunks).
-import { readStore, writeStore } from '../scripts/storage.mjs';
+import { updateStore, SKIP } from '../scripts/storage.mjs';
 
 const MAX_PER_IP = 5;
 const WINDOW_MS = 10 * 60 * 1000;
@@ -26,57 +26,63 @@ export async function saveLead(body, ip) {
   const email = str(body.Email, 320).trim();
   if (!email || !email.includes('@')) return { ok: false, error: 'email required' };
 
-  const leads = await readStore('leads.json') || [];
-  const now = Date.now();
-  // Count only submissions from the last WINDOW_MS. The age has to be compared
-  // against +WINDOW_MS: an earlier `> -WINDOW_MS` was true for every lead ever
-  // stored, so the cap behaved as a lifetime total and a legitimate visitor was
-  // locked out permanently after 5 enquiries. Tolerates malformed rows.
-  const recent = leads.filter((l) => l && l.ip === ip && Number.isFinite(Number(l.created_at)) && now - Number(l.created_at) < WINDOW_MS);
-  if (recent.length >= MAX_PER_IP) return { ok: false, error: 'too many submissions, try later' };
+  // Read-modify-write through updateStore: reads the authoritative copy and
+  // serialises saves, so two enquiries arriving together cannot drop one.
+  let result = { ok: true };
+  await updateStore('leads.json', (stored) => {
+    const leads = Array.isArray(stored) ? stored : [];
+    const now = Date.now();
+    // Count only submissions from the last WINDOW_MS. The age has to be compared
+    // against +WINDOW_MS: an earlier `> -WINDOW_MS` was true for every lead ever
+    // stored, so the cap behaved as a lifetime total and a legitimate visitor was
+    // locked out permanently after 5 enquiries. Tolerates malformed rows.
+    const recent = leads.filter((l) => l && l.ip === ip && Number.isFinite(Number(l.created_at)) && now - Number(l.created_at) < WINDOW_MS);
+    if (recent.length >= MAX_PER_IP) { result = { ok: false, error: 'too many submissions, try later' }; return SKIP; }
 
-  // Dual-fetch dedupe: quote form posts FormData + JSON within ms of each
-  // other. If the same email+ip saved within the last minute, treat the
-  // second leg as an ack instead of inserting a duplicate row.
-  const dupe = leads.some((l) => l && l.ip === ip &&
-    String(l.email || '').toLowerCase() === email.toLowerCase() &&
-    Number.isFinite(Number(l.created_at)) && now - Number(l.created_at) < 60 * 1000);
-  if (dupe) return { ok: true, deduped: true };
+    // Dual-fetch dedupe: quote form posts FormData + JSON within ms of each
+    // other. If the same email+ip saved within the last minute, treat the
+    // second leg as an ack instead of inserting a duplicate row.
+    const dupe = leads.some((l) => l && l.ip === ip &&
+      String(l.email || '').toLowerCase() === email.toLowerCase() &&
+      Number.isFinite(Number(l.created_at)) && now - Number(l.created_at) < 60 * 1000);
+    if (dupe) { result = { ok: true, deduped: true }; return SKIP; }
 
-  const payload = { ...body };
-  delete payload.recaptchaToken;
-  delete payload.recaptchaAction;
+    const payload = { ...body };
+    delete payload.recaptchaToken;
+    delete payload.recaptchaAction;
 
-  // `content` is the forms' hidden honeypot (a zero-size input no visitor can
-  // see), so anything in it came from a bot. It was previously a fallback for
-  // the message, which both filed spam as genuine enquiries and let a bot
-  // choose what the enquiry said. Drop the submission instead, and still
-  // answer 200 so the bot gets no signal that it was caught.
-  if (str(body.content, 200).trim()) return { ok: true, dropped: 'honeypot' };
+    // `content` is the forms' hidden honeypot (a zero-size input no visitor can
+    // see), so anything in it came from a bot. It was previously a fallback for
+    // the message, which both filed spam as genuine enquiries and let a bot
+    // choose what the enquiry said. Drop the submission instead, and still
+    // answer 200 so the bot gets no signal that it was caught.
+    if (str(body.content, 200).trim()) { result = { ok: true, dropped: 'honeypot' }; return SKIP; }
 
-  const lead = {
-    id: leads.length ? Math.max(0, ...leads.map((l) => Number(l && l.id) || 0)) + 1 : 1,
-    kind: leadKind(body),
-    // The forms have one "Full name*" input that posts as `Last_Name` — a
-    // legacy wire name from the donor's CRM, kept because the client chunks
-    // are built assets we do not rebuild. There is no separate first-name
-    // field, so this already holds the complete name. Do not "fix" it into a
-    // surname-only read without also changing the client payload.
-    name: str(body.Last_Name, 200).trim(),
-    email,
-    phone: str(body.Phone, 60).trim(),
-    company: str(body.Company, 200).trim(),
-    // `content` is deliberately NOT a fallback here: it is the honeypot.
-    message: str(body.Description, 5000).trim(),
-    payload: JSON.stringify(payload),
-    source_page: str(body.Source_Page, 300),
-    ip,
-    handled: false,
-    created_at: now,
-  };
-  leads.push(lead);
-  await writeStore('leads.json', leads);
-  return { ok: true };
+    const lead = {
+      id: leads.length ? Math.max(0, ...leads.map((l) => Number(l && l.id) || 0)) + 1 : 1,
+      kind: leadKind(body),
+      // The forms have one "Full name*" input that posts as `Last_Name` — a
+      // legacy wire name from the donor's CRM, kept because the client chunks
+      // are built assets we do not rebuild. There is no separate first-name
+      // field, so this already holds the complete name. Do not "fix" it into a
+      // surname-only read without also changing the client payload.
+      name: str(body.Last_Name, 200).trim(),
+      email,
+      phone: str(body.Phone, 60).trim(),
+      company: str(body.Company, 200).trim(),
+      // `content` is deliberately NOT a fallback here: it is the honeypot.
+      message: str(body.Description, 5000).trim(),
+      payload: JSON.stringify(payload),
+      source_page: str(body.Source_Page, 300),
+      ip,
+      handled: false,
+      created_at: now,
+    };
+    leads.push(lead);
+    result = { ok: true };
+    return leads;
+  });
+  return result;
 }
 
 // Minimal multipart/form-data text-field parser (for the quote-form

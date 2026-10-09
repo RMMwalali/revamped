@@ -3,13 +3,18 @@ import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getOverrides, saveOverrides, bustOverrides } from '../scripts/overrides.mjs';
 import { bustBrand } from '../scripts/transform.mjs';
 import { bustCMS } from '../scripts/cms.mjs';
+import { withFreshReads } from '../scripts/storage.mjs';
+import { sendSaveError } from '../scripts/save-error.mjs';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     res.setHeader('Cache-Control', 'no-store');
     const u = new URL(req.url, 'http://local');
     const page = String(u.searchParams.get('page') || '/');
-    const items = await getOverrides(page);
+    // Admins (the edit bar) get the authoritative copy, never a cached one.
+    const admin = await verifySession(parseCookies(req).sc_admin).catch(() => null);
+    if (admin) bustOverrides();
+    const items = admin ? await withFreshReads(() => getOverrides(page)) : await getOverrides(page);
     res.status(200).json({ page, items });
     return;
   }
@@ -31,12 +36,11 @@ export default async function handler(req, res) {
     };
   }).filter(Boolean);
   try {
-    await saveOverrides(page, clean);
+    await saveOverrides(page, clean, { merge: body.merge === true });
     bustBrand();
     bustCMS();
-    res.status(200).json({ ok: true, saved: clean.length });
+    res.status(200).json({ ok: true, saved: clean.length, items: await getOverrides(page) });
   } catch (e) {
-    console.error('[content] save error:', e?.message || e);
-    res.status(500).json({ error: 'save failed', detail: String(e?.message || e).slice(0, 200) });
+    sendSaveError(res, 'content', e);
   }
 }

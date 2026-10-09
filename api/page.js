@@ -12,6 +12,7 @@ import {
 } from '../scripts/transform.mjs';
 import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
 import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
+import { withFreshReads } from '../scripts/storage.mjs';
 import { statSync } from 'node:fs';
 import nodePath from 'node:path';
 // Cache-bust the edit bar: it is served from dist with a normal cache header,
@@ -58,7 +59,7 @@ async function serveHtml(pathname, cookies, host) {
   if (cookies && cookies.sc_admin) {
     try { isAdmin = !!(await verifySession(cookies.sc_admin)); } catch { isAdmin = false; }
   }
-  if (process.env.VERCEL && isAdmin) { bustBrand(); bustOverrides(); bustCMS(); }
+  if (isAdmin) { bustBrand(); bustOverrides(); bustCMS(); }
   let lookup = pathname;
   if (lookup.endsWith('/')) lookup += 'index.html';
   const tries = [];
@@ -76,11 +77,14 @@ async function serveHtml(pathname, cookies, host) {
     if (!process.env.SC_NOSTRIP) html = stripThirdParty(html);
     html = removeBadges(html);
     // Independent DB reads run concurrently, not sequentially.
-    const [__brand, __overrides, __cms] = await Promise.all([
+    // Admins read the authoritative saved copy so what they see after a save
+    // is exactly what was stored.
+    const loadAll = () => Promise.all([
       getBrand(),
       getOverrides(key),
       getCMS().catch(() => null),
     ]);
+    const [__brand, __overrides, __cms] = await (isAdmin ? withFreshReads(loadAll) : loadAll());
     html = applyBrand(html, __brand);
     if (!process.env.SC_NONAV) html = applyNav(html, key);
     const noFP = NO_FP.has(key);
@@ -235,12 +239,13 @@ export default async function handler(req, res) {
       return;
     }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    // Public pages are edge-cached (60s fresh, background revalidate after)
-    // so repeat views skip the DB + transform pipeline entirely. Admins get
+    // Public pages are edge-cached briefly (10s fresh, then revalidated in
+    // the background) so repeat views skip the transform pipeline, while an
+    // admin save reaches visitors within seconds. Admins get
     // no-cache so edits preview instantly.
     res.setHeader('Cache-Control', found.isAdmin
       ? 'no-cache'
-      : 'public, s-maxage=60, stale-while-revalidate=600');
+      : 'public, s-maxage=10, stale-while-revalidate=60');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).send(found.html);
   } catch (e) {

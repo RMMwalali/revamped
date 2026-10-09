@@ -30,7 +30,7 @@ async function handlerFor(name) {
   if (!handlers.has(name)) handlers.set(name, import('../api/' + name + '.js'));
   return handlers.get(name);
 }
-const API_NAMES = new Set(['login', 'logout', 'me', 'content', 'cms', 'brand', 'upload', 'lead', 'leads', 'img', 'page']);
+const API_NAMES = new Set(['login', 'logout', 'me', 'content', 'cms', 'brand', 'upload', 'lead', 'leads', 'img', 'page', 'storage']);
 
 function safeFile(urlPath) {
   let p = urlPath.split('?')[0];

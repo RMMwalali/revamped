@@ -2,7 +2,7 @@
 // ID rows (t-/i-) target baked data-sc-id attributes (see scripts/tag.mjs).
 // Anchor rows (el_id starting with 'a') match by exact content + occurrence
 // index, so they keep working after React hydration re-renders the tree.
-import { readStore, writeStore } from './storage.mjs';
+import { readStore, updateStore } from './storage.mjs';
 import { safeReplace, safeReplacePushes, safeReplacePairs, parseSeg, decodeFully, encodeJs, verifyFlight } from './flight.mjs';
 
 const cache = new Map(); // page -> { at, items }
@@ -56,14 +56,18 @@ export async function getOverrides(page) {
   try {
     const data = await readStore('overrides.json');
     items = sanitizeRows(data?.[page] || []);
-  } catch {}
+  } catch (e) { console.error('[overrides] read failed:', e?.message || e); }
   cache.set(page, { at: Date.now(), items });
   return items;
 }
 
-export async function saveOverrides(page, items) {
-  const data = await readStore('overrides.json') || {};
-  data[page] = sanitizeRows(items).map((it) => ({
+// merge=true (the edit bar): the incoming rows are only the new edits. They
+// are merged into the stored list on the server, replacing a stored row for
+// the same target (same kind + same original), so a page that loaded without
+// its earlier edits can never wipe them on save. merge=false replaces the
+// page's whole list (legacy callers).
+export async function saveOverrides(page, items, { merge = false } = {}) {
+  const rows = sanitizeRows(items).map((it) => ({
     el_id: it.el_id,
     kind: it.kind,
     value: it.value,
@@ -71,7 +75,16 @@ export async function saveOverrides(page, items) {
     idx: it.idx,
     tag: it.tag,
   }));
-  await writeStore('overrides.json', data);
+  const same = (a, b) => a.kind === b.kind && String(a.orig_html ?? '') === String(b.orig_html ?? '');
+  await updateStore('overrides.json', (data) => {
+    const all = data || {};
+    let next = rows;
+    if (merge) {
+      const stored = sanitizeRows(all[page] || []);
+      next = stored.filter((s) => !rows.some((r) => same(r, s))).concat(rows);
+    }
+    return { ...all, [page]: next };
+  });
   bustOverrides();
 }
 
