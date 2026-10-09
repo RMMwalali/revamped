@@ -80,12 +80,16 @@ async function serveHtml(pathname, cookies, host) {
     // Independent DB reads run concurrently, not sequentially.
     // Admins read the authoritative saved copy so what they see after a save
     // is exactly what was stored.
+    // Site-wide edits (page "*": shared sections such as the Quote / Contact
+    // band before the footer) apply on every page, before the page's own.
     const loadAll = () => Promise.all([
       getBrand(),
       getOverrides(key),
       getCMS().catch(() => null),
+      key === '/insider' ? Promise.resolve([]) : getOverrides('*'),
     ]);
-    const [__brand, __overrides, __cms] = await (isAdmin ? withFreshReads(loadAll) : loadAll());
+    const [__brand, __pageOverrides, __cms, __siteOverrides] = await (isAdmin ? withFreshReads(loadAll) : loadAll());
+    const __overrides = [...(__siteOverrides || []), ...(__pageOverrides || [])];
     html = applyBrand(html, __brand);
     if (!process.env.SC_NONAV) html = applyNav(html, key);
     const noFP = NO_FP.has(key);
