@@ -7,10 +7,10 @@ import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyProjectsFilterFix, applyCaseFactsFix, applyReadabilityFix, applySplash,
   applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyHomeBand, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRelatedInfoFix,   applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
-  FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
+  applyCategoryDedupe, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
-import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
+import { getCMS, bustCMS, applyStructuredCMS, applyTestimonialFlight } from '../scripts/cms.mjs';
 import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
 import { withFreshReads } from '../scripts/storage.mjs';
 import { internalPath, publicRedirect, applyRouteNames } from '../scripts/routes.mjs';
@@ -158,6 +158,10 @@ async function serveHtml(pathname, cookies, host) {
       html = html.replace(/(<\/body>)/i,
         `<script>window.__SC_PAGE__=${JSON.stringify(key)};var EDITBAR_V=${JSON.stringify(EDITBAR_V)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js?v='+EDITBAR_V;s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
     }
+    // Every testimonials slider (home + service pages) renders from ONE list,
+    // the CMS Testimonials tab. Rebuilt last so no earlier pass can rewrite it.
+    if (key !== '/insider') html = applyTestimonialFlight(html, __cms || {});
+    html = applyCategoryDedupe(html);
     // Service pages are linked by their menu names (scripts/routes.mjs).
     html = applyRouteNames(html);
     return { key, html, isAdmin };
