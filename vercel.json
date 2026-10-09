@@ -1,355 +1,323 @@
 {
   "outputDirectory": "dist",
-  "cleanUrls": false,
-  "trailingSlash": false,
-  "redirects": [
+  "routes": [
     {
-      "source": "/projects/page/:n",
-      "destination": "/projects",
-      "statusCode": 302
+      "src": "^/api/login/?$",
+      "headers": {
+        "Cache-Control": "no-store, max-age=0"
+      },
+      "continue": true
     },
     {
-      "source": "/project/mothers-day-brunch-at-southfield-mall",
-      "destination": "/projects",
-      "statusCode": 302
+      "src": "^/api/logout/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
     },
     {
-      "source": "/project/adidas-display-wall",
-      "destination": "/projects",
-      "statusCode": 302
+      "src": "^/api/me/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
     },
     {
-      "source": "/project/uefa-champions-league-final-2026",
-      "destination": "/projects",
-      "statusCode": 302
+      "src": "^/api/brand/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
     },
     {
-      "source": "/project/ypo-global-event",
-      "destination": "/projects",
-      "statusCode": 302
+      "src": "^/api/cms/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
     },
     {
-      "source": "/service/sports",
-      "destination": "/projects",
-      "statusCode": 302
+      "src": "^/api/content/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
     },
     {
-      "source": "/insights/:path*",
-      "destination": "/projects",
-      "statusCode": 302
+      "src": "^/api/leads/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
     },
     {
-      "source": "/insights",
-      "destination": "/projects",
-      "statusCode": 302
+      "src": "^/api/lead/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
     },
     {
-      "source": "/insight/:path*",
-      "destination": "/projects",
-      "statusCode": 302
+      "src": "^/api/upload/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
     },
     {
-      "source": "/insight",
-      "destination": "/projects",
-      "statusCode": 302
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/_next/image",
-      "destination": "/api/img"
-    },
-    {
-      "source": "/project/world-cup-watch-party-at-galleria-mall",
-      "destination": "/api/page?path=/project/world-cup-watch-party-at-galleria-mall"
-    },
-    {
-      "source": "/project/world-cup-watch-party-at-galleria-mall/",
-      "destination": "/api/page?path=/project/world-cup-watch-party-at-galleria-mall"
-    },
-    {
-      "source": "/project/fathers-day-at-southfield-mall",
-      "destination": "/api/page?path=/project/fathers-day-at-southfield-mall"
-    },
-    {
-      "source": "/project/fathers-day-at-southfield-mall/",
-      "destination": "/api/page?path=/project/fathers-day-at-southfield-mall"
-    },
-    {
-      "source": "/project/mothers-day-at-southfield-mall",
-      "destination": "/api/page?path=/project/mothers-day-at-southfield-mall"
-    },
-    {
-      "source": "/project/mothers-day-at-southfield-mall/",
-      "destination": "/api/page?path=/project/mothers-day-at-southfield-mall"
-    },
-    {
-      "source": "/project/valentines-at-southfield-mall",
-      "destination": "/api/page?path=/project/valentines-at-southfield-mall"
-    },
-    {
-      "source": "/project/valentines-at-southfield-mall/",
-      "destination": "/api/page?path=/project/valentines-at-southfield-mall"
-    },
-    {
-      "source": "/project/christmas-at-southfield-mall",
-      "destination": "/api/page?path=/project/christmas-at-southfield-mall"
-    },
-    {
-      "source": "/project/christmas-at-southfield-mall/",
-      "destination": "/api/page?path=/project/christmas-at-southfield-mall"
-    },
-    {
-      "source": "/project/mothers-day-at-galleria-mall",
-      "destination": "/api/page?path=/project/mothers-day-at-galleria-mall"
-    },
-    {
-      "source": "/project/mothers-day-at-galleria-mall/",
-      "destination": "/api/page?path=/project/mothers-day-at-galleria-mall"
-    },
-    {
-      "source": "/project/christmas-at-westgate-mall",
-      "destination": "/api/page?path=/project/christmas-at-westgate-mall"
-    },
-    {
-      "source": "/project/christmas-at-westgate-mall/",
-      "destination": "/api/page?path=/project/christmas-at-westgate-mall"
-    },
-    {
-      "source": "/project/valentines-at-sarit-centre",
-      "destination": "/api/page?path=/project/valentines-at-sarit-centre"
-    },
-    {
-      "source": "/project/valentines-at-sarit-centre/",
-      "destination": "/api/page?path=/project/valentines-at-sarit-centre"
-    },
-    {
-      "source": "/project/easter-at-southfield-mall",
-      "destination": "/api/page?path=/project/easter-at-southfield-mall"
-    },
-    {
-      "source": "/project/easter-at-southfield-mall/",
-      "destination": "/api/page?path=/project/easter-at-southfield-mall"
+      "src": "^/assets/(.*)/?$",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
     },
     {
-      "source": "/project/easter-at-galleria-mall",
-      "destination": "/api/page?path=/project/easter-at-galleria-mall"
+      "src": "^/_next/static/(.*)/?$",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
     },
     {
-      "source": "/project/easter-at-galleria-mall/",
-      "destination": "/api/page?path=/project/easter-at-galleria-mall"
+      "src": "^/projects/page/([^/]+)/?$",
+      "status": 302,
+      "headers": {
+        "Location": "/projects"
+      }
     },
     {
-      "source": "/project/easter-at-sarit-centre",
-      "destination": "/api/page?path=/project/easter-at-sarit-centre"
+      "src": "^/project/mothers-day-brunch-at-southfield-mall/?$",
+      "status": 302,
+      "headers": {
+        "Location": "/projects"
+      }
     },
     {
-      "source": "/project/easter-at-sarit-centre/",
-      "destination": "/api/page?path=/project/easter-at-sarit-centre"
+      "src": "^/project/adidas-display-wall/?$",
+      "status": 302,
+      "headers": {
+        "Location": "/projects"
+      }
     },
     {
-      "source": "/projects/congresses/page/1",
-      "destination": "/api/page?path=/projects/congresses/page/1"
+      "src": "^/project/uefa-champions-league-final-2026/?$",
+      "status": 302,
+      "headers": {
+        "Location": "/projects"
+      }
     },
     {
-      "source": "/projects/congresses/page/1/",
-      "destination": "/api/page?path=/projects/congresses/page/1"
+      "src": "^/project/ypo-global-event/?$",
+      "status": 302,
+      "headers": {
+        "Location": "/projects"
+      }
     },
     {
-      "source": "/legal-notice-terms-of-use",
-      "destination": "/api/page?path=/legal-notice-terms-of-use"
+      "src": "^/service/sports/?$",
+      "status": 302,
+      "headers": {
+        "Location": "/projects"
+      }
     },
     {
-      "source": "/legal-notice-terms-of-use/",
-      "destination": "/api/page?path=/legal-notice-terms-of-use"
+      "src": "^/insights(?:/(.*))?/?$",
+      "status": 302,
+      "headers": {
+        "Location": "/projects"
+      }
     },
     {
-      "source": "/projects/exhibits/page/1",
-      "destination": "/api/page?path=/projects/exhibits/page/1"
+      "src": "^/insight(?:/(.*))?/?$",
+      "status": 302,
+      "headers": {
+        "Location": "/projects"
+      }
     },
     {
-      "source": "/projects/exhibits/page/1/",
-      "destination": "/api/page?path=/projects/exhibits/page/1"
+      "src": "^/_next/image$",
+      "dest": "/api/img"
     },
     {
-      "source": "/projects/exhibits/page/2",
-      "destination": "/api/page?path=/projects/exhibits/page/2"
+      "src": "^/project/world-cup-watch-party-at-galleria-mall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/world-cup-watch-party-at-galleria-mall"
     },
     {
-      "source": "/projects/exhibits/page/2/",
-      "destination": "/api/page?path=/projects/exhibits/page/2"
+      "src": "^/project/uefa-champions-league-final-2026(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/uefa-champions-league-final-2026"
     },
     {
-      "source": "/projects/events/page/1",
-      "destination": "/api/page?path=/projects/events/page/1"
+      "src": "^/project/fathers-day-at-southfield-mall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/fathers-day-at-southfield-mall"
     },
     {
-      "source": "/projects/events/page/1/",
-      "destination": "/api/page?path=/projects/events/page/1"
+      "src": "^/project/mothers-day-at-southfield-mall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/mothers-day-at-southfield-mall"
     },
     {
-      "source": "/projects/sports/page/1",
-      "destination": "/api/page?path=/projects/sports/page/1"
+      "src": "^/project/valentines-at-southfield-mall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/valentines-at-southfield-mall"
     },
     {
-      "source": "/projects/sports/page/1/",
-      "destination": "/api/page?path=/projects/sports/page/1"
+      "src": "^/project/christmas-at-southfield-mall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/christmas-at-southfield-mall"
     },
     {
-      "source": "/projects/congresses",
-      "destination": "/api/page?path=/projects/congresses"
+      "src": "^/project/mothers-day-at-galleria-mall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/mothers-day-at-galleria-mall"
     },
     {
-      "source": "/projects/congresses/",
-      "destination": "/api/page?path=/projects/congresses"
+      "src": "^/project/christmas-at-westgate-mall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/christmas-at-westgate-mall"
     },
     {
-      "source": "/service/congresses",
-      "destination": "/api/page?path=/service/congresses"
+      "src": "^/project/valentines-at-sarit-centre(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/valentines-at-sarit-centre"
     },
     {
-      "source": "/service/congresses/",
-      "destination": "/api/page?path=/service/congresses"
+      "src": "^/project/easter-at-southfield-mall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/easter-at-southfield-mall"
     },
     {
-      "source": "/projects/exhibits",
-      "destination": "/api/page?path=/projects/exhibits"
+      "src": "^/project/easter-at-galleria-mall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/easter-at-galleria-mall"
     },
     {
-      "source": "/projects/exhibits/",
-      "destination": "/api/page?path=/projects/exhibits"
+      "src": "^/project/easter-at-sarit-centre(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/easter-at-sarit-centre"
     },
     {
-      "source": "/service/exhibits",
-      "destination": "/api/page?path=/service/exhibits"
+      "src": "^/project/adidas-display-wall(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/adidas-display-wall"
     },
     {
-      "source": "/service/exhibits/",
-      "destination": "/api/page?path=/service/exhibits"
+      "src": "^/projects/congresses/page/1(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/congresses/page/1"
     },
     {
-      "source": "/projects/events",
-      "destination": "/api/page?path=/projects/events"
+      "src": "^/legal-notice-terms-of-use(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/legal-notice-terms-of-use"
     },
     {
-      "source": "/projects/events/",
-      "destination": "/api/page?path=/projects/events"
+      "src": "^/project/ypo-global-event(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/project/ypo-global-event"
     },
     {
-      "source": "/projects/filter",
-      "destination": "/api/page?path=/projects/filter"
+      "src": "^/projects/exhibits/page/1(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/exhibits/page/1"
     },
     {
-      "source": "/projects/filter/",
-      "destination": "/api/page?path=/projects/filter"
+      "src": "^/projects/exhibits/page/2(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/exhibits/page/2"
     },
     {
-      "source": "/projects/sports",
-      "destination": "/api/page?path=/projects/sports"
+      "src": "^/projects/events/page/1(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/events/page/1"
     },
     {
-      "source": "/projects/sports/",
-      "destination": "/api/page?path=/projects/sports"
+      "src": "^/projects/sports/page/1(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/sports/page/1"
     },
     {
-      "source": "/privacy-policy",
-      "destination": "/api/page?path=/privacy-policy"
+      "src": "^/projects/congresses(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/congresses"
     },
     {
-      "source": "/privacy-policy/",
-      "destination": "/api/page?path=/privacy-policy"
+      "src": "^/service/congresses(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/service/congresses"
     },
     {
-      "source": "/service/events",
-      "destination": "/api/page?path=/service/events"
+      "src": "^/projects/exhibits(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/exhibits"
     },
     {
-      "source": "/service/events/",
-      "destination": "/api/page?path=/service/events"
+      "src": "^/service/exhibits(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/service/exhibits"
     },
     {
-      "source": "/cookie-policy",
-      "destination": "/api/page?path=/cookie-policy"
+      "src": "^/projects/events(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/events"
     },
     {
-      "source": "/cookie-policy/",
-      "destination": "/api/page?path=/cookie-policy"
+      "src": "^/projects/filter(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/filter"
     },
     {
-      "source": "/projects/all",
-      "destination": "/api/page?path=/projects/all"
+      "src": "^/projects/sports(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/sports"
     },
     {
-      "source": "/projects/all/",
-      "destination": "/api/page?path=/projects/all"
+      "src": "^/privacy-policy(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/privacy-policy"
     },
     {
-      "source": "/team-preview",
-      "destination": "/api/page?path=/team-preview"
+      "src": "^/service/events(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/service/events"
     },
     {
-      "source": "/team-preview/",
-      "destination": "/api/page?path=/team-preview"
+      "src": "^/service/sports(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/service/sports"
     },
     {
-      "source": "/projects",
-      "destination": "/api/page?path=/projects"
+      "src": "^/cookie-policy(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/cookie-policy"
     },
     {
-      "source": "/projects/",
-      "destination": "/api/page?path=/projects"
+      "src": "^/projects/all(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects/all"
     },
     {
-      "source": "/contact",
-      "destination": "/api/page?path=/contact"
+      "src": "^/team-preview(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/team-preview"
     },
     {
-      "source": "/contact/",
-      "destination": "/api/page?path=/contact"
+      "src": "^/projects(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/projects"
     },
     {
-      "source": "/about",
-      "destination": "/api/page?path=/about"
+      "src": "^/contact(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/contact"
     },
     {
-      "source": "/about/",
-      "destination": "/api/page?path=/about"
+      "src": "^/about(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/about"
     },
     {
-      "source": "/home",
-      "destination": "/api/page?path=/home"
+      "src": "^/home(?:/|/index\\.html|\\.html)?$",
+      "dest": "/api/page?path=/home"
     },
     {
-      "source": "/home/",
-      "destination": "/api/page?path=/home"
+      "src": "^/(?:index\\.html)?$",
+      "dest": "/api/page?path=/"
     },
     {
-      "source": "/404",
-      "destination": "/api/page?path=/404"
+      "src": "^/projects/mall-activations/?$",
+      "dest": "/api/page?path=/projects"
     },
     {
-      "source": "/404/",
-      "destination": "/api/page?path=/404"
+      "src": "^/sitemap\\.xml$",
+      "dest": "/api/page?path=/sitemap.xml"
     },
     {
-      "source": "/",
-      "destination": "/api/page?path=/"
+      "src": "^/robots\\.txt$",
+      "dest": "/api/page?path=/robots.txt"
     },
     {
-      "source": "/projects/mall-activations",
-      "destination": "/api/page?path=/projects"
+      "src": "^/insider/?$",
+      "dest": "/insider/index.html"
     },
     {
-      "source": "/projects/mall-activations/",
-      "destination": "/api/page?path=/projects"
+      "src": "^/404(?:\\.html)?$",
+      "status": 404,
+      "dest": "/api/page?path=/404"
     },
     {
-      "source": "/sitemap.xml",
-      "destination": "/api/page?path=/sitemap.xml"
+      "handle": "filesystem"
     },
     {
-      "source": "/robots.txt",
-      "destination": "/api/page?path=/robots.txt"
+      "src": "^/(?!api/).*$",
+      "status": 404,
+      "dest": "/api/page?path=/404"
     }
   ],
   "functions": {
@@ -386,106 +354,5 @@
     "api/leads.js": {
       "includeFiles": "scripts/*.mjs"
     }
-  },
-  "headers": [
-    {
-      "source": "/api/login",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store, max-age=0"
-        }
-      ]
-    },
-    {
-      "source": "/api/logout",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/api/me",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/api/brand",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/api/cms",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/api/content",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/api/leads",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/api/lead",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/api/upload",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/_next/static/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ]
+  }
 }

@@ -1,14 +1,51 @@
-// Regenerate vercel.json rewrites so EVERY public HTML page is served through
-// /api/page (brand + content overrides + mini-CMS + hero video from Postgres).
-// Without this, Vercel serves dist/*.html statically and DB edits only ever
-// show for the admin (via the edit bar's client-side patch).
+// Regenerate vercel.json so EVERY public HTML page is served through
+// /api/page (brand + content overrides + mini-CMS + hero video).
+//
+// Why `routes` and not `rewrites`: on Vercel, `rewrites` only run when NO
+// static file matches. dist/ ships the raw, un-rebranded donor HTML
+// (dist/index.html, dist/about/index.html, ...), so with `rewrites` Vercel
+// served those files directly and the live site showed the original donor
+// brand, while /api/page?path=/ showed the real StillCraft site. `routes`
+// lets us send page URLs to /api/page BEFORE the filesystem is checked
+// (`{ handle: 'filesystem' }` comes after them).
+//
+// `routes` cannot be combined with rewrites/redirects/headers/cleanUrls/
+// trailingSlash, so those are defined here and emitted as routes too.
+//
 // Usage: node scripts/vercel-rewrites.mjs
-// Re-run whenever prerendered routes are added/removed.
+// Re-run whenever prerendered routes, redirects or headers change.
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const ROOT = path.resolve('dist');
 const VERCEL_JSON = path.resolve('vercel.json');
+
+// Retired donor routes -> /projects (302). path-to-regexp style sources.
+const REDIRECTS = [
+  ['/projects/page/:n', '/projects'],
+  ['/project/mothers-day-brunch-at-southfield-mall', '/projects'],
+  ['/project/adidas-display-wall', '/projects'],
+  ['/project/uefa-champions-league-final-2026', '/projects'],
+  ['/project/ypo-global-event', '/projects'],
+  ['/service/sports', '/projects'],
+  ['/insights/:path*', '/projects'],
+  ['/insight/:path*', '/projects'],
+];
+
+const NO_STORE = ['/api/login', '/api/logout', '/api/me', '/api/brand', '/api/cms', '/api/content', '/api/leads', '/api/lead', '/api/upload'];
+const IMMUTABLE = ['/assets/(.*)', '/_next/static/(.*)'];
+
+// Convert the small subset of path-to-regexp syntax used above to a regex.
+function toRegex(source) {
+  let re = '';
+  for (const part of source.split('/').filter(Boolean)) {
+    if (part === '(.*)') re += '/(.*)';
+    else if (/^:\w+\*$/.test(part)) re += '(?:/(.*))?';
+    else if (/^:\w+$/.test(part)) re += '/([^/]+)';
+    else re += '/' + part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+  return '^' + (re || '/') + '/?$';
+}
 
 async function walk(dir) {
   const out = [];
@@ -16,7 +53,7 @@ async function walk(dir) {
     const full = path.join(dir, e.name);
     if (e.isDirectory()) {
       if (e.name === 'insider' || e.name === 'vendor') continue; // dashboard + vendor stay static
-      if (e.name === 'insight' || e.name === 'insights') continue; // retired blog (donor-agency articles): redirected, never routed
+      if (e.name === 'insight' || e.name === 'insights') continue; // retired blog: redirected, never routed
       out.push(...await walk(full));
     } else if (e.name.endsWith('.html') && !e.name.startsWith('_')) {
       out.push(full);
@@ -25,30 +62,51 @@ async function walk(dir) {
   return out;
 }
 
-const routes = new Set(['/']);
+const pages = new Set(['/']);
 for (const f of await walk(ROOT)) {
   let rel = path.relative(ROOT, f).split(path.sep).join('/');
-  rel = rel.replace(/\/index\.html$/, '').replace(/\.html$/, '');
-  routes.add('/' + rel.replace(/^\//, ''));
+  rel = rel.replace(/(^|\/)index\.html$/, '').replace(/\.html$/, '');
+  pages.add('/' + rel);
 }
-// Drop stray "index" route (dist/index.html -> "/"), keep /home page as-is.
-routes.delete('/index');
+pages.delete('/404'); // handled by the catch-all at the end
 
-const sorted = [...routes].sort((a, b) => b.length - a.length || (a < b ? -1 : 1));
-const rewrites = [{ source: '/_next/image', destination: '/api/img' }];
-for (const r of sorted) {
-  rewrites.push({ source: r, destination: `/api/page?path=${r}` });
-  // Trailing-slash parity: vercel.json source "/about" does not match
-  // "/about/" (cleanUrls/trailingSlash false), but pageKey() normalizes.
-  if (r !== '/') rewrites.push({ source: r + '/', destination: `/api/page?path=${r}` });
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const sorted = [...pages].sort((a, b) => b.length - a.length || (a < b ? -1 : 1));
+
+const routes = [];
+for (const s of NO_STORE) {
+  routes.push({ src: toRegex(s), headers: { 'Cache-Control': s === '/api/login' ? 'no-store, max-age=0' : 'no-store' }, continue: true });
+}
+for (const s of IMMUTABLE) {
+  routes.push({ src: toRegex(s), headers: { 'Cache-Control': 'public, max-age=31536000, immutable' }, continue: true });
+}
+for (const [src, dest] of REDIRECTS) {
+  routes.push({ src: toRegex(src), status: 302, headers: { Location: dest } });
+}
+routes.push({ src: '^/_next/image$', dest: '/api/img' });
+for (const p of sorted) {
+  // "/about", "/about/", "/about/index.html" and "/about.html" all go through
+  // /api/page, so the raw donor file is never reachable by URL.
+  const src = p === '/'
+    ? '^/(?:index\\.html)?$'
+    : `^${esc(p)}(?:/|/index\\.html|\\.html)?$`;
+  routes.push({ src, dest: `/api/page?path=${p}` });
 }
 // Aliases with no static file (handled in api/page.js + serve.mjs).
-for (const a of ['/projects/mall-activations', '/projects/mall-activations/']) {
-  rewrites.push({ source: a, destination: '/api/page?path=/projects' });
-}
+routes.push({ src: '^/projects/mall-activations/?$', dest: '/api/page?path=/projects' });
+// SEO files are generated by api/page.js (scripts/sitemap.mjs).
+routes.push({ src: '^/sitemap\\.xml$', dest: '/api/page?path=/sitemap.xml' });
+routes.push({ src: '^/robots\\.txt$', dest: '/api/page?path=/robots.txt' });
+// Admin dashboard stays a static page.
+routes.push({ src: '^/insider/?$', dest: '/insider/index.html' });
+routes.push({ src: '^/404(?:\\.html)?$', status: 404, dest: '/api/page?path=/404' });
+routes.push({ handle: 'filesystem' });
+// Anything not found: branded 404 instead of the raw dist/404.html.
+routes.push({ src: '^/(?!api/).*$', status: 404, dest: '/api/page?path=/404' });
 
-const raw = await readFile(VERCEL_JSON, 'utf8');
-const cfg = JSON.parse(raw);
-cfg.rewrites = rewrites;
-await writeFile(VERCEL_JSON, JSON.stringify(cfg, null, 2) + '\n');
-console.log(`vercel.json rewrites: ${rewrites.length} (${sorted.length} pages + image shim)`);
+const cfg = JSON.parse(await readFile(VERCEL_JSON, 'utf8'));
+for (const k of ['rewrites', 'redirects', 'headers', 'cleanUrls', 'trailingSlash']) delete cfg[k];
+const { functions, ...rest } = cfg;
+const out = { ...rest, routes, functions };
+await writeFile(VERCEL_JSON, JSON.stringify(out, null, 2) + '\n');
+console.log(`vercel.json routes: ${routes.length} (${sorted.length} pages)`);

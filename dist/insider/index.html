@@ -277,14 +277,27 @@
   /* ---------- boot ---------- */
   api('/api/me').then(function (d) {
     if (d && d.email) { $('#loginWrap').style.display = 'none'; $('#cmsWrap').style.display = 'block'; loadAll(); }
-  }).catch(function () { toast('Could not reach admin API — check connection'); });
+  }).catch(function (e) {
+    // 401 just means "not logged in yet": show the login form quietly.
+    if (e && e.status === 401) return;
+    toast(e && e.status ? 'Admin API error (' + e.status + ') — check the server logs' : 'Could not reach admin API — check connection');
+  });
   $('#loginForm').addEventListener('submit', function (e) {
     e.preventDefault();
     $('#err').style.display = 'none'; $('#btn').disabled = true;
     api('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: $('#email').value, password: $('#password').value }) })
       .then(function () { window.location.reload(); })
-      .catch(function () { $('#err').style.display = 'block'; $('#btn').disabled = false; });
+      .catch(function (err) {
+        var s = err && err.status;
+        $('#err').textContent =
+          s === 401 ? 'Invalid email or password.' :
+          s === 429 ? 'Too many attempts. Wait 5 minutes and try again.' :
+          s === 503 ? (err.message || 'Admin login is not set up on this server.') :
+          s ? 'Login failed (server error ' + s + '). Check the server logs.' :
+          'Could not reach the server. Check your connection.';
+        $('#err').style.display = 'block'; $('#btn').disabled = false;
+      });
   });
   $('#logout').addEventListener('click', function () { fetch('/api/logout', { method: 'POST' }).then(function(){ window.location.reload(); }); });
   $('#viewSite').addEventListener('click', function () { window.open('/', '_blank'); });

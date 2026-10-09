@@ -1,5 +1,5 @@
 // POST /api/login { email, password } — env-var auth, in-memory rate limiting.
-import { login, sessionCookie } from '../scripts/auth.mjs';
+import { login, sessionCookie, configProblem } from '../scripts/auth.mjs';
 
 const LOCK_MINUTES = 5;
 const MAX_FAILS = 5;
@@ -28,6 +28,13 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') { res.status(405).send('method not allowed'); return; }
   const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'x').split(',')[0].trim().slice(0, 64) || 'x';
   if (isLimited(ip)) { res.status(429).json({ error: 'too many attempts, try later' }); return; }
+  const problem = configProblem();
+  if (problem) {
+    // Not a wrong-password problem: the server's admin env vars are missing
+    // or malformed, so nobody can log in. Say exactly what is wrong.
+    res.status(503).json({ error: 'not_configured', detail: problem + ' (Change it in Vercel → Settings → Environment Variables, then redeploy.)' });
+    return;
+  }
   const body = req.body && typeof req.body === 'object' ? req.body : {};
   let sess = null;
   try {

@@ -10,7 +10,8 @@
     "start": "node scripts/serve.mjs",
     "fetch-missing": "node scripts/fetch-missing.mjs",
     "sync": "node scripts/sync.mjs",
-    "verify": "node scripts/verify2.mjs"
+    "verify": "node scripts/verify2.mjs",
+    "hash-password": "node scripts/hash-password.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^1.1.1",
