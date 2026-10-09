@@ -7,6 +7,8 @@ import { getCMS, saveCMSSection, liveSnapshot, CMS_SECTIONS } from '../scripts/c
 import { bustBrand } from '../scripts/transform.mjs';
 import { bustOverrides } from '../scripts/overrides.mjs';
 import { bustCMS } from '../scripts/cms.mjs';
+import { withFreshReads } from '../scripts/storage.mjs';
+import { sendSaveError } from '../scripts/save-error.mjs';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
@@ -24,7 +26,11 @@ export default async function handler(req, res) {
       }
       return;
     }
-    const cms = await getCMS();
+    // The admin form loads what it is about to edit: use the authoritative
+    // copy, so saving a section never writes back a stale value.
+    bustCMS();
+    const admin = await verifySession(parseCookies(req).sc_admin).catch(() => null);
+    const cms = admin ? await withFreshReads(() => getCMS()) : await getCMS();
     const only = String(u.searchParams.get('section') || '');
     if (only) {
       if (!CMS_SECTIONS.includes(only)) { res.status(400).json({ error: 'unknown section' }); return; }
@@ -41,7 +47,9 @@ export default async function handler(req, res) {
   try {
     await saveCMSSection(String(body.section || ''), body.data);
   } catch (e) {
-    res.status(400).json({ error: String((e && e.message) || e).slice(0, 120) });
+    const msg = String((e && e.message) || e);
+    if (msg === 'unknown section' || msg === 'bad data') { res.status(400).json({ error: msg }); return; }
+    sendSaveError(res, 'cms', e);
     return;
   }
   bustBrand();

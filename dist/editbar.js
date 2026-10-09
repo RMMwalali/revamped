@@ -270,6 +270,22 @@
     });
   }
 
+  // Warn right away (and keep warning) when saves cannot be stored
+  // permanently, instead of letting edits look saved and then vanish.
+  function checkStorage() {
+    api('/api/storage').then(function (d) {
+      if (d && d.durable && d.probe && d.probe.ok) return;
+      var msg = d && d.backend === 'local'
+        ? 'Edits here are saved on this computer only, not on the live site.'
+        : d && d.durable
+          ? 'Saving is failing: ' + ((d.probe && d.probe.error) || 'storage test failed') + ' Open /insider for details.'
+          : 'Saving is NOT set up on this server - edits cannot be stored. Add the R2 settings in Vercel, then redeploy.';
+      toast(msg, true);
+      var dot = document.querySelector('#sc-bar .dot');
+      if (dot) { dot.style.background = '#ff6b6b'; dot.title = msg; }
+    }).catch(function () {});
+  }
+
   function loadOverrides() {
     api('/api/content?page=' + encodeURIComponent(PAGE)).then(function (d) {
       overrides = d.items || [];
@@ -690,44 +706,28 @@
     };
   }
 
-  // A save replaces the page's whole override list server-side, so the rows
-  // already stored have to travel with the new ones - sending only the fresh
-  // edits silently dropped everything saved before. A new edit supersedes the
-  // stored row for the same target (same kind + recorded original), so
-  // re-editing one element never leaves two rows fighting over it.
-  function pendingItems() {
-    var out = [];
-    (overrides || []).forEach(function (o) {
-      for (var k in dirty) {
-        var d = dirty[k];
-        if (d.kind === o.kind && String(d.orig == null ? '' : d.orig) === String(o.orig_html == null ? '' : o.orig_html)) return;
-      }
-      out.push(rowOf(o));
-    });
-    Object.keys(dirty).forEach(function (k) {
-      var d = dirty[k];
-      out.push({ el_id: k, kind: d.kind, value: d.value, orig: d.orig, idx: d.idx || 0, tag: d.tag || '' });
-    });
-    return out;
-  }
-
   function save() {
-    var items = pendingItems();
-    var fresh = Object.keys(dirty).length;
+    // Only the new edits travel; the server merges them into what is stored
+    // (see scripts/overrides.mjs), so earlier saves can never be dropped.
+    var items = Object.keys(dirty).map(function (k) {
+      var d = dirty[k];
+      return { el_id: k, kind: d.kind, value: d.value, orig: d.orig, idx: d.idx || 0, tag: d.tag || '' };
+    });
+    var fresh = items.length;
     if (!items.length) return;
     var b = $('#sc-save');
     b.disabled = true; b.textContent = 'Saving…';
     api('/api/content', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ page: PAGE, items: items })
+      body: JSON.stringify({ page: PAGE, items: items, merge: true })
     }).then(function (d) {
-      toast('Saved ' + fresh + ' change(s) — live now');
+      toast('Saved ' + fresh + ' change(s). Visitors see them within a minute.');
       dirty = {};
       updateSave();
-      loadOverrides();
+      if (d && d.items) { overrides = d.items; applyAll(); } else loadOverrides();
     }).catch(function (e) {
-      toast('Save failed: ' + (e && e.message ? e.message : ''), true);
+      toast('NOT saved: ' + (e && e.message ? e.message : 'unknown error'), true);
       updateSave();
     });
   }
@@ -784,9 +784,9 @@
 
   // ---------- boot ----------
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { buildBar(); loadOverrides(); setTimeout(applyAll, 2500); });
+    document.addEventListener('DOMContentLoaded', function () { buildBar(); loadOverrides(); checkStorage(); setTimeout(applyAll, 2500); });
   } else {
-    buildBar(); loadOverrides(); setTimeout(applyAll, 2500);
+    buildBar(); loadOverrides(); checkStorage(); setTimeout(applyAll, 2500);
   }
   // Self-heal: the framework may drop non-vdom nodes on re-render; rebuild if gone.
   setInterval(function () {

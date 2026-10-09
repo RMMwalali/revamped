@@ -1,5 +1,6 @@
 ﻿// GET /api/brand (public) + PUT /api/brand (admin).
-import { readStore, writeStore } from '../scripts/storage.mjs';
+import { withFreshReads } from '../scripts/storage.mjs';
+import { sendSaveError } from '../scripts/save-error.mjs';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getBrand, bustBrand, saveBrand } from '../scripts/transform.mjs';
 import { bustOverrides } from '../scripts/overrides.mjs';
@@ -7,9 +8,10 @@ import { bustCMS } from '../scripts/cms.mjs';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
-    if (process.env.VERCEL) bustBrand();
+    bustBrand();
     res.setHeader('Cache-Control', 'no-store');
-    res.status(200).json(await getBrand());
+    const admin = await verifySession(parseCookies(req).sc_admin).catch(() => null);
+    res.status(200).json(admin ? await withFreshReads(() => getBrand()) : await getBrand());
     return;
   }
   if (req.method !== 'PUT') { res.status(405).send('method not allowed'); return; }
@@ -25,9 +27,8 @@ export default async function handler(req, res) {
     await saveBrand(updates);
     bustOverrides();
     bustCMS();
-    res.status(200).json(await getBrand());
+    res.status(200).json(await withFreshReads(() => getBrand()));
   } catch (e) {
-    console.error('[brand] save error:', e?.message || e);
-    res.status(500).json({ error: 'save failed', detail: String(e?.message || e).slice(0, 200) });
+    sendSaveError(res, 'brand', e);
   }
 }

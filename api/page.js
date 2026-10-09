@@ -12,6 +12,8 @@ import {
 } from '../scripts/transform.mjs';
 import { getCMS, bustCMS, applyStructuredCMS } from '../scripts/cms.mjs';
 import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
+import { withFreshReads } from '../scripts/storage.mjs';
+import { internalPath, publicRedirect, applyRouteNames } from '../scripts/routes.mjs';
 import { statSync } from 'node:fs';
 import nodePath from 'node:path';
 // Cache-bust the edit bar: it is served from dist with a normal cache header,
@@ -58,7 +60,7 @@ async function serveHtml(pathname, cookies, host) {
   if (cookies && cookies.sc_admin) {
     try { isAdmin = !!(await verifySession(cookies.sc_admin)); } catch { isAdmin = false; }
   }
-  if (process.env.VERCEL && isAdmin) { bustBrand(); bustOverrides(); bustCMS(); }
+  if (isAdmin) { bustBrand(); bustOverrides(); bustCMS(); }
   let lookup = pathname;
   if (lookup.endsWith('/')) lookup += 'index.html';
   const tries = [];
@@ -76,11 +78,14 @@ async function serveHtml(pathname, cookies, host) {
     if (!process.env.SC_NOSTRIP) html = stripThirdParty(html);
     html = removeBadges(html);
     // Independent DB reads run concurrently, not sequentially.
-    const [__brand, __overrides, __cms] = await Promise.all([
+    // Admins read the authoritative saved copy so what they see after a save
+    // is exactly what was stored.
+    const loadAll = () => Promise.all([
       getBrand(),
       getOverrides(key),
       getCMS().catch(() => null),
     ]);
+    const [__brand, __overrides, __cms] = await (isAdmin ? withFreshReads(loadAll) : loadAll());
     html = applyBrand(html, __brand);
     if (!process.env.SC_NONAV) html = applyNav(html, key);
     const noFP = NO_FP.has(key);
@@ -153,6 +158,8 @@ async function serveHtml(pathname, cookies, host) {
       html = html.replace(/(<\/body>)/i,
         `<script>window.__SC_PAGE__=${JSON.stringify(key)};var EDITBAR_V=${JSON.stringify(EDITBAR_V)};window.__sc_boot=function(){if(window.__sc_editbar_on||!document.body)return;var s=document.createElement('script');s.src='/editbar.js?v='+EDITBAR_V;s.setAttribute('data-sc-boot','1');document.body.appendChild(s);};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',window.__sc_boot);}else{window.__sc_boot();}setTimeout(window.__sc_boot,2000);setTimeout(window.__sc_boot,5000);setTimeout(window.__sc_boot,9000);</script>\n$1`);
     }
+    // Service pages are linked by their menu names (scripts/routes.mjs).
+    html = applyRouteNames(html);
     return { key, html, isAdmin };
   }
   return null;
@@ -213,6 +220,16 @@ export default async function handler(req, res) {
       res.end();
       return;
     }
+    // Old template URLs for the service pages -> their menu-named URLs.
+    const moved = publicRedirect(pathname);
+    if (moved) {
+      const q = new URLSearchParams(u.search); q.delete('path');
+      res.writeHead(301, { Location: moved + (q.toString() ? '?' + q : '') });
+      res.end();
+      return;
+    }
+    // Menu-named URL -> the page it is stored as.
+    pathname = internalPath(pathname) || pathname;
     if (pathname === '/service/sports' || pathname.startsWith('/service/sports/')) {
       res.writeHead(302, { Location: '/projects' });
       res.end();
@@ -235,12 +252,13 @@ export default async function handler(req, res) {
       return;
     }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    // Public pages are edge-cached (60s fresh, background revalidate after)
-    // so repeat views skip the DB + transform pipeline entirely. Admins get
+    // Public pages are edge-cached briefly (10s fresh, then revalidated in
+    // the background) so repeat views skip the transform pipeline, while an
+    // admin save reaches visitors within seconds. Admins get
     // no-cache so edits preview instantly.
     res.setHeader('Cache-Control', found.isAdmin
       ? 'no-cache'
-      : 'public, s-maxage=60, stale-while-revalidate=600');
+      : 'public, s-maxage=10, stale-while-revalidate=60');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).send(found.html);
   } catch (e) {

@@ -1,6 +1,6 @@
 // GET /api/leads (admin) — inquiries captured by api/lead.js.
 // ?limit=n (default 100, max 500), ?kind=quote|contact|prize, ?format=csv.
-import { readStore } from '../scripts/storage.mjs';
+import { readStoreFresh } from '../scripts/storage.mjs';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 
 const KINDS = ['quote', 'contact', 'prize'];
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   const limit = Math.min(500, Math.max(1, parseInt(u.searchParams.get('limit') || '100', 10) || 100));
   const kind = String(u.searchParams.get('kind') || '');
 
-  const leads = await readStore('leads.json') || [];
+  const leads = await readStoreFresh('leads.json') || [];
   let rows = leads;
   if (KINDS.includes(kind)) rows = rows.filter((l) => l.kind === kind);
   rows = rows.slice().sort((a, b) => b.created_at - a.created_at).slice(0, limit);

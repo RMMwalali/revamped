@@ -15,7 +15,7 @@ import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { parseUpload, sniffMedia, sniffImage, IMAGE_MAX } from '../scripts/transform.mjs';
 import { isResizable } from '../scripts/imgpaths.mjs';
-import { r2Configured, r2Head, r2Put, r2PublicUrl } from '../scripts/r2.mjs';
+import { r2Configured, r2Head, r2Put, r2PublicUrl, r2Settings } from '../scripts/r2.mjs';
 
 export const config = { api: { bodyParser: false } };
 
@@ -95,6 +95,9 @@ async function normalizeImage(input) {
 async function store(prefix, name, data, contentType) {
   const key = prefix + '/' + name;
   if (r2Configured()) {
+    if (!r2Settings().publicUrlSet) {
+      throw new NotConfigured('R2_PUBLIC_URL is not set, so uploads would have no public address. In Cloudflare open the bucket → Settings → Public access, enable the r2.dev URL (or a custom domain), then set R2_PUBLIC_URL in Vercel and redeploy.');
+    }
     if (await r2Head(key).catch(() => false)) return { src: r2PublicUrl(key), deduped: true };
     await r2Put(key, data, contentType || 'application/octet-stream');
     return { src: r2PublicUrl(key), deduped: false };

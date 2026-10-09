@@ -16,6 +16,7 @@
 // Re-run whenever prerendered routes, redirects or headers change.
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { SERVICE_ROUTES } from './routes.mjs';
 
 const ROOT = path.resolve('dist');
 const VERCEL_JSON = path.resolve('vercel.json');
@@ -32,7 +33,7 @@ const REDIRECTS = [
   ['/insight/:path*', '/projects'],
 ];
 
-const NO_STORE = ['/api/login', '/api/logout', '/api/me', '/api/brand', '/api/cms', '/api/content', '/api/leads', '/api/lead', '/api/upload'];
+const NO_STORE = ['/api/storage', '/api/login', '/api/logout', '/api/me', '/api/brand', '/api/cms', '/api/content', '/api/leads', '/api/lead', '/api/upload'];
 const IMMUTABLE = ['/assets/(.*)', '/_next/static/(.*)'];
 
 // Convert the small subset of path-to-regexp syntax used above to a regex.
@@ -69,6 +70,9 @@ for (const f of await walk(ROOT)) {
   pages.add('/' + rel);
 }
 pages.delete('/404'); // handled by the catch-all at the end
+// Service pages are public under their menu names; the old template URLs
+// redirect permanently (scripts/routes.mjs). api/page.js maps them back.
+for (const [oldPath, newPath] of SERVICE_ROUTES) { pages.delete(oldPath); pages.add(newPath); }
 
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const sorted = [...pages].sort((a, b) => b.length - a.length || (a < b ? -1 : 1));
@@ -82,6 +86,9 @@ for (const s of IMMUTABLE) {
 }
 for (const [src, dest] of REDIRECTS) {
   routes.push({ src: toRegex(src), status: 302, headers: { Location: dest } });
+}
+for (const [oldPath, newPath] of SERVICE_ROUTES) {
+  routes.push({ src: `^${esc(oldPath)}(?:/|/index\\.html|\\.html)?$`, status: 301, headers: { Location: newPath } });
 }
 routes.push({ src: '^/_next/image$', dest: '/api/img' });
 for (const p of sorted) {
