@@ -5,8 +5,19 @@ import './env.mjs';
 import crypto from 'node:crypto';
 import bcrypt from 'bcryptjs';
 
-const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || '').toLowerCase();
-const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD || '';
+// Env values pasted into the Vercel dashboard often carry wrapping quotes,
+// spaces or a trailing newline, and each of those makes a correct password
+// fail with no clue why. Normalise them before use.
+function cleanEnv(v) {
+  let s = String(v == null ? '' : v).trim();
+  if (s.length > 1 && ((s[0] === '"' && s.endsWith('"')) || (s[0] === "'" && s.endsWith("'")))) {
+    s = s.slice(1, -1).trim();
+  }
+  return s.replace(/\\\$/g, '$'); // "\$2b\$12\$..." escaped for a shell
+}
+const ADMIN_EMAIL = cleanEnv(process.env.ADMIN_EMAIL).toLowerCase();
+const ADMIN_PASSWORD_HASH = cleanEnv(process.env.ADMIN_PASSWORD);
+const BCRYPT_RE = /^\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}$/;
 // A random per-process secret is the wrong fallback here: on Vercel every
 // instance and every cold start would sign with a different key, so a token
 // minted by one request fails verification on the next and the admin is
@@ -14,10 +25,10 @@ const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD || '';
 // configured credentials instead, so sessions survive restarts and scale-out
 // even when APP_SECRET is unset. Changing the admin password rotates it,
 // which is the behaviour you want anyway.
-const APP_SECRET = process.env.APP_SECRET
-  || (process.env.ADMIN_PASSWORD
+const APP_SECRET = cleanEnv(process.env.APP_SECRET)
+  || (ADMIN_PASSWORD_HASH
         ? crypto.createHash('sha256')
-            .update('sc-session:' + (process.env.ADMIN_EMAIL || '') + ':' + process.env.ADMIN_PASSWORD)
+            .update('sc-session:' + ADMIN_EMAIL + ':' + ADMIN_PASSWORD_HASH)
             .digest('hex')
         : null);
 if (!process.env.APP_SECRET && APP_SECRET) {
@@ -70,7 +81,24 @@ function verifyToken(token) {
 // True when this deployment has admin credentials and a signing key. Lets the
 // login endpoint tell "not set up here" apart from "wrong password".
 export function isConfigured() {
-  return !!(APP_SECRET && ADMIN_EMAIL && ADMIN_PASSWORD_HASH);
+  return configProblem() === null;
+}
+
+// Plain-language description of what is wrong with the admin env vars, or
+// null when they are usable. Describes the shape of a value only, never the
+// value itself, so it is safe to send to the login page.
+export function configProblem() {
+  if (!ADMIN_EMAIL) return 'ADMIN_EMAIL is not set on this server.';
+  if (!ADMIN_EMAIL.includes('@')) return 'ADMIN_EMAIL is set but is not an email address.';
+  if (!ADMIN_PASSWORD_HASH) return 'ADMIN_PASSWORD is not set on this server.';
+  if (!BCRYPT_RE.test(ADMIN_PASSWORD_HASH)) {
+    if (!ADMIN_PASSWORD_HASH.startsWith('$2')) {
+      return 'ADMIN_PASSWORD looks like a plain password. It must be a bcrypt hash (starts with $2b$12$). Generate one with: npm run hash-password';
+    }
+    return 'ADMIN_PASSWORD starts like a bcrypt hash but is ' + ADMIN_PASSWORD_HASH.length +
+      ' characters long instead of 60, so it was cut off or altered when pasted. Generate a fresh one with: npm run hash-password';
+  }
+  return null;
 }
 
 export async function verifySession(token) {
@@ -82,11 +110,12 @@ export async function login(email, password) {
     console.error('[login] no signing key: set APP_SECRET (or ADMIN_PASSWORD)');
     return null;
   }
-  if (!ADMIN_EMAIL || !ADMIN_PASSWORD_HASH) {
-    console.error('[login] admin not configured (set ADMIN_EMAIL and ADMIN_PASSWORD)');
+  const problem = configProblem();
+  if (problem) {
+    console.error('[login] admin not configured:', problem);
     return null;
   }
-  if (email.toLowerCase() !== ADMIN_EMAIL) {
+  if (String(email).trim().toLowerCase() !== ADMIN_EMAIL) {
     // No address in the log line: these land in platform logs, and writing
     // the admin's own address (or a probe's guess) there tells anyone with
     // log access which account is worth attacking.
