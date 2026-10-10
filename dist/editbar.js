@@ -301,6 +301,9 @@
   function buildBar() {
     try {
     if (document.querySelector('#sc-bar')) return;
+    // Ready before the first pick, so the click that opens the file dialog
+    // never has to create the input first.
+    try { ensureInput(); ensureBgInput(); } catch (x) {}
     window.__sc_editbar_on = 1;
     if (sessionStorage.getItem('sc_hide') === '1') { buildFab(); return; }
     var bar = document.createElement('div');
@@ -581,6 +584,13 @@
   }
 
   function onClick(e) {
+    // input.click() on the hidden file picker dispatches a synthetic click
+    // (untrusted, at 0,0). Handling it here found the header "MENU" button
+    // under 0,0, started a text edit and called preventDefault() - which
+    // cancels the file dialog, so no photo could be chosen. Only real clicks
+    // are editing gestures, and the file inputs are never ours to handle.
+    if (!e.isTrusted) return;
+    if (e.target && e.target.tagName === 'INPUT' && e.target.type === 'file') return;
     if (e.target.closest && e.target.closest('#sc-photo-menu')) return;
     closePhotoMenu();
     var bar = e.target.closest && e.target.closest('#sc-bar,#sc-brand-panel');
@@ -740,8 +750,11 @@
       fileInput = document.createElement('input');
       fileInput.type = 'file';
       fileInput.accept = 'image/png,image/jpeg,image/webp,image/gif,image/svg+xml,video/mp4,video/webm,video/quicktime,audio/mpeg,audio/wav,audio/ogg';
+      fileInput.setAttribute('data-sc-file', 'media');
+      fileInput.setAttribute('style', OFFSCREEN);
       document.documentElement.appendChild(fileInput);
     }
+    if (!fileInput.isConnected) document.documentElement.appendChild(fileInput);
     return fileInput;
   }
 
@@ -770,13 +783,19 @@
   }
 
   var bgInput = null;
+  var OFFSCREEN = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0';
   function ensureBgInput() {
     if (!bgInput) {
       bgInput = document.createElement('input');
       bgInput.type = 'file';
       bgInput.accept = 'image/png,image/jpeg,image/webp,image/gif,image/svg+xml';
+      bgInput.setAttribute('data-sc-file', 'bg');
+      bgInput.setAttribute('style', OFFSCREEN);
       document.documentElement.appendChild(bgInput);
     }
+    // The page re-renders and can drop nodes we added; a detached file input
+    // never opens the file dialog, so put it back before every use.
+    if (!bgInput.isConnected) document.documentElement.appendChild(bgInput);
     return bgInput;
   }
 
