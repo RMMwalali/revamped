@@ -54,7 +54,11 @@
     if (!st) return '';
     var m = /url\(\s*(['"]?)([^'")]+)\1\s*\)/.exec(st.backgroundImage || '');
     if (!m || !m[2]) return '';
-    return m[2].indexOf('/assets/') === 0 ? m[2] : '';
+    // Browsers report background URLs absolute (http://host/assets/...);
+    // only this site's own assets qualify, kept as a site path.
+    var u = m[2];
+    if (u.indexOf(location.origin + '/') === 0) u = u.slice(location.origin.length);
+    return u.indexOf('/assets/') === 0 ? u : '';
   }
 
   function markBgCandidates() {
@@ -429,9 +433,21 @@
   // which the browser never reports as the click target and which
   // elementsFromPoint skips - so a photo could not be clicked at all. Fall back
   // to geometry: the smallest visible image/video whose box contains the click.
+  // Effective opacity (own x every ancestor's): stacked full-size photos
+  // (the Quote / Contact band) all share one box and differ only in which is
+  // faded in, so the one the editor can see must win.
+  function shownOpacity(el) {
+    var o = 1;
+    for (var x = el; x && x !== document.documentElement; x = x.parentElement) {
+      var v = parseFloat(getComputedStyle(x).opacity);
+      if (!isNaN(v)) o *= v;
+      if (o < 0.02) return 0;
+    }
+    return o;
+  }
   function mediaAt(e) {
     var list = document.querySelectorAll('img.sc-cand, video.sc-cand');
-    var best = null, bestArea = Infinity;
+    var best = null, bestArea = Infinity, bestOp = -1;
     for (var i = 0; i < list.length; i++) {
       var el = list[i];
       if (el.closest('#sc-bar,#sc-brand-panel')) continue;
@@ -441,8 +457,13 @@
       var cs = getComputedStyle(el);
       if (cs.display === 'none' || cs.visibility === 'hidden') continue;
       var area = r.width * r.height;
-      // On a tie prefer the fully loaded original over its blur placeholder.
-      if (area < bestArea || (area === bestArea && /original/.test(String(el.className)))) { best = el; bestArea = area; }
+      var op = shownOpacity(el);
+      if (op < 0.05 && best && bestOp >= 0.05) continue;
+      // Visible beats faded-out; then smaller box; on a tie prefer the fully
+      // loaded original over its blur placeholder.
+      var better = (op >= 0.05) !== (bestOp >= 0.05) ? op >= 0.05
+        : (area < bestArea || (area === bestArea && /original/.test(String(el.className))));
+      if (better) { best = el; bestArea = area; bestOp = op; }
     }
     return best ? { t: best, kind: best.tagName === 'VIDEO' ? 'video' : 'image' } : null;
   }
@@ -455,11 +476,132 @@
     return null;
   }
 
+  // Whole-panel buttons/links (the Quote / Contact band before the footer)
+  // cover the photo behind them, so every click used to start editing the
+  // button's text and the photo could never be picked. A click on the
+  // panel's empty area - not on its words - now goes to the photo behind.
+  function wordsAt(e, panel) {
+    var stack = stackAt(e);
+    for (var i = 0; i < stack.length && stack[i] !== panel; i++) {
+      var el = stack[i];
+      if (!panel.contains(el)) continue;
+      for (var c = el.firstChild; c; c = c.nextSibling) {
+        if (c.nodeType === 3 && c.nodeValue.trim()) {
+          var rg = document.createRange(); rg.selectNodeContents(c);
+          var rs = rg.getClientRects();
+          for (var k = 0; k < rs.length; k++) {
+            if (e.clientX >= rs[k].left && e.clientX <= rs[k].right && e.clientY >= rs[k].top && e.clientY <= rs[k].bottom) return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+  function panelPhotoAt(e, t) {
+    if (!t || (t.tagName !== 'BUTTON' && t.tagName !== 'A')) return null;
+    var r = t.getBoundingClientRect();
+    if (r.width * r.height < 0.12 * innerWidth * innerHeight) return null; // ordinary buttons/links keep text editing
+    if (wordsAt(e, t)) return null;
+    return mediaAt(e);
+  }
+  // ---- stacked photos (e.g. the Quote / Contact band before the footer) ----
+  // One spot can hold several full-size photos on top of each other: a CSS
+  // background shown by default plus <img> layers faded in on hover. Only
+  // the top one can ever be clicked, so when a click lands on such a spot
+  // the editor gets a small menu of every photo there and picks which one
+  // to replace.
+  function assetOf(src) {
+    var m = /[?&]url=([^&]+)/.exec(src || '');
+    try { return m ? decodeURIComponent(m[1]) : (src || ''); } catch (x) { return src || ''; }
+  }
+  function stackedPhotosAt(e) {
+    var out = [], seen = {};
+    var big = 0.25 * innerWidth * innerHeight;
+    var list = document.querySelectorAll('img.sc-cand');
+    for (var i = 0; i < list.length; i++) {
+      var el = list[i];
+      if (el.closest('#sc-bar,#sc-brand-panel,#sc-photo-menu')) continue;
+      var r = el.getBoundingClientRect();
+      if (r.width * r.height < big) continue;
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) continue;
+      var cs = getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+      var a = assetOf(el.getAttribute('src'));
+      var orig = /original/.test(String(el.className));
+      if (seen[a] && !(orig && !seen[a].orig)) continue;
+      var item = { kind: 'image', el: el, asset: a, orig: orig, shown: shownOpacity(el) >= 0.05 };
+      if (seen[a]) out[out.indexOf(seen[a])] = item; else out.push(item);
+      seen[a] = item;
+    }
+    try { markBgCandidates(); } catch (x) {}
+    var st = stackAt(e);
+    for (var j = 0; j < st.length; j++) {
+      for (var b = st[j]; b && b !== document.documentElement; b = b.parentElement) {
+        var u = b.getAttribute && b.getAttribute('data-sc-bg');
+        if (!u || seen[u]) continue;
+        var br = b.getBoundingClientRect();
+        if (br.width * br.height < big) continue;
+        var bgItem = { kind: 'bg', el: b, asset: u, shown: !out.some(function (o) { return o.shown; }) };
+        out.push(bgItem); seen[u] = bgItem;
+      }
+    }
+    return out;
+  }
+  function closePhotoMenu() { var m = document.getElementById('sc-photo-menu'); if (m) m.remove(); }
+  function showPhotoMenu(e, photos) {
+    closePhotoMenu();
+    var m = document.createElement('div');
+    m.id = 'sc-photo-menu';
+    var x = Math.min(e.clientX, innerWidth - 300), y = Math.min(e.clientY, innerHeight - (70 + photos.length * 74));
+    m.setAttribute('style', 'position:fixed;left:' + Math.max(8, x) + 'px;top:' + Math.max(8, y) + 'px;z-index:2147483647;width:284px;' +
+      'background:rgba(20,20,20,.97);color:#f3efeb;border:1px solid #3a3a38;border-radius:14px;padding:10px;font:400 13px Arial,sans-serif;box-shadow:0 10px 34px rgba(0,0,0,.55)');
+    var h = '<div style="font-weight:700;letter-spacing:.5px;margin:2px 4px 8px">Which photo do you want to replace?</div>';
+    photos.forEach(function (p, i) {
+      var name = String(p.asset).split('/').pop().replace(/\.[a-z0-9]+$/i, '').replace(/%20/g, ' ');
+      var what = p.kind === 'bg' ? 'Default background' : 'Photo layer';
+      h += '<button type="button" data-i="' + i + '" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;margin:0 0 6px;padding:6px;' +
+        'background:#2a2a28;color:#f3efeb;border:1px solid ' + (p.shown ? ACCENT : '#3a3a38') + ';border-radius:10px;cursor:pointer">' +
+        '<img src="' + String(p.asset).replace(/"/g, '&quot;') + '" alt="" style="width:84px;height:56px;object-fit:cover;border-radius:6px;flex:none;background:#111">' +
+        '<span><b style="display:block;font-size:12px">' + what + (p.shown ? ' · showing now' : '') + '</b><span style="color:#9a978f;font-size:11px;word-break:break-all">' + name + '</span></span></button>';
+    });
+    h += '<div style="color:#9a978f;font-size:11px;margin:2px 4px 8px">This section is shared, so the new photo appears on every page that has it.</div>';
+    h += '<button type="button" data-x="1" style="width:100%;padding:6px;background:none;color:#9a978f;border:0;cursor:pointer">Cancel</button>';
+    m.innerHTML = h;
+    m.addEventListener('click', function (ev) {
+      ev.preventDefault(); ev.stopPropagation();
+      var btn = ev.target.closest('button'); if (!btn) return;
+      closePhotoMenu();
+      if (btn.getAttribute('data-x')) return;
+      var p = photos[+btn.getAttribute('data-i')];
+      // Stacked photo bands (Quote / Contact) are one shared section on
+      // almost every page, so their photos are replaced site-wide.
+      if (p.kind === 'bg') pickBg(p.el, true); else pickImage(p.el, true);
+    });
+    document.documentElement.appendChild(m);
+  }
+
   function onClick(e) {
+    if (e.target.closest && e.target.closest('#sc-photo-menu')) return;
+    closePhotoMenu();
     var bar = e.target.closest && e.target.closest('#sc-bar,#sc-brand-panel');
     if (bar) return;
     var t = e.target.closest ? e.target.closest(CAND_SEL) : null;
     var kind = t ? isCandidate(t) : null;
+    var bigPanel = kind === 'text' && (t.tagName === 'BUTTON' || t.tagName === 'A') &&
+      t.getBoundingClientRect().width * t.getBoundingClientRect().height >= 0.12 * innerWidth * innerHeight && !wordsAt(e, t);
+    if (!kind || bigPanel) {
+      var stacked = stackedPhotosAt(e);
+      if (stacked.length > 1 && !(candidateAt(e) && !bigPanel && candidateAt(e).kind === 'text')) {
+        e.preventDefault(); e.stopPropagation();
+        if (active) active.blur();
+        showPhotoMenu(e, stacked);
+        return;
+      }
+    }
+    if (kind === 'text') {
+      var photo = panelPhotoAt(e, t);
+      if (photo) { t = photo.t; kind = photo.kind; }
+    }
     if (!kind) {
       var hit = candidateAt(e) || mediaAt(e);
       if (hit) { t = hit.t; kind = hit.kind; }
@@ -603,7 +745,7 @@
     return fileInput;
   }
 
-  function pickImage(img) {
+  function pickImage(img, site) {
     var input = ensureInput();
     input.onchange = function () {
       var f = input.files[0];
@@ -620,6 +762,7 @@
         img.removeAttribute('srcset');
         img.removeAttribute('sizes');
         markDirty(key('image', tag, idx), 'image', d.src, orig, idx, tag);
+        if (site) siteWide[Object.keys(dirty).pop()] = 1;
         toast('Image swapped — press Save');
       }).catch(function (e) { toast('Upload failed: ' + errMsg(e), true); });
     };
@@ -637,7 +780,7 @@
     return bgInput;
   }
 
-  function pickBg(el) {
+  function pickBg(el, site) {
     var orig = el.getAttribute('data-sc-bg') || '';
     if (!orig) return;
     var input = ensureBgInput();
@@ -651,6 +794,7 @@
       uploadFile(fd).then(function (d) {
         el.style.backgroundImage = "url('" + d.src + "')";
         markDirty(key('image', el.tagName, 0), 'image', d.src, orig, 0, el.tagName);
+        if (site) siteWide[Object.keys(dirty).pop()] = 1;
         toast('Background swapped — press Save');
       }).catch(function (e) { toast('Upload failed: ' + errMsg(e), true); });
     };
@@ -706,24 +850,32 @@
     };
   }
 
+  var siteWide = {}; // dirty keys that apply on every page (shared sections)
   function save() {
     // Only the new edits travel; the server merges them into what is stored
     // (see scripts/overrides.mjs), so earlier saves can never be dropped.
-    var items = Object.keys(dirty).map(function (k) {
+    // Site-wide edits are stored under page "*" and applied on every page.
+    var pageItems = [], siteItems = [];
+    Object.keys(dirty).forEach(function (k) {
       var d = dirty[k];
-      return { el_id: k, kind: d.kind, value: d.value, orig: d.orig, idx: d.idx || 0, tag: d.tag || '' };
+      var row = { el_id: k, kind: d.kind, value: d.value, orig: d.orig, idx: d.idx || 0, tag: d.tag || '' };
+      (siteWide[k] ? siteItems : pageItems).push(row);
     });
-    var fresh = items.length;
-    if (!items.length) return;
+    var fresh = pageItems.length + siteItems.length;
+    if (!fresh) return;
     var b = $('#sc-save');
     b.disabled = true; b.textContent = 'Saving…';
-    api('/api/content', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ page: PAGE, items: items, merge: true })
-    }).then(function (d) {
+    var put = function (page, items) {
+      if (!items.length) return Promise.resolve(null);
+      return api('/api/content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: page, items: items, merge: true })
+      });
+    };
+    put('*', siteItems).then(function () { return put(PAGE, pageItems); }).then(function (d) {
       toast('Saved ' + fresh + ' change(s). Visitors see them within a minute.');
-      dirty = {};
+      dirty = {}; siteWide = {};
       updateSave();
       if (d && d.items) { overrides = d.items; applyAll(); } else loadOverrides();
     }).catch(function (e) {
