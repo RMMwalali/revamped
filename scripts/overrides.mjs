@@ -788,3 +788,51 @@ function patchReelPairs(html, orig, value) {
   }
   return html;
 }
+
+// Visitor-side guard for saved photo swaps. Some images are hard-coded in
+// the site's compiled scripts (e.g. the big "STILLCRAFT" hero/footer text
+// graphics), so whatever the server sends, the browser re-inserts the
+// original after hydration. This matches every <img> by its underlying file
+// (plain path, optimizer URL "/_next/image?url=...", absolute URL, encoded
+// or not) and puts the saved replacement back. It watches the page only
+// while it settles.
+function assetKey(src) {
+  let s = String(src || '').trim();
+  const m = /[?&]url=([^&]+)/.exec(s);
+  if (m) s = m[1];
+  for (let i = 0; i < 3; i++) { try { const d = decodeURIComponent(s); if (d === s) break; s = d; } catch { break; } }
+  s = s.replace(/^https?:\/\/[^/]+/, '');
+  return s.split('#')[0];
+}
+// Only for files the server already replaced everywhere it could (the
+// original no longer appears in the page it sent): those can only come back
+// from the compiled scripts. A photo swapped in just one of several places
+// keeps its other copies, so it is never guarded page-wide.
+function stillServed(html, k) {
+  if (!html) return false;
+  const forms = [k, encodeURIComponent(k), k.replace(/ /g, '%20'), encodeURIComponent(k.replace(/ /g, '%20'))];
+  return forms.some((f) => f && html.includes(f));
+}
+export function assetGuardScript(items, html) {
+  const map = {};
+  for (const it of items || []) {
+    if (it.kind !== 'image' || !it.orig_html || !it.value) continue;
+    const k = assetKey(it.orig_html);
+    if (stillServed(html, k)) continue;
+    if (k && k !== assetKey(it.value)) map[k] = it.value;
+  }
+  if (!Object.keys(map).length) return '';
+  const data = JSON.stringify(map).replace(/</g, '\\u003c');
+  return '<script>(function(){var M=' + data + ';'
+    + 'function key(s){s=String(s||"");var m=/[?&]url=([^&]+)/.exec(s);if(m)s=m[1];'
+    + 'for(var i=0;i<3;i++){try{var d=decodeURIComponent(s);if(d===s)break;s=d;}catch(e){break;}}'
+    + 's=s.replace(/^https?:\\/\\/[^\\/]+/,"");return s.split("#")[0];}'
+    + 'function run(){try{var im=document.getElementsByTagName("img");for(var i=0;i<im.length;i++){var el=im[i];'
+    + 'if(el.closest&&el.closest("#sc-bar,#sc-brand-panel,#sc-photo-menu"))continue;'
+    + 'var to=M[key(el.getAttribute("src"))];if(!to||el.getAttribute("src")===to)continue;'
+    + 'el.setAttribute("src",to);el.removeAttribute("srcset");el.removeAttribute("sizes");}}catch(e){}}'
+    + 'run();if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);'
+    + 'try{var mo=new MutationObserver(run);mo.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:["src"]});setTimeout(function(){mo.disconnect();},20000);}catch(e){}'
+    + '[300,1000,2500,5000,9000].forEach(function(t){setTimeout(run,t);});'
+    + '})();<\/script>';
+}
