@@ -142,10 +142,10 @@
     </section>
 
     <section class="pane" data-pane="logos">
-      <div class="paneHead"><h2>Client logo wall</h2><p>The “We are proud to have worked with” logo marquee. Rename a client or upload a replacement logo file.</p></div>
+      <div class="paneHead"><h2>Client logo wall</h2><p>The “We are proud to have worked with” logo wall. Add or delete clients, change their order, rename them or upload a replacement logo file. Changes show on the site after you save.</p></div>
       <div class="item"><div class="fld"><label>WALL HEADING</label><input type="text" id="logoLabel"></div></div>
       <div id="logoList"></div>
-      <div class="savebar"><button class="primary" data-save="logos">Save logo wall</button><span class="st" data-st="logos"></span></div>
+      <div class="savebar"><button data-add-logo>+ Add logo</button><button class="primary" data-save="logos">Save logo wall</button><span class="st" data-st="logos"></span></div>
     </section>
 
     <section class="pane" data-pane="stats">
@@ -256,7 +256,14 @@
     return new Promise(function (res) { PENDING.waiters.push(res); });
   }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-  function pick(a, b) { return (a !== undefined && a !== null && String(a) !== '') ? a : (b == null ? '' : b); }
+  function has(v) { return v !== undefined && v !== null && String(v) !== ''; }
+  // pick(saved, live): forms open on what the site shows right now. The live
+  // snapshot is the rendered visitor page (saved sections and edit-bar edits
+  // included), so it wins; the saved value only fills fields the page lacks.
+  function pick(a, b) { return has(b) ? b : (has(a) ? a : ''); }
+  // Saved-first, for the insights records (their fallbacks are file defaults,
+  // not the rendered page).
+  function savedPick(a, b) { return has(a) ? a : (b == null ? '' : b); }
   // Records saved before the prefill fix kept donor client names; never show
   // those in the editor fields, so saving again stores the clean value.
   var DONOR_NAMES = { midas:1, pfizer:1, cordenpharma:1, 'corden pharma':1, corden:1, adidas:1, adevinta:1, adevina:1, nagarro:1, ribbon:1, symetrix:1, lindy:1, uefa:1, menzies:1, ypo:1, fedex:1, 'turkish airlines':1, veeam:1, hackathon:1, axiecon:1, stella:1, icefit:1, amazfit:1, novomatic:1, euroleague:1, 'ribbon communications':1, centrient:1, radisys:1 };
@@ -416,6 +423,50 @@
   function renderAll() {
     renderHero(); renderHighlights(); renderLogos(); renderStats();
     renderTestimonials(); renderTeam(); renderProjects(); renderCities(); renderInsights(); renderBrand();
+    snapBase();
+  }
+  /* ---------- only save what was actually changed ----------
+     Forms open on what the site shows right now. Saving a field nobody
+     touched must not turn the live text into a stored edit (several sections
+     are applied by find-and-replace, so re-saving the shown text could
+     shuffle the page). Unchanged fields keep their saved value, or stay
+     unset; changed fields are stored. Lists in ATOMIC are stored whole as
+     soon as anything in them changes (added, deleted, moved or edited). */
+  var BASE = {};
+  var SECTIONS = ['hero', 'highlights', 'logos', 'stats', 'testimonials', 'team', 'projects', 'cities', 'insights'];
+  var ATOMIC = { 'logos.items': 1, 'testimonials.items': 1, 'team.items': 1, 'cities.items': 1, 'insights.home': 1, 'insights.hidden': 1 };
+  var KEEP_KEYS = { slug: 1 };
+  function snapBase(sec) {
+    (sec ? [sec] : SECTIONS).forEach(function (k) { try { BASE[k] = JSON.parse(JSON.stringify(collect(k))); } catch (e) { BASE[k] = undefined; } });
+  }
+  function same(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
+  function keepChanged(cur, base, saved, path) {
+    if (same(cur, base)) return saved;
+    if (ATOMIC[path]) return cur;
+    if (Array.isArray(cur) && Array.isArray(base) && cur.length === base.length) {
+      return cur.map(function (c, i) {
+        var v = keepChanged(c, base[i], saved && saved[i], path + '.[]');
+        return v === undefined ? (c && typeof c === 'object' ? keepIds(c) : c) : v;
+      });
+    }
+    if (cur && base && typeof cur === 'object' && typeof base === 'object' && !Array.isArray(cur) && !Array.isArray(base)) {
+      var o = {};
+      Object.keys(cur).forEach(function (k) {
+        var v = KEEP_KEYS[k] ? cur[k] : keepChanged(cur[k], base[k], saved && saved[k], path + '.' + k);
+        if (v !== undefined) o[k] = v;
+      });
+      return o;
+    }
+    return cur;
+  }
+  function keepIds(c) { var o = {}; Object.keys(KEEP_KEYS).forEach(function (k) { if (c[k] !== undefined) o[k] = c[k]; }); return o; }
+  // What to store for a section, or undefined when nothing changed.
+  function changedPayload(sec) {
+    var cur = collect(sec), saved = S.saved[sec];
+    if (BASE[sec] === undefined) return cur;
+    if (same(cur, BASE[sec])) return undefined;
+    var out = keepChanged(cur, BASE[sec], saved, sec);
+    return out === undefined ? {} : out;
   }
   function renderHero() {
     var sv = S.saved.hero || {}, lv = S.live.hero || {};
@@ -448,20 +499,22 @@
     }
     $('#hlList').innerHTML = h;
   }
+  function logoRow(i, name, src) {
+    var uid = 'logo-img-' + i + '-' + Date.now().toString(36);
+    return '<div class="item" data-logo="' + i + '"><h3><span data-logo-title>' + esc(name || 'new logo') + '</span>' +
+      ' <button data-logo-up title="Move up" style="margin-left:8px">↑</button><button data-logo-down title="Move down">↓</button>' +
+      '<button data-del-logo style="margin-left:8px">Delete</button></h3><div class="grid">' +
+      '<div class="fld"><label>CLIENT NAME</label><input type="text" data-k="name" value="' + esc(name) + '"></div>' +
+      '<div class="fld"><label>LOGO IMAGE</label>' + imgRow(uid, src) + '</div>' +
+      '</div></div>';
+  }
   function renderLogos() {
     $('#logoLabel').value = pick((S.saved.logos || {}).label, (S.live.logos || {}).label);
     var sv = (S.saved.logos && S.saved.logos.items) || [];
     var lv = ((S.live.logos || {}).items) || [];
-    var n = Math.max(lv.length, sv.length);
-    var h = '';
-    for (var i = 0; i < n; i++) {
-      var s = sv[i] || {}, l = lv[i] || {};
-      h += '<div class="item" data-logo="' + i + '"><h3>#' + (i + 1) + ' ' + esc(pick(s.name, l.name)) + '</h3><div class="grid">' +
-        '<div class="fld"><label>CLIENT NAME</label><input type="text" data-k="name" value="' + esc(pick(s.name, l.name)) + '"></div>' +
-        '<div class="fld"><label>LOGO IMAGE</label>' + imgRow('logo-img-' + i, pick(s.src, l.src)) + '</div>' +
-        '</div></div>';
-    }
-    $('#logoList').innerHTML = h;
+    // The live wall already reflects the saved list; it decides the rows.
+    var rows = lv.length ? lv : sv;
+    $('#logoList').innerHTML = rows.map(function (r, i) { return logoRow(i, r.name || '', r.src || ''); }).join('');
   }
   function renderStats() {
     $('#statLabel').value = pick((S.saved.stats || {}).label, (S.live.stats || {}).label);
@@ -520,11 +573,11 @@
     var sv = S.saved.cities || {}, lv = S.live.cities || {};
     $('#cityLabel').value = pick(sv.label, '');
     $('#cityDesc').value = pick(sv.description, '');
-    var items = (Array.isArray(sv.items) && sv.items.length ? sv.items : (lv.items || []));
+    var items = (Array.isArray(lv.items) && lv.items.length ? lv.items : (sv.items || []));
     $('#cityList').innerHTML = items.map(function (c) {
       return '<div class="cityrow"><input type="text" data-city value="' + esc(c) + '"><button data-del-city>Remove</button></div>';
     }).join('');
-    var sa = (Array.isArray(sv.addresses) && sv.addresses.length ? sv.addresses : (lv.addresses || []));
+    var sa = (Array.isArray(lv.addresses) && lv.addresses.length ? lv.addresses : (sv.addresses || []));
     $('#addrList').innerHTML = sa.map(function (a, i) {
       return '<div class="item" data-addr="' + i + '"><h3>ADDRESS #' + (i + 1) + '</h3><div class="grid">' +
         '<div class="fld"><label>CITY</label><input type="text" data-k="city" value="' + esc(a.city || '') + '"></div>' +
@@ -550,7 +603,7 @@
   function renderTeam() {
     var sv = (S.saved.team && S.saved.team.items) || (S.saved.team && S.saved.team.members) || [];
     var lv = S.live.team || [];
-    var n = Math.max(lv.length, sv.length, 6);
+    var n = lv.length || Math.max(sv.length, 6);
     var h = '';
     for (var i = 0; i < n; i++) {
       var s = sv[i] || {}, l = lv[i] || {};
@@ -558,6 +611,7 @@
         '<div class="fld"><label>NAME</label><input type="text" data-k="name" value="' + esc(pick(s.name, l.name)) + '"></div>' +
         '<div class="fld"><label>ROLE (e.g. Operations Manager — 5 Years)</label><input type="text" data-k="role" value="' + esc(pick(s.role, l.role)) + '"></div>' +
         '<div class="fld full"><label>BIO</label><textarea data-k="bio" rows="4">' + esc(pick(s.bio, l.bio)) + '</textarea></div>' +
+        '<input type="hidden" data-k="photo" value="' + esc(pick(s.photo, l.photo)) + '">' +
         '</div></div>';
     }
     $('#teamList').innerHTML = h;
@@ -614,17 +668,17 @@
       var exists = !!e.man;
       var listed = !hidden[slug];
       var imgId = 'ins-img-' + slug.replace(/[^a-z0-9]+/gi, '-');
-      return '<div class="item" data-post="' + esc(slug) + '"><h3>' + esc(pick(s.title, pick(l.title, m.title)) || slug) +
+      return '<div class="item" data-post="' + esc(slug) + '"><h3>' + esc(savedPick(s.title, savedPick(l.title, m.title)) || slug) +
         (exists ? '' : ' <span style="color:#ff9d9d">⚠ no page for this slug — card links would 404</span>') + '</h3>' +
         '<div class="grid">' +
         '<div class="fld"><label>SLUG (fixed — matches the post address)</label><input type="text" value="' + esc(slug) + '" disabled> ' +
         (exists ? '<a href="/insight/' + esc(slug) + '" target="_blank">view post</a>' : '') + '</div>' +
         '<div class="fld"><label>LISTED <input type="checkbox" data-k="listed" ' + (listed ? 'checked' : '') + ' style="width:auto"></label></div>' +
-        '<div class="fld full"><label>TITLE</label><input type="text" data-k="title" value="' + esc(pick(s.title, pick(l.title, m.title))) + '"></div>' +
-        '<div class="fld"><label>COVER IMAGE (media)</label>' + imgRow(imgId, pick(s.image, pick(l.image, m.image))) + '</div>' +
-        '<div class="fld"><label>DATE</label><input type="date" data-k="date" value="' + esc((pick(s.date, pick(l.date, m.date)) || '').slice(0, 10)) + '"></div>' +
-        '<div class="fld"><label>CATEGORY</label><input type="text" data-k="category" value="' + esc(pick(s.category, pick(l.category, m.category))) + '"></div>' +
-        '<div class="fld full"><label>BLURB (home card + search/social)</label><input type="text" data-k="excerpt" value="' + esc(pick(s.excerpt, pick(l.excerpt, m.excerpt))) + '"></div>' +
+        '<div class="fld full"><label>TITLE</label><input type="text" data-k="title" value="' + esc(savedPick(s.title, savedPick(l.title, m.title))) + '"></div>' +
+        '<div class="fld"><label>COVER IMAGE (media)</label>' + imgRow(imgId, savedPick(s.image, savedPick(l.image, m.image))) + '</div>' +
+        '<div class="fld"><label>DATE</label><input type="date" data-k="date" value="' + esc((savedPick(s.date, savedPick(l.date, m.date)) || '').slice(0, 10)) + '"></div>' +
+        '<div class="fld"><label>CATEGORY</label><input type="text" data-k="category" value="' + esc(savedPick(s.category, savedPick(l.category, m.category))) + '"></div>' +
+        '<div class="fld full"><label>BLURB (home card + search/social)</label><input type="text" data-k="excerpt" value="' + esc(savedPick(s.excerpt, savedPick(l.excerpt, m.excerpt))) + '"></div>' +
         '<div class="fld full"><label>FULL TEXT (HTML allowed — empty keeps current)</label><textarea data-k="content" rows="5" placeholder="Leave empty to keep the current article text.">' + esc(s.content || l.content || '') + '</textarea></div>' +
         '<input type="hidden" data-k="slug" value="' + esc(slug) + '">' +
         '</div></div>';
@@ -661,10 +715,10 @@
       return { video_url: $('#heroUrl').value.trim(), video_mobile_url: $('#heroUrlM').value.trim(), label: $('#heroLabel').value, description: $('#heroDesc').value };
     }
     if (sec === 'highlights') return { items: grab(null, 'data-hl') };
-    if (sec === 'logos') return { label: $('#logoLabel').value, items: grab(null, 'data-logo').map(function (o) { return { name: o.name || '', src: o.src || '' }; }) };
+    if (sec === 'logos') return { label: $('#logoLabel').value, items: grab(null, 'data-logo').map(function (o) { return { name: (o.name || '').trim(), src: (o.src || '').trim() }; }).filter(function (o) { return o.name || o.src; }) };
     if (sec === 'stats') return { label: $('#statLabel').value, items: grab(null, 'data-stat') };
     if (sec === 'testimonials') return { items: grab(null, 'data-tm') };
-    if (sec === 'team') return { items: grab(null, 'data-team') };
+    if (sec === 'team') return { items: grab(null, 'data-team').filter(function (o) { return (o.name || '').trim() || (o.role || '').trim() || (o.bio || '').trim(); }) };
     if (sec === 'projects') {
       var proj = {};
       $all('#projList [data-proj]').forEach(function (box) {
@@ -717,8 +771,9 @@
       var uploading = PENDING.uploads > 0;
       if (uploading) { st(sec, 'Waiting for upload…'); toast('Waiting for upload to finish…'); }
       waitUploads().then(function () {
+        var payload = changedPayload(sec);
+        if (payload === undefined) { st(sec, 'No changes to save - this is what the site shows now.'); toast('Nothing changed'); return; }
         st(sec, 'Saving…'); sv.disabled = true;
-        var payload = collect(sec);
         return api('/api/cms', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ section: sec, data: payload }) })
           .then(function () {
@@ -730,7 +785,7 @@
                 .then(function () { S.saved.articles = { items: [] }; });
             }
           })
-          .then(function () { st(sec, 'Saved. Visitors see it within a minute.'); toast('Saved'); S.saved[sec] = payload; })
+          .then(function () { st(sec, 'Saved. Visitors see it within a minute.'); toast('Saved'); S.saved[sec] = payload; snapBase(sec); })
           .catch(function (e) { var m = (e && e.message) || 'unknown error'; st(sec, 'NOT saved: ' + m); toast('Save failed: ' + m); })
           .then(function () { sv.disabled = false; });
       });
@@ -759,6 +814,28 @@
           .then(function (d) { $('#bLogo').value = d.src; done(d.src); })
           .catch(function (e) { toast('Logo upload failed: ' + ((e && e.message) || 'unknown')); b.disabled = false; });
       } else done($('#bLogo').value || null);
+      return;
+    }
+    if (e.target.closest('[data-add-logo]')) {
+      var ll = $('#logoList');
+      var d = document.createElement('div');
+      d.innerHTML = logoRow(ll.querySelectorAll('[data-logo]').length, '', '');
+      var row = d.firstChild; ll.appendChild(row);
+      row.scrollIntoView({ block: 'center' });
+      var nm = row.querySelector('[data-k="name"]'); if (nm) nm.focus();
+      return;
+    }
+    if (e.target.closest('[data-del-logo]')) {
+      var lb = e.target.closest('[data-logo]');
+      if ($all('#logoList [data-logo]').length <= 1) { toast('Keep at least one logo on the wall.'); return; }
+      if (lb) lb.remove();
+      toast('Logo removed — press “Save logo wall” to apply.');
+      return;
+    }
+    if (e.target.closest('[data-logo-up]') || e.target.closest('[data-logo-down]')) {
+      var mb = e.target.closest('[data-logo]');
+      if (e.target.closest('[data-logo-up]')) { if (mb.previousElementSibling) mb.parentNode.insertBefore(mb, mb.previousElementSibling); }
+      else if (mb.nextElementSibling) mb.parentNode.insertBefore(mb.nextElementSibling, mb);
       return;
     }
     if (e.target.closest('[data-del-tm]')) {

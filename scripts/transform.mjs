@@ -2381,7 +2381,11 @@ export function applyCaseMetaFix(html, page) {
   } catch { return html; }
 }
 export function applyLogosFix(html, items) {
-  if (html.indexOf('js-worked-brand') < 0 && html.indexOf('partners') < 0) return html;
+  // Only the page that has the client logo wall. ("partners" alone also
+  // matches ordinary copy on other pages, and the wall rebuild below works by
+  // element ids that mean something else there: it rewrote the Contact and
+  // service pages whenever a logo list was saved.)
+  if (html.indexOf('js-worked-brand') < 0 && html.indexOf('\\"partners\\":[') < 0) return html;
   // --- head preloads for template logo files (rewritten/dropped below) ---
   for (const src of Object.keys(WALL_SRC_MAP)) {
     const esc = src.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -3914,10 +3918,12 @@ function voicesGrid(items, mode) {
   const card = mode === 'team' ? teamVoiceCard : reviewCard;
   return '<div class="sc-voices-grid">' + (items || []).map((it, n) => card(it, n)).join('') + '</div>';
 }
-function teamItemsOf(cms) {
-  const src = cms && cms.team && Array.isArray(cms.team.items)
+export function teamItemsOf(cms) {
+  let src = cms && cms.team && Array.isArray(cms.team.items)
     ? cms.team.items
     : (cms && Array.isArray(cms.team) ? cms.team : null);
+  // Blank rows (an empty form row saved by mistake) are not team members.
+  if (src) src = src.filter((it) => it && typeof it === 'object' && ['name', 'role', 'bio'].some((k) => String(it[k] || '').trim()));
   if (src && src.length) {
     return src.map((it) => ({
       name: String(it.name || '').trim(),

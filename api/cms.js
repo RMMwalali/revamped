@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getCMS, saveCMSSection, liveSnapshot, CMS_SECTIONS } from '../scripts/cms.mjs';
+import { serveHtml } from './page.js';
 import { bustBrand } from '../scripts/transform.mjs';
 import { bustOverrides } from '../scripts/overrides.mjs';
 import { bustCMS } from '../scripts/cms.mjs';
@@ -18,9 +19,11 @@ export default async function handler(req, res) {
     const u = new URL(req.url, 'http://local');
     if (u.searchParams.get('live') === '1') {
       try {
-        const file = path.join(process.cwd(), 'dist', 'index.html');
-        const html = await readFile(file, 'utf8');
-        res.status(200).json({ live: await liveSnapshot(html) });
+        // The home page exactly as a visitor gets it (saved CMS sections +
+        // edit-bar edits), so every form opens on what is live.
+        const cms = await getCMS().catch(() => ({}));
+        const { html } = await serveHtml('/home', {}, req.headers && req.headers.host);
+        res.status(200).json({ live: await liveSnapshot(html, cms) });
       } catch {
         res.status(200).json({ live: {} });
       }
