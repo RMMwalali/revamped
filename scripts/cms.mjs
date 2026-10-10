@@ -12,7 +12,7 @@ import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { LOGO_ROWS } from './stillcraft-logos.mjs';
 import { PARTNER_LOGOS, PLACEHOLDER_TESTIMONIALS, allCases } from './stillcraft-cases.mjs';
-import { SPLIT_BRANDS, WALL_DROP_TITLES } from './transform.mjs';
+import { SPLIT_BRANDS, WALL_DROP_TITLES, teamItemsOf } from './transform.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
 import { safeReplace, safeReplaceVerified, boundedSplitJoin, findEdgesArrays, splitTopObjects, splitTopArrays, matchBracketRaw, verifyFlight } from './flight.mjs';
 
@@ -382,7 +382,11 @@ function applyHighlights(html, items) {
   const live = extractHighlights(html);
   for (const it of items) {
     if (!it || typeof it !== 'object') continue;
-    const cur = live.find((l) => l.slug && l.slug === it.slug) || live[Number(it.index) || 0] || null;
+    // A card is addressed by its slug. A slug the page does not carry (yet)
+    // is skipped rather than falling back to card 0: the home page swaps the
+    // template cards for StillCraft's after this pass (applyHighlightsFix),
+    // and the CMS edits are applied again on top of that (applyHighlightsCMS).
+    const cur = it.slug ? (live.find((l) => l.slug && l.slug === it.slug) || null) : (live[Number(it.index) || 0] || null);
     if (!cur) continue;
     if (it.title) html = swapText(html, cur.title, it.title);
     if (it.excerpt) {
@@ -397,6 +401,39 @@ function applyHighlights(html, items) {
     }
   }
   return html;
+}
+// City marquee: the browser re-renders it from the flight
+// producedLocations[].cities arrays, so the saved list goes there too, in the
+// same cycling order applyCities uses for the static markup.
+export function applyCitiesFlight(html, cms) {
+  const cfg = cms && cms.cities;
+  const items = cfg && Array.isArray(cfg.items) ? cfg.items.filter((x) => typeof x === 'string' && x.trim()) : [];
+  if (!items.length) return html;
+  const marker = FQ + 'cities' + FQ + ':[{' + FQ + 'city' + FQ + ':';
+  const badBefore = verifyFlight(html).bad;
+  let out = html, at = 0, k = 0;
+  while (true) {
+    const i = out.indexOf(marker, at);
+    if (i < 0) break;
+    const open = i + (FQ + 'cities' + FQ + ':').length;
+    const m = matchBracket(out, open);
+    if (!m) { at = open + 1; continue; }
+    let arr;
+    try { arr = JSON.parse(decodeFlight(out.slice(m[0], m[1]))); } catch { at = m[1]; continue; }
+    if (!Array.isArray(arr)) { at = m[1]; continue; }
+    const next = arr.map((c) => ({ ...c, city: flightStr(items[(k++) % items.length]) }));
+    const enc = encodePushJson(next);
+    out = out.slice(0, m[0]) + enc + out.slice(m[1]);
+    at = m[0] + enc.length;
+  }
+  if (out === html || verifyFlight(out).bad > badBefore) return html;
+  return out;
+}
+// Highlight cards on the final home page (after applyHighlightsFix).
+export function applyHighlightsCMS(html, cms) {
+  const items = cms && cms.highlights && cms.highlights.items;
+  if (!Array.isArray(items) || !items.length) return html;
+  try { return applyHighlights(html, items); } catch { return html; }
 }
 function applyLogos(html, cfg) {
   if (!cfg || typeof cfg !== 'object') return html;
@@ -2119,12 +2156,45 @@ export async function applyStructuredCMS(html, cms, page) {
 }
 
 // Live snapshot for the Insider dashboard prefill (pristine dist + file wall).
-export async function liveSnapshot(pristineHtml) {
+// Logos exactly as the rendered wall shows them (flight partners array).
+function extractLogoWall(html) {
+  const r = partnersArray(html);
+  if (!r) return null;
   try {
+    const arr = JSON.parse(decodeFlight(r.text).replace(/[\u0000-\u001f]/g, ' '));
+    const unref = (v) => (typeof v === 'string' && v.startsWith('$$') ? v.slice(1) : v);
+    return arr.map((n) => ({ name: unref(n && n.title) || '', src: unref(n && n.featuredImage && n.featuredImage.node && n.featuredImage.node.sourceUrl) || '' }));
+  } catch { return null; }
+}
+// Photo + logo of each slide as rendered (edit-bar photo swaps included).
+function renderedTestimonialImages(html) {
+  try {
+    const r = testimonialArrays(html)[0];
+    if (!r) return [];
+    const arr = JSON.parse(decodeFlight(r.text).replace(/[\u0000-\u001f]/g, ' '));
+    const unref = (v) => (typeof v === 'string' && v.startsWith('$$') ? v.slice(1) : v);
+    return arr.map((e) => {
+      const n = r.wrapped ? e && e.node : e;
+      const o = {};
+      const photo = unref(n && n.featuredImage && n.featuredImage.node && n.featuredImage.node.sourceUrl);
+      const logo = unref(n && n.testimonialTemplate && n.testimonialTemplate.client && n.testimonialTemplate.client.organization && n.testimonialTemplate.client.organization.logo && n.testimonialTemplate.client.organization.logo.node && n.testimonialTemplate.client.organization.logo.node.sourceUrl);
+      if (typeof photo === 'string' && photo) o.photo = photo;
+      if (typeof logo === 'string' && logo) o.logo = logo;
+      return o;
+    });
+  } catch { return []; }
+}
+// `pristineHtml` should be the page as visitors get it (api/cms.js renders
+// /home through api/page.js), so every form opens on what is live.
+export async function liveSnapshot(pristineHtml, cms) {
+  try {
+    const wall = extractLogoWall(pristineHtml);
+    const renderedTm = renderedTestimonialImages(pristineHtml);
+    const savedLabel = cms && cms.logos && cms.logos.label;
     return {
       hero: extractHero(pristineHtml),
       highlights: extractHighlights(pristineHtml),
-      logos: { label: 'We are proud to have worked with', items: liveLogos() },
+      logos: { label: savedLabel || 'We are proud to have worked with', items: wall && wall.length ? wall : liveLogos() },
       stats: { label: 'Where passion meets precision ', items: extractStats(pristineHtml) },
       // What the site actually serves, not the donor's. The image fields are
       // the partner logo rather than the live value, because the live value is
@@ -2134,15 +2204,16 @@ export async function liveSnapshot(pristineHtml) {
       // leaves a real upload to replace it.
       // Exactly the defaults every testimonials slider serves (one shared
       // list, see testimonialList), so the form and the site agree.
-      testimonials: testimonialList({}).map((t) => ({
+      testimonials: testimonialList(cms || {}).map((t, i) => ({ ...t, ...(renderedTm[i] || {}) })).map((t) => ({
         name: t.name, quote: t.quote, role: t.role, org: t.org,
         location: t.location, industry: t.industry, participants: t.participants,
-        eventType: t.eventType, link: t.linkUrl, logo: t.logo, photo: '',
+        eventType: t.eventType, link: t.linkUrl, logo: t.logo, photo: t.photo || '',
       })),
-      cities: { items: extractCities(pristineHtml).slice(0, 45), addresses: extractAddresses(pristineHtml) },
+      cities: { items: extractCities(pristineHtml).slice(0, 200), addresses: extractAddresses(pristineHtml) },
       insights: extractInsights(pristineHtml),
       insightManifest: await getInsightManifest().catch(() => []),
-      team: extractTeam(pristineHtml),
+      // The About page roster as served (saved team, else the default team).
+      team: teamItemsOf(cms || {}).map((m) => ({ name: m.name, role: m.role, bio: m.bio, photo: m.img || '' })),
     };
   } catch { return {}; }
 }
@@ -2288,6 +2359,52 @@ export function applyTestimonialFlight(html, cms) {
   out = rebuildTestimonialRefs(out, list.length);
   // Never ship a page whose flight stream got worse: keep the old one.
   if (verifyFlight(out).bad > badBefore) { console.error('[testimonials] flight check failed; left unchanged'); return html; }
+  return out;
+}
+// ---------------------------------------------------------------------------
+// Client logo wall: any number of logos
+// ---------------------------------------------------------------------------
+// The wall ("We are proud to have worked with") is rendered in the browser
+// from the page's flight `partners` array, so adding or deleting a client
+// means rebuilding that array from the CMS Logos list (applyLogos only
+// renames/re-images the existing slots). Empty list or no saved list: the
+// page keeps what it ships with.
+export function logoWallList(cms) {
+  const items = cms && cms.logos && Array.isArray(cms.logos.items) ? cms.logos.items : [];
+  return items
+    .filter((it) => it && typeof it === 'object' && !it.deleted && (String(it.name || '').trim() || String(it.src || '').trim()))
+    .map((it) => ({ name: String(it.name || '').trim(), src: String(it.src || '').trim() }));
+}
+function partnersArray(html) {
+  const marker = FQ + 'partners' + FQ + ':[';
+  const i = html.indexOf(marker);
+  if (i < 0) return null;
+  const m = matchBracket(html, i + marker.length - 1);
+  if (!m) return null;
+  return { start: m[0], end: m[1], text: html.slice(m[0], m[1]) };
+}
+export function applyLogoWallFlight(html, cms) {
+  const list = logoWallList(cms);
+  if (!list.length) return html;
+  const r = partnersArray(html);
+  if (!r) return html;
+  let parsed;
+  try { parsed = JSON.parse(decodeFlight(r.text).replace(/[\u0000-\u001f]/g, ' ')); } catch { return html; }
+  if (!Array.isArray(parsed) || !parsed.length) return html;
+  const byName = new Map(parsed.map((n) => [String(n && n.title || '').toLowerCase(), n]));
+  const nodes = list.map((it) => {
+    const same = byName.get(it.name.toLowerCase());
+    const n = JSON.parse(JSON.stringify(same || parsed[0]));
+    n.title = flightStr(it.name);
+    const fi = n.featuredImage = { ...(n.featuredImage || {}) };
+    const node = fi.node = { ...(fi.node || {}) };
+    // A logo saved without a file keeps its current one (same client only).
+    node.sourceUrl = flightStr(it.src || (same && node.sourceUrl) || '');
+    return n;
+  });
+  const badBefore = verifyFlight(html).bad;
+  const out = html.slice(0, r.start) + encodePushJson(nodes) + html.slice(r.end);
+  if (verifyFlight(out).bad > badBefore) { console.error('[logos] flight check failed; left unchanged'); return html; }
   return out;
 }
 function rebuildTestimonialRefs(html, n) {

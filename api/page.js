@@ -10,7 +10,7 @@ import {
   applyCategoryDedupe, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
-import { getCMS, bustCMS, applyStructuredCMS, applyTestimonialFlight } from '../scripts/cms.mjs';
+import { getCMS, bustCMS, applyStructuredCMS, applyTestimonialFlight, applyLogoWallFlight, applyHighlightsCMS, applyCitiesFlight } from '../scripts/cms.mjs';
 import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
 import { withFreshReads } from '../scripts/storage.mjs';
 import { internalPath, publicRedirect, publicPath, applyRouteNames } from '../scripts/routes.mjs';
@@ -52,7 +52,7 @@ function candidates(urlPath) {
   return out.map((c) => path.normalize(path.join(ROOT, c))).filter((p) => p.startsWith(ROOT));
 }
 
-async function serveHtml(pathname, cookies, host) {
+export async function serveHtml(pathname, cookies, host) {
   // Freshness vs speed: admins (valid session) bypass caches so edits preview
   // instantly; public visitors share the warm module caches (brand 60s,
   // CMS/overrides 15s TTLs). Busting on every request forced ~5 sequential
@@ -168,6 +168,10 @@ async function serveHtml(pathname, cookies, host) {
     // Every testimonials slider (home + service pages) renders from ONE list,
     // the CMS Testimonials tab. Rebuilt last so no earlier pass can rewrite it.
     if (key !== '/insider') html = applyTestimonialFlight(html, __cms || {});
+    if (key !== '/insider') html = applyLogoWallFlight(html, __cms || {});
+    // Highlight card edits, on top of the StillCraft cards the home page gets.
+    if (__cms && (key === '/' || key === '/home')) html = applyHighlightsCMS(html, __cms);
+    if (__cms && key !== '/insider') html = applyCitiesFlight(html, __cms);
     // Saved photo swaps have the last word: passes above (testimonials, logo
     // wall...) rebuild data with default images after the first asset pass.
     html = applyAssetOverrides(html, __overrides);
