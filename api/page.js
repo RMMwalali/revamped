@@ -2,7 +2,7 @@
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
-import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, bustOverrides } from '../scripts/overrides.mjs';
+import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, bustOverrides, assetGuardScript } from '../scripts/overrides.mjs';
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyProjectsFilterFix, applyCaseFactsFix, applyReadabilityFix, applySplash,
@@ -13,7 +13,8 @@ import {
 import { getCMS, bustCMS, applyStructuredCMS, applyTestimonialFlight } from '../scripts/cms.mjs';
 import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
 import { withFreshReads } from '../scripts/storage.mjs';
-import { internalPath, publicRedirect, applyRouteNames } from '../scripts/routes.mjs';
+import { internalPath, publicRedirect, publicPath, applyRouteNames } from '../scripts/routes.mjs';
+import { applyProjectTypes } from '../scripts/project-types.mjs';
 import { statSync } from 'node:fs';
 import nodePath from 'node:path';
 // Cache-bust the edit bar: it is served from dist with a normal cache header,
@@ -87,9 +88,11 @@ async function serveHtml(pathname, cookies, host) {
       getOverrides(key),
       getCMS().catch(() => null),
       key === '/insider' ? Promise.resolve([]) : getOverrides('*'),
+      publicPath(key) !== key ? getOverrides(publicPath(key)) : Promise.resolve([]),
     ]);
-    const [__brand, __pageOverrides, __cms, __siteOverrides] = await (isAdmin ? withFreshReads(loadAll) : loadAll());
-    const __overrides = [...(__siteOverrides || []), ...(__pageOverrides || [])];
+    const [__brand, __pageOverrides, __cms, __siteOverrides, __publicOverrides] = await (isAdmin ? withFreshReads(loadAll) : loadAll());
+    // Service pages: edits saved under the menu-named URL count too.
+    const __overrides = [...(__siteOverrides || []), ...(__publicOverrides || []), ...(__pageOverrides || [])];
     html = applyBrand(html, __brand);
     if (!process.env.SC_NONAV) html = applyNav(html, key);
     const noFP = NO_FP.has(key);
@@ -165,7 +168,14 @@ async function serveHtml(pathname, cookies, host) {
     // Every testimonials slider (home + service pages) renders from ONE list,
     // the CMS Testimonials tab. Rebuilt last so no earlier pass can rewrite it.
     if (key !== '/insider') html = applyTestimonialFlight(html, __cms || {});
+    // Saved photo swaps have the last word: passes above (testimonials, logo
+    // wall...) rebuild data with default images after the first asset pass.
+    html = applyAssetOverrides(html, __overrides);
+    const __guard = assetGuardScript(__overrides, html);
+    if (__guard) html = html.replace(/<\/body>/i, __guard + '$&');
     html = applyCategoryDedupe(html);
+    // Quote form "Project type" options = the site's services (menu items).
+    html = applyProjectTypes(html);
     // Service pages are linked by their menu names (scripts/routes.mjs).
     html = applyRouteNames(html);
     return { key, html, isAdmin };
