@@ -36,8 +36,33 @@
   }
 
   // ---------- candidates (text, images, video — excluding our own UI) ----------
+  // Slider / carousel controls (prev-next arrows, dots, the video mute
+  // button, the arrow buttons on service cards) must keep working while the
+  // bar is on, so editors can move through slides to reach the photo they
+  // want. They are icon-only buttons or carry a control-ish class.
+  var CONTROL_CLASS = /Actions_icon|_arrow|Arrow|[_-]prev|[_-]next|Prev|Next|[Pp]agination|[_-]dots?\b|Bullet|Navigation|swiper-button|slick-|embla__|VideoControl|Service_icon/;
+  function controlOf(el) {
+    var c = el && el.closest ? el.closest('button,[role="button"],a') : null;
+    if (!c || c.closest('#sc-bar,#sc-brand-panel,#sc-photo-menu')) return null;
+    if (CONTROL_CLASS.test(String(c.className && c.className.baseVal != null ? c.className.baseVal : c.className || ''))) return c;
+    var txt = (c.innerText || c.textContent || '').replace(/\s+/g, '');
+    if (!txt && c.querySelector('img,svg')) {
+      var r = c.getBoundingClientRect();
+      if (r.width <= 96 && r.height <= 96) return c;
+    }
+    return null;
+  }
+  // Small images are icons (arrows, social marks), never content photos.
+  function isIcon(el) {
+    if (el.tagName !== 'IMG') return false;
+    var r = el.getBoundingClientRect();
+    var src = el.getAttribute('src') || '';
+    return (r.width > 0 && r.width <= 48 && r.height <= 48) || /\/icons\/|ic_|icon-arrow/.test(src);
+  }
   function isCandidate(el) {
     if (!el || el.closest('#sc-bar,#sc-brand-panel')) return null;
+    if (controlOf(el)) return null;
+    if (isIcon(el)) return null;
     if (el.tagName === 'IMG' && el.getAttribute('src')) return 'image';
     if (el.tagName === 'VIDEO' && (el.getAttribute('src') || $(el, 'source[src]'))) return 'video';
     if (el.tagName === 'SOURCE' && el.parentElement && el.parentElement.tagName === 'VIDEO') return 'video';
@@ -298,6 +323,41 @@
   }
 
   // ---------- edit bar UI (floating, bottom-left; never shifts page layout) ----------
+  // The bar can sit on top of page controls (the testimonial arrows are at
+  // the bottom-left), so it can be dragged by its grip anywhere on screen.
+  // The position is remembered for this browser.
+  function placeBar(bar, x, y) {
+    var w = bar.offsetWidth, h = bar.offsetHeight;
+    x = Math.max(4, Math.min(innerWidth - w - 4, x));
+    y = Math.max(4, Math.min(innerHeight - h - 4, y));
+    bar.style.left = x + 'px'; bar.style.top = y + 'px';
+    bar.style.bottom = 'auto'; bar.style.transform = 'none';
+    return { x: x, y: y };
+  }
+  function makeBarDraggable(bar) {
+    var grip = bar.querySelector('.grip');
+    try {
+      var saved = JSON.parse(localStorage.getItem('sc_bar_pos') || 'null');
+      if (saved && typeof saved.x === 'number') placeBar(bar, saved.x, saved.y);
+    } catch (x) {}
+    if (!grip) return;
+    grip.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      var r = bar.getBoundingClientRect(), ox = e.clientX - r.left, oy = e.clientY - r.top, last = null;
+      try { grip.setPointerCapture(e.pointerId); } catch (x) {}
+      function move(ev) { last = placeBar(bar, ev.clientX - ox, ev.clientY - oy); }
+      function up() {
+        grip.removeEventListener('pointermove', move); grip.removeEventListener('pointerup', up); grip.removeEventListener('pointercancel', up);
+        if (last) { try { localStorage.setItem('sc_bar_pos', JSON.stringify(last)); } catch (x) {} }
+      }
+      grip.addEventListener('pointermove', move); grip.addEventListener('pointerup', up); grip.addEventListener('pointercancel', up);
+    });
+    addEventListener('resize', function () {
+      var r = bar.getBoundingClientRect();
+      if (bar.style.top) placeBar(bar, r.left, r.top);
+    });
+  }
+
   function buildBar() {
     try {
     if (document.querySelector('#sc-bar')) return;
@@ -310,12 +370,15 @@
     bar.id = 'sc-bar';
     bar.innerHTML =
       '<style>' +
-      '#sc-bar{position:fixed;left:12px;bottom:12px;z-index:2147483646;' +
+      '#sc-bar{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:2147483646;' +
       'background:rgba(20,20,20,.96);color:#f3efeb;display:flex;flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap;' +
       'padding:10px 14px;font:400 13px Arial,sans-serif;border:1px solid #2c2c2a;border-radius:999px;' +
       'box-shadow:0 8px 30px rgba(0,0,0,.5);max-width:calc(100vw - 24px);}' +
       '#sc-bar .top{display:flex;align-items:center;gap:8px;flex:none;}' +
       '#sc-bar .dot{width:9px;height:9px;border-radius:50%;background:' + ACCENT + ';flex:none;}' +
+      '#sc-bar .grip{cursor:grab;display:flex;align-items:center;gap:8px;user-select:none;touch-action:none;}' +
+      '#sc-bar .grip:active{cursor:grabbing;}' +
+      '#sc-bar .grip i{font-style:normal;color:#6f6c66;letter-spacing:-2px;font-size:14px;}' +
       '#sc-bar b{font-weight:700;letter-spacing:1px;white-space:nowrap;}' +
       '#sc-bar .pg{color:#9a978f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;}' +
       '#sc-bar .hint{display:none;}' +
@@ -342,7 +405,7 @@
       '#sc-brand-panel .row button{flex:1;background:' + ACCENT + ';color:#111;border:0;border-radius:999px;' +
       'padding:9px;font:700 12px Arial,sans-serif;cursor:pointer;}' +
       '</style>' +
-      '<span class="dot"></span><b>STILLCRAFT</b><span class="pg"></span>' +
+      '<span class="grip" title="Drag to move this bar out of the way"><i>⋮⋮</i><span class="dot"></span><b>STILLCRAFT</b></span><span class="pg"></span>' +
       '<span class="hint">Click text to edit · click images or section backgrounds to swap</span>' +
       '<span class="row"><button id="sc-brand">Brand</button>' +
       '<button id="sc-cms">CMS</button>' +
@@ -352,6 +415,7 @@
       '<button id="sc-logout">Logout</button></span>';
     document.documentElement.appendChild(bar);
     bar.querySelector('.pg').textContent = PAGE;
+    makeBarDraggable(bar);
     document.documentElement.id = 'sc-bar-on';
     markCandidates();
     markBgCandidates();
@@ -372,6 +436,7 @@
     var cmsBtn = $('#sc-cms');
     if (cmsBtn) cmsBtn.addEventListener('click', function () { window.open('/insider', '_blank'); });
 
+    document.addEventListener('pointerdown', onPointerDown, true);
     document.addEventListener('click', onClick, true);
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && active) active.blur();
@@ -454,6 +519,7 @@
     for (var i = 0; i < list.length; i++) {
       var el = list[i];
       if (el.closest('#sc-bar,#sc-brand-panel')) continue;
+      if (isIcon(el) || controlOf(el)) continue;
       var r = el.getBoundingClientRect();
       if (r.width < 8 || r.height < 8) continue;
       if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) continue;
@@ -583,7 +649,21 @@
     document.documentElement.appendChild(m);
   }
 
+  // A drag on a carousel ends in a click on whatever is under the pointer;
+  // that is a swipe, not an edit.
+  var downAt = null;
+  function onPointerDown(e) { downAt = { x: e.clientX, y: e.clientY }; }
+  function wasDrag(e) {
+    if (!downAt) return false;
+    var dx = e.clientX - downAt.x, dy = e.clientY - downAt.y;
+    return dx * dx + dy * dy > 36; // moved more than 6px
+  }
   function onClick(e) {
+    // Slider controls and swipes belong to the page: let them through
+    // untouched (no preventDefault), so slides can be moved while editing.
+    if (e.isTrusted && !(e.target.closest && e.target.closest('#sc-bar,#sc-brand-panel,#sc-photo-menu'))) {
+      if (controlOf(e.target) || wasDrag(e)) { closePhotoMenu(); return; }
+    }
     // input.click() on the hidden file picker dispatches a synthetic click
     // (untrusted, at 0,0). Handling it here found the header "MENU" button
     // under 0,0, started a text edit and called preventDefault() - which
