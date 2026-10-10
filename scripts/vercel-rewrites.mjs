@@ -33,7 +33,7 @@ const REDIRECTS = [
   ['/insight/:path*', '/projects'],
 ];
 
-const NO_STORE = ['/api/storage', '/api/login', '/api/logout', '/api/me', '/api/brand', '/api/cms', '/api/content', '/api/leads', '/api/lead', '/api/upload'];
+const NO_STORE = ['/api/email', '/api/storage', '/api/login', '/api/logout', '/api/me', '/api/brand', '/api/cms', '/api/content', '/api/leads', '/api/lead', '/api/upload'];
 const IMMUTABLE = ['/assets/(.*)', '/_next/static/(.*)'];
 
 // Convert the small subset of path-to-regexp syntax used above to a regex.
@@ -91,6 +91,9 @@ for (const [oldPath, newPath] of SERVICE_ROUTES) {
   routes.push({ src: `^${esc(oldPath)}(?:/|/index\\.html|\\.html)?$`, status: 301, headers: { Location: newPath } });
 }
 routes.push({ src: '^/_next/image$', dest: '/api/img' });
+// Enquiry-email admin check, served by the storage function (Vercel's free
+// plan allows 12 functions per deployment).
+routes.push({ src: '^/api/email/?$', dest: '/api/storage?kind=email' });
 for (const p of sorted) {
   // "/about", "/about/", "/about/index.html" and "/about.html" all go through
   // /api/page, so the raw donor file is never reachable by URL.

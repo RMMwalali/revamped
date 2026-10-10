@@ -27,10 +27,11 @@ const MIME = {
 // Handler modules are loaded once, on first use.
 const handlers = new Map();
 async function handlerFor(name) {
+  if (name === 'email') name = 'storage'; // served by api/storage.js (see vercel.json)
   if (!handlers.has(name)) handlers.set(name, import('../api/' + name + '.js'));
   return handlers.get(name);
 }
-const API_NAMES = new Set(['login', 'logout', 'me', 'content', 'cms', 'brand', 'upload', 'lead', 'leads', 'img', 'page', 'storage']);
+const API_NAMES = new Set(['login', 'logout', 'me', 'content', 'cms', 'brand', 'upload', 'lead', 'leads', 'img', 'page', 'storage', 'email']);
 
 function safeFile(urlPath) {
   let p = urlPath.split('?')[0];

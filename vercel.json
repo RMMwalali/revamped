@@ -2,6 +2,13 @@
   "outputDirectory": "dist",
   "routes": [
     {
+      "src": "^/api/email/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
+    },
+    {
       "src": "^/api/storage/?$",
       "headers": {
         "Cache-Control": "no-store"
@@ -165,6 +172,10 @@
     {
       "src": "^/_next/image$",
       "dest": "/api/img"
+    },
+    {
+      "src": "^/api/email/?$",
+      "dest": "/api/storage?kind=email"
     },
     {
       "src": "^/project/world-cup-watch-party-at-galleria-mall(?:/|/index\\.html|\\.html)?$",
