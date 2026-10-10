@@ -27,6 +27,7 @@ const MIME = {
 // Handler modules are loaded once, on first use.
 const handlers = new Map();
 async function handlerFor(name) {
+  if (name === 'email') name = 'storage'; // served by api/storage.js (see vercel.json)
   if (!handlers.has(name)) handlers.set(name, import('../api/' + name + '.js'));
   return handlers.get(name);
 }

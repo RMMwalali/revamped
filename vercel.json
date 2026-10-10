@@ -174,6 +174,10 @@
       "dest": "/api/img"
     },
     {
+      "src": "^/api/email/?$",
+      "dest": "/api/storage?kind=email"
+    },
+    {
       "src": "^/project/world-cup-watch-party-at-galleria-mall(?:/|/index\\.html|\\.html)?$",
       "dest": "/api/page?path=/project/world-cup-watch-party-at-galleria-mall"
     },
@@ -390,9 +394,6 @@
       "includeFiles": "scripts/*.mjs"
     },
     "api/storage.js": {
-      "includeFiles": "scripts/*.mjs"
-    },
-    "api/email.js": {
       "includeFiles": "scripts/*.mjs"
     }
   }

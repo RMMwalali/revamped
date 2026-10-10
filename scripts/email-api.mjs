@@ -1,9 +1,11 @@
+// Served at /api/email by the api/storage.js function (Vercel's free plan
+// allows 12 functions per deployment, so this does not get its own file).
 // GET /api/email (admin): is enquiry email set up, and where does it go?
 // POST /api/email (admin): send a test enquiry email to the company inbox.
-import { parseCookies, verifySession } from '../scripts/auth.mjs';
-import { emailSettings, sendMail, buildLeadEmail } from '../scripts/notify.mjs';
+import { parseCookies, verifySession } from './auth.mjs';
+import { emailSettings, sendMail, buildLeadEmail } from './notify.mjs';
 
-export default async function handler(req, res) {
+export async function emailHandler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'GET' && req.method !== 'POST') { res.status(405).json({ error: 'method not allowed' }); return; }
   const s = await verifySession(parseCookies(req).sc_admin).catch(() => null);

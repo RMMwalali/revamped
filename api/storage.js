@@ -10,11 +10,15 @@ import { importBlobData, moveBlobFiles } from '../scripts/migrate-blob.mjs';
 import { bustCMS } from '../scripts/cms.mjs';
 import { bustOverrides } from '../scripts/overrides.mjs';
 import { bustBrand } from '../scripts/transform.mjs';
+import { emailHandler } from '../scripts/email-api.mjs';
 
 const STORES = { 'cms.json': 'Homepage sections', 'overrides.json': 'Page text & media', 'brand.json': 'Brand settings' };
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
+  // /api/email is routed here (vercel.json) to stay within the 12-function limit.
+  const url = String(req.url || '');
+  if (url.startsWith('/api/email') || /[?&]kind=email\b/.test(url)) return emailHandler(req, res);
   if (req.method !== 'GET' && req.method !== 'POST') { res.status(405).json({ error: 'method not allowed' }); return; }
   const s = await verifySession(parseCookies(req).sc_admin).catch(() => null);
   if (!s) { res.status(401).json({ error: 'unauthorized' }); return; }
