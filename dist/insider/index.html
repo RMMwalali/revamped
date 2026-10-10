@@ -98,6 +98,7 @@
       <button id="logout">Logout</button>
     </header>
     <div id="storeStatus" class="store">Checking where changes are saved…</div>
+    <div id="mailStatus" class="store">Checking enquiry emails…</div>
     <nav class="tabs" id="tabs">
       <button data-tab="hero" class="on">Hero video</button>
       <button data-tab="highlights">Highlight projects</button>
@@ -358,8 +359,37 @@
       .catch(function (err) { out.textContent = 'Failed: ' + ((err && err.message) || 'error'); })
       .then(function () { b.disabled = false; });
   });
+  function loadMailStatus() {
+    api('/api/email').then(function (d) {
+      var el = $('#mailStatus'); el.innerHTML = '';
+      var line = document.createElement('div');
+      var via = { gmail: 'Gmail', smtp: 'SMTP', resend: 'Resend' }[d.provider] || '';
+      line.textContent = d.ready
+        ? 'Website enquiries are emailed to ' + d.to.join(', ') + ' (via ' + via + (d.from ? ', from ' + d.from : '') + '). Every enquiry is also kept in the enquiries list.'
+        : 'Enquiry emails are NOT set up: ' + (d.problem || '') + ' Enquiries are still saved; set up email to get them in ' + (d.to.join(', ') || 'your inbox') + '.';
+      el.className = 'store ' + (d.ready ? 'ok' : 'bad');
+      el.appendChild(line);
+      if (!d.ready) {
+        var help = document.createElement('div'); help.style.marginTop = '6px';
+        help.textContent = 'Free option: in Vercel → Settings → Environment Variables add SMTP_USER (a Gmail / Google Workspace address) and SMTP_PASS (its 16-character App Password), then redeploy. Optional: LEAD_EMAIL_TO to send somewhere other than ' + (d.to[0] || 'info@') + '.';
+        el.appendChild(help);
+      } else {
+        var row = document.createElement('div'); row.style.marginTop = '8px';
+        row.innerHTML = '<button type="button" id="mailTest">Send test email</button> <span id="mailTestOut"></span>';
+        el.appendChild(row);
+        $('#mailTest').addEventListener('click', function () {
+          var b = this; b.disabled = true; $('#mailTestOut').textContent = 'Sending…';
+          api('/api/email', { method: 'POST' })
+            .then(function () { $('#mailTestOut').textContent = 'Sent — check ' + d.to.join(', ') + ' (and its spam folder).'; })
+            .catch(function (e) { $('#mailTestOut').textContent = 'Not sent: ' + ((e && e.message) || 'error'); })
+            .then(function () { b.disabled = false; });
+        });
+      }
+    }).catch(function () { var el = $('#mailStatus'); el.className = 'store bad'; el.textContent = 'Could not check enquiry email settings.'; });
+  }
   function loadAll() {
     loadStorageStatus();
+    loadMailStatus();
     Promise.all([
       // If saved content cannot be loaded, stop: editing a form filled from
       // the defaults and saving it would overwrite what is really stored.

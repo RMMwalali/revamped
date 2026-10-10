@@ -1,6 +1,7 @@
 // POST /api/lead — quote, contact and prize form submissions.
 // Both legs now post to /api/lead (see dist/_next/static/chunks).
 import { updateStore, SKIP } from '../scripts/storage.mjs';
+import { sendLeadEmail } from '../scripts/notify.mjs';
 
 const MAX_PER_IP = 5;
 const WINDOW_MS = 10 * 60 * 1000;
@@ -79,7 +80,7 @@ export async function saveLead(body, ip) {
       created_at: now,
     };
     leads.push(lead);
-    result = { ok: true };
+    result = { ok: true, lead };
     return leads;
   });
   return result;
@@ -128,6 +129,28 @@ function normalizeBody(body) {
   return {};
 }
 
+// Email a newly saved enquiry to the company inbox, then note on the record
+// whether that worked (so a mail problem is visible, and never loses the
+// enquiry). Awaited: a serverless function can be frozen once it answers.
+async function notify(r, req) {
+  if (!r || !r.ok || !r.lead) return; // rejected, duplicate leg or honeypot
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  const site = host ? (String(req.headers['x-forwarded-proto'] || 'https').split(',')[0] + '://' + host) : '';
+  let sent;
+  try { sent = await sendLeadEmail(r.lead, site); } catch (e) { sent = { ok: false, error: String((e && e.message) || e) }; }
+  if (!sent.ok) console.error('[lead] email not sent:', sent.error);
+  try {
+    await updateStore('leads.json', (stored) => {
+      const leads = Array.isArray(stored) ? stored : [];
+      const row = leads.find((l) => l && l.id === r.lead.id && l.created_at === r.lead.created_at);
+      if (!row) return SKIP;
+      row.emailed = !!sent.ok;
+      row.email_error = sent.ok ? null : String(sent.error || '').slice(0, 300);
+      return leads;
+    });
+  } catch (e) { console.error('[lead] could not record email status:', (e && e.message) || e); }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') { res.status(405).json({ error: 'method not allowed' }); return; }
 
@@ -150,6 +173,7 @@ export default async function handler(req, res) {
         if (fields.email && !body.Email) body.Email = fields.email;
         const r = await saveLead(body, clientIp(req));
         if (!r.ok) { res.status(400).json({ error: r.error }); return; }
+        await notify(r, req);
       }
       res.status(200).json({ ok: true });
     } catch {
@@ -162,6 +186,7 @@ export default async function handler(req, res) {
   try {
     const r = await saveLead(body, clientIp(req));
     if (!r.ok) { res.status(400).json({ error: r.error }); return; }
+    await notify(r, req);
     res.status(200).json({ ok: true });
   } catch (e) {
     console.error('lead insert failed:', String((e && e.code) || 'unknown'));

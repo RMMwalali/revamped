@@ -2,6 +2,13 @@
   "outputDirectory": "dist",
   "routes": [
     {
+      "src": "^/api/email/?$",
+      "headers": {
+        "Cache-Control": "no-store"
+      },
+      "continue": true
+    },
+    {
       "src": "^/api/storage/?$",
       "headers": {
         "Cache-Control": "no-store"
@@ -383,6 +390,9 @@
       "includeFiles": "scripts/*.mjs"
     },
     "api/storage.js": {
+      "includeFiles": "scripts/*.mjs"
+    },
+    "api/email.js": {
       "includeFiles": "scripts/*.mjs"
     }
   }

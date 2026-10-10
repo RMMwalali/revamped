@@ -33,7 +33,7 @@ const REDIRECTS = [
   ['/insight/:path*', '/projects'],
 ];
 
-const NO_STORE = ['/api/storage', '/api/login', '/api/logout', '/api/me', '/api/brand', '/api/cms', '/api/content', '/api/leads', '/api/lead', '/api/upload'];
+const NO_STORE = ['/api/email', '/api/storage', '/api/login', '/api/logout', '/api/me', '/api/brand', '/api/cms', '/api/content', '/api/leads', '/api/lead', '/api/upload'];
 const IMMUTABLE = ['/assets/(.*)', '/_next/static/(.*)'];
 
 // Convert the small subset of path-to-regexp syntax used above to a regex.
