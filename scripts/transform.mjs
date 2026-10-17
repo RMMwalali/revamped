@@ -153,7 +153,7 @@ const CHUNK_ROTATIONS = [
   // Main stylesheet after the brand palette (near black #0d0d0d, rust
   // #97562E): /_next/static is cached as immutable for a year, so returning
   // visitors would keep the old colours under the old name.
-  ['8fb42a0177568e49.css', '0eb7634ee288a696.css'],
+  ['8fb42a0177568e49.css', '4534ecebae072f6d.css'],
   // Page chunks re-themed in the same change (text colour, dividers).
   ['2642-bd174e4e453c81d1.js', '2642-5b6189bddd4ec67a.js'],
   ['3311-a9ab46bdf3faed82.js', '3311-816b3df64681767c.js'],
@@ -990,7 +990,11 @@ export function applyFooterSingleOffice(html) {
     const BS = String.fromCharCode(92);
     const FQ = BS + '"';
     const line = FQ + 'className' + FQ + ':' + FQ + 'Paragraph_paragraph__SId_Y' + FQ + ',' + FQ + 'children' + FQ + ':' + FQ;
-    const cand = safeReplacePushes(html, line + 'Piedmont, 671 Ngong Road' + FQ, line + FQ);
+    let cand = safeReplacePushes(html, line + 'Piedmont, 671 Ngong Road' + FQ, line + FQ);
+    // Legal pages skip the flight copy patches, so their footer card still
+    // names the template company ("... International Events"): use the
+    // company line every other page shows.
+    cand = safeReplacePushes(cand, line + 'StillCraft Events International Events' + FQ, line + 'StillCraft Events Co.' + FQ);
     if (cand !== html && verifyFlight(cand).bad <= verifyFlight(html).bad) html = cand;
   } catch { /* static fix stands */ }
   return html;
@@ -2992,9 +2996,19 @@ export function applyStyleBlocks(html, brand) {
     }
     chunks[c] = out;
   }
+  // Colours the CMS data carries as values (card backgrounds, dots) never
+  // pass through a stylesheet: the services card on the home page and the
+  // service heroes kept the template's cyan. Same palette map, same length
+  // (byte counts in flight rows unchanged). #1e1e1e stays: the footer fix
+  // looks the footer word's fills up by that value.
+  let joined = chunks.join('');
+  for (const [from, to] of THEME_MAP) {
+    if (from === '#1e1e1e') continue;
+    joined = joined.replace(new RegExp('"' + from.replace('#', '\\#') + '(?=\\\\?")', 'gi'), '"' + to);
+  }
   // Browser chrome colour (static meta + its flight copy): brand near black.
   // Same length, so flight row byte counts are unchanged.
-  return safeReplacePairs(chunks.join(''), [
+  return safeReplacePairs(joined, [
     ['theme-color" content="#1e1e1e"', 'theme-color" content="' + NAVY + '"'],
     ['theme-color' + '\\",\\"content\\":\\"#1e1e1e', 'theme-color' + '\\",\\"content\\":\\"' + NAVY],
   ]);

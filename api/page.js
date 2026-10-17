@@ -15,6 +15,7 @@ import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
 import { withFreshReads } from '../scripts/storage.mjs';
 import { internalPath, publicRedirect, publicPath, applyRouteNames } from '../scripts/routes.mjs';
 import { applyProjectTypes } from '../scripts/project-types.mjs';
+import { applyGuideCopy, applyLegalCopy } from '../scripts/stillcraft-guide.mjs';
 import { statSync } from 'node:fs';
 import nodePath from 'node:path';
 // Cache-bust the edit bar: it is served from dist with a normal cache header,
@@ -160,6 +161,9 @@ export async function serveHtml(pathname, cookies, host) {
     // Insider hero headline/subtext and cities copy: flight + static, after
     // every built-in copy fix so the saved value is what visitors see.
     html = applyHomeCopyCMS(html, key, __cms);
+    // Client content guide on the service pages (flight data + first paint).
+    html = applyGuideCopy(html, key);
+    html = applyLegalCopy(html, key);
     // Last pass before the admin bar: the donor's company name has no place in
     // this site's copy. Header, footer and nav are excluded, so the menus and
     // the copyright line keep their exact wording.
