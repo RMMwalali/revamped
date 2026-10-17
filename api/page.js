@@ -4,13 +4,13 @@ import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
 import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, bustOverrides, assetGuardScript } from '../scripts/overrides.mjs';
 import {
-  getBrand, bustBrand, applyBrand, applyNav, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
+  getBrand, bustBrand, applyBrand, applyNav, applyBrandTitle, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyProjectsFilterFix, applyCaseFactsFix, applyReadabilityFix, applySplash,
   applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyHomeBand, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRelatedInfoFix,   applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
   applyCategoryDedupe, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
-import { getCMS, bustCMS, applyStructuredCMS, applyTestimonialFlight, applyLogoWallFlight, applyHighlightsCMS, applyCitiesFlight } from '../scripts/cms.mjs';
+import { getCMS, bustCMS, applyStructuredCMS, applyTestimonialFlight, applyLogoWallFlight, applyHighlightsCMS, applyCitiesFlight, applyHomeCopyCMS } from '../scripts/cms.mjs';
 import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
 import { withFreshReads } from '../scripts/storage.mjs';
 import { internalPath, publicRedirect, publicPath, applyRouteNames } from '../scripts/routes.mjs';
@@ -95,6 +95,8 @@ export async function serveHtml(pathname, cookies, host) {
     const __overrides = [...(__siteOverrides || []), ...(__publicOverrides || []), ...(__pageOverrides || [])];
     html = applyBrand(html, __brand);
     if (!process.env.SC_NONAV) html = applyNav(html, key);
+    // Page titles come from the Insider Brand panel (site name + tagline).
+    html = applyBrandTitle(html, key, __brand);
     const noFP = NO_FP.has(key);
     // Single overrides pass (DB items then file items, same order as the old
     // two-pass sequence) so the document is scanned once, not twice.
@@ -155,6 +157,9 @@ export async function serveHtml(pathname, cookies, host) {
     // Band copy is applied last so no earlier pass can re-own it, and before
     // the donor sweep so its brand rename runs over the final text.
     html = applyHomeBand(html, key, __cms);
+    // Insider hero headline/subtext and cities copy: flight + static, after
+    // every built-in copy fix so the saved value is what visitors see.
+    html = applyHomeCopyCMS(html, key, __cms);
     // Last pass before the admin bar: the donor's company name has no place in
     // this site's copy. Header, footer and nav are excluded, so the menus and
     // the copyright line keep their exact wording.

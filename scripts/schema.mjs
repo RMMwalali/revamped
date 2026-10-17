@@ -67,8 +67,8 @@ const defaults = {
   site_name: 'StillCraft Events',
   tagline: 'Step into the Spotlight',
   logo_src: '',
-  primary_color: '#1B2A4A',
-  accent_color: '#C9A24B',
+  primary_color: '#0d0d0d',
+  accent_color: '#97562E',
   hero_video_src: 'https://res.cloudinary.com/dtnbwgpca/video/upload/v1789445868/skillcraft/Stillcraft_hero_video_zbgcov.mp4',
 };
 for (const [k, v] of Object.entries(defaults)) {

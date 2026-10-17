@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insider — StillCraft Events CMS</title>
 <style>
-  :root { --bg:#111110; --card:#1c1c1a; --line:#2c2c2a; --lime:#e0ff98; --gold:#C9A24B;
+  :root { --bg:#111110; --card:#1c1c1a; --line:#2c2c2a; --lime:#e0ff98; --gold:#97562E;
           --txt:#f3efeb; --mut:#9a978f; --input:#111110; }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { background:var(--bg); color:var(--txt); font-family:Arial,Helvetica,sans-serif; min-height:100vh; }
@@ -688,8 +688,8 @@
     var b = S.brand || {};
     $('#bName').value = b.site_name || ''; $('#bTag').value = b.tagline || '';
     $('#bLogo').value = b.logo_src || '';
-    $('#bPri').value = /^#[0-9a-f]{6}$/i.test(b.primary_color || '') ? b.primary_color : '#1B2A4A';
-    $('#bAcc').value = /^#[0-9a-f]{6}$/i.test(b.accent_color || '') ? b.accent_color : '#C9A24B';
+    $('#bPri').value = /^#[0-9a-f]{6}$/i.test(b.primary_color || '') ? b.primary_color : '#0d0d0d';
+    $('#bAcc').value = /^#[0-9a-f]{6}$/i.test(b.accent_color || '') ? b.accent_color : '#97562E';
     $('#bHero').value = b.hero_video_src || CLOUD;
   }
 

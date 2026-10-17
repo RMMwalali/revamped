@@ -406,8 +406,8 @@ function buildCasePage(c) {
 function svgFor(slug, slot, label) {
   const w = slot === 'cover' ? 1600 : slot === 'video' ? 1920 : 1280;
   const h = slot === 'video' ? 720 : slot === 'cover' ? 900 : 853;
-  const bg = slot === 'video' ? '#1B2A4A' : slot === 'cover' ? '#C9A24B' : '#F5F1EC';
-  const fg = slot === 'video' ? '#F5F1EC' : slot === 'cover' ? '#1B2A4A' : '#1B2A4A';
+  const bg = slot === 'video' ? '#0d0d0d' : slot === 'cover' ? '#97562E' : '#F5F1EC';
+  const fg = slot === 'video' ? '#F5F1EC' : slot === 'cover' ? '#0d0d0d' : '#0d0d0d';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="100%" height="100%" fill="${bg}"/><rect x="24" y="24" width="${w - 48}" height="${h - 48}" fill="none" stroke="${fg}" stroke-opacity="0.5" stroke-width="3"/><text x="50%" y="50%" fill="${fg}" font-family="Georgia, serif" font-size="${Math.round(h / 14)}" text-anchor="middle" dominant-baseline="middle">StillCraft Events</text><text x="50%" y="${Math.round(h / 2 + h / 8)}" fill="${fg}" fill-opacity="0.85" font-family="Verdana, sans-serif" font-size="${Math.round(h / 22)}" text-anchor="middle">${label.replace(/&/g, '&amp;')}</text><text x="50%" y="${Math.round(h / 2 + h / 6)}" fill="${fg}" fill-opacity="0.5" font-family="Verdana, sans-serif" font-size="${Math.round(h / 32)}" text-anchor="middle">${slug} — ${slot} · swap via /insider</text></svg>`;
 }
 
