@@ -228,8 +228,8 @@ export function extractHero(html) {
   let label = '', description = '';
   const hb = objectRegion(html, FQ + 'heroBlock' + FQ);
   if (hb) {
-    label = decodeFlight(rawVal(hb.text, 'label'));
-    description = decodeFlight(rawVal(hb.text, 'description'));
+    label = decodeBlockVal(rawVal(hb.text, 'label'));
+    description = decodeBlockVal(rawVal(hb.text, 'description'));
   }
   return { label, description };
 }
@@ -370,13 +370,6 @@ export function liveLogos() {
 }
 
 // ---------- appliers (DB values win; empty values keep live) ----------
-function applyHero(html, hero) {
-  if (!hero) return html;
-  const live = extractHero(html);
-  if (hero.label) html = swapText(html, live.label, hero.label);
-  if (hero.description) html = swapText(html, live.description, hero.description);
-  return html;
-}
 function applyHighlights(html, items) {
   if (!Array.isArray(items) || !items.length) return html;
   const live = extractHighlights(html);
@@ -429,6 +422,112 @@ export function applyCitiesFlight(html, cms) {
   if (out === html || verifyFlight(out).bad > badBefore) return html;
   return out;
 }
+// ---------- home copy blocks (Insider: hero headline/subtext, cities copy) ----------
+// These blocks ship twice: as a flight string (lines joined by \r\n, stored
+// double-escaped in the push, so a single decode leaves a literal "\r\n") and
+// as pre-split static markup (one element per line). A plain text swap
+// matches neither, which is why saved Insider values never showed: the
+// headline was untouched everywhere and the cities copy changed only in the
+// static markup, so hydration put the old text straight back. This pass sets
+// both forms from the saved value. It runs late (after the built-in copy
+// fixes), so it has the last word on these blocks.
+const LIT_NL = new RegExp(EBS + 'r' + EBS + 'n|' + EBS + 'n|' + EBS + 'r', 'g');
+// Saved text -> plain lines. Literal "\r\n" sequences (pasted from an old
+// prefill that showed the raw flight escape) count as line breaks too.
+function normNl(s) {
+  return String(s == null ? '' : s).replace(LIT_NL, '\n').replace(/\r\n?/g, '\n');
+}
+// Flight block value -> plain text with \n line breaks (two decode levels).
+function decodeBlockVal(raw) {
+  return normNl(decodeFlight(decodeFlight(raw || '')));
+}
+const escText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// A value without a line break replaces only the first line (the Insider
+// fields for the cities block are labelled "first line"); one with line
+// breaks replaces the whole block.
+function mergeLines(live, value, firstLineOnly) {
+  const v = normNl(value).split('\n').map((l) => l.trim()).filter(Boolean).join('\n');
+  if (!v) return '';
+  if (firstLineOnly && !v.includes('\n')) {
+    const lines = normNl(live).split('\n');
+    lines[0] = v;
+    return lines.join('\n');
+  }
+  return v;
+}
+function setFlightBlockField(html, block, key, plain) {
+  const marker = FQ + block + FQ;
+  let at = html.indexOf(marker), guard = 0;
+  while (at >= 0 && guard++ < 6) {
+    const reg = objectRegion(html.slice(at), marker);
+    if (!reg) break;
+    const raw = rawVal(reg.text, key);
+    const next = flightEncRow(plain.split('\n').join('\r\n'));
+    if (raw && raw !== next) {
+      const before = verifyFlight(html).bad;
+      const cand = safeReplace(html, pfkey(key) + raw + FQ, pfkey(key) + next + FQ, false);
+      if (cand !== html && verifyFlight(cand).bad <= before) html = cand;
+    }
+    at = html.indexOf(marker, at + marker.length);
+  }
+  return html;
+}
+// Rebuild a pre-split static element: one copy of `unitRe` per line, cloned
+// from the existing units so classes and styles stay exactly as rendered.
+function setStaticLines(html, openRe, closeTag, unitRe, lines) {
+  const m = openRe.exec(html);
+  if (!m) return html;
+  const innerStart = m.index + m[0].length;
+  const innerEnd = html.indexOf(closeTag, innerStart);
+  if (innerEnd < 0) return html;
+  const inner = html.slice(innerStart, innerEnd);
+  const units = [...inner.matchAll(unitRe)];
+  if (!units.length) return html;
+  const first = units[0].index, last = units[units.length - 1].index + units[units.length - 1][0].length;
+  const built = lines.map((line, i) => {
+    let u = units[Math.min(i, units.length - 1)][0];
+    if (i >= units.length) u = u.replace(/ data-sc-id="[^"]*"/, '');
+    u = u.replace(/--line-index: ?\d+/, '--line-index: ' + i);
+    return u.replace(/>([^<>]*)((?:<\/[a-z0-9]+>)+)$/i, (_, __, close) => '>' + escText(line) + close);
+  }).join('');
+  const nextInner = inner.slice(0, first) + built + inner.slice(last);
+  return html.slice(0, innerStart) + nextInner + html.slice(innerEnd);
+}
+const LINE_SPAN = /<span class="css-3w1c3c"><div class="line-mask[^"]*"[^>]*><div class="line[^"]*"[^>]*>[^<]*<\/div><\/div><\/span>/g;
+const LINE_DIV = /<div class="line-mask[^"]*"[^>]*><div class="line[^"]*"[^>]*>[^<]*<\/div><\/div>/g;
+const PLAIN_SPAN = /<span(?: data-sc-id="[^"]*")? class="css-3w1c3c">[^<]*<\/span>/g;
+const HOME_BLOCKS = [
+  { section: 'hero', block: 'heroBlock', firstLineOnly: false,
+    label: { open: /<h1 class="css-bex63m">/, close: '</h1>', unit: LINE_SPAN },
+    description: { open: /<h2 class="css-jucl2m">/, close: '</h2>', unit: LINE_DIV, oneLine: true } },
+  { section: 'cities', block: 'producedBlock', firstLineOnly: true,
+    label: { open: /<h2 class="css-1swqchp">/, close: '</h2>', unit: PLAIN_SPAN },
+    description: { open: /<h3 class="css-3csavn">/, close: '</h3>', unit: PLAIN_SPAN } },
+];
+export function applyHomeCopyCMS(html, page, cms) {
+  if (!cms || (page !== '/' && page !== '/home')) return html;
+  for (const b of HOME_BLOCKS) {
+    const cfg = cms[b.section];
+    if (!cfg || typeof cfg !== 'object') continue;
+    for (const key of ['label', 'description']) {
+      if (typeof cfg[key] !== 'string' || !cfg[key].trim()) continue;
+      try {
+        const reg = objectRegion(html, FQ + b.block + FQ);
+        const live = reg ? decodeBlockVal(rawVal(reg.text, key)) : '';
+        const text = mergeLines(live, cfg[key], b.firstLineOnly);
+        if (!text) continue;
+        html = setFlightBlockField(html, b.block, key, text);
+        const s = b[key];
+        // The hero subtext is one paragraph that the browser wraps itself;
+        // its static lines were a split-text snapshot of the old copy.
+        const lines = s.oneLine ? [text.split('\n').join(' ')] : text.split('\n');
+        html = setStaticLines(html, s.open, s.close, s.unit, lines);
+      } catch { /* keep the page as rendered */ }
+    }
+  }
+  return html;
+}
+
 // Highlight cards on the final home page (after applyHighlightsFix).
 export function applyHighlightsCMS(html, cms) {
   const items = cms && cms.highlights && cms.highlights.items;
@@ -1287,8 +1386,7 @@ function applyServiceTestimonials(html, items) {
 }
 function applyCities(html, cfg) {
   if (!cfg || typeof cfg !== 'object') return html;
-  if (cfg.label) html = swapText(html, 'We’ve produced', cfg.label);
-  if (cfg.description) html = swapText(html, 'Bringing together audiences, cultures and ideas.', cfg.description);
+  // Heading/subtext: applyHomeCopyCMS (late pass, flight + static).
   const items = Array.isArray(cfg.items) ? cfg.items.filter((s) => typeof s === 'string' && s.trim()) : [];
   if (items.length) {
     const re = /(class="css-o2o1k2">)([^<]+)(<)/g;
@@ -2115,7 +2213,7 @@ export async function applyStructuredCMS(html, cms, page) {
   try {
     const isHome = page === '/' || page === '/home';
     if (isHome) {
-      if (cms.hero && (cms.hero.label || cms.hero.description)) html = applyHero(html, cms.hero);
+      // Hero headline/subtext: applyHomeCopyCMS (late pass, flight + static).
       if (cms.highlights && Array.isArray(cms.highlights.items)) html = applyHighlights(html, cms.highlights.items);
       if (cms.logos && (cms.logos.label || (Array.isArray(cms.logos.items) && cms.logos.items.length))) html = applyLogos(html, cms.logos);
       if (cms.stats && (cms.stats.label || (Array.isArray(cms.stats.items) && cms.stats.items.length))) html = applyStats(html, cms.stats);

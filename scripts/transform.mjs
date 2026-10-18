@@ -11,7 +11,7 @@ export { LOGO_ROWS };
 export { CONTENT as FILE_CONTENT } from './stillcraft-content.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
 export { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
-import { safeReplace, safeReplacePairs, verifyFlight, findEdgesArrays, splitTopObjects } from './flight.mjs';
+import { safeReplace, safeReplacePairs, safeReplacePushes, verifyFlight, findEdgesArrays, splitTopObjects } from './flight.mjs';
 
 // Page-scoped whole-value flight swaps (short labels patchFlight can't gate).
 // Testimonial slider logos stay per-case for the edit bar (quotes name old clients).
@@ -52,8 +52,8 @@ const BRAND_DEFAULTS = {
   site_name: 'StillCraft Events',
   tagline: 'Step into the Spotlight',
   logo_src: '',
-  primary_color: '#1B2A4A',
-  accent_color: '#C9A24B',
+  primary_color: '#0d0d0d',
+  accent_color: '#97562E',
   hero_video_src: HERO_VIDEO_URL,
 };
 let brandCache = null;
@@ -150,6 +150,17 @@ const CHUNK_ROTATIONS = [
   ['8809-c4e3ac275ea670ca.js', '8809-786367b29b78465e.js'],
   ['page-39444cf470c387d5.js', 'page-309422970545a739.js'],
   ['page-1086f123f968dd96.js', 'page-fd9d75e5d0bdf437.js'],
+  // Main stylesheet after the brand palette (near black #0d0d0d, rust
+  // #97562E): /_next/static is cached as immutable for a year, so returning
+  // visitors would keep the old colours under the old name.
+  ['8fb42a0177568e49.css', '4534ecebae072f6d.css'],
+  // Page chunks re-themed in the same change (text colour, dividers).
+  ['2642-bd174e4e453c81d1.js', '2642-5b6189bddd4ec67a.js'],
+  ['3311-a9ab46bdf3faed82.js', '3311-816b3df64681767c.js'],
+  ['3930-5a2b1ec52287565c.js', '3930-7dca291d15ed988c.js'],
+  ['layout-f13770764cb0625c.js', 'layout-5a68d6110a0464ea.js'],
+  ['page-2f419b88353d9d34.js', 'page-65920981e9010c99.js'],
+  ['page-fd9d75e5d0bdf437.js', 'page-86ff63baadc236b9.js'],
 ];
 export function normalizeChunkRefs(html) {
   if (!html || html.indexOf('self.__next_f.push(') < 0) return html;
@@ -222,9 +233,9 @@ const GLOBAL_SWAPS = [
   ['IVENTIONS', 'STILLCRAFT'],
   ['iventions', 'stillcraft'],
   // CMS accent fields (unique tokens; prose never contains raw hex codes)
-  ['#546162', '#1B2A4A'],
-  ['#ddd9ff', '#C9A24B'],
-  ['#608ff3', '#C9A24B'],
+  ['#546162', '#0d0d0d'],
+  ['#ddd9ff', '#97562E'],
+  ['#608ff3', '#97562E'],
   ['"#f7ffdc"', '"#F5F1EC"'],
 ];
 // Footer office details: static markup uses footer-only div classes, flight
@@ -857,9 +868,9 @@ export function applyCitiesFix(html) {
   return html;
 }
 // Single-office footer: exactly one address block, served on every page —
-//   Piedmont, 671 Ngong Road
 //   Nairobi, Kenya
 //   +254 792 234 337
+// (no street line: the client asked for the Piedmont address to come off)
 // The template ships two offices (Barcelona + London, later re-mapped into a
 // duplicated Piedmont block plus a Citystone Courts block from CMS data).
 // This replaces the whole offices container (any inner content) and trims the
@@ -873,7 +884,6 @@ export function applyFooterSingleOffice(html) {
     if (end > openEnd) {
       const one =
         '<div class="css-ducv57">' +
-        '<div class="Paragraph_paragraph__SId_Y css-cgpd9q">Piedmont, 671 Ngong Road</div>' +
         '<div class="Paragraph_paragraph__SId_Y css-cgpd9q">Nairobi, Kenya</div>' +
         '<div class="Paragraph_paragraph__SId_Y css-cgpd9q">+254 792 234 337</div>' +
         '</div>';
@@ -956,7 +966,7 @@ export function applyFooterSingleOffice(html) {
       if (end < 0) break;
       const fresh =
         '{' + FQ + 'city' + FQ + ':' + FQ + 'Nairobi' + FQ +
-        ',' + FQ + 'addressLine1' + FQ + ':' + FQ + 'Piedmont, 671 Ngong Road' + FQ +
+        ',' + FQ + 'addressLine1' + FQ + ':' + FQ + FQ +
         ',' + FQ + 'addressLine2' + FQ + ':' + FQ + 'Nairobi, Kenya' + FQ +
         ',' + FQ + 'addressLine3' + FQ + ':' + FQ + FQ +
         ',' + FQ + 'phoneNumber' + FQ + ':' + FQ + '+254 792 234 337' + FQ + '}';
@@ -972,6 +982,20 @@ export function applyFooterSingleOffice(html) {
       }
       idx = html.indexOf(key, idx + fresh.length);
     }
+  } catch { /* static fix stands */ }
+  // The pre-rendered footer card carries the street line as its own paragraph
+  // element: render it empty (length-synced, push contents only), so the
+  // hydrated footer matches the static one above.
+  try {
+    const BS = String.fromCharCode(92);
+    const FQ = BS + '"';
+    const line = FQ + 'className' + FQ + ':' + FQ + 'Paragraph_paragraph__SId_Y' + FQ + ',' + FQ + 'children' + FQ + ':' + FQ;
+    let cand = safeReplacePushes(html, line + 'Piedmont, 671 Ngong Road' + FQ, line + FQ);
+    // Legal pages skip the flight copy patches, so their footer card still
+    // names the template company ("... International Events"): use the
+    // company line every other page shows.
+    cand = safeReplacePushes(cand, line + 'StillCraft Events International Events' + FQ, line + 'StillCraft Events Co.' + FQ);
+    if (cand !== html && verifyFlight(cand).bad <= verifyFlight(html).bad) html = cand;
   } catch { /* static fix stands */ }
   return html;
 }
@@ -2874,11 +2898,56 @@ function applyNav(html, page) {
   return html;
 }
 
+// Page titles from the Insider Brand panel. TITLE_MAP holds the shape of each
+// title; the brand fills it in: the home page is "<Site name> | <Tagline>",
+// every other page keeps its own lead ("About - ", "Projects | ...") with the
+// site name as the suffix. Runs after applyNav, so it rewrites every copy
+// applyNav wrote (static <title>, og/twitter meta, RSC metadata and SEO nodes).
+const TITLE_SUFFIX = 'StillCraft Events';
+function brandTitleFor(page, brand) {
+  const base = TITLE_MAP[page];
+  if (!base) return '';
+  const clean = (s) => String(s || '').replace(/[<>"\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+  const name = clean(brand && brand.site_name) || TITLE_SUFFIX;
+  const tag = clean(brand && brand.tagline);
+  if (page === '/' || page === '/home') return tag ? name + ' | ' + tag : base.replace(new RegExp(TITLE_SUFFIX + '$'), name);
+  return base.replace(new RegExp(TITLE_SUFFIX + '$'), name);
+}
+export function applyBrandTitle(html, page, brand) {
+  const oldT = TITLE_MAP[page];
+  const newT = brandTitleFor(page, brand);
+  if (!oldT || !newT) return html;
+  const FQT = '\\"';
+  const flightT = newT.replace(/&/g, '\\u0026');
+  // The RSC metadata title node is what document.title ends up as after
+  // hydration. On some pages it still carried the template's SEO title
+  // (/about: "About - ... | Global Event Agency"), so the tab title changed
+  // once the page loaded. Pin it to the brand title.
+  const node = /\\"title\\",\\"0\\",\{\\"children\\":\\"((?:\\.|[^\\])*?)\\"/.exec(html);
+  if (node && node[1] !== flightT) {
+    html = safeReplacePushes(html, node[0], node[0].slice(0, node[0].length - node[1].length - FQT.length) + flightT + FQT);
+  }
+  if (newT === oldT) return html;
+  const escAttr = (s) => s.replace(/&/g, '&amp;');
+  // Whole values only: the title text, a meta content attribute or a flight
+  // string that IS the title (terminator included), never a longer string
+  // that merely starts with it ("About - X Co. About X" stays as it is).
+  // Static markup (title text, meta content attributes): HTML-escaped.
+  const parts = html.split(/(<script[\s\S]*?<\/script>)/gi);
+  for (let i = 0; i < parts.length; i += 2) {
+    parts[i] = parts[i].split(oldT + '<').join(escAttr(newT) + '<').split(oldT + '"').join(escAttr(newT) + '"');
+  }
+  html = parts.join('');
+  // Flight payload: values end in an escaped quote and "&" travels as a
+  // \u0026 escape; length-synced replace, push contents only.
+  return safeReplacePushes(html, oldT + FQT, flightT + FQT);
+}
+
 const DEFAULT_ACCENT = '#e0ff98'; // legacy default (see LEGACY_ACCENT)
 const DEFAULT_PRIMARY = '#1e1e1e'; // legacy default (see LEGACY_PRIMARY)
 
-const NAVY = '#1B2A4A';
-const GOLD = '#C9A24B';
+const NAVY = '#0d0d0d';
+const GOLD = '#97562E';
 const CREAM = '#F5F1EC';
 // StillCraft client palette: old site hex -> new (case-insensitive).
 const THEME_MAP = [
@@ -2891,19 +2960,25 @@ const THEME_MAP = [
 ];
 const LEGACY_ACCENT = '#e0ff98';
 const LEGACY_PRIMARY = '#1e1e1e';
+const ACCENT_DEFAULTS = [LEGACY_ACCENT, GOLD, '#c9a24b'].map((c) => c.toLowerCase());
+const PRIMARY_DEFAULTS = [LEGACY_PRIMARY, NAVY, '#1b2a4a'].map((c) => c.toLowerCase());
 
 function applyTheme(css, brand) {
   let out = css;
   for (const [from, to] of THEME_MAP) {
     out = out.replace(new RegExp(from.replace('#', '\\#'), 'gi'), to);
   }
+  // rgba(30, 30, 30, a) is the same template dark (footer spotlight mask).
+  out = out.replace(/(rgba?\(\s*)30(\s*,\s*)30(\s*,\s*)30(?=\s*[,)])/gi, (m, a, b, c) => a + '13' + b + '13' + c + '13');
   // Admin custom colors (anything beyond legacy defaults + client theme) win.
+  // The previous client theme (navy/gold) counts as a legacy default, so an
+  // Insider value saved back then cannot pull the old palette back in.
   const accent = (brand.accent_color || '').trim();
-  if (accent && ![LEGACY_ACCENT, GOLD].includes(accent.toLowerCase())) {
+  if (accent && !ACCENT_DEFAULTS.includes(accent.toLowerCase())) {
     out = out.replace(new RegExp(GOLD.replace('#', '\\#'), 'gi'), accent);
   }
   const primary = (brand.primary_color || '').trim();
-  if (primary && ![LEGACY_PRIMARY, NAVY].includes(primary.toLowerCase())) {
+  if (primary && !PRIMARY_DEFAULTS.includes(primary.toLowerCase())) {
     out = out.replace(new RegExp(NAVY.replace('#', '\\#'), 'gi'), primary);
   }
   return out;
@@ -2921,7 +2996,22 @@ export function applyStyleBlocks(html, brand) {
     }
     chunks[c] = out;
   }
-  return chunks.join('');
+  // Colours the CMS data carries as values (card backgrounds, dots) never
+  // pass through a stylesheet: the services card on the home page and the
+  // service heroes kept the template's cyan. Same palette map, same length
+  // (byte counts in flight rows unchanged). #1e1e1e stays: the footer fix
+  // looks the footer word's fills up by that value.
+  let joined = chunks.join('');
+  for (const [from, to] of THEME_MAP) {
+    if (from === '#1e1e1e') continue;
+    joined = joined.replace(new RegExp('"' + from.replace('#', '\\#') + '(?=\\\\?")', 'gi'), '"' + to);
+  }
+  // Browser chrome colour (static meta + its flight copy): brand near black.
+  // Same length, so flight row byte counts are unchanged.
+  return safeReplacePairs(joined, [
+    ['theme-color" content="#1e1e1e"', 'theme-color" content="' + NAVY + '"'],
+    ['theme-color' + '\\",\\"content\\":\\"#1e1e1e', 'theme-color' + '\\",\\"content\\":\\"' + NAVY],
+  ]);
 }
 
 const DONOR_GTM_ID = 'GTM-PVJC495';
@@ -3521,7 +3611,10 @@ var pf=function(){var as=document.querySelectorAll("a[href]");for(var i=0;i<as.l
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",pf);else pf();
 setTimeout(pf,800);setTimeout(pf,2500);setTimeout(pf,5000);
 })();</script>`;
-  return html.replace(/<\/body>/i, js + "\n$1");
+  // "$&" keeps the matched </body>; "$1" (no group) printed a literal "$1"
+  // and dropped </body>, so every later </body> pass (footer copyright fix,
+  // admin bar) silently skipped the projects pages.
+  return html.replace(/<\/body>/i, js + "\n$&");
 }
 
 // "33% / 21%" is a programme-wide average across all StillCraft seasonal mall
@@ -3609,6 +3702,16 @@ export function applyFooterFix(html, page) {
   // The donor name is assembled from two parts so the served document never
   // spells it out; both replacements are byte-identical to the old literals.
   const js = `<script>(function(){var fix=function(){try{var UP=new RegExp('IVEN'+'TIONS','g'),MI=new RegExp('Iven'+'tions','g');var els=document.querySelectorAll('[class*="bottom_copyright"]');for(var i=0;i<els.length;i++){var w=document.createTreeWalker(els[i],NodeFilter.SHOW_TEXT);var n;while((n=w.nextNode())){var v=n.nodeValue;if(!v)continue;var nv=v.replace(UP,'STILLCRAFT EVENTS CO.').replace(MI,'StillCraft Events Co.');if(nv!==v)n.nodeValue=nv;}}var f=document.querySelector('footer');if(f){var ps=f.querySelectorAll('[fill="#1E1E1E"]');for(var j=0;j<ps.length;j++){ps[j].setAttribute('fill','#F5F1EC');}}}catch(e){}};window.addEventListener('load',function(){setTimeout(fix,800);});setTimeout(fix,4000);if(document.readyState!=='loading'){setTimeout(fix,1500);}})();</script>`;
+  // Desktop footer fit: from 1200px the template locks the footer to one
+  // screen (100svh) and the address column to a fixed height, so on laptop
+  // screens (e.g. 1366x657) a longer tagline or the second contact block ran
+  // into the Cookie / Legal Notice / Privacy row. Let both grow with their
+  // content; on tall screens they keep exactly the template's size.
+  const fit = '<style id="sc-footer-fit">@media(min-width:1200px){' +
+    '.Footer_footer__OGBct{height:auto!important;min-height:100svh}' +
+    '.Footer_footer_wrapper__s1xpb{height:auto!important;min-height:100svh}' +
+    '.styles_address__xK870{height:auto!important;min-height:calc(42.4rem + .5em)}}</style>';
+  if (html.indexOf('sc-footer-fit') < 0 && /<\/head>/i.test(html)) html = html.replace(/<\/head>/i, fit + '$&');
   return html.replace(/<\/body>/i, js + '\n$&');
 }
 // ---------- donor brand sweep ----------
@@ -3749,20 +3852,20 @@ export function applyTeamRoster(html, cms) {
 // headings, initials in the heading bold font. Testimonial cards carry a
 // photo/logo + quote + name/role/org + industry·location meta; team cards
 // carry initials instead of an image + name + title + description.
-const VOICES_CSS_RULES = '.sc-voices{background:#1B2A4A;padding:clamp(70px,9vw,110px) max(24px,5vw);color:#F5F1EC}'
+const VOICES_CSS_RULES = '.sc-voices{background:#0d0d0d;padding:clamp(70px,9vw,110px) max(24px,5vw);color:#F5F1EC}'
   + '.sc-voices-head{max-width:1240px;margin:0 auto 52px}'
-  + '.sc-voices-kicker{color:#C9A24B;font:600 13px Arial,sans-serif;letter-spacing:.32em;text-transform:uppercase;display:block;margin-bottom:14px}'
+  + '.sc-voices-kicker{color:#97562E;font:600 13px Arial,sans-serif;letter-spacing:.32em;text-transform:uppercase;display:block;margin-bottom:14px}'
   + '.sc-voices-title{color:#F5F1EC;font:500 clamp(34px,4.2vw,54px)/1.1 Georgia,serif;margin:0}'
   + '.sc-voices-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.2rem;max-width:1240px;margin:0 auto}'
-  + '.sc-vo{background:#F5F1EC;border-radius:18px;padding:2.2rem 2.4rem;border-top:6px solid #C9A24B;box-shadow:0 10px 30px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:.9rem;min-width:0}'
-  + '.sc-vo-media{width:62px;height:62px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#e3dccf;border:2px solid #C9A24B}'
+  + '.sc-vo{background:#F5F1EC;border-radius:18px;padding:2.2rem 2.4rem;border-top:6px solid #97562E;box-shadow:0 10px 30px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:.9rem;min-width:0}'
+  + '.sc-vo-media{width:62px;height:62px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#e3dccf;border:2px solid #97562E}'
   + '.sc-vo-media img{width:100%;height:100%;object-fit:cover;display:block}'
-  + '.sc-vo-mono{width:62px;height:62px;border-radius:50%;background:#1B2A4A;color:#F5F1EC;display:flex;align-items:center;justify-content:center;font:700 22px Georgia,serif;letter-spacing:.05em;border:2px solid #C9A24B;flex-shrink:0}'
-  + '.sc-vo-quote{font:400 19px/1.75 Georgia,serif;color:#1B2A4A;margin:0}'
+  + '.sc-vo-mono{width:62px;height:62px;border-radius:50%;background:#0d0d0d;color:#F5F1EC;display:flex;align-items:center;justify-content:center;font:700 22px Georgia,serif;letter-spacing:.05em;border:2px solid #97562E;flex-shrink:0}'
+  + '.sc-vo-quote{font:400 19px/1.75 Georgia,serif;color:#0d0d0d;margin:0}'
   + '.sc-vo-quote::before{content:"\\201C"}'
   + '.sc-vo-quote::after{content:"\\201D"}'
   + '.sc-vo-who{margin-top:auto}'
-  + '.sc-vo-name{font:700 24px Georgia,serif;color:#1B2A4A;margin:0}'
+  + '.sc-vo-name{font:700 24px Georgia,serif;color:#0d0d0d;margin:0}'
   + '.sc-vo-role{color:#A67B1F;font-size:13px;letter-spacing:.11em;text-transform:uppercase;margin:6px 0 0;font-weight:700}'
   + '.sc-vo-meta{color:#4a5568;font-size:13px;margin:8px 0 0}'
   + '.sc-vo-title{color:#A67B1F;font-size:13px;letter-spacing:.11em;text-transform:uppercase;margin:0;font-weight:700}'
@@ -3777,12 +3880,12 @@ const VOICES_CSS = '<style>' + VOICES_CSS_RULES + '</style>';
 // slide-up. Scoped to .sc-x* so it cannot collide with emotion classes.
 const TEAM_X_CSS = '.sc-xteam{position:relative;overflow:hidden}'
   + '.sc-xteam::before,.sc-xteam::after{content:"";position:absolute;border-radius:50%;pointer-events:none}'
-  + '.sc-xteam::before{width:44rem;height:44rem;top:-14rem;right:-12rem;background:radial-gradient(circle,rgba(201,162,75,.16),transparent 65%)}'
+  + '.sc-xteam::before{width:44rem;height:44rem;top:-14rem;right:-12rem;background:radial-gradient(circle,rgba(151,86,46,.16),transparent 65%)}'
   + '.sc-xteam::after{width:38rem;height:38rem;bottom:-12rem;left:-10rem;background:radial-gradient(circle,rgba(120,150,220,.12),transparent 65%)}'
   + '.sc-xteam .sc-xgrid{position:relative;z-index:1;list-style:none;margin:0 auto;padding:0;display:grid;gap:1.4rem;max-width:1240px;grid-template-columns:repeat(3,1fr)}'
   + '.sc-xcard{display:flex;flex-direction:column;gap:.9rem;width:100%;text-align:left;background:rgba(245,241,236,.07);-webkit-backdrop-filter:blur(18px) saturate(1.25);backdrop-filter:blur(18px) saturate(1.25);border:1px solid rgba(245,241,236,.16);border-radius:20px;padding:2rem;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,.18);transition:border-color .25s ease,transform .25s ease,box-shadow .25s ease,background .25s ease}'
-  + '.sc-xcard:hover{border-color:rgba(201,162,75,.55);background:rgba(245,241,236,.1);transform:translateY(-4px);box-shadow:0 16px 44px rgba(0,0,0,.28)}'
-  + '.sc-xcard:focus-visible{outline:none;border-color:#C9A24B;box-shadow:0 0 0 3px rgba(201,162,75,.45)}'
+  + '.sc-xcard:hover{border-color:rgba(151,86,46,.55);background:rgba(245,241,236,.1);transform:translateY(-4px);box-shadow:0 16px 44px rgba(0,0,0,.28)}'
+  + '.sc-xcard:focus-visible{outline:none;border-color:#97562E;box-shadow:0 0 0 3px rgba(151,86,46,.45)}'
   + '.sc-xavatar{width:60px;height:60px;border-radius:50%;overflow:hidden;flex-shrink:0;background:rgba(245,241,236,.1);border:1px solid rgba(245,241,236,.28);display:flex;align-items:center;justify-content:center}'
   + '.sc-xavatar img{width:100%;height:100%;object-fit:cover;display:block}'
   + '.sc-xmono{background:rgba(245,241,236,.08);color:#F5F1EC;font:700 20px Georgia,serif;letter-spacing:.05em}'
@@ -3794,7 +3897,7 @@ const TEAM_X_CSS = '.sc-xteam{position:relative;overflow:hidden}'
   + '.sc-xpanel[hidden]{display:none}'
   + '.sc-xpanel{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:2.4rem}'
   + '.sc-xscrim{position:absolute;inset:0;background:rgba(10,16,32,.6);opacity:0;transition:opacity .3s ease}'
-  + '.sc-xdialog{position:relative;z-index:1;width:100%;max-width:600px;max-height:86dvh;max-height:86svh;overflow-y:auto;background:rgba(27,42,74,.55);-webkit-backdrop-filter:blur(24px) saturate(1.3);backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(245,241,236,.18);border-radius:22px;padding:2.8rem;box-shadow:0 30px 90px rgba(0,0,0,.5);opacity:0;transform:translateY(16px) scale(.97);transition:opacity .3s ease,transform .38s cubic-bezier(.22,.9,.28,1)}'
+  + '.sc-xdialog{position:relative;z-index:1;width:100%;max-width:600px;max-height:86dvh;max-height:86svh;overflow-y:auto;background:rgba(13,13,13,.55);-webkit-backdrop-filter:blur(24px) saturate(1.3);backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(245,241,236,.18);border-radius:22px;padding:2.8rem;box-shadow:0 30px 90px rgba(0,0,0,.5);opacity:0;transform:translateY(16px) scale(.97);transition:opacity .3s ease,transform .38s cubic-bezier(.22,.9,.28,1)}'
   + '.sc-xpanel.open .sc-xscrim{opacity:1}'
   + '.sc-xpanel.open .sc-xdialog{opacity:1;transform:none}'
   + '.sc-xdavatar{width:84px;height:84px;border-radius:50%;overflow:hidden;background:rgba(245,241,236,.1);border:1px solid rgba(245,241,236,.3);display:flex;align-items:center;justify-content:center;margin-bottom:1.6rem}'
@@ -3805,7 +3908,7 @@ const TEAM_X_CSS = '.sc-xteam{position:relative;overflow:hidden}'
   + '.sc-xdbio{font-size:16px;line-height:1.75;color:rgba(245,241,236,.88);margin:0;white-space:pre-line}'
   + '.sc-xclose{position:absolute;top:1.4rem;right:1.4rem;width:3.6rem;height:3.6rem;border-radius:50%;border:1px solid rgba(245,241,236,.25);background:rgba(245,241,236,.08);color:#F5F1EC;font-size:1.8rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background .2s ease,transform .2s ease}'
   + '.sc-xclose:hover{background:rgba(245,241,236,.18);transform:rotate(90deg)}'
-  + '.sc-xclose:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(201,162,75,.5)}'
+  + '.sc-xclose:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(151,86,46,.5)}'
   + '@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.sc-xcard{background:rgba(35,50,80,.94)}.sc-xdialog{background:rgba(24,36,64,.97)}}'
   + '@media(max-width:960px){.sc-xteam .sc-xgrid{grid-template-columns:repeat(2,1fr)}}'
   + '@media(max-width:560px){.sc-xteam .sc-xgrid{grid-template-columns:1fr;gap:1.2rem}.sc-xpanel{align-items:flex-end;padding:0}.sc-xdialog{max-width:none;max-height:92dvh;max-height:92svh;border-radius:22px 22px 0 0;padding:2.2rem 2rem calc(2rem + env(safe-area-inset-bottom));transform:translateY(100%)}.sc-xpanel.open .sc-xdialog{transform:none}}'
@@ -4005,7 +4108,7 @@ export function applyHomeVoices(html, page, cms) {
 }
 export function applySplash(html, page) {  if (page === '/insider') return html;
   if (!/<body[^>]*>/i.test(html)) return html;
-  const css = `<style>#sc-splash{position:fixed;inset:0;background:#1B2A4A;z-index:2147483640;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease}#sc-splash span{color:#C9A24B;font:600 13px Arial,sans-serif;letter-spacing:4px;animation:sc-pulse 1.2s ease-in-out infinite}@keyframes sc-pulse{50%{opacity:.35}}</style>`;
+  const css = `<style>#sc-splash{position:fixed;inset:0;background:#0d0d0d;z-index:2147483640;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease}#sc-splash span{color:#97562E;font:600 13px Arial,sans-serif;letter-spacing:4px;animation:sc-pulse 1.2s ease-in-out infinite}@keyframes sc-pulse{50%{opacity:.35}}</style>`;
   const div = `<div id="sc-splash"><span>STILLCRAFT EVENTS</span></div>`;
   const js = `<script>(function(){var kill=function(){var s=document.getElementById('sc-splash');if(!s||s.dataset.done)return;s.dataset.done='1';s.style.opacity='0';setTimeout(function(){s.remove();},500);};var freeLoader=function(){try{var els=document.querySelectorAll('[class*="PageLoader"],[class*="pageLoader"]');for(var i=0;i<els.length;i++){els[i].style.opacity='0';els[i].style.pointerEvents='none';setTimeout((function(el){return function(){el.remove();};})(els[i]),600);}if(document.body&&document.body.classList)document.body.classList.add('is-ready');}catch(e){}};var revealStuck=function(){try{var masks=document.querySelectorAll('.line-mask');for(var i=0;i<masks.length;i++){for(var p=masks[i];p&&p!==document.body;p=p.parentElement){try{if(getComputedStyle(p).visibility==='hidden')p.style.visibility='visible';}catch(e){}}}}catch(e){}};window.addEventListener('load',function(){setTimeout(kill,350);setTimeout(freeLoader,3500);});setTimeout(kill,4000);var n=0;var iv=null;var sweep=function(){n++;try{freeLoader();}catch(e){}if(n>=4){try{revealStuck();}catch(e){}}if(n>=30||!document.querySelector('[class*="PageLoader"],[class*="pageLoader"]')){if(iv)clearInterval(iv);}};setTimeout(function(){sweep();iv=setInterval(sweep,1000);},2500);setTimeout(freeLoader,4500);})();</script><noscript><style>#sc-splash{display:none}</style></noscript>`;
   html = html.replace(/<\/head>/i, css + '\n$&');
