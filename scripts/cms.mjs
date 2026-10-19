@@ -14,7 +14,7 @@ import { LOGO_ROWS } from './stillcraft-logos.mjs';
 import { PARTNER_LOGOS, PLACEHOLDER_TESTIMONIALS, allCases } from './stillcraft-cases.mjs';
 import { SPLIT_BRANDS, WALL_DROP_TITLES, teamItemsOf } from './transform.mjs';
 import { NAMES as LOGO_NAMES } from './stillcraft-names.mjs';
-import { safeReplace, safeReplaceVerified, boundedSplitJoin, findEdgesArrays, splitTopObjects, splitTopArrays, matchBracketRaw, verifyFlight } from './flight.mjs';
+import { safeReplace, safeReplaceVerified, boundedSplitJoin, findEdgesArrays, splitTopObjects, splitTopArrays, matchBracketRaw, verifyFlight, parseSeg, findLenRows, decodeFully } from './flight.mjs';
 
 export const CMS_SECTIONS = ['hero', 'highlights', 'logos', 'stats', 'testimonials', 'cities', 'articles', 'insights', 'team', 'projects'];
 
@@ -1566,6 +1566,13 @@ function dispDate(iso) {
   return `${m[3]}.${m[2]}.${m[1].slice(2)}`;
 }
 const escHtml = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// Card blurb as HTML: blank-line-separated paragraphs become <p> blocks (a
+// single paragraph keeps the old one-<p> shape). No newlines in the output,
+// so it is safe inside an unframed flight row.
+function excerptHtml(t) {
+  return String(t == null ? '' : t).split(/\r?\n\s*\r?\n/).map((x) => x.replace(/\s+/g, ' ').trim())
+    .filter(Boolean).map((x) => '<p>' + escHtml(x) + '</p>').join('');
+}
 
 // Raw (still flight-escaped) value of `key` with its absolute span, or null.
 function rawValAt(e, eStart, key) {
@@ -1743,7 +1750,7 @@ function fillHomeCard(block, oldD, newD) {
       const cEnd = balancedTag(b, 'div', cStart);
       if (cEnd > 0) {
         const openEnd = b.indexOf('>', cStart) + 1;
-        b = b.slice(0, openEnd) + '<p>' + escHtml(newD.excerpt) + '</p>' + b.slice(cEnd - '</div>'.length);
+        b = b.slice(0, openEnd) + excerptHtml(newD.excerpt) + b.slice(cEnd - '</div>'.length);
       }
     }
   }
@@ -1833,7 +1840,7 @@ export function applyInsights(html, cfg, page, manifest) {
       if (f) {
         const rv = rawValAt(f.node, f.nodeStart, 'content');
         if (rv) {
-          const enc = flightEnc(data.excerpt);
+          const enc = flightEnc(excerptHtml(data.excerpt));
           html = guardedFlight(html, (h) => h.slice(0, rv.index) + enc + h.slice(rv.index + rv.raw.length));
         }
       }
@@ -1916,17 +1923,34 @@ function syncInsightCircleCells(html) {
   const spans = splitTopArrays(inner);
   if (spans.length < 2) return html;
   const keep = spans.slice(0, count);
+  const slugs = homeInsightSlugs(html);
   const rebuilt = keep.map((s, i) => {
     let cell = inner.slice(s.start, s.end);
     const reNum = new RegExp('(edges:)\\d+').exec(cell);
     if (reNum) cell = cell.slice(0, reNum.index) + reNum[1] + i + cell.slice(reNum.index + reNum[0].length);
     const reIdx = new RegExp(RFQ + 'index' + RFQ + ':\\d+').exec(cell);
     if (reIdx) cell = cell.slice(0, reIdx.index) + pfkey('index').slice(0, -FQ.length) + i + cell.slice(reIdx.index + reIdx[0].length);
+    // React key: the template used the post title; name it after the post
+    // the cell now shows, so a replaced post's title does not linger.
+    const key = slugs[i];
+    const reKey = new RegExp('^(\\[' + RFQ + '\\$' + RFQ + ',' + RFQ + '\\$L[0-9a-z]+' + RFQ + ',' + RFQ + ')(' + FVAL + ')(' + RFQ + ',\\{)').exec(cell);
+    if (key && reKey) cell = reKey[1] + key + reKey[3] + cell.slice(reKey[0].length);
     return cell;
   });
   return html.slice(0, cellsOpen + 1) + rebuilt.join(',') + html.slice(cellsEnd - 1);
 }
 
+// Slugs of the (home) insights edges, in order.
+function homeInsightSlugs(html) {
+  for (const a of findEdgesArrays(html)) {
+    const inner = html.slice(a.start + 1, a.end - 1);
+    const nodes = splitTopObjects(inner);
+    if (!nodes.length || nodes.length > 6) continue;
+    if (!inner.slice(nodes[0].start, nodes[0].end).includes('insightTemplate')) continue;
+    return nodes.map((nd) => (parseInsightNode(inner.slice(nd.start, nd.end)) || {}).slug || '');
+  }
+  return [];
+}
 // Number of insight edge nodes in the (home) insights edges array.
 function homeInsightEdgeCount(html) {
   for (const a of findEdgesArrays(html)) {
@@ -1987,7 +2011,7 @@ function buildInsightNode(template, d) {
   // title
   if (d.title) s = swapFirstKey(s, 'title', flightEnc(d.title));
   // content: plain excerpt (cards render body blurb from this field)
-  if (d.excerpt) s = swapFirstKey(s, 'content', flightEnc(d.excerpt));
+  if (d.excerpt) s = swapFirstKey(s, 'content', flightEnc(excerptHtml(d.excerpt)));
   // image
   if (d.image) s = swapFirstKey(s, 'sourceUrl', d.image);
   // date
@@ -2207,6 +2231,107 @@ function applyProjects(html, cfg, page) {
   return html;
 }
 
+// ---------- home "Inside StillCraft" cards: the client's own articles ----------
+// The three home cards used to be the template agency's posts (its London
+// hub, CPHI trade show, "Do you need an international event agency"). These
+// are the "Trends" articles from the client's content guide, one per lane
+// (malls, brands, corporates), wording verbatim. The card shows the
+// article's first two paragraphs: the open card is a circle, and a third
+// paragraph runs past its edge. They ride on existing post
+// slugs - the guide puts the malls article in the 20.05.26 slot the IBC post
+// held - and the cards link to the case studies page anyway (blog retired).
+export const GUIDE_INSIGHTS = {
+  home: ['ibc-trade-show', 'marketing-and-events', 'the-future-of-virtual-events-in-corporate-environments'],
+  items: {
+    'ibc-trade-show': {
+      title: 'Why Shopping Malls Are Becoming Destinations, Not Just Retail Stops',
+      date: '2026-05-20',
+      dotColor: '#97562E', backgroundColor: '#0d0d0d',
+      excerpt: 'Foot traffic used to be simple. A mall opened, stores filled the units, and people came to shop. E commerce broke that equation years ago, anyone who only wants to buy something no longer needs to leave home to do it. The malls still pulling in real numbers have figured out what to offer instead: a reason to show up that has nothing to do with a shopping list.\n\n'
+        + 'That reason is programming. A weekend built around a seasonal moment, a family activation on a Saturday morning, a piazza that hosts something worth attending rather than sitting empty between store hours. The retail is still there, but it is no longer the only draw, it is one part of a day out that also includes entertainment, food, and something happening live.',
+    },
+    'marketing-and-events': {
+      title: 'How marketing and events work together to drive brand growth',
+      date: '2025-08-05',
+      dotColor: '#97562E', backgroundColor: '#0d0d0d',
+      excerpt: 'Marketing tells an audience a brand exists. Events let that audience actually meet it. Neither one does the whole job alone, a media campaign without a real moment behind it fades fast, and a great activation nobody hears about only reaches the people already standing there.\n\n'
+        + 'Growth happens in the handoff between the two. A campaign builds the appetite, an event delivers on it, and what happens at that event either earns a repeat customer or wastes the attention the campaign paid for. That is the part most brands get wrong, planning the reach and the room separately, then wondering why the numbers do not add up.',
+    },
+    'the-future-of-virtual-events-in-corporate-environments': {
+      title: 'The future of virtual events in corporate environments',
+      date: '2026-07-06',
+      dotColor: '#97562E', backgroundColor: '#0d0d0d',
+      excerpt: 'Virtual events had their moment out of necessity, then most companies quietly went back to gathering people in a room. That swing back tells you something real: a screen has never replicated what a shared physical space does for a team or a client relationship. Presence still matters.\n\n'
+        + 'The future is not virtual replacing physical. It is hybrid done properly, not as an afterthought bolted onto an in person event, but planned as its own experience from the start. A regional office watching a product launch live, with its own moment built for them rather than a static video feed. A leadership town hall where the remote half of the room gets a real seat at the table, not a link sent after the fact.',
+    },
+    'hottest-event-tech-trends': {
+      title: 'The hottest event tech trends every event marketing agency needs',
+      date: '2025-09-22',
+      excerpt: 'Technology in events used to mean a projector and a decent sound system. That bar has moved considerably, and the agencies still working at the old bar are increasingly easy to spot next to the ones that aren\'t.',
+    },
+  },
+};
+// The template's own home picks: an Insider save made without touching the
+// home slots stores exactly these (the form prefills from the template page),
+// so they are read as "not chosen" rather than as a choice to keep them.
+const TEMPLATE_HOME = new Set(['iventions-london-hub', 'cphi-trade-show', 'do-you-need-an-international-event-agency']);
+// Saved Insights settings on top of the guide defaults. A saved field only
+// wins when it differs from the template's original value for that post (the
+// form prefills every post from the template, so an untouched save would
+// otherwise pin the template copy back over the client's).
+export function effectiveInsights(saved, manifest) {
+  const sv = saved && typeof saved === 'object' ? saved : {};
+  const man = new Map((manifest || []).map((m) => [m.slug, m]));
+  const items = {};
+  for (const [slug, d] of Object.entries(GUIDE_INSIGHTS.items)) items[slug] = { ...d };
+  const svItems = sv.items && typeof sv.items === 'object' && !Array.isArray(sv.items) ? sv.items : {};
+  for (const [slug, d] of Object.entries(svItems)) {
+    if (!d || typeof d !== 'object') continue;
+    const pristine = man.get(slug) || {};
+    const base = items[slug] || {};
+    const out = { ...base };
+    for (const [k, v] of Object.entries(d)) {
+      if (v === undefined || v === null || v === '') continue;
+      if (base[k] !== undefined && String(v) === String(pristine[k] == null ? '' : pristine[k])) continue;
+      if (k === 'date' && base.date && normISODate(v) === normISODate(pristine.date)) continue;
+      out[k] = v;
+    }
+    items[slug] = out;
+  }
+  const hidden = (Array.isArray(sv.hidden) ? sv.hidden : []).filter((x) => typeof x === 'string' && !GUIDE_INSIGHTS.home.includes(x));
+  const picked = (Array.isArray(sv.home) ? sv.home : []).filter((x) => typeof x === 'string' && x && !TEMPLATE_HOME.has(x));
+  const home = [...new Set(picked)];
+  for (const slug of GUIDE_INSIGHTS.home) if (home.length < 3 && !home.includes(slug)) home.push(slug);
+  return { ...sv, items, hidden, home: home.slice(0, Math.max(3, picked.length)) };
+}
+
+// Text rows nothing references any more (a replaced home card's article
+// body) are emptied, so the old copy is not left sitting in the page source.
+// Push contents are merged into the first push (same shape flight.mjs uses).
+function blankOrphanTextRows(html) {
+  const delim = 'self.__next_f.push(';
+  const parts = html.split(delim);
+  const segs = parts.slice(1).map(parseSeg);
+  if (!segs.length || segs.some((x) => !x)) return html;
+  const content = segs.map((x) => x.content).join('');
+  const all = decodeFully(content);
+  let out = '', last = 0, changed = false;
+  for (const r of findLenRows(content)) {
+    const id = /([0-9a-f]+):T$/.exec(content.slice(Math.max(0, r.hdrLenStart - 12), r.hdrLenStart));
+    if (!id || r.payloadEnd === r.payloadStart) continue;
+    if (all.includes('"$' + id[1] + '"')) continue;
+    out += content.slice(last, r.hdrLenStart) + '0,';
+    last = r.payloadEnd;
+    changed = true;
+  }
+  if (!changed) return html;
+  out += content.slice(last);
+  let res = parts[0] + delim + segs[0].prefix + out + segs[0].suffix;
+  for (let k = 1; k < segs.length; k++) res += delim + segs[k].prefix + segs[k].suffix;
+  const before = verifyFlight(html), after = verifyFlight(res);
+  return after.bad <= before.bad ? res : html;
+}
+
 // Main entry: apply saved CMS sections to served HTML.
 export async function applyStructuredCMS(html, cms, page) {
   if (!cms || typeof cms !== 'object') return html;
@@ -2239,9 +2364,11 @@ export async function applyStructuredCMS(html, cms, page) {
       html = applyServiceTestimonials(html, plainTestimonials(cms));
     }
     if (cms.articles && Array.isArray(cms.articles.items) && cms.articles.items.length) html = applyArticles(html, cms.articles.items);
-    if (cms.insights && typeof cms.insights === 'object') {
+    {
+      // Always: the client's articles are the default home cards.
       const manifest = await getInsightManifest().catch(() => []);
-      html = applyInsights(html, cms.insights, page, manifest);
+      html = applyInsights(html, effectiveInsights(cms.insights, manifest), page, manifest);
+      if (page === '/' || page === '/home') { try { html = blankOrphanTextRows(html); } catch { /* keep */ } }
     }
     if (cms.team && typeof cms.team === 'object') html = applyTeam(html, cms.team);
     if (cms.projects && typeof cms.projects === 'object') html = applyProjects(html, cms.projects, page);
@@ -2308,8 +2435,18 @@ export async function liveSnapshot(pristineHtml, cms) {
         eventType: t.eventType, link: t.linkUrl, logo: t.logo, photo: t.photo || '',
       })),
       cities: { items: extractCities(pristineHtml).slice(0, 200), addresses: extractAddresses(pristineHtml) },
-      insights: extractInsights(pristineHtml),
-      insightManifest: await getInsightManifest().catch(() => []),
+      // The home cards and post copy as the site serves them (guide
+      // defaults under any saved choice), so the form never prefills the
+      // template's posts and a save cannot pin them back.
+      ...await (async () => {
+        const man = await getInsightManifest().catch(() => []);
+        const eff = effectiveInsights(cms && cms.insights, man);
+        const bySlug = new Map(man.map((m) => [m.slug, m]));
+        return {
+          insights: eff.home.map((slug) => ({ slug, title: (eff.items[slug] && eff.items[slug].title) || (bySlug.get(slug) || {}).title || '' })),
+          insightManifest: man.map((m) => ({ ...m, ...(GUIDE_INSIGHTS.items[m.slug] || {}) })),
+        };
+      })(),
       // The About page roster as served (saved team, else the default team).
       team: teamItemsOf(cms || {}).map((m) => ({ name: m.name, role: m.role, bio: m.bio, photo: m.img || '' })),
     };
