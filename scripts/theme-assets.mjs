@@ -47,6 +47,11 @@ for (const f of await files('dist', ['.css'])) {
   // lavender band). Mapped to near black it hid that text completely; a light
   // rust tint keeps the band in the brand palette and the text readable.
   t = t.replace(/--purple:#[0-9a-fA-F]{6}\b/g, '--purple:' + PURPLE_BAND);
+  // Same for --primary-purple (home "We've produced" cities section) and
+  // --primary-pink (case-study "Key facts" band): template pastel
+  // backgrounds under dark text that the palette had turned near black.
+  t = t.replace(/--primary-purple:#[0-9a-fA-F]{6}\b/g, '--primary-purple:' + PURPLE_BAND);
+  t = t.replace(/--primary-pink:#[0-9a-fA-F]{6}\b/g, '--primary-pink:' + PURPLE_BAND);
   if (t !== before) { await writeFile(f, t, 'utf8'); changed++; console.log('themed css', f.split(/[/\\]/).pop()); }
 }
 console.log('done, changed=' + changed);

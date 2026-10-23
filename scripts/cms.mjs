@@ -2240,27 +2240,30 @@ function applyProjects(html, cfg, page) {
 // paragraph runs past its edge. They ride on existing post
 // slugs - the guide puts the malls article in the 20.05.26 slot the IBC post
 // held - and the cards link to the case studies page anyway (blog retired).
+// The dot is the circle that opens under the dark card text on hover: a
+// light rust tint (#D5BBAB, 10.7:1 under the text) rather than full rust
+// (3.4:1), the same pastel-under-dark-text role the template's dots had.
 export const GUIDE_INSIGHTS = {
   home: ['ibc-trade-show', 'marketing-and-events', 'the-future-of-virtual-events-in-corporate-environments'],
   items: {
     'ibc-trade-show': {
       title: 'Why Shopping Malls Are Becoming Destinations, Not Just Retail Stops',
       date: '2026-05-20',
-      dotColor: '#97562E', backgroundColor: '#0d0d0d',
+      dotColor: '#D5BBAB', backgroundColor: '#0d0d0d',
       excerpt: 'Foot traffic used to be simple. A mall opened, stores filled the units, and people came to shop. E commerce broke that equation years ago, anyone who only wants to buy something no longer needs to leave home to do it. The malls still pulling in real numbers have figured out what to offer instead: a reason to show up that has nothing to do with a shopping list.\n\n'
         + 'That reason is programming. A weekend built around a seasonal moment, a family activation on a Saturday morning, a piazza that hosts something worth attending rather than sitting empty between store hours. The retail is still there, but it is no longer the only draw, it is one part of a day out that also includes entertainment, food, and something happening live.',
     },
     'marketing-and-events': {
       title: 'How marketing and events work together to drive brand growth',
       date: '2025-08-05',
-      dotColor: '#97562E', backgroundColor: '#0d0d0d',
+      dotColor: '#D5BBAB', backgroundColor: '#0d0d0d',
       excerpt: 'Marketing tells an audience a brand exists. Events let that audience actually meet it. Neither one does the whole job alone, a media campaign without a real moment behind it fades fast, and a great activation nobody hears about only reaches the people already standing there.\n\n'
         + 'Growth happens in the handoff between the two. A campaign builds the appetite, an event delivers on it, and what happens at that event either earns a repeat customer or wastes the attention the campaign paid for. That is the part most brands get wrong, planning the reach and the room separately, then wondering why the numbers do not add up.',
     },
     'the-future-of-virtual-events-in-corporate-environments': {
       title: 'The future of virtual events in corporate environments',
       date: '2026-07-06',
-      dotColor: '#97562E', backgroundColor: '#0d0d0d',
+      dotColor: '#D5BBAB', backgroundColor: '#0d0d0d',
       excerpt: 'Virtual events had their moment out of necessity, then most companies quietly went back to gathering people in a room. That swing back tells you something real: a screen has never replicated what a shared physical space does for a team or a client relationship. Presence still matters.\n\n'
         + 'The future is not virtual replacing physical. It is hybrid done properly, not as an afterthought bolted onto an in person event, but planned as its own experience from the start. A regional office watching a product launch live, with its own moment built for them rather than a static video feed. A leadership town hall where the remote half of the room gets a real seat at the table, not a link sent after the fact.',
     },
