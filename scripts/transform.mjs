@@ -153,7 +153,7 @@ const CHUNK_ROTATIONS = [
   // Main stylesheet after the brand palette (near black #0d0d0d, rust
   // #97562E): /_next/static is cached as immutable for a year, so returning
   // visitors would keep the old colours under the old name.
-  ['8fb42a0177568e49.css', '4534ecebae072f6d.css'],
+  ['8fb42a0177568e49.css', '36b8a01fca15b257.css'],
   // Page chunks re-themed in the same change (text colour, dividers).
   ['2642-bd174e4e453c81d1.js', '2642-5b6189bddd4ec67a.js'],
   ['3311-a9ab46bdf3faed82.js', '3311-816b3df64681767c.js'],
@@ -3622,9 +3622,49 @@ setTimeout(pf,800);setTimeout(pf,2500);setTimeout(pf,5000);
 // a case page. It belongs on the /projects overview (applyProjectsOverviewFix).
 // The value is baked into dist/ by scripts/gen-cases.mjs and the flight
 // payload, so this replaces both, and is a no-op on any other page.
+// Key facts, as the page renders after loading: the 4th caption was still
+// the template's ("months for crafting, planning and production") and a 5th
+// template fact ("2 / events in 1") came back on top of the first paint.
+// The caption takes the case data's own wording; the extra fact's row is
+// set to null, so React renders nothing for it. Plain (unframed) rows only,
+// checked with verifyFlight before the edit is kept.
+function fixCaseFactRows(html) {
+  const BS = String.fromCharCode(92);
+  const FQ = BS + '"';
+  let out = safeReplacePushes(html,
+    FQ + 'children' + FQ + ':' + FQ + 'months for crafting, planning and production ' + FQ,
+    FQ + 'children' + FQ + ':' + FQ + 'every season closes with a report' + FQ);
+  const key = FQ + '2events in 1' + FQ + ',';
+  let k = out.indexOf(key), guard = 0;
+  while (k >= 0 && guard++ < 4) {
+    // row header just before: <hex id>:[ ... at the previous row separator
+    const sep = out.lastIndexOf(BS + 'n', k);
+    const m = sep >= 0 ? /^\\n([0-9a-f]+):\[/.exec(out.slice(sep, sep + 24)) : null;
+    if (!m) break;
+    const bodyStart = sep + 2 + m[1].length + 1;
+    // row end: the next unescaped newline-escape after the body
+    let e = bodyStart;
+    while (e < out.length) {
+      if (out[e] === BS) {
+        if (out[e + 1] === 'n' && out[e - 1] !== BS) break;
+        e += 2;
+        continue;
+      }
+      if (out[e] === '"' && out[e - 1] !== BS) { e = -1; break; } // end of push: row spans pushes
+      e++;
+    }
+    if (e < 0 || e >= out.length) break;
+    const cand = out.slice(0, bodyStart) + 'null' + out.slice(e);
+    if (verifyFlight(cand).bad > verifyFlight(out).bad) break;
+    out = cand;
+    k = out.indexOf(key);
+  }
+  return out;
+}
 export function applyCaseFactsFix(html, page) {
   if (!page || !html) return html;
   if (page.indexOf('/project/') !== 0) return html;
+  html = fixCaseFactRows(html);
   if (html.indexOf('33%') < 0) return html;
   // The donor's stat block is presented as this campaign's own result. Drop the
   // borrowed numbers and say plainly that they are programme-wide, so no
@@ -3713,6 +3753,42 @@ export function applyFooterFix(html, page) {
     '.styles_address__xK870{height:auto!important;min-height:calc(42.4rem + .5em)}}</style>';
   if (html.indexOf('sc-footer-fit') < 0 && /<\/head>/i.test(html)) html = html.replace(/<\/head>/i, fit + '$&');
   return html.replace(/<\/body>/i, js + '\n$&');
+}
+// ---------- text on rust surfaces ----------
+// The template's accent was a pale lime with near-black text on it. The
+// accent is now StillCraft rust (#97562E), and near-black on rust is only
+// ~3.4:1 - small labels (MENU, GOT A PROJECT?, case-study facts) read as too
+// dark. Every surface painted with the accent gets white text (5.6:1). The
+// white arrow buttons sitting on those surfaces (.css-14om1bk) keep their
+// dark arrow. Class names are the template's own (CSS modules) or emotion
+// hashes of fixed component styles, so they are stable across renders.
+const RUST_SURFACES = [
+  '.styles_header_button_wrapper__wZC4v', // header MENU button
+  '.css-h9isci',                          // header GOT A PROJECT? button
+  '.styles_menus_inner__9X7sY',           // open menu
+  '.css-177vqwg',                         // GOT A PROJECT? panel
+  '.styles_spotlightContent__J1Yoy',      // Quote / Contact cards in it
+  '.css-1nnl9ez',                         // home service card (rust variant)
+  '.css-1yp4iy2',                         // closing call-to-action band
+  '.styles_wrapper__NuqvR',               // case-study header
+  '.css-1gi3s9p',                         // form NEXT button
+];
+const KEEP_DARK = ':not(.css-14om1bk):not(.css-14om1bk *)';
+export function applyContrastFix(html, page) {
+  if (page === '/insider' || html.indexOf('sc-contrast') >= 0 || !/<\/head>/i.test(html)) return html;
+  const sel = RUST_SURFACES.map((s) => s + ',' + s + ' *' + KEEP_DARK).join(',');
+  const css = '<style id="sc-contrast">' + sel + '{color:#FFFFFF!important}'
+    // menu-icon lines in the header buttons
+    + '.styles_header_button_wrapper__wZC4v .css-qdc3mj,.css-h9isci .css-qdc3mj{background:#FFFFFF!important}'
+    // case-study fact labels were 60% black; full white keeps them legible
+    + '.styles_wrapper__NuqvR .styles_wrapper_content_item_title__xjy6F{opacity:.85}'
+    // Case-study Key facts: the template's short numbers are words now
+    // ("Measured", "Reported back"), which overflowed the column and were cut
+    // off. Size them to the column so the longest word fits at every width.
+    + '.css-ch7b0g .css-p08y0a{container-type:inline-size}'
+    + '.css-ch7b0g .css-p08y0a h6.css-1svcyop{font-size:min(12rem,22cqw)}'
+    + '</style>';
+  return html.replace(/<\/head>/i, css + '$&');
 }
 // ---------- donor brand sweep ----------
 // The clone is rebranded, but a few strings that reach the visitor still carry

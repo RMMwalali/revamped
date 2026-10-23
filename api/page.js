@@ -6,7 +6,7 @@ import { getOverrides, applyOverrides, applyAssetOverrides, applyTextOverrides, 
 import {
   getBrand, bustBrand, applyBrand, applyNav, applyBrandTitle, applyGlobalSwaps, applyLegalFix, applyFooterAddresses, applyHeroVideo,
   applyContentFlight, stripThirdParty, removeBadges, applyImgDims, encodeAssetSpaces, removeStaleProjectCards, applyProjectCardDedup, applyProjectsOverviewFix, applyProjectsFilterFix, applyCaseFactsFix, applyReadabilityFix, applySplash,
-  applyStyleBlocks, applyFooterFix, applyDonorBrand, applyHomeVoices, applyHomeBand, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRelatedInfoFix,   applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
+  applyStyleBlocks, applyFooterFix, applyContrastFix, applyDonorBrand, applyHomeVoices, applyHomeBand, applyStatsFix, applyCitiesFix, applyLogosFix, applyFooterSingleOffice, applyHighlightsFix, applySliderFix, applyShareImage, applyMetaFix, applyValuesFix, applyServiceCardsFix, applyListingStaticFix, applyPortfolioFix, applySplitTextFix, applyCardTitlesFix, applyRelatedInfoFix,   applyRevealFailsafe, applyCaseMetaFix, applyAboutTeamRemove, applyAboutTeamReplace,
   applyCategoryDedupe, FILE_CONTENT, LOGO_ROWS, LOGO_NAMES, HERO_VIDEO_URL,
   HERO_VIDEO_MOBILE_URL, HERO_POSTER_URL, mobileFor, posterFor, applyLinks, normalizeChunkRefs,
 } from '../scripts/transform.mjs';
@@ -151,6 +151,7 @@ export async function serveHtml(pathname, cookies, host) {
     html = applyReadabilityFix(html, key);
     html = applySplash(html, key);
     html = applyFooterFix(html, key);
+    html = applyContrastFix(html, key);
     // Saved copy, applied after every built-in fix: the database is the last
     // word, so a deploy that re-runs this pipeline can no longer revert an
     // edit the moment it is saved.
