@@ -3785,6 +3785,13 @@ export function applyContrastFix(html, page) {
     // Case-study Key facts: the template's short numbers are words now
     // ("Measured", "Reported back"), which overflowed the column and were cut
     // off. Size them to the column so the longest word fits at every width.
+    // Home hero: the two big shapes that sweep in after the loading
+    // animation were the template's lavender under the dark headline; the
+    // palette had made them near black, so the headline vanished once they
+    // arrived. Light rust tint: the headline reads 10.7:1 on it.
+    // (Targeted through their fixed parent: the panels' own classes change as
+    // the animation reshapes them.)
+    + '.css-4af9ja>div{background:#D5BBAB!important;--bg-currentcolor:#D5BBAB!important}'
     + '.css-ch7b0g .css-p08y0a{container-type:inline-size}'
     + '.css-ch7b0g .css-p08y0a h6.css-1svcyop{font-size:min(12rem,22cqw)}'
     + '</style>';
