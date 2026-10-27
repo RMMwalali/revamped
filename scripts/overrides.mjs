@@ -439,7 +439,12 @@ export function imageOverrideScript(items) {
 // styles) are excluded: they would replace a heading's chrome, not its words.
 export function textOverrideScript(items) {
   const jobs = [];
-  const tags = 'P H1 H2 H3 H4 H5 H6 LI A SPAN BUTTON BLOCKQUOTE FIGCAPTION DT DD TD TH LABEL';
+  // A Set, not a space-joined string: the old `tags.indexOf(' ' + tag)` check
+  // could never find the first entry ("P" has no leading space), so every
+  // paragraph edit was left out of the guard. Visitors then saw the original
+  // copy after hydration while the admin's edit bar re-applied it, which is
+  // why edits looked saved in Insider but never showed on the live site.
+  const tags = new Set(['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI', 'A', 'SPAN', 'BUTTON', 'BLOCKQUOTE', 'FIGCAPTION', 'DT', 'DD', 'TD', 'TH', 'LABEL']);
   const GRIME = /line-mask|fix-mask|fix-clip|will-change|translate3d|translate\(|animation:|--rX|--rY|css-3w1c3c|css-1lpdf6v/i;
   for (const it of items || []) {
     if (it.kind !== 'text' || !it.orig_html || !it.value || it.value === it.orig_html) continue;
@@ -449,7 +454,8 @@ export function textOverrideScript(items) {
     if (v.length < 1 || v.length > 4000) continue;
     if (GRIME.test(o) || GRIME.test(v)) continue;      // animated chrome, not text
     if (/^<br\s*\/?\s*>$/i.test(v.trim())) continue;   // "clear this line" noise
-    if (tags.indexOf(' ' + (it.tag || '').toUpperCase()) < 0) continue;
+    // Rows saved without a tag are matched as paragraphs (jobs default to P).
+    if (!tags.has((it.tag || 'P').toUpperCase())) continue;
     jobs.push({ o, v, t: (it.tag || 'P').toUpperCase(), i: it.idx || 0 });
   }
   if (!jobs.length) return '';
