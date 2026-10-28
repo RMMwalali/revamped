@@ -403,7 +403,7 @@ export function imageOverrideScript(items) {
   }
   if (!pairs.length) return '';
   const data = JSON.stringify(pairs).replace(/<\/script/gi, '<\\/script');
-  return '<script>(function(){var P=' + data + ';'
+  return '<script data-sc-guard>(function(){var P=' + data + ';'
     + 'function swap(){for(var i=0;i<P.length;i++){'
     + 'var from=P[i][0],to=P[i][1];'
     // encodeAssetSpaces runs after this script is injected and rewrites
@@ -460,7 +460,7 @@ export function textOverrideScript(items) {
   }
   if (!jobs.length) return '';
   const data = JSON.stringify(jobs).replace(/<\/script/gi, '<\\/script');
-  return '<script>(function(){var O=' + data + ';'
+  return '<script data-sc-guard>(function(){var O=' + data + ';'
     + 'var N=function(s){return (""+(s==null?"":s)).'
     + 'replace(/<br\\s*\\/?>/gi," ").replace(/<[^>]*>/g," ").replace(/\u00a0/g," ")'
     + '.replace(/[\u2018\u2019]/g,"\u0027").replace(/[\u201c\u201d]/g,"\'")'
@@ -556,17 +556,34 @@ export function applyAssetOverrides(html, items) {
     // rows keep their targeted rewrite so a same-asset <img> next to a
     // background is never swapped as a side effect.
     if (it.kind === 'image' && !anchored && it.orig_html && it.value && it.value !== it.orig_html) {
-      for (const cand of imgOrigCandidates(it.orig_html)) {
-        if (!cand || cand === it.value || !html.includes(cand)) continue;
-        const rep = safeReplace(html, cand, it.value);
-        if (rep === html) continue;
-        if (flightBad(rep) > before) continue;
-        html = rep;
-      }
+      // The post-hydration guards carry every recorded orig as data, so a
+      // page-wide replace must not reach into them: it rewrote a guard's
+      // "from" into its "to", which turned the visitor-side swap into a no-op.
+      html = withGuardsMasked(html, (h) => {
+        for (const cand of imgOrigCandidates(it.orig_html)) {
+          if (!cand || cand === it.value || !h.includes(cand)) continue;
+          const rep = safeReplace(h, cand, it.value);
+          if (rep === h) continue;
+          if (flightBad(rep) > before) continue;
+          h = rep;
+        }
+        return h;
+      });
     }
   }
   return html;
 }
+// Guard scripts injected by this module are tagged data-sc-guard. Run `fn`
+// with them swapped out for placeholders so whole-document rewrites leave the
+// guards' data exactly as written, then put them back.
+const GUARD_RE = /<script data-sc-guard>[\s\S]*?<\/script>/g;
+function withGuardsMasked(html, fn) {
+  const kept = [];
+  const masked = html.replace(GUARD_RE, (m) => { kept.push(m); return '\u0000scguard' + (kept.length - 1) + '\u0000'; });
+  if (!kept.length) return fn(html);
+  return fn(masked).replace(/\u0000scguard(\d+)\u0000/g, (_, i) => kept[+i]);
+}
+
 function flightBad(html) {
   try { return verifyFlight(html).bad; } catch { return 0; }
 }
@@ -630,6 +647,11 @@ function directImgSrc(src) {
     return '/assets/cms/' + dec.replace('https://cms.iventions.com/', '');
   }
   if (dec.startsWith('/')) return dec;
+  // An uploaded photo (R2 / Blob) is a full URL. Swapping a photo that was
+  // already swapped once records it in this optimizer form, and without the
+  // unwrapped URL the server could not find it in the markup or the flight
+  // data, so the second swap only ever reached the admin's own browser.
+  if (/^https?:\/\//i.test(dec)) return dec;
   return null;
 }
 
@@ -829,7 +851,7 @@ export function assetGuardScript(items, html) {
   }
   if (!Object.keys(map).length) return '';
   const data = JSON.stringify(map).replace(/</g, '\\u003c');
-  return '<script>(function(){var M=' + data + ';'
+  return '<script data-sc-guard>(function(){var M=' + data + ';'
     + 'function key(s){s=String(s||"");var m=/[?&]url=([^&]+)/.exec(s);if(m)s=m[1];'
     + 'for(var i=0;i<3;i++){try{var d=decodeURIComponent(s);if(d===s)break;s=d;}catch(e){break;}}'
     + 's=s.replace(/^https?:\\/\\/[^\\/]+/,"");return s.split("#")[0];}'
