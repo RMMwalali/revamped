@@ -1778,26 +1778,34 @@ export function applyRelatedInfoFix(html, page) {
     let region = html.slice(start, end);
     const tail = html.slice(end);
     const blockRe = /<p class="(css-928hs6|css-pc9jiq|css-1jlphtm)\b[^>]*>([\s\S]*?)<\/p>/g;
-    const metas = [];   // css-928hs6 blocks (categories + locations)
-    const titles = [];  // css-pc9jiq blocks
-    const descs = [];   // css-1jlphtm blocks
-    let m;
-    while ((m = blockRe.exec(region))) {
-      const rec = { cls: m[1], full: m[0], at: m.index, len: m[0].length };
-      if (m[1] === 'css-928hs6') metas.push(rec);
-      else if (m[1] === 'css-pc9jiq') titles.push(rec);
-      else descs.push(rec);
-    }
-    // Expected shape: 40 meta (10 cats + 10 locs, x2 loop copies), 10 titles,
-    // 10 descs. Anything else means the template drifted: categories are still
-    // safe value-based, but positional slides need the exact shape.
-    const shapeOk = metas.length === 40 && titles.length === 10 && descs.length === 10;
+    let metas = [];   // css-928hs6 blocks (categories + locations)
+    let titles = [];  // css-pc9jiq blocks
+    let descs = [];   // css-1jlphtm blocks
+    // Offsets go stale once a pass edits the region, so every pass rescans.
+    const scan = () => {
+      metas = []; titles = []; descs = [];
+      let m;
+      blockRe.lastIndex = 0;
+      while ((m = blockRe.exec(region))) {
+        const rec = { cls: m[1], full: m[0], at: m.index, len: m[0].length };
+        if (m[1] === 'css-928hs6') metas.push(rec);
+        else if (m[1] === 'css-pc9jiq') titles.push(rec);
+        else descs.push(rec);
+      }
+    };
+    scan();
+    // Expected shape: N slides -> 4N meta (N cats + N locs, x2 loop copies),
+    // N titles, N descs. The pages ship 10 or 11 slides; anything else means
+    // the template drifted: categories are still safe value-based, but
+    // positional slides need the exact shape.
+    const N = titles.length;
+    const shapeOk = N > 0 && metas.length === 4 * N && descs.length === N;
     // 1) categories (value-based, order-free): every cat block reads Retail & Malls.
     {
       const edits = [];
       const isCat = (idx) => {
-        if (metas.length === 40) return idx < 10 || (idx >= 20 && idx < 30);
-        if (metas.length === 20) return idx < 10;
+        if (N > 0 && metas.length === 4 * N) return idx < N || (idx >= 2 * N && idx < 3 * N);
+        if (N > 0 && metas.length === 2 * N) return idx < N;
         return null; // unknown shape: fall through to value check below
       };
       metas.forEach((b, idx) => {
@@ -1822,6 +1830,7 @@ export function applyRelatedInfoFix(html, page) {
       });
       edits.sort((a, b2) => b2[0] - a[0]);
       for (const [at, len, nb] of edits) region = region.slice(0, at) + nb + region.slice(at + len);
+      scan();
     }
     if (!shapeOk) {
       // Drifted template: categories fixed above; leave slide-positional
@@ -1829,33 +1838,27 @@ export function applyRelatedInfoFix(html, page) {
       // risk mislabelling a slide.
       return head + region + tail;
     }
-    // Slide order check: the mall-titled blocks already in place must agree
-    // with CASE_DATA order, or positional mapping would scramble them.
-    const dec = (s) => String(s).replace(/&amp;/g, '&').replace(/&#39;/g, "'");
-    let aligned = 0, misaligned = 0;
-    titles.forEach((b, j) => {
-      const lm = /<div class="line fix-clip"[^>]*>([^<]*)<\/div>/.exec(b.full);
-      if (!lm) return;
-      const cur = dec(lm[1]).trim();
-      if (!cur) return;
-      if (cur === CASE_BY_IDX[j % 10].title) aligned++;
-      else if (CASE_BY_IDX.some((c) => c.title === cur)) misaligned++;
-    });
-    if (misaligned > aligned) return head + region + tail;
+    // Slide j is CASE_DATA[j]: that is the order the hydrated slider renders
+    // (the flight data lists the cases in CASE_DATA order). The static copy
+    // could still hold a template slide in the middle (Brand Activations:
+    // "NOVOMATIC: from ICE floor to a corporate event", Madrid, Amsterdam,
+    // the 200-participant hackathon), which shifted every later slide; an
+    // earlier "misaligned, leave it" guard then kept all of that in the page.
+    const caseAt = (j) => CASE_BY_IDX[j % CASE_BY_IDX.length];
     const edits = [];
     const pushBlock = (b, text) => {
       const nb = fillPanelLines(b.full, text);
       if (nb !== b.full) edits.push([b.at, b.len, nb]);
     };
-    // 2) locations: metas[10..19] + metas[30..39], slide = idx % 10.
+    // 2) locations: metas[N..2N) + metas[3N..4N), slide = idx % N.
     metas.forEach((b, idx) => {
-      const inLoc = (idx >= 10 && idx < 20) || (idx >= 30 && idx < 40);
+      const inLoc = (idx >= N && idx < 2 * N) || (idx >= 3 * N && idx < 4 * N);
       if (!inLoc) return;
-      pushBlock(b, CASE_BY_IDX[idx % 10].location);
+      pushBlock(b, caseAt(idx % N).location);
     });
-    // 3) titles + 4) descriptions, slide = idx % 10.
-    titles.forEach((b, j) => pushBlock(b, CASE_BY_IDX[j % 10].title));
-    descs.forEach((b, j) => pushBlock(b, CASE_BY_IDX[j % 10].excerpt));
+    // 3) titles + 4) descriptions, slide = idx.
+    titles.forEach((b, j) => pushBlock(b, caseAt(j).title));
+    descs.forEach((b, j) => pushBlock(b, caseAt(j).excerpt));
     edits.sort((a, b2) => b2[0] - a[0]);
     for (const [at, len, nb] of edits) region = region.slice(0, at) + nb + region.slice(at + len);
     return head + region + tail;

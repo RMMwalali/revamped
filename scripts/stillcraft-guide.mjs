@@ -312,7 +312,7 @@ const SPACE = [
   f(FAQ, 'answer', 2, p('Assessment and curation, vendor sourcing, a lightweight, reversible fit out, then live management, typically one to six months, rotating vendors, keeping the space fresh, and running it day to day, until handoff or renewal.')),
   f(FAQ, 'answer', 3, p('Hybrid: a smaller retainer plus a performance bonus tied to footfall or revenue targets. Balances downside protection with upside alignment.')),
   f(FAQ, 'questions', 4, 'Why is StillCraft the team for this?'),
-  f(FAQ, 'answer', 4, p('StillCraft already has the two disciplines this requires, curating and running physical activations, and reporting outcomes back to a mall client. This is a natural extension of that, not a new business. Internationally, this gap has already become its own category: Primaris REIT committed $175 to $225 million to redevelop closed department store boxes into curated, multi tenant experiential programs, and a whole layer of pop up and space curation agencies (Storefront, Appear Here, xNomad) has grown up around exactly this work abroad.')),
+  f(FAQ, 'answer', 4, p('StillCraft already has the two disciplines this requires, curating and running physical activations, and reporting outcomes back to a mall client. This is a natural extension of that, not a new business, and it fills a gap nobody in Kenya owns yet: the time between an anchor tenant leaving and the next one signing.')),
   f(CTA, 'alt', 0, "Let's find out what your empty unit could be earning"),
   f(CTA, 'ctaHeading', 0, "Let's find out what\nyour empty unit\ncould be earning.", ["Let's find out what your empty unit could earn."]),
 ];
