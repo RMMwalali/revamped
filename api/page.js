@@ -1,4 +1,5 @@
 ﻿// Vercel serverless: serves transformed HTML pages (same pipeline as scripts/serve.mjs).
+import { brotliCompressSync, gzipSync, constants as zlibConstants } from 'node:zlib';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parseCookies, verifySession } from '../scripts/auth.mjs';
@@ -203,6 +204,25 @@ export async function serveHtml(pathname, cookies, host) {
 
 const NOT_FOUND_MEMO = new Map();
 
+// Pages leave the function compressed. Vercel counts what a function sends to
+// its CDN (Fast Origin Transfer, 10 GB/month on Hobby) and a page is ~200-370
+// KB of HTML; brotli/gzip brings that to ~40 KB for a few ms of CPU.
+function sendHtml(req, res, status, html) {
+  const ae = String(req.headers['accept-encoding'] || '');
+  const raw = Buffer.from(html, 'utf8');
+  let body = raw, enc = null;
+  try {
+    if (/\bbr\b/.test(ae)) { body = brotliCompressSync(raw, { params: { [zlibConstants.BROTLI_PARAM_QUALITY]: 5 } }); enc = 'br'; }
+    else if (/\bgzip\b/.test(ae)) { body = gzipSync(raw, { level: 6 }); enc = 'gzip'; }
+  } catch { body = raw; enc = null; }
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Vary', 'Accept-Encoding');
+  if (enc) res.setHeader('Content-Encoding', enc);
+  res.setHeader('Content-Length', body.length);
+  res.statusCode = status;
+  res.end(body);
+}
+
 export default async function handler(req, res) {
   try {
     const proto = req.headers['x-forwarded-proto'] || 'http';
@@ -301,9 +321,8 @@ export default async function handler(req, res) {
     const is404 = pathname === '/404';
     const memo = is404 ? NOT_FOUND_MEMO.get(req.headers.host || '') : null;
     if (memo && Date.now() - memo.at < 300000 && !cookies.sc_admin) {
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
-      res.status(404).send(memo.html);
+      sendHtml(req, res, 404, memo.html);
       return;
     }
     const found = await serveHtml(pathname, cookies, req.headers.host);
@@ -325,9 +344,9 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', found.isAdmin
       ? 'no-cache'
       : (is404 ? 'public, s-maxage=3600, stale-while-revalidate=86400' : 'public, s-maxage=60, stale-while-revalidate=600'));
-    if (is404) { res.status(404).send(found.html); return; }
+    if (is404) { sendHtml(req, res, 404, found.html); return; }
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(200).send(found.html);
+    sendHtml(req, res, 200, found.html);
   } catch (e) {
     res.status(500).send('error');
   }

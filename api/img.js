@@ -50,7 +50,10 @@ export default async function handler(req, res) {
   const rawW = Math.min(3840, Math.max(0, parseInt(u.searchParams.get('w') || '0', 10) || 0));
   const w = rawW ? snapWidth(rawW) : 0;
   const q = Math.min(100, Math.max(10, parseInt(u.searchParams.get('q') || '75', 10) || 75));
-  const acceptWebp = /\bimage\/webp\b/i.test(String(req.headers.accept || ''));
+  // Always WebP (every browser in use supports it). Choosing by the Accept
+  // header meant 'Vary: Accept', which split the CDN cache by browser and
+  // sent many more requests back to this function.
+  const acceptWebp = true;
   try {
     const st = await stat(file);
     if (!st.isFile()) throw new Error('missing');
@@ -86,7 +89,6 @@ export default async function handler(req, res) {
       'Content-Type': outType,
       'Content-Length': buf.length,
       'Cache-Control': 'public, max-age=31536000, immutable',
-      'Vary': 'Accept',
       'Access-Control-Allow-Origin': '*',
     });
     res.end(buf);
