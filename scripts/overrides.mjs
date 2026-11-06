@@ -402,14 +402,15 @@ export function imageOverrideScript(items) {
     }
   }
   if (!pairs.length) return '';
-  const data = JSON.stringify(pairs).replace(/<\/script/gi, '<\\/script');
-  return '<script data-sc-guard>(function(){var P=' + data + ';'
+  const data = JSON.stringify(pairs.map(([f, t]) => [b64(f), t])).replace(/<\/script/gi, '<\\/script');
+  return '<script data-sc-guard>(function(){var P=' + data + ';' + DECODE_JS
+    + 'for(var k=0;k<P.length;k++)P[k][0]=D(P[k][0]);'
     + 'function swap(){for(var i=0;i<P.length;i++){'
     + 'var from=P[i][0],to=P[i][1];'
-    // encodeAssetSpaces runs after this script is injected and rewrites
-    // spaces on both sides of a pair, so some pairs arrive here identical.
     + 'if(!from||from===to)continue;'
-    + 'var els=document.querySelectorAll(\'img[src="\'+from+\'"]\');'
+    // The served markup spells spaces in asset paths as %20 (encodeAssetSpaces).
+    + 'var sel=\'img[src="\'+from+\'"]\';if(from.indexOf(" ")>=0)sel+=\',img[src="\'+from.split(" ").join("%20")+\'"]\';'
+    + 'var els=document.querySelectorAll(sel);'
     + 'for(var j=0;j<els.length;j++){var el=els[j];'
     // Re-setting an unchanged src would feed the observer below forever.
     + 'if(el.getAttribute("src")===to)continue;'
@@ -459,8 +460,9 @@ export function textOverrideScript(items) {
     jobs.push({ o, v, t: (it.tag || 'P').toUpperCase(), i: it.idx || 0 });
   }
   if (!jobs.length) return '';
-  const data = JSON.stringify(jobs).replace(/<\/script/gi, '<\\/script');
-  return '<script data-sc-guard>(function(){var O=' + data + ';'
+  const data = JSON.stringify(jobs.map((j) => ({ ...j, o: b64(j.o) }))).replace(/<\/script/gi, '<\\/script');
+  return '<script data-sc-guard>(function(){var O=' + data + ';' + DECODE_JS
+    + 'for(var k=0;k<O.length;k++)O[k].o=D(O[k].o);'
     + 'var N=function(s){return (""+(s==null?"":s)).'
     + 'replace(/<br\\s*\\/?>/gi," ").replace(/<[^>]*>/g," ").replace(/\u00a0/g," ")'
     + '.replace(/[\u2018\u2019]/g,"\u0027").replace(/[\u201c\u201d]/g,"\'")'
@@ -573,6 +575,14 @@ export function applyAssetOverrides(html, items) {
   }
   return html;
 }
+// The guards carry each edit's ORIGINAL text or file path so they can find it
+// after hydration. Shipped in clear, that put the template agency's copy
+// (addresses, company names, old meta lines, donor image names) back into the
+// page source for anyone reading it, even though visitors never see it. The
+// originals now travel base64-encoded and are decoded in the browser.
+function b64(s) { return Buffer.from(String(s), 'utf8').toString('base64'); }
+const DECODE_JS = 'function D(s){try{return decodeURIComponent(escape(atob(s)));}catch(e){return s;}}';
+
 // Guard scripts injected by this module are tagged data-sc-guard. Run `fn`
 // with them swapped out for placeholders so whole-document rewrites leave the
 // guards' data exactly as written, then put them back.
@@ -850,8 +860,11 @@ export function assetGuardScript(items, html) {
     if (k && k !== assetKey(it.value)) map[k] = it.value;
   }
   if (!Object.keys(map).length) return '';
-  const data = JSON.stringify(map).replace(/</g, '\\u003c');
-  return '<script data-sc-guard>(function(){var M=' + data + ';'
+  const enc = {};
+  for (const [k, v] of Object.entries(map)) enc[b64(k)] = v;
+  const data = JSON.stringify(enc).replace(/</g, '\\u003c');
+  return '<script data-sc-guard>(function(){var E=' + data + ',M={};' + DECODE_JS
+    + 'for(var k in E)M[D(k)]=E[k];'
     + 'function key(s){s=String(s||"");var m=/[?&]url=([^&]+)/.exec(s);if(m)s=m[1];'
     + 'for(var i=0;i<3;i++){try{var d=decodeURIComponent(s);if(d===s)break;s=d;}catch(e){break;}}'
     + 's=s.replace(/^https?:\\/\\/[^\\/]+/,"");return s.split("#")[0];}'

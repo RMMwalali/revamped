@@ -108,7 +108,7 @@ function replaceOutsideScripts(html, from, to) {
 // the JSON string early or split the row mid-value ("Expected ',' or '}'",
 // "Unterminated string" Application errors). Token-bounding keeps short
 // labels from rewriting asset URLs that merely contain them.
-function swapText(html, oldV, newV) {
+export function swapText(html, oldV, newV) {
   if (!oldV || newV == null || String(newV) === '' || String(oldV) === String(newV)) return html;
   const o = String(oldV), n = String(newV);
   html = replaceOutsideScripts(html, o, n);

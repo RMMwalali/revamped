@@ -15,6 +15,7 @@ import { buildSitemap, buildRobots } from '../scripts/sitemap.mjs';
 import { withFreshReads } from '../scripts/storage.mjs';
 import { internalPath, publicRedirect, publicPath, applyRouteNames } from '../scripts/routes.mjs';
 import { applyProjectTypes } from '../scripts/project-types.mjs';
+import { applyClientCleanup } from '../scripts/client-cleanup.mjs';
 import { applyGuideCopy, applyLegalCopy } from '../scripts/stillcraft-guide.mjs';
 import { statSync } from 'node:fs';
 import nodePath from 'node:path';
@@ -169,6 +170,9 @@ export async function serveHtml(pathname, cookies, host) {
     // this site's copy. Header, footer and nav are excluded, so the menus and
     // the copyright line keep their exact wording.
     if (key !== '/insider') html = applyDonorBrand(html);
+    // Template-agency copy the client reported (addresses, legal names, old
+    // project tags, meta lines, share image): static markup and page data.
+    html = applyClientCleanup(html, key, host);
     // /insider hosts the standalone mini-CMS dashboard (own auth UI):
     // never inject the floating inline edit bar there.
     if (isAdmin && key !== '/insider') {
