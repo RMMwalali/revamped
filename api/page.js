@@ -201,11 +201,28 @@ export async function serveHtml(pathname, cookies, host) {
   return null;
 }
 
+const NOT_FOUND_MEMO = new Map();
+
 export default async function handler(req, res) {
   try {
     const proto = req.headers['x-forwarded-proto'] || 'http';
     const u = new URL(req.url, `${proto}://${req.headers.host || 'local'}`);
     let pathname = u.searchParams.get('path') || u.pathname || '/';
+    // Next.js router fetches (link prefetch on hover/viewport, client
+    // navigation) ask for the RSC payload: ?_rsc=... and an RSC header.
+    // This site serves full HTML, which the router cannot use anyway (it
+    // falls back to a normal page load on click). Rendering a whole page for
+    // each of them cost ~8 extra renders and ~2.3 MB of function output per
+    // home page view. Answer with an empty, edge-cacheable 204: the router
+    // treats it the same way, so clicks still load the page normally.
+    if (u.searchParams.has('_rsc') || req.headers.rsc === '1' || req.headers['next-router-prefetch'] === '1') {
+      res.writeHead(204, {
+        'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+        'Vary': 'RSC, Next-Router-Prefetch, Next-Router-State-Tree',
+      });
+      res.end();
+      return;
+    }
     if (!pathname.startsWith('/')) pathname = '/' + pathname;
     if (pathname.startsWith('/cdn-cgi/')) {
       res.setHeader('Access-Control-Allow-Origin', '*');
@@ -278,7 +295,19 @@ export default async function handler(req, res) {
     // /projects/filter has a static file (dist/projects/filter/index.html):
     // serve it via the pipeline below (parity with serve.mjs). No redirect.
     const cookies = parseCookies(req);
+    // Unknown URLs (bots probing /wp-login.php, .env, ...) all render the
+    // same 404 page; keep one rendered copy per instance for a few minutes
+    // instead of running the whole pipeline for every probe.
+    const is404 = pathname === '/404';
+    const memo = is404 ? NOT_FOUND_MEMO.get(req.headers.host || '') : null;
+    if (memo && Date.now() - memo.at < 300000 && !cookies.sc_admin) {
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+      res.status(404).send(memo.html);
+      return;
+    }
     const found = await serveHtml(pathname, cookies, req.headers.host);
+    if (found && is404 && !found.isAdmin) NOT_FOUND_MEMO.set(req.headers.host || '', { html: found.html, at: Date.now() });
     if (!found) {
       try {
         const nf = await readFile(path.join(ROOT, '404.html'), 'utf8');
@@ -288,13 +317,15 @@ export default async function handler(req, res) {
       return;
     }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    // Public pages are edge-cached briefly (10s fresh, then revalidated in
-    // the background) so repeat views skip the transform pipeline, while an
-    // admin save reaches visitors within seconds. Admins get
-    // no-cache so edits preview instantly.
+    // Public pages are edge-cached for a minute, then refreshed in the
+    // background while the cached copy keeps serving. At 10s nearly every
+    // visit re-ran the full render (0.2-0.6s of CPU, ~300 KB out of the
+    // function). An admin save now reaches visitors within about a minute.
+    // Admins get no-cache so edits preview instantly.
     res.setHeader('Cache-Control', found.isAdmin
       ? 'no-cache'
-      : 'public, s-maxage=10, stale-while-revalidate=60');
+      : (is404 ? 'public, s-maxage=3600, stale-while-revalidate=86400' : 'public, s-maxage=60, stale-while-revalidate=600'));
+    if (is404) { res.status(404).send(found.html); return; }
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).send(found.html);
   } catch (e) {
