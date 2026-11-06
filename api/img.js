@@ -9,6 +9,9 @@ const ROOT = path.join(process.cwd(), 'dist');
 // Small in-memory cache (per-instance). Entries are tiny (resized variants).
 const CACHE = new Map();
 const CACHE_MAX = 64;
+// Redirects to an original (SVG covers, uploads) for a day in browsers and a
+// year at the edge; the targets are content-addressed or never change.
+const REDIRECT_CACHE = 'public, max-age=86400, s-maxage=31536000';
 const RESIZABLE_EXTS = new Set(['jpg', 'jpeg', 'png', 'webp', 'avif', 'bmp']);
 const MIME = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif', '.avif': 'image/avif', '.bmp': 'image/bmp' };
 
@@ -31,7 +34,9 @@ export default async function handler(req, res) {
     if (target.startsWith('https://cms.iventions.com/')) {
       target = '/assets/cms/' + target.replace('https://cms.iventions.com/', '');
     } else {
-      res.writeHead(302, { Location: target, 'Access-Control-Allow-Origin': '*' });
+      // Cacheable at the edge: uploaded photos never change at the same URL,
+      // so repeat views no longer run this function just to redirect.
+      res.writeHead(302, { Location: target, 'Access-Control-Allow-Origin': '*', 'Cache-Control': REDIRECT_CACHE });
       res.end();
       return;
     }
@@ -40,7 +45,7 @@ export default async function handler(req, res) {
   }
   const file = path.normalize(path.join(ROOT, target));
   if (!file.startsWith(ROOT)) { res.status(400).end(); return; }
-  const passthrough = () => { res.writeHead(302, { Location: src.startsWith('/') ? src : target }); res.end(); };
+  const passthrough = () => { res.writeHead(302, { Location: src.startsWith('/') ? src : target, 'Cache-Control': REDIRECT_CACHE }); res.end(); };
 
   const rawW = Math.min(3840, Math.max(0, parseInt(u.searchParams.get('w') || '0', 10) || 0));
   const w = rawW ? snapWidth(rawW) : 0;
@@ -88,6 +93,7 @@ export default async function handler(req, res) {
   } catch {
     // Missing file: 404, not a redirect back at the same missing URL
     // (that caused a 404 loop: optimizer -> static -> 404 -> retry).
+    res.setHeader('Cache-Control', 'public, s-maxage=3600');
     res.status(404).end();
   }
 }
